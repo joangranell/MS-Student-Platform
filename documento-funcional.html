@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Documento Funcional y Técnico — MS Student Platform</title>
+  <title>Documento Funcional y Técnico v2.3 — MS Student Platform</title>
   <style>
     :root {
       --bg-primary: #0f1419;
@@ -14,7 +14,6 @@
       --text-primary: #f0f6fc;
       --text-secondary: #8b949e;
       --accent-ms: #0078d4;
-      --accent-ms-hover: #2b88d8;
       --accent-fabric: #107c41;
       --accent-gold: #ffb900;
       --accent-danger: #f85149;
@@ -40,9 +39,8 @@
       min-height: 100vh;
     }
 
-    /* Sidebar Navigation */
     aside.sidebar {
-      width: 290px;
+      width: 300px;
       background-color: var(--bg-secondary);
       border-right: 1px solid var(--border-color);
       position: fixed;
@@ -99,10 +97,10 @@
 
     .nav-list li a {
       display: block;
-      padding: 0.55rem 0.75rem;
+      padding: 0.5rem 0.75rem;
       color: var(--text-primary);
       text-decoration: none;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       border-radius: 6px;
       transition: background 0.15s, color 0.15s;
     }
@@ -112,11 +110,10 @@
       color: #58a6ff;
     }
 
-    /* Main Content */
     main.content {
-      margin-left: 290px;
+      margin-left: 300px;
       flex: 1;
-      max-width: 1120px;
+      max-width: 1140px;
       padding: 2.5rem 3rem 5rem;
     }
 
@@ -146,15 +143,12 @@
       border: 1px solid rgba(88, 166, 255, 0.3);
     }
 
+    .badge.az900 { background: rgba(37, 99, 235, 0.2); color: #60a5fa; border-color: rgba(96, 165, 250, 0.35); }
     .badge.dp900 { background: rgba(0, 164, 239, 0.15); color: #38bdf8; border-color: rgba(56, 189, 248, 0.3); }
     .badge.dp600 { background: rgba(16, 124, 65, 0.2); color: #4ade80; border-color: rgba(74, 222, 128, 0.3); }
     .badge.dp700 { background: rgba(255, 185, 0, 0.15); color: #facc15; border-color: rgba(250, 204, 21, 0.3); }
 
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-
+    h1 { font-size: 2rem; margin-bottom: 0.5rem; }
     h2 {
       font-size: 1.4rem;
       margin: 2.5rem 0 1rem;
@@ -165,26 +159,16 @@
       align-items: center;
       gap: 0.5rem;
     }
+    h3 { font-size: 1.1rem; margin: 1.25rem 0 0.5rem; color: var(--text-primary); }
+    p { color: #c9d1d9; margin-bottom: 1rem; font-size: 0.95rem; }
 
-    h3 {
-      font-size: 1.1rem;
-      margin: 1.25rem 0 0.5rem;
-      color: var(--text-primary);
-    }
-
-    p {
-      color: #c9d1d9;
-      margin-bottom: 1rem;
-      font-size: 0.95rem;
-    }
-
-    .grid-2, .grid-3 {
+    .grid-2, .grid-4 {
       display: grid;
-      gap: 1.25rem;
+      gap: 1.15rem;
       margin: 1rem 0 1.5rem;
     }
     .grid-2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
-    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 
     .card {
       background-color: var(--bg-card);
@@ -201,16 +185,12 @@
     }
 
     .card-title {
-      font-weight: 600;
+      font-weight: 700;
       font-size: 1.02rem;
       color: var(--text-primary);
     }
 
-    ul.feature-list {
-      list-style: none;
-      margin: 0.5rem 0;
-    }
-
+    ul.feature-list { list-style: none; margin: 0.5rem 0; }
     ul.feature-list li {
       position: relative;
       padding-left: 1.25rem;
@@ -218,7 +198,6 @@
       font-size: 0.9rem;
       color: #c9d1d9;
     }
-
     ul.feature-list li::before {
       content: "▹";
       position: absolute;
@@ -234,74 +213,10 @@
       padding: 1rem 1.25rem;
       overflow-x: auto;
       font-family: var(--font-mono);
-      font-size: 0.84rem;
+      font-size: 0.83rem;
       line-height: 1.5;
       color: #e6edf3;
       margin: 1rem 0 1.5rem;
-    }
-
-    /* Mockup Pearson VUE */
-    .vue-mockup {
-      border: 2px solid #2b4c7e;
-      border-radius: 6px;
-      overflow: hidden;
-      margin: 1.25rem 0;
-      background: #11161d;
-    }
-
-    .vue-top-bar {
-      background: var(--bg-vue-header);
-      color: #fff;
-      padding: 0.6rem 1.25rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    .vue-sub-bar {
-      background: var(--bg-vue-bar);
-      color: #e1dfdd;
-      padding: 0.45rem 1.25rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.8rem;
-      border-bottom: 1px solid #3b6998;
-    }
-
-    .vue-body {
-      padding: 1.5rem;
-    }
-
-    .vue-option {
-      border: 1px solid var(--border-color);
-      background: var(--bg-secondary);
-      padding: 0.75rem 1rem;
-      border-radius: 4px;
-      margin-top: 0.6rem;
-      font-size: 0.88rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .vue-footer {
-      background: var(--bg-vue-header);
-      padding: 0.6rem 1.25rem;
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.82rem;
-    }
-
-    .vue-btn {
-      background: #0078d4;
-      color: white;
-      border: 1px solid #58a6ff;
-      padding: 0.3rem 0.9rem;
-      border-radius: 3px;
-      font-weight: 600;
     }
 
     table {
@@ -323,9 +238,7 @@
       font-weight: 600;
     }
 
-    tr:nth-child(even) {
-      background-color: rgba(255, 255, 255, 0.02);
-    }
+    tr:nth-child(even) { background-color: rgba(255, 255, 255, 0.02); }
 
     .callout {
       border-left: 4px solid var(--accent-gold);
@@ -352,382 +265,259 @@
       </div>
       <div>
         <span class="brand-title">MS Student Platform</span>
-        <span class="brand-sub">Especificación Funcional v1.0</span>
+        <span class="brand-sub">Especificación Funcional v2.3</span>
       </div>
     </div>
 
     <div class="nav-section-title">Índice del Documento</div>
     <ul class="nav-list">
-      <li><a href="#vision">1. Visión y Alcance</a></li>
-      <li><a href="#perfiles">2. Sistema Multi-Perfil</a></li>
-      <li><a href="#modos">3. Modos: Examen vs Estudio</a></li>
-      <li><a href="#ui-ux">4. Diseño Visual (Pearson VUE / MS)</a></li>
-      <li><a href="#arquitectura">5. Estructura de Archivos SPA</a></li>
-      <li><a href="#json-schema">6. Esquema Exacto JSON</a></li>
-      <li><a href="#banco-preguntas">7. Estrategia de Preguntas y Skills</a></li>
-      <li><a href="#roadmap">8. Plan de Implementación</a></li>
+      <li><a href="#vision">1. Visión y Certificaciones (240 Preg.)</a></li>
+      <li><a href="#login-perfiles">2. Login, Perfiles y Plan de Estudio</a></li>
+      <li><a href="#adaptativo">3. Motor Adaptativo y "Saber Más"</a></li>
+      <li><a href="#modos">4. Modo Examen Pearson VUE vs Estudio</a></li>
+      <li><a href="#arquitectura">5. Arquitectura Modular y MCP</a></li>
+      <li><a href="#json-schema">6. Esquema JSON v2 Enriquecido</a></li>
+      <li><a href="#legal">7. Marco Legal y Propiedad Intelectual</a></li>
     </ul>
   </aside>
 
   <main class="content">
     <header class="doc-header">
       <div class="badge-row">
-        <span class="badge">SPA Vanilla JS + HTML5 + CSS3</span>
-        <span class="badge dp900">DP-900: Azure Data Fundamentals</span>
-        <span class="badge dp600">DP-600: Fabric Analytics Engineer</span>
-        <span class="badge dp700">DP-700: Fabric Data Engineer</span>
+        <span class="badge">SPA Vanilla JS + Modo Oscuro/Claro</span>
+        <span class="badge az900">AZ-900: Azure Fundamentals (100 preg.)</span>
+        <span class="badge dp900">DP-900: Azure Data Fundamentals (70 preg.)</span>
+        <span class="badge dp600">DP-600: Fabric Analytics Engineer (35 preg.)</span>
+        <span class="badge dp700">DP-700: Fabric Data Engineer (35 preg.)</span>
       </div>
-      <h1>Documento Funcional y Técnico: MS Student Platform</h1>
+      <h1>Documento Funcional y Técnico: MS Student Platform (v2.3)</h1>
       <p>
-        Especificación de arquitectura, experiencia de usuario (UX/UI), motor de evaluación y modelo de datos para el simulador de certificaciones oficiales de Microsoft Data &amp; Fabric.
+        Especificación completa de arquitectura, motor de repetición espaciada adaptativa, integración en tiempo real con el servidor MCP de <strong>Microsoft Learn</strong> y fidelidad <strong>Pearson VUE</strong>.
       </p>
     </header>
 
     <!-- 1. VISION -->
     <section id="vision">
-      <h2>1. Visión General y Propósito</h2>
+      <h2>1. Visión General y Catálogo de Certificaciones (240 Preguntas)</h2>
       <p>
-        <strong>MS Student Platform</strong> es una Single Page Application (SPA) estática, sin dependencias pesadas de servidor, diseñada para replicar con precisión tanto el entorno psicológico y visual de los exámenes oficiales de Microsoft (Pearson VUE) como el entorno de aprendizaje guiado de <strong>Microsoft Learn</strong>.
+        <strong>MS Student Platform</strong> es una plataforma educativa inteligente y simulador de exámenes oficiales de Microsoft. Dispone de alternancia entre <strong>Modo Oscuro y Modo Claro</strong> (Fluent UI) e integra **240 preguntas originales** distribuidas en archivos JSON modulares verificados contra la documentación oficial de Microsoft Learn:
       </p>
-      <div class="grid-3">
+      <div class="grid-4">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">AZ-900</span>
+            <span class="badge az900">100 Preguntas</span>
+          </div>
+          <p>Cloud Concepts, Arquitectura Azure, Compute, Redes, Storage, Entra ID, Cost Management, Policy, ARM/Bicep y Monitor.</p>
+        </div>
         <div class="card">
           <div class="card-header">
             <span class="card-title">DP-900</span>
-            <span class="badge dp900">Fundamentals</span>
+            <span class="badge dp900">70 Preguntas</span>
           </div>
-          <p>Conceptos de datos relacionales, no relacionales, cargas transaccionales vs analíticas en Azure.</p>
+          <p>Conceptos core de datos, ACID, Azure SQL, Cosmos DB, Storage, Data Factory, Synapse, Fabric y Power BI.</p>
         </div>
         <div class="card">
           <div class="card-header">
             <span class="card-title">DP-600</span>
-            <span class="badge dp600">Associate</span>
+            <span class="badge dp600">35 Preguntas</span>
           </div>
-          <p>Microsoft Fabric Analytics: Lakehouses, Warehouses, modelos semánticos, DAX, Direct Lake y gobernanza.</p>
+          <p>Microsoft Fabric Analytics: Lakehouses, Warehouses, Modelos Semánticos Direct Lake, DAX, XMLA y CI/CD.</p>
         </div>
         <div class="card">
           <div class="card-header">
             <span class="card-title">DP-700</span>
-            <span class="badge dp700">Associate</span>
+            <span class="badge dp700">35 Preguntas</span>
           </div>
-          <p>Microsoft Fabric Data Engineering: Ingesta en tiempo real (Eventstreams, KQL/Eventhouse), PySpark, orquestación y seguridad.</p>
+          <p>Microsoft Fabric Data Engineering: Eventstreams, Eventhouse (KQL), PySpark, Delta Lake y optimización.</p>
         </div>
       </div>
     </section>
 
-    <!-- 2. PERFILES -->
-    <section id="perfiles">
-      <h2>2. Sistema de Perfiles de Usuario (Sin Contraseña)</h2>
-      <p>
-        La plataforma permite que varios estudiantes (o una misma persona con distintos perfiles de prueba) utilicen la aplicación en el mismo navegador manteniendo su progreso aislado en <code>localStorage</code>.
-      </p>
+    <!-- 2. LOGIN Y PLAN DE ESTUDIO -->
+    <section id="login-perfiles">
+      <h2>2. Pantalla de Login, Gestión de Perfiles y Plan de Estudio Personalizado</h2>
       <div class="grid-2">
         <div class="card">
-          <h3>Funcionalidades del Perfil</h3>
+          <h3>Pantalla Inicial Tipo Login (<code>#view-login</code>)</h3>
           <ul class="feature-list">
-            <li><strong>Selector rápido en el Header y Pantalla de Bienvenida:</strong> Cambio de perfil en 1 clic ("¿Quién estudia hoy?").</li>
-            <li><strong>Creación/Edición sin fricción:</strong> Nombre, Avatar/Iniciales, Color de acento y Certificación Objetivo principal.</li>
-            <li><strong>Estadísticas aisladas por perfil:</strong> Historial de exámenes, nota media (escala 100–1000), racha de estudio y porcentaje de dominio por cada bloque oficial.</li>
-            <li><strong>Bolsa personal de "Preguntas Falladas" y "Favoritas":</strong> Cada perfil acumula sus propios fallos para el modo de repaso selectivo.</li>
-            <li><strong>Exportar / Importar JSON de Perfil:</strong> Permite llevar el progreso a otro ordenador fácilmente.</li>
+            <li><strong>Selector de Perfiles Existentes:</strong> Muestra avatar, certificado objetivo, simulaciones realizadas y preguntas dominadas.</li>
+            <li><strong>Creación de Perfil Nuevo:</strong> Sin contraseñas ni fricción; almacena todo localmente en <code>localStorage</code>.</li>
+            <li><strong>Modo "🛠️ Ver perfiles (Renombrar / Eliminar)":</strong> Permite editar en línea el nombre de cualquier perfil, cambiar su certificado objetivo o eliminarlo.</li>
+            <li><strong>Portabilidad JSON:</strong> Exportación e importación completa de perfiles e historial.</li>
           </ul>
         </div>
         <div class="card">
-          <h3>Estructura en <code>localStorage</code></h3>
-          <pre>{
-  "activeProfileId": "usr_01",
-  "profiles": [
-    {
-      "id": "usr_01",
-      "name": "Alex Data",
-      "avatar": "AD",
-      "targetCert": "DP-600",
-      "createdAt": "2026-10-31",
-      "failedQuestionIds": ["DP600-014", "DP600-029"],
-      "bookmarkedIds": ["DP700-008"],
-      "masteredIds": ["DP900-001", "DP600-002"],
-      "history": [
-        {
-          "attemptId": "att_101",
-          "date": "2026-10-31T09:15:00Z",
-          "cert": "DP-600",
-          "mode": "exam",
-          "scoreScaled": 780,
-          "percentage": 78,
-          "passed": true,
-          "domainBreakdown": {
-            "Maintain a data analytics solution": { "hit": 8, "total": 10 },
-            "Prepare data": { "hit": 7, "total": 10 },
-            "Implement and manage semantic models": { "hit": 8, "total": 10 }
-          }
-        }
-      ]
-    }
-  ]
-}</pre>
+          <h3>Asistente de Certificado Objetivo y Plan en 4 Fases</h3>
+          <ul class="feature-list">
+            <li>Al iniciar un perfil, la plataforma consulta cuál es su <strong>Certificado Objetivo</strong> (<code>AZ-900</code>, <code>DP-900</code>, <code>DP-600</code> o <code>DP-700</code>).</li>
+            <li>Genera en el Dashboard una <strong>Ruta de Estudio en 4 Fases Progresivas</strong> con barras de progreso reales y botones de lanzamiento directo:
+              <ol style="margin-left:1.25rem; margin-top:0.35rem;">
+                <li><strong>Fase 1 • Cimientos:</strong> Preguntas de nivel básico (<code>basic</code>).</li>
+                <li><strong>Fase 2 • Consolidación:</strong> Estudio adaptativo por dominios (<code>adaptive</code>).</li>
+                <li><strong>Fase 3 • Nivel Experto:</strong> Casos de estudio con pestañas y código (<code>hardcore</code> + <code>code</code>).</li>
+                <li><strong>Fase 4 • Validación Final:</strong> Simulacro Oficial Pearson VUE cronometrado (meta &ge; 700/1000 pts).</li>
+              </ol>
+            </li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- 3. MODOS -->
+    <!-- 3. MOTOR ADAPTATIVO Y SABER MAS -->
+    <section id="adaptativo">
+      <h2>3. Motor de Repetición Adaptativa, Mapa de Calor y Cajón "📚 Saber Más"</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Repetición Espaciada (Cajas Leitner 0–3) + Mapa de Calor</h3>
+          <ul class="feature-list">
+            <li>Cada pregunta mantiene su estado en <code>questionMastery[qId]</code> con cajas de <code>0</code> (fallada / prioridad crítica) a <code>3</code> (dominada tras aciertos consecutivos).</li>
+            <li>Además, registra el porcentaje de acierto por tecnología (<code>topicStats</code>). Si fallas preguntas de <em>Direct Lake</em>, <em>KQL</em> o <em>Azure Networking</em>, el modo <strong>🔄 Repetición Adaptativa Inteligente</strong> selecciona automáticamente más preguntas de ese mismo tema.</li>
+            <li>El <strong>Mapa de Conocimientos por Tecnología</strong> en el Dashboard muestra los iconos vectoriales de cada servicio de MS Learn con alertas de punto débil y botón de entrenamiento en 1 clic.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Cajón Lateral "📚 Saber Más" + MCP en Vivo</h3>
+          <ul class="feature-list">
+            <li>Disponible en cada pregunta durante el Modo Estudio y en la pantalla final de Revisión.</li>
+            <li>Muestra la <strong>Ficha Teórica Estructurada (<code>theoryPill</code>)</strong>: resumen arquitectónico, puntos clave de examen y la alerta <strong>"⚠️ Trampa frecuente en Pearson VUE"</strong>.</li>
+            <li>Integra un <strong>Buscador en Vivo conectado a <code>https://learn.microsoft.com/api/mcp</code></strong> (vía <code>/api/mslearn</code> en <code>server.js</code>) para buscar artículos oficiales y ejemplos de código en tiempo real sin salir del simulador.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. MODOS -->
     <section id="modos">
-      <h2>3. Modos de Ejecución: Modo Examen vs. Modo Estudio</h2>
-      <p>
-        El usuario configura su sesión desde el Dashboard eligiendo Certificación (o mezcla), Cantidad de preguntas (10, 25, 45, Todas) y el Modo operativo.
-      </p>
-
-      <h3>3.1. Modo Examen Oficial (Simulación Pearson VUE)</h3>
-      <ul class="feature-list">
-        <li><strong>Sin ayudas ni feedback durante el test:</strong> No se muestra si la respuesta es correcta hasta entregar el examen completo.</li>
-        <li><strong>Temporizador real:</strong> Calculado proporcionalmente al número de preguntas (ej. ~1.8 min por pregunta, configurable).</li>
-        <li><strong>Marcado de preguntas:</strong> Casilla <em>"Marcar para revisión" (Mark for Review)</em> y opción de tachar respuestas descartadas (<em>Strikethrough</em> con clic derecho o icono, igual que en Pearson VUE).</li>
-        <li><strong>Pantalla intermedia de Revisión (Review Screen):</strong> Antes de finalizar, muestra la cuadrícula de preguntas (Contestadas, Sin contestar, Marcadas para revisión) permitiendo saltar a cualquiera.</li>
-        <li><strong>Puntuación Oficial Microsoft:</strong> Escala de <strong>100 a 1000 puntos</strong> (corte de aprobado en <strong>700 puntos / 70%</strong>) con gráfico de barras por cada área de habilidad oficial (<em>Skills Measured</em>).</li>
-      </ul>
-
-      <h3>3.2. Clasificaciones Propuestas para el "Modo Estudio"</h3>
-      <p>Para maximizar la retención técnica, proponemos <strong>5 sub-modos de estudio especializados</strong>:</p>
-
+      <h2>4. Fidelidad Pearson VUE en Modo Examen vs. Modo Estudio</h2>
       <table>
         <thead>
           <tr>
-            <th>Sub-Modo de Estudio</th>
-            <th>Filtro / Lógica del Motor</th>
-            <th>Comportamiento Pedagógico</th>
+            <th>Característica</th>
+            <th>Modo Examen Oficial (Pearson VUE)</th>
+            <th>Modo Estudio Adaptativo</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>1. Lo Básico (Fundamentos y Conceptos)</strong></td>
-            <td>Filtra preguntas con <code>difficulty: "basic"</code></td>
-            <td>Ideal para empezar una certificación. Valida definiciones clave, arquitectura base y elección del servicio correcto sin trampas complejas.</td>
+            <td><strong>Tipologías de Pregunta</strong></td>
+            <td colspan="2">
+              Soporta <strong>Opción Única (<code>○</code>)</strong>, <strong>Selección Múltiple (<code>☐</code> "Selecciona 2 o 3 opciones" con límite activo)</strong> y <strong>Casos de Estudio con Pestañas (<code>Visión General</code>, <code>Entorno Actual</code>, <code>Requisitos</code>)</strong>.
+            </td>
           </tr>
           <tr>
-            <td><strong>2. Lo Más Difícil (Arquitectura, Código y Casos)</strong></td>
-            <td>Filtra <code>difficulty: "hardcore"</code> + preguntas con código (DAX, SQL, KQL, PySpark) y escenarios largos</td>
-            <td>Entrenamiento de alto rendimiento: preguntas con distractores muy sutiles, optimización de rendimiento, permisos RLS/OLS/CLS y casos de estudio.</td>
+            <td><strong>Feedback y Teoría</strong></td>
+            <td>Oculto hasta entregar el examen completo.</td>
+            <td>Botón <strong>"💡 Comprobar Respuesta"</strong> y botón <strong>"📚 Saber más"</strong> activos en cada pregunta.</td>
           </tr>
           <tr>
-            <td><strong>3. Por Dominio Oficial (Skills Measured)</strong></td>
-            <td>Selector de bloque temático oficial de la guía de Microsoft</td>
-            <td>Permite atacar únicamente el bloque flojo (ej. solo practicar <em>"Real-Time Intelligence / KQL"</em> en DP-700 o <em>"Semantic Models &amp; DAX"</em> en DP-600).</td>
-          </tr>
-          <tr>
-            <td><strong>4. Clínica de Fallos ("Redención")</strong></td>
-            <td>Extrae de <code>failedQuestionIds</code> del perfil activo</td>
-            <td>Genera un test exclusivo con las preguntas que el estudiante ha fallado anteriormente. Al acertar una pregunta en este modo, el usuario decide si retirarla de su lista de fallos.</td>
-          </tr>
-          <tr>
-            <td><strong>5. Laboratorio de Código (SQL / DAX / KQL / PySpark)</strong></td>
-            <td>Filtra preguntas con <code>hasCodeSnippet: true</code></td>
-            <td>Enfocado 100% en completar fragmentos de código, funciones ventana, medidas DAX (`CALCULATE`, `USERELATIONSHIP`) y consultas Kusto.</td>
+            <td><strong>Herramientas Pearson VUE</strong></td>
+            <td colspan="2">
+              Casilla <em>"🚩 Marcar para revisión"</em>, tachado de opciones descartadas con clic derecho (<em>Strikethrough</em>) y cuadrícula previa de revisión antes de finalizar.
+            </td>
           </tr>
         </tbody>
       </table>
-
-      <div class="callout">
-        <div class="callout-title">Feedback Instantáneo en Modo Estudio</div>
-        <p style="margin:0">
-          En cualquiera de los sub-modos de estudio, al pulsar <strong>"Comprobar respuesta"</strong> se revela al instante la opción correcta en verde, por qué las demás opciones son incorrectas, el bloque teórico completo y los enlaces directos a la documentación oficial de <strong>Microsoft Learn</strong>.
-        </p>
-      </div>
-    </section>
-
-    <!-- 4. UI / UX -->
-    <section id="ui-ux">
-      <h2>4. Diseño Visual: Estética Oficial Microsoft &amp; Pearson VUE</h2>
-      <p>
-        La aplicación combinará el modo oscuro moderno de <strong>Microsoft Fluent UI</strong> en el Dashboard y Analíticas con la disposición clásica de <strong>Pearson VUE</strong> durante la ejecución del examen:
-      </p>
-
-      <div class="vue-mockup">
-        <div class="vue-top-bar">
-          <span>Microsoft Certification Exam Simulator — DP-600: Implementing Analytics Solutions Using Microsoft Fabric</span>
-          <span>⏱ Tiempo Restante: 01:14:22 | Pregunta 12 de 45</span>
-        </div>
-        <div class="vue-sub-bar">
-          <span>☑ Marcar para revisión (Mark for Review)</span>
-          <span>Perfil: Alex Data | Dominio: Implement and manage semantic models</span>
-        </div>
-        <div class="vue-body">
-          <p style="color:#fff; font-weight:500;">
-            Dispone de un modelo semántico en Microsoft Fabric configurado en modo Direct Lake sobre un Lakehouse. Observa que algunas consultas DAX experimentan fallback automático a modo DirectQuery. ¿Qué configuración o elemento del modelo está provocando este comportamiento?
-          </p>
-          <div class="vue-option"><strong>A.</strong> El uso de columnas calculadas o vistas SQL como origen de la tabla Delta.</div>
-          <div class="vue-option"><strong>B.</strong> El tamaño del archivo Parquet supera los 100 MB en OneLake.</div>
-          <div class="vue-option"><strong>C.</strong> La activación de V-Order durante el proceso de escritura con Spark.</div>
-          <div class="vue-option"><strong>D.</strong> El uso de medidas implícitas creadas desde el reporte de Power BI.</div>
-        </div>
-        <div class="vue-footer">
-          <div>
-            <span class="vue-btn">← Anterior</span>
-            <span class="vue-btn">Siguiente →</span>
-          </div>
-          <div>
-            <span class="vue-btn" style="background:#107c41; border-color:#3fb950;">Pantalla de Revisión / Finalizar</span>
-          </div>
-        </div>
-      </div>
     </section>
 
     <!-- 5. ARQUITECTURA -->
     <section id="arquitectura">
       <h2>5. Estructura de Archivos del Proyecto</h2>
-      <p>
-        Arquitectura limpia, modular (ES Modules nativos), cero dependencias externas de build, lista para ejecutarse con cualquier servidor estático local:
-      </p>
-      <pre>C:\RepositoriProjectes\MS-Student-Platform\
+      <pre>C:\RepositoriProjectes\MS Student Platform\
 │
-├── index.html                  # Shell principal SPA (Header de perfiles, Vistas dinámicas, Modales)
-├── documento-funcional.html    # Este documento de especificación funcional y técnica
+├── index.html                  # Shell SPA (Login, Dashboard + Plan de Estudio, Examen Pearson VUE, Resultados, Cajón "Saber Más")
+├── documento-funcional.html    # Especificación funcional y técnica (este documento)
+├── README.md                   # Documentación pública del repositorio para GitHub
+├── LICENSE                     # Licencia MIT + Aviso de Marcas Registradas y No Afiliación
+├── server.js                   # Servidor HTTP local + Proxy en vivo hacia https://learn.microsoft.com/api/mcp
+├── iniciar-plataforma.bat      # Lanzador directo en 1 clic para Windows
+│
+├── .agents/skills/ms-exam-generator/
+│   └── SKILL.md                # Skill oficial del proyecto para autoría y validación de preguntas con MS Learn MCP
+│
+├── scripts/
+│   └── mcp-mslearn.js          # Cliente JSON-RPC/SSE para el servidor MCP oficial de Microsoft Learn
 │
 ├── css/
-│   ├── variables.css           # Tokens de color Fluent Dark + Pearson VUE palette
-│   ├── main.css                # Layout base, Dashboard, Tarjetas de Certificación, Perfiles
-│   └── exam-vue.css            # Estilos específicos del motor Pearson VUE, Caso de Estudio y Resultados
+│   ├── variables.css           # Tokens de color Modo Oscuro (Fluent Dark) y Modo Claro (Fluent Light)
+│   ├── main.css                # Estilos de Login, Plan de Estudio, Dashboard, Mapa de Calor y Modales
+│   └── exam-vue.css            # Estilos del simulador Pearson VUE, Casos de Estudio, Acordeón y Cajón "Saber Más"
 │
 ├── js/
-│   ├── app.js                  # Punto de entrada, enrutador de vistas y controlador global
-│   ├── state.js                # Gestión del estado de la sesión activa (filtros, timer, respuestas)
-│   ├── storage.js              # Persistencia en localStorage (Perfiles, Historial, Preguntas Falladas)
-│   ├── examEngine.js           # Filtrado, barajado Fisher-Yates (preguntas y opciones A/B/C/D), scoring
-│   └── ui.js                   # Renderizado DOM (Dashboard, Vista Examen, Pantalla Revisión, Resultados)
+│   ├── app.js                  # Controlador principal, carga modular JSON, eventos y cliente MCP en vivo
+│   ├── state.js                # Estado de sesión, filtros y login
+│   ├── storage.js              # Persistencia localStorage (Perfiles, Tema Claro/Oscuro, Cajas Leitner 0-3, Historial)
+│   ├── examEngine.js           # Algoritmo adaptativo, barajado Fisher-Yates, evaluación simple/múltiple y scoring 100-1000
+│   ├── ui.js                   # Renderizador DOM completo
+│   └── icons.js                # Escudos vectoriales (AZ-900, DP-900, DP-600, DP-700) e iconos de tecnologías MS Learn
 │
 └── data/
-    └── questions.json          # Repositorio maestro de preguntas enriquecidas (DP-900, DP-600, DP-700)</pre>
+    ├── az900.json              # Módulo AZ-900 (100 preguntas verificadas)
+    ├── dp900.json              # Módulo DP-900 (70 preguntas verificadas)
+    ├── dp600.json              # Módulo DP-600 (35 preguntas verificadas)
+    ├── dp700.json              # Módulo DP-700 (35 preguntas verificadas)
+    └── questions.json          # Catálogo consolidado (240 preguntas)</pre>
     </section>
 
     <!-- 6. ESQUEMA JSON -->
     <section id="json-schema">
-      <h2>6. Esquema Exacto del Repositorio <code>questions.json</code></h2>
-      <p>
-        Para que las opciones <strong>A, B, C, D se barajen dinámicamente</strong> en cada intento sin perder la trazabilidad de cuál es la correcta ni su explicación individual, cada opción tiene un <code>id</code> interno inmutable y el motor le asigna la letra <code>A, B, C, D</code> en tiempo de ejecución:
-      </p>
+      <h2>6. Esquema JSON v2 Enriquecido</h2>
       <pre>{
-  "meta": {
-    "version": "1.0.0",
-    "lastUpdated": "2026-10-31",
-    "certifications": [
-      {
-        "code": "DP-900",
-        "title": "Microsoft Azure Data Fundamentals",
-        "passingScore": 700,
-        "domains": [
-          "Describe core data concepts",
-          "Identify considerations for relational data on Azure",
-          "Describe considerations for working with non-relational data on Azure",
-          "Describe an analytics workload on Azure"
-        ]
-      },
-      {
-        "code": "DP-600",
-        "title": "Implementing Analytics Solutions Using Microsoft Fabric",
-        "passingScore": 700,
-        "domains": [
-          "Maintain a data analytics solution",
-          "Prepare data",
-          "Implement and manage semantic models"
-        ]
-      },
-      {
-        "code": "DP-700",
-        "title": "Implementing Data Engineering Solutions Using Microsoft Fabric",
-        "passingScore": 700,
-        "domains": [
-          "Implement and manage an analytics solution",
-          "Ingest and transform data",
-          "Monitor and optimize an analytics solution"
-        ]
-      }
-    ]
+  "id": "AZ900-001",
+  "certification": "AZ-900",
+  "domain": "Describe cloud concepts",
+  "topic": "Shared Responsibility Model",
+  "topicIcon": "security",
+  "tags": ["Shared Responsibility", "IaaS", "PaaS", "SaaS"],
+  "difficulty": "basic",
+  "questionType": "multi",
+  "requiredSelections": 2,
+  "hasCodeSnippet": false,
+  "caseStudy": null,
+  "caseStudyTabs": {
+    "overview": "...",
+    "environment": "...",
+    "requirements": "..."
   },
-  "questions": [
+  "stem": "Enunciado de la pregunta...",
+  "codeSnippet": null,
+  "codeLanguage": null,
+  "options": [
     {
-      "id": "DP600-001",
-      "certification": "DP-600",
-      "domain": "Implement and manage semantic models",
-      "difficulty": "hardcore",
-      "tags": ["Direct Lake", "Fallback", "RLS", "Views"],
-      "hasCodeSnippet": false,
-      "caseStudy": null,
-      "stem": "Estás diseñando un modelo semántico en modo Direct Lake en Microsoft Fabric. Quieres asegurarte de que las consultas DAX nunca hagan fallback a modo DirectQuery y que se aplique seguridad a nivel de fila (RLS). ¿Qué dos acciones debes realizar o evitar? (Nota: En el examen de opción única se evalúa la condición crítica).",
-      "codeSnippet": null,
-      "options": [
-        {
-          "id": "opt_1",
-          "text": "Definir las tablas del modelo semántico directamente sobre tablas Delta del Lakehouse en lugar de vistas del SQL Analytics Endpoint, y configurar RLS en el modelo semántico.",
-          "isCorrect": true,
-          "rationale": "Direct Lake lee directamente los archivos Parquet/Delta en OneLake. Si el modelo apunta a vistas SQL o si el RLS se define en el endpoint SQL en lugar del modelo semántico, Direct Lake hace fallback a DirectQuery."
-        },
-        {
-          "id": "opt_2",
-          "text": "Configurar las reglas RLS mediante sentencias T-SQL en el SQL Analytics Endpoint del Lakehouse.",
-          "isCorrect": false,
-          "rationale": "Configurar permisos granulares o RLS en el SQL Analytics Endpoint fuerza el fallback a DirectQuery para poder evaluar la seguridad SQL."
-        },
-        {
-          "id": "opt_3",
-          "text": "Desactivar la optimización V-Order en el pipeline de ingesta de Spark.",
-          "isCorrect": false,
-          "rationale": "V-Order mejora drásticamente la compresión y velocidad de lectura en memoria para Direct Lake; desactivarlo degrada el rendimiento."
-        },
-        {
-          "id": "opt_4",
-          "text": "Cambiar la propiedad DirectLakeBehavior del modelo a Automatic.",
-          "isCorrect": false,
-          "rationale": "El modo 'Automatic' permite precisamente el fallback a DirectQuery cuando ocurre una condición no soportada; para prohibirlo se usa 'DirectLakeOnly'."
-        }
-      ],
-      "explanation": "En Microsoft Fabric, los modelos semánticos en modo Direct Lake cargan datos directamente desde archivos Delta/Parquet en OneLake hacia el motor VertiPaq sin necesidad de importación programada. Sin embargo, si una tabla se basa en una vista del SQL Analytics Endpoint, o utiliza columnas calculadas o seguridad SQL a nivel de fila en el endpoint SQL, el motor realiza un fallback a DirectQuery.",
-      "references": [
-        {
-          "title": "Direct Lake overview - Microsoft Fabric | Microsoft Learn",
-          "url": "https://learn.microsoft.com/en-us/fabric/get-started/direct-lake-overview"
-        },
-        {
-          "title": "Understand Direct Lake query performance and fallback | Microsoft Learn",
-          "url": "https://learn.microsoft.com/en-us/fabric/get-started/direct-lake-overview#fallback"
-        }
-      ]
+      "id": "opt_1",
+      "text": "Opción...",
+      "isCorrect": true,
+      "rationale": "Por qué es correcta o incorrecta..."
+    }
+  ],
+  "explanation": "Explicación global...",
+  "theoryPill": {
+    "title": "Título de la Ficha Teórica",
+    "summary": "Resumen conceptual...",
+    "keyPoints": ["Punto 1", "Punto 2", "Punto 3"],
+    "examTrap": "Trampa frecuente en el examen oficial...",
+    "searchQuery": " consulta para el MCP de MS Learn"
+  },
+  "references": [
+    {
+      "title": "Shared responsibility in the cloud - Microsoft Learn",
+      "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility"
     }
   ]
 }</pre>
     </section>
 
-    <!-- 7. BANCO DE PREGUNTAS Y SKILLS -->
-    <section id="banco-preguntas">
-      <h2>7. Estrategia para un Repositorio de Preguntas Muy Fuerte (+ Skills de Microsoft)</h2>
-      <p>
-        Como bien indicas, <strong>el simulador vive o muere por la calidad técnica y el realismo de sus preguntas</strong>. Las preguntas superficiales no preparan para el examen real de Microsoft (especialmente en DP-600 y DP-700, donde abundan escenarios con código DAX, KQL, PySpark, T-SQL, XMLA, Deployment Pipelines y Direct Lake).
-      </p>
-
-      <div class="grid-2">
-        <div class="card">
-          <h3>¿Qué Skills o MCPs de Microsoft podemos usar?</h3>
-          <ul class="feature-list">
-            <li><strong>MCP Oficial de Microsoft Learn (<code>microsoft-learn</code> MCP Server):</strong> Permite consultar en vivo la documentación oficial de Microsoft Learn para extraer límites exactos, tablas comparativas y URLs reales verificadas.</li>
-            <li><strong>Skill de Antigravity para Generación de Exámenes Microsoft:</strong> Podemos crear una Skill dedicada en tu workspace (<code>.agent/skills/ms-exam-generator/SKILL.md</code>) con la rúbrica oficial de redacción de exámenes de Microsoft (estilo Pearson VUE: <em>Contexto técnico + Problema/Restricción + Pregunta directa + 1 Respuesta Correcta + 3 Distractores plausibles basados en errores comunes</em>).</li>
-            <li><strong>Guías de Estudio Oficiales (Study Guides):</strong> Alinear el 100% de las preguntas con los pesos porcentuales actualizados de Microsoft para DP-900, DP-600 y DP-700.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Arquitectura Escalable del Banco de Preguntas</h3>
-          <ul class="feature-list">
-            <li><strong>Carga Modular o Unificada:</strong> El motor cargará <code>data/questions.json</code>, pero también permitirá fusionar bancos modulares (<code>dp900.json</code>, <code>dp600.json</code>, <code>dp700.json</code>) o importar paquetes nuevos desde la propia interfaz.</li>
-            <li><strong>Cobertura de Código Real:</strong> Incluiremos bloques formateados de T-SQL (`COPY INTO`, `OPENROWSET`), DAX (`CALCULATE`, `TREATAS`, Time Intelligence), KQL (`summarize`, `arg_max`, `mv-expand`, Eventstreams) y PySpark (`mssparkutils`/`notebookutils`, `MERGE INTO` Delta).</li>
-            <li><strong>Explicación por Opción (Rationale):</strong> No solo explicamos por qué la correcta es válida, sino por qué las otras 3 opciones son falsas (clave para aprobar en Microsoft).</li>
-          </ul>
-        </div>
+    <!-- 7. MARCO LEGAL -->
+    <section id="legal">
+      <h2>7. Cumplimiento Legal, Derechos de Autor y Marcas Registradas</h2>
+      <div class="callout">
+        <div class="callout-title">¿Es 100% legal publicar este proyecto en GitHub? Sí, cumpliendo estas 3 garantías incluidas en el proyecto:</div>
+        <ul class="feature-list" style="margin-top:0.5rem;">
+          <li><strong>1. Contenido 100% Original (Cero "Braindumps"):</strong> Ninguna pregunta ha sido extraída ni filtrada de exámenes reales bajo NDA. Todas las preguntas son ejercicios pedagógicos inéditos redactados a partir de las guías de estudio públicas de Microsoft Learn.</li>
+          <li><strong>2. Uso Nominativo Legítimo y Aviso de No Afiliación (Trademark Disclaimer):</strong> Los nombres <em>Microsoft, Azure, Microsoft Fabric, Power BI y Pearson VUE</em> se mencionan únicamente con fines descriptivos para indicar el temario de estudio, incluyendo un descargo de responsabilidad explícito en el pie de página de la aplicación, en <code>README.md</code> y en <code>LICENSE</code>.</li>
+          <li><strong>3. Privacidad Total (Cero Recolección de Datos / RGPD):</strong> Todo el progreso y los perfiles se guardan exclusivamente en el <code>localStorage</code> del navegador del propio usuario sin servidores de terceros ni rastreadores.</li>
+        </ul>
       </div>
-    </section>
-
-    <!-- 8. ROADMAP -->
-    <section id="roadmap">
-      <h2>8. Siguientes Pasos tras Validar este Documento</h2>
-      <ol style="margin-left: 1.5rem; color: #c9d1d9; font-size: 0.95rem;">
-        <li style="margin-bottom: 0.5rem;"><strong>Confirmación del Documento Funcional:</strong> Revisar si los sub-modos de estudio, el sistema de perfiles y el esquema JSON encajan con tu visión.</li>
-        <li style="margin-bottom: 0.5rem;"><strong>Configuración de la Skill / Directrices de Microsoft:</strong> Me indicas qué Skill o recursos de Microsoft quieres conectar o priorizar para la generación masiva de preguntas.</li>
-        <li style="margin-bottom: 0.5rem;"><strong>Construcción de la SPA completa:</strong> Implementación de <code>index.html</code>, hojas de estilo (Fluent Dark + Pearson VUE), motor JS completo y el primer gran lote de preguntas de alta calidad técnica para DP-900, DP-600 y DP-700.</li>
-      </ol>
     </section>
   </main>
 

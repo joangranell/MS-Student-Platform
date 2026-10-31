@@ -1,0 +1,38 @@
+MIT License
+
+Copyright (c) 2026 Joan Granell — MS Student Platform
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-------------------------------------------------------------------------------
+TRADEMARK & NON-AFFILIATION NOTICE
+-------------------------------------------------------------------------------
+MS Student Platform is an independent, community-driven educational project.
+It is NOT affiliated with, endorsed by, sponsored by, or officially connected
+to Microsoft Corporation or Pearson Education, Inc. (Pearson VUE).
+
+All practice questions in this repository are original study exercises created
+from publicly available Microsoft Learn documentation and official exam study
+guides. No confidential or proprietary exam content (under the Microsoft
+Certification Exam Non-Disclosure Agreement) is included.
+
+Microsoft, Azure, Microsoft Fabric, OneLake, Power BI, and Microsoft Entra are
+trademarks or registered trademarks of Microsoft Corporation in the United
+States and/or other countries. Pearson VUE is a registered trademark of Pearson
+Education, Inc.
