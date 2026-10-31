@@ -30,10 +30,10 @@ function ensureProfileFields(p) {
 function createDefaultStore() {
   const defaultProfile = ensureProfileFields({
     id: 'prof_default',
-    name: 'Candidato Microsoft',
-    avatar: 'CM',
+    name: 'Usuario Demo',
+    avatar: 'UD',
     color: '#0078d4',
-    targetCert: 'DP-600',
+    targetCert: 'AZ-900',
     hasConfiguredPlan: false,
     createdAt: new Date().toISOString()
   });
