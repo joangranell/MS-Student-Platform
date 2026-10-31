@@ -43,6 +43,11 @@ const DIFF_LABELS = {
 };
 
 const CERT_DESCRIPTIONS = {
+  'AZ-900': {
+    title: 'Microsoft Azure Fundamentals',
+    role: 'Fundamentos de Cloud Computing, Arquitectura, Servicios y Gobernanza en Azure',
+    focus: 'Cloud Concepts (IaaS/PaaS/SaaS), Compute, Networking, Storage, Entra ID, Cost Management, Policy y Monitor.'
+  },
   'DP-900': {
     title: 'Microsoft Azure Data Fundamentals',
     role: 'Fundamentos de Datos Relacionales, NoSQL y Analítica en Azure',
@@ -151,6 +156,7 @@ export const UI = {
                   maxlength="32"
                 />
                 <select class="form-select" style="width:auto;" data-cert-input="${escapeHtml(p.id)}">
+                  <option value="AZ-900" ${p.targetCert === 'AZ-900' ? 'selected' : ''}>AZ-900</option>
                   <option value="DP-900" ${p.targetCert === 'DP-900' ? 'selected' : ''}>DP-900</option>
                   <option value="DP-600" ${p.targetCert === 'DP-600' ? 'selected' : ''}>DP-600</option>
                   <option value="DP-700" ${p.targetCert === 'DP-700' ? 'selected' : ''}>DP-700</option>
@@ -205,7 +211,7 @@ export const UI = {
 
     const currentTarget = profile.targetCert || 'DP-600';
 
-    cardsContainer.innerHTML = ['DP-900', 'DP-600', 'DP-700']
+    cardsContainer.innerHTML = ['AZ-900', 'DP-900', 'DP-600', 'DP-700']
       .map((code) => {
         const info = CERT_DESCRIPTIONS[code];
         const isSelected = currentTarget === code;
@@ -421,6 +427,7 @@ export const UI = {
     // 2. Certification Cards + Official Shield Logos
     const certCounts = {
       ALL: state.allQuestions.length,
+      'AZ-900': state.allQuestions.filter((q) => q.certification === 'AZ-900').length,
       'DP-900': state.allQuestions.filter((q) => q.certification === 'DP-900').length,
       'DP-600': state.allQuestions.filter((q) => q.certification === 'DP-600').length,
       'DP-700': state.allQuestions.filter((q) => q.certification === 'DP-700').length

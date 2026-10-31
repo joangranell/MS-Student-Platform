@@ -1,5 +1,5 @@
 /**
- * icons.js — Official-Style Vector Logos for Microsoft Certifications & MS Learn / Fabric Topics
+ * icons.js — Official-Style Vector Logos for Microsoft Certifications (AZ-900, DP-900, DP-600, DP-700) & MS Learn Topics
  */
 
 export const CERT_BADGE_SVGS = {
@@ -9,6 +9,15 @@ export const CERT_BADGE_SVGS = {
       <rect x="26" y="4" width="18" height="18" rx="2" fill="#7FBA00"/>
       <rect x="4" y="26" width="18" height="18" rx="2" fill="#00A4EF"/>
       <rect x="26" y="26" width="18" height="18" rx="2" fill="#FFB900"/>
+    </svg>
+  `,
+  'AZ-900': `
+    <svg viewBox="0 0 56 64" width="42" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M28 2L52 12V31C52 46.5 41.8 57.8 28 62C14.2 57.8 4 46.5 4 31V12L28 2Z" fill="#1E3A8A" stroke="#60A5FA" stroke-width="2.5"/>
+      <path d="M28 7L47 15V30.5C47 43 38.8 52.5 28 56.2C17.2 52.5 9 43 9 30.5V15L28 7Z" fill="#2563EB"/>
+      <polygon points="28,13 30.2,17.5 35,18.2 31.5,21.6 32.3,26.4 28,24.1 23.7,26.4 24.5,21.6 21,18.2 25.8,17.5" fill="#FFB900"/>
+      <rect x="12" y="32" width="32" height="13" rx="3" fill="#0F172A"/>
+      <text x="28" y="41.5" text-anchor="middle" fill="#60A5FA" font-size="8.5" font-family="Segoe UI, sans-serif" font-weight="800">AZ-900</text>
     </svg>
   `,
   'DP-900': `
@@ -43,6 +52,21 @@ export const CERT_BADGE_SVGS = {
 };
 
 export const TOPIC_ICON_METADATA = {
+  compute: {
+    label: 'Azure Compute, VMs, Containers & Cloud Concepts',
+    color: '#60a5fa',
+    svg: `<svg viewBox="0 0 24 24" width="20" height="20" fill="none"><rect x="4" y="4" width="16" height="12" rx="2" fill="#1D4ED8" stroke="#93C5FD" stroke-width="1.5"/><path d="M8 20h8M12 16v4" stroke="#93C5FD" stroke-width="1.6" stroke-linecap="round"/></svg>`
+  },
+  network: {
+    label: 'Azure Networking (VNet, VPN, ExpressRoute & DNS)',
+    color: '#38bdf8',
+    svg: `<svg viewBox="0 0 24 24" width="20" height="20" fill="none"><circle cx="12" cy="12" r="8" fill="#0369A1" stroke="#7DD3FC" stroke-width="1.5"/><path d="M4 12h16M12 4c2.5 2.5 2.5 13.5 0 16M12 4c-2.5 2.5-2.5 13.5 0 16" stroke="#E0F2FE" stroke-width="1.3"/></svg>`
+  },
+  governance: {
+    label: 'Azure Governance, Costes, Policy, ARM/Bicep & Monitor',
+    color: '#c084fc',
+    svg: `<svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M12 3L3 8l9 5 9-5-9-5z" fill="#7E22CE" stroke="#D8B4FE" stroke-width="1.5"/><path d="M3 13l9 5 9-5M3 17l9 5 9-5" stroke="#D8B4FE" stroke-width="1.5" stroke-linecap="round"/></svg>`
+  },
   fabric: {
     label: 'Microsoft Fabric & Gobernanza',
     color: '#2dd4bf',
@@ -89,12 +113,12 @@ export const TOPIC_ICON_METADATA = {
     svg: `<svg viewBox="0 0 24 24" width="20" height="20" fill="none"><ellipse cx="12" cy="6" rx="7" ry="3" fill="#0078D4" stroke="#7DD3FC" stroke-width="1.5"/><path d="M5 6v12c0 1.66 3.13 3 7 3s7-1.34 7-3V6" fill="#005A9E" stroke="#7DD3FC" stroke-width="1.5"/><text x="12" y="15" text-anchor="middle" fill="#FFF" font-size="6.5" font-weight="800" font-family="Segoe UI">SQL</text></svg>`
   },
   cosmos: {
-    label: 'Azure Cosmos DB & NoSQL Storage',
+    label: 'Azure Storage & Cosmos DB NoSQL',
     color: '#818cf8',
     svg: `<svg viewBox="0 0 24 24" width="20" height="20" fill="none"><circle cx="12" cy="12" r="5" fill="#4F46E5" stroke="#A5B4FC" stroke-width="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-25 12 12)" stroke="#A5B4FC" stroke-width="1.5"/></svg>`
   },
   security: {
-    label: 'Seguridad (RLS/OLS/CLS) & Purview',
+    label: 'Identidad (Entra ID), RBAC, Seguridad & Purview',
     color: '#f87171',
     svg: `<svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M12 2L19 5.5V11c0 5-3.2 9.2-7 11-3.8-1.8-7-6-7-11V5.5L12 2z" fill="#B91C1C" stroke="#FCA5A5" stroke-width="1.5"/><circle cx="12" cy="11" r="2" fill="#FFF"/></svg>`
   }

@@ -9,6 +9,7 @@ import { UI, formatTimeMMSS, escapeHtml } from './ui.js';
 
 async function loadQuestionsRepository() {
   const modularFiles = [
+    './data/az900.json',
     './data/dp900.json',
     './data/dp600.json',
     './data/dp700.json',
