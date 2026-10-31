@@ -62,6 +62,20 @@ export const StorageManager = {
       }
       if (!parsed.theme) parsed.theme = 'light';
       parsed.profiles = parsed.profiles.map(ensureProfileFields);
+
+      // Auto-migrate legacy default profile name if present
+      let migrated = false;
+      parsed.profiles.forEach((p) => {
+        if (p.id === 'prof_default' && (p.name === 'Candidato Microsoft' || !p.name)) {
+          p.name = 'Usuario Demo';
+          p.avatar = 'UD';
+          migrated = true;
+        }
+      });
+      if (migrated) {
+        this.saveStore(parsed);
+      }
+
       return parsed;
     } catch (err) {
       console.error('Error loading localStorage, resetting store:', err);
