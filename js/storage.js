@@ -39,7 +39,7 @@ function createDefaultStore() {
   });
 
   return {
-    theme: 'dark',
+    theme: 'light',
     activeProfileId: defaultProfile.id,
     profiles: [defaultProfile]
   };
@@ -60,7 +60,7 @@ export const StorageManager = {
         this.saveStore(initial);
         return initial;
       }
-      if (!parsed.theme) parsed.theme = 'dark';
+      if (!parsed.theme) parsed.theme = 'light';
       parsed.profiles = parsed.profiles.map(ensureProfileFields);
       return parsed;
     } catch (err) {
@@ -81,12 +81,12 @@ export const StorageManager = {
 
   getTheme() {
     const store = this.loadStore();
-    return store.theme === 'light' ? 'light' : 'dark';
+    return store.theme === 'dark' ? 'dark' : 'light';
   },
 
   setTheme(theme) {
     const store = this.loadStore();
-    store.theme = theme === 'light' ? 'light' : 'dark';
+    store.theme = theme === 'dark' ? 'dark' : 'light';
     this.saveStore(store);
     return store.theme;
   },
