@@ -11,15 +11,23 @@
 [![DP-900](https://img.shields.io/badge/DP--900-70%20Preguntas-00A4EF)](./data/dp900.json)
 [![DP-600](https://img.shields.io/badge/DP--600-35%20Preguntas-107C41)](./data/dp600.json)
 [![DP-700](https://img.shields.io/badge/DP--700-35%20Preguntas-D97706)](./data/dp700.json)
-[![MS Learn MCP](https://img.shields.io/badge/MCP-Microsoft%20Learn%20Live-8B5CF6)](https://learn.microsoft.com/api/mcp)
 
-**🌐 Demo en vivo:** [https://joangranell.github.io/MS-Student-Platform/](https://joangranell.github.io/MS-Student-Platform/)
+<br/>
+
+[![Entrar a la Plataforma Web](https://img.shields.io/badge/🚀%20ABRIR%20SIMULADOR%20EN%20VIVO-PULSA%20AQUÍ-success?style=for-the-badge&logo=microsoftazure&logoColor=white)](https://joangranell.github.io/MS-Student-Platform/)
+
+**🌐 Enlace directo a la app:** [https://joangranell.github.io/MS-Student-Platform/](https://joangranell.github.io/MS-Student-Platform/)
 
 </div>
 
 ---
 
 ## 🌟 ¿Qué es MS Student Platform?
+
+> 🚀 **¿Quieres empezar a estudiar ya sin instalar nada?**  
+> Puedes acceder directamente a la versión web desplegada en **GitHub Pages**:  
+> 👉 **[https://joangranell.github.io/MS-Student-Platform/](https://joangranell.github.io/MS-Student-Platform/)**  
+> *(Funciona en móvil, tablet y PC con guardado local de tu progreso).*
 
 **MS Student Platform** es una **Single Page Application (SPA)** estática sin dependencias externas pesadas, diseñada para preparar con rigor técnico las certificaciones oficiales de **Microsoft Azure y Microsoft Fabric**.
 
@@ -58,7 +66,7 @@ Combina **dos mundos en una sola herramienta**:
 
 ### 📚 3. Botón "Saber Más" + Consulta en Vivo a Microsoft Learn MCP
 - Cada pregunta cuenta con una **Ficha Teórica (`theoryPill`)** que resume la arquitectura del servicio, los puntos clave para el examen y la alerta **"⚠️ Trampa frecuente en Pearson VUE"**.
-- Desde el mismo cajón lateral puedes interrogar en vivo a `https://learn.microsoft.com/api/mcp` para buscar artículos oficiales (`microsoft_docs_search`) y fragmentos de código (`microsoft_code_sample_search`) sin abandonar el test.
+- Desde el mismo cajón lateral puedes interrogar en vivo a `https://learn.microsoft.com/api/mcp` (al ejecutar en local con `server.js`) para buscar artículos oficiales (`microsoft_docs_search`) y fragmentos de código (`microsoft_code_sample_search`) sin abandonar el test.
 
 ### 🌗 4. Modo Oscuro y Modo Claro (Fluent UI)
 - Alterna en cualquier momento entre **Fluent Dark Mode** (por defecto) y **Fluent Light Mode** desde la barra superior.
@@ -99,11 +107,18 @@ flowchart LR
 
 ---
 
-## 🚀 Instalación y Puesta en Marcha
+## 🚀 Cómo Empezar a Usarlo
 
-No necesitas instalar paquetes pesados ni compiladores. Solo necesitas tener **Node.js** instalado (o cualquier servidor estático local):
+### 🌐 Opción 1: En Vivo desde el Navegador (Sin instalación)
+La plataforma está publicada y lista para usar directamente en GitHub Pages:  
+👉 **[https://joangranell.github.io/MS-Student-Platform/](https://joangranell.github.io/MS-Student-Platform/)**
 
-### Opción A: Con soporte en vivo para el MCP de Microsoft Learn (Recomendado)
+*(Funciona 100% en local en tu navegador: guarda tus notas, progreso, modo claro/oscuro y todas las 240 preguntas con sus explicaciones teóricas).*
+
+---
+
+### 💻 Opción 2: Ejecución en Local (Con consulta en vivo al MCP de Microsoft Learn)
+Si quieres utilizar el buscador dinámico en vivo hacia el servidor MCP oficial de Microsoft Learn dentro del cajón lateral:
 
 1. Clona el repositorio:
    ```bash
@@ -117,10 +132,7 @@ No necesitas instalar paquetes pesados ni compiladores. Solo necesitas tener **N
 3. Abre tu navegador en:
    👉 **`http://localhost:8080`**
 
-*(También puedes consultar la especificación técnica interactiva en `http://localhost:8080/documento-funcional.html`).*
-
-### Opción B: Despliegue Estático (GitHub Pages / Netlify / Vercel)
-La aplicación funciona 100% como SPA estática sirviendo la raíz del repositorio. En entornos puramente estáticos sin `server.js`, todas las preguntas, explicaciones, fichas teóricas *"Saber más"* y enlaces directos a Microsoft Learn funcionan de manera autónoma.
+*(También puedes consultar la especificación funcional interactiva en `http://localhost:8080/documento-funcional.html`).*
 
 ---
 
