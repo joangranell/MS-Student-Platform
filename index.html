@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MS Student Platform — Microsoft Certification Simulator (DP-900 | DP-600 | DP-700)</title>
+  <link rel="stylesheet" href="./css/variables.css" />
+  <link rel="stylesheet" href="./css/main.css" />
+  <link rel="stylesheet" href="./css/exam-vue.css" />
+</head>
+<body>
+
+  <!-- ========================================================================
+       Top Header Bar (Microsoft Learn / Fluent Dark & Light)
+       ======================================================================== -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="brand-link" id="brand-home-link" title="Ir al inicio">
+        <div class="ms-squares">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="brand-text-wrap">
+          <span class="brand-name">MS Student Platform</span>
+          <span class="brand-subtitle">Microsoft Data &amp; Fabric Exam Simulator</span>
+        </div>
+      </div>
+
+      <div class="header-divider"></div>
+
+      <nav class="header-nav-links">
+        <a href="./documento-funcional.html" target="_blank" class="nav-pill" title="Ver especificación funcional y técnica">
+          📄 Documento Funcional
+        </a>
+      </nav>
+    </div>
+
+    <div class="header-right">
+      <!-- Dark / Light Mode Toggle -->
+      <button type="button" class="theme-toggle-btn" id="btn-theme-toggle" title="Alternar entre Modo Oscuro y Modo Claro">
+        ☀️ <span>Modo Claro</span>
+      </button>
+
+      <!-- Active Profile Pill (Hidden on Login screen, switches back to Login/Profile Picker) -->
+      <button type="button" class="profile-trigger hidden" id="btn-open-profiles" title="Cambiar de perfil o cerrar sesión">
+        <span class="avatar-circle" id="header-profile-avatar">CM</span>
+        <span class="profile-meta">
+          <span class="profile-name" id="header-profile-name">Candidato Microsoft</span>
+          <span class="profile-role" id="header-profile-role">Plan: DP-600</span>
+        </span>
+        <span style="font-size: 0.75rem; color: var(--text-secondary); margin-left: 0.25rem;">⇄</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       Main SPA Container
+       ======================================================================== -->
+  <main class="main-container">
+
+    <!-- ======================================================================
+         VIEW 0: START / LOGIN SCREEN (Profile Selector, Create & Manage)
+         ====================================================================== -->
+    <section id="view-login">
+      <div class="login-screen-wrapper">
+        <div class="login-hero-box">
+          <div style="display:inline-flex; align-items:center; gap:0.5rem; margin-bottom:0.65rem;">
+            <span class="badge">Microsoft Learn • Pearson VUE Simulator</span>
+          </div>
+          <h1>¿Quién va a estudiar hoy?</h1>
+          <p>
+            Selecciona tu perfil para cargar tu plan de estudio personalizado, tu historial de simulaciones y tu sistema de repetición adaptativa.
+          </p>
+        </div>
+
+        <div class="login-columns">
+          <!-- Left: Existing Profiles Selector + "Ver perfiles" Manager -->
+          <div class="panel-card">
+            <div class="panel-header">
+              <h2 class="panel-title">👥 Perfiles Existentes</h2>
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-toggle-manage-profiles">
+                🛠️ Ver perfiles (Renombrar / Eliminar)
+              </button>
+            </div>
+
+            <div class="login-profiles-grid" id="login-profiles-list"></div>
+
+            <!-- JSON Backup Export / Import -->
+            <div style="margin-top:1.25rem; padding-top:0.9rem; border-top:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem;">
+              <span style="font-size:0.78rem; color:var(--text-secondary);">Copia de seguridad local (JSON):</span>
+              <div style="display:flex; gap:0.5rem;">
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-export-profiles">
+                  ⬇ Exportar Perfiles
+                </button>
+                <label class="btn btn-secondary btn-sm" style="cursor:pointer;">
+                  ⬆ Importar JSON
+                  <input type="file" id="input-import-profiles" accept=".json" class="hidden" />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Create New Profile -->
+          <div class="panel-card">
+            <div class="panel-header">
+              <h2 class="panel-title">➕ Crear Perfil Nuevo</h2>
+            </div>
+            <p style="font-size:0.86rem; color:var(--text-secondary); margin-bottom:1rem;">
+              Crea un perfil sin contraseña. Al iniciar, la plataforma te preguntará por tu <strong>Certificado Objetivo</strong> y preparará tu plan de estudio a medida.
+            </p>
+            <form id="form-login-create-profile">
+              <div style="margin-bottom:1rem;">
+                <label class="form-label" for="input-login-new-name">Nombre o Alias del Estudiante</label>
+                <input
+                  type="text"
+                  id="input-login-new-name"
+                  class="form-input"
+                  placeholder="Ej. Alex Data, Laura Fabric..."
+                  required
+                  maxlength="32"
+                />
+              </div>
+              <button type="submit" class="btn btn-primary" style="width:100%;">
+                🚀 Crear Perfil y Configurar Plan de Estudio
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 1: DASHBOARD, STUDY PLAN & SESSION CONFIGURATOR
+         ====================================================================== -->
+    <section id="view-dashboard" class="hidden">
+      <!-- Welcome & Active Profile KPIs -->
+      <div class="dashboard-hero">
+        <div class="hero-info">
+          <h1>Hola, <span id="hero-profile-name">Candidato Microsoft</span> 👋</h1>
+          <p>
+            Simulador adaptativo conectado a <strong>Microsoft Learn</strong> con entorno de examen <strong>Pearson VUE</strong> (opción única, selección múltiple y casos de estudio con pestañas).
+          </p>
+        </div>
+
+        <div class="hero-kpis">
+          <div class="kpi-box">
+            <span class="kpi-value" id="kpi-attempts">0</span>
+            <span class="kpi-label">Simulaciones</span>
+          </div>
+          <div class="kpi-box">
+            <span class="kpi-value" id="kpi-avg-score">—</span>
+            <span class="kpi-label">Score Medio</span>
+          </div>
+          <div class="kpi-box">
+            <span class="kpi-value" id="kpi-pass-rate">—</span>
+            <span class="kpi-label">Tasa Aprobado</span>
+          </div>
+          <div class="kpi-box">
+            <span class="kpi-value" id="kpi-mastered-bank" style="color: var(--success);">0</span>
+            <span class="kpi-label">Dominadas</span>
+          </div>
+          <div class="kpi-box">
+            <span class="kpi-value" id="kpi-failed-bank" style="color: var(--danger);">0</span>
+            <span class="kpi-label">Por Consolidar</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Personalized 4-Phase Study Plan for Target Certification -->
+      <div id="study-plan-container"></div>
+
+      <!-- Two-Column Layout -->
+      <div class="dashboard-grid">
+
+        <!-- Left Column: Test Configurator & Knowledge Heatmap -->
+        <div>
+          <div class="panel-card">
+            <div class="panel-header">
+              <h2 class="panel-title">⚙️ Configurar Sesión Libre de Entrenamiento o Examen</h2>
+              <span style="font-size: 0.78rem; color: var(--text-secondary);">Corte oficial: 700 / 1000 (70%)</span>
+            </div>
+
+            <!-- Step 1: Certification Filter with Official Shields -->
+            <span class="step-label">1. Selecciona la Certificación de Microsoft</span>
+            <div class="cert-cards-grid">
+              <div class="cert-card selected" data-cert="ALL">
+                <div class="cert-card-top">
+                  <span class="cert-code-badge all">GLOBAL MIX</span>
+                  <span class="cert-q-count">0 preguntas</span>
+                </div>
+                <div class="cert-card-header-with-logo">
+                  <div class="cert-shield-wrap"></div>
+                  <div>
+                    <div class="cert-title">Todas las Certificaciones Data</div>
+                    <div class="cert-desc">Banco completo modular (DP-900 + DP-600 + DP-700).</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cert-card" data-cert="DP-900">
+                <div class="cert-card-top">
+                  <span class="cert-code-badge dp900">DP-900 • Fundamentals</span>
+                  <span class="cert-q-count">0 preguntas</span>
+                </div>
+                <div class="cert-card-header-with-logo">
+                  <div class="cert-shield-wrap"></div>
+                  <div>
+                    <div class="cert-title">Azure Data Fundamentals</div>
+                    <div class="cert-desc">Conceptos core, SQL en Azure, Cosmos DB y analítica moderna.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cert-card" data-cert="DP-600">
+                <div class="cert-card-top">
+                  <span class="cert-code-badge dp600">DP-600 • Associate</span>
+                  <span class="cert-q-count">0 preguntas</span>
+                </div>
+                <div class="cert-card-header-with-logo">
+                  <div class="cert-shield-wrap"></div>
+                  <div>
+                    <div class="cert-title">Fabric Analytics Engineer</div>
+                    <div class="cert-desc">Lakehouses, Warehouses, Direct Lake, DAX, XMLA y gobernanza.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cert-card" data-cert="DP-700">
+                <div class="cert-card-top">
+                  <span class="cert-code-badge dp700">DP-700 • Associate</span>
+                  <span class="cert-q-count">0 preguntas</span>
+                </div>
+                <div class="cert-card-header-with-logo">
+                  <div class="cert-shield-wrap"></div>
+                  <div>
+                    <div class="cert-title">Fabric Data Engineer</div>
+                    <div class="cert-desc">Eventstreams, KQL/Eventhouse, PySpark, Delta Lake y optimización.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: Primary Mode Selector -->
+            <span class="step-label">2. Elige la Modalidad de Ejecución</span>
+            <div class="mode-switch-grid">
+              <div class="mode-box selected" data-mode="exam">
+                <div class="mode-box-title">🏛️ Modo Examen Oficial (Pearson VUE)</div>
+                <div class="mode-box-desc">
+                  Simulación real: cronómetro activo, opción única (`○`) y múltiple (`☐`), casos de estudio con pestañas y nota escalada 100–1000.
+                </div>
+              </div>
+
+              <div class="mode-box" data-mode="study">
+                <div class="mode-box-title">🧠 Modo Estudio Adaptativo + "Saber Más"</div>
+                <div class="mode-box-desc">
+                  Repetición inteligente de tus puntos débiles con corrección al instante, ficha teórica y consulta en vivo a <strong>Microsoft Learn</strong>.
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2.2: Study Sub-Modes (Visible when Study Mode is active) -->
+            <div id="study-submodes-wrap" class="study-submodes-container hidden">
+              <span class="step-label" style="margin-top:0;">2.1. Clasificación del Modo Estudio</span>
+              <div class="submodes-grid">
+                <div class="submode-item selected" data-submode="adaptive">
+                  <span class="submode-name">🔄 Repetición Adaptativa Inteligente (Recomendado)</span>
+                  <span class="submode-hint">Prioriza automáticamente preguntas falladas y otras del mismo tema débil hasta acertarlas 3 veces.</span>
+                </div>
+
+                <div class="submode-item" data-submode="basic">
+                  <span class="submode-name">🟢 Lo Básico (Fundamentos y Conceptos)</span>
+                  <span class="submode-hint">Ideal para afianzar arquitectura y definiciones clave.</span>
+                </div>
+
+                <div class="submode-item" data-submode="hardcore">
+                  <span class="submode-name">🔴 Lo Más Difícil (Casos y Troubleshooting)</span>
+                  <span class="submode-hint">Preguntas complejas de arquitectura, código y límites técnicos.</span>
+                </div>
+
+                <div class="submode-item" data-submode="domain">
+                  <span class="submode-name">🎯 Por Dominio Oficial (Skills Measured)</span>
+                  <span class="submode-hint">Entrena un bloque específico de la guía oficial.</span>
+                </div>
+
+                <div class="submode-item" data-submode="code">
+                  <span class="submode-name">💻 Laboratorio de Código (SQL/DAX/KQL/PySpark)</span>
+                  <span class="submode-hint">Exclusivo de preguntas con sintaxis y fragmentos de código.</span>
+                </div>
+
+                <div class="submode-item" data-submode="failed">
+                  <span class="submode-name">🩺 Clínica de Fallos ("Redención")</span>
+                  <span class="submode-hint">Exclusivamente preguntas que tu perfil tiene pendientes de consolidar.</span>
+                </div>
+              </div>
+
+              <!-- Dynamic Domain Dropdown (when subMode === 'domain') -->
+              <div id="domain-select-wrap" class="domain-select-wrap hidden">
+                <label class="form-label" for="domain-select">Selecciona el Dominio Oficial de Microsoft:</label>
+                <select id="domain-select" class="form-select"></select>
+              </div>
+            </div>
+
+            <!-- Step 3: Number of Questions -->
+            <span class="step-label">3. Cantidad de Preguntas del Test</span>
+            <div class="count-pills">
+              <button type="button" class="count-pill" data-count="5">5 Preguntas (Sprint)</button>
+              <button type="button" class="count-pill selected" data-count="10">10 Preguntas</button>
+              <button type="button" class="count-pill" data-count="25">25 Preguntas</button>
+              <button type="button" class="count-pill" data-count="45">45 Preguntas (Examen Real)</button>
+              <button type="button" class="count-pill" data-count="ALL">Todas las disponibles</button>
+            </div>
+
+            <!-- Launch Footer -->
+            <div class="launch-bar">
+              <span class="available-counter">
+                Preguntas disponibles con este filtro: <strong id="eligible-questions-count">0</strong>
+              </span>
+              <button type="button" class="btn btn-primary" id="btn-start-session">
+                🚀 Iniciar Simulación Oficial (Pearson VUE)
+              </button>
+            </div>
+          </div>
+
+          <!-- Visual Knowledge Heatmap with Official MS Learn Topic Logos -->
+          <div class="panel-card">
+            <div class="panel-header">
+              <h3 class="panel-title">🗺️ Mapa de Conocimientos por Tecnología de MS Learn</h3>
+              <span style="font-size:0.76rem; color:var(--text-secondary);">Haz clic en cualquier tema para entrenarlo de forma adaptativa</span>
+            </div>
+            <div class="heatmap-grid" id="knowledge-heatmap-grid"></div>
+          </div>
+        </div>
+
+        <!-- Right Column: Failed Questions Generator, Domain Mastery & History -->
+        <div>
+          <!-- Exclusive Failed Questions Test Generator -->
+          <div class="failed-clinic-banner">
+            <div class="failed-clinic-top">
+              <strong style="font-size: 0.96rem;">🩺 Repetición de Preguntas Falladas</strong>
+              <span class="failed-badge-count" id="failed-clinic-count">0 por consolidar</span>
+            </div>
+            <p style="font-size: 0.82rem;">
+              Las preguntas que fallas entran en la <strong>Caja 0 de Repetición</strong> hasta que las aciertas de forma consistente. Lanza aquí un test directo sobre tus fallos activos.
+            </p>
+            <button type="button" class="btn btn-danger-outline" id="btn-launch-failed-test" disabled>
+              ⚡ Generar Test Exclusivo de Preguntas Falladas
+            </button>
+          </div>
+
+          <!-- Domain Mastery Breakdown -->
+          <div class="panel-card">
+            <div class="panel-header">
+              <h3 class="panel-title">📊 Rendimiento por Dominio Oficial</h3>
+            </div>
+            <div class="domain-progress-list" id="domain-mastery-list"></div>
+          </div>
+
+          <!-- Recent History -->
+          <div class="panel-card">
+            <div class="panel-header">
+              <h3 class="panel-title">🕒 Historial del Perfil</h3>
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-clear-history">
+                Reiniciar progreso
+              </button>
+            </div>
+            <div class="history-list" id="history-list-container"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 2: PEARSON VUE EXAM / STUDY RUNNER
+         ====================================================================== -->
+    <section id="view-exam" class="hidden">
+      <div class="exam-viewport">
+        <!-- Pearson VUE Official Top Bar -->
+        <div class="vue-header">
+          <div class="vue-exam-title">
+            <span id="vue-exam-title-text">DP-600 — Microsoft Certification Simulator</span>
+            <span class="vue-mode-tag" id="vue-mode-tag">MODO EXAMEN OFICIAL</span>
+          </div>
+          <div class="vue-header-right">
+            <span class="vue-timer" id="vue-timer-display">⏱ Tiempo Restante: 00:15:00</span>
+            <span id="vue-question-counter">Pregunta 1 de 10</span>
+          </div>
+        </div>
+
+        <!-- Pearson VUE Sub-bar -->
+        <div class="vue-subbar">
+          <div class="vue-subbar-left">
+            <label class="vue-check-label" title="Marca esta pregunta para revisarla antes de entregar el examen">
+              <input type="checkbox" id="vue-mark-review-checkbox" />
+              <span>🚩 Marcar para revisión (Mark for Review)</span>
+            </label>
+            <button type="button" class="vue-bookmark-btn" id="vue-bookmark-btn">
+              ☆ Guardar Favorita
+            </button>
+            <button type="button" class="vue-bookmark-btn hidden" id="vue-btn-saber-mas-top" style="background:rgba(0,120,212,0.35); border-color:#58a6ff;">
+              📚 Saber más (Teoría y MS Learn)
+            </button>
+          </div>
+          <div class="vue-subbar-right">
+            <span id="vue-candidate-name">Candidato: —</span>
+            <span style="opacity:0.65;">|</span>
+            <span style="color:#bfdbfe;">Tip: Clic derecho en una opción para tacharla</span>
+          </div>
+        </div>
+
+        <!-- Question Body Area -->
+        <div class="vue-content-area">
+          <div class="question-meta-row" id="vue-question-meta"></div>
+
+          <div id="vue-case-study-box" class="case-study-box hidden">
+            <div class="case-study-header">
+              <span>📋 Caso de Estudio / Escenario de Arquitectura (Pearson VUE)</span>
+            </div>
+            <div id="vue-case-tabs-bar" class="case-study-tabs-bar hidden"></div>
+            <div class="case-study-text" id="vue-case-study-text"></div>
+          </div>
+
+          <div class="question-stem" id="vue-question-stem"></div>
+
+          <div id="vue-multi-select-banner" class="multi-select-banner hidden"></div>
+
+          <div id="vue-code-box" class="code-snippet-block hidden">
+            <div class="code-snippet-header" id="vue-code-lang">SQL</div>
+            <pre id="vue-code-content"></pre>
+          </div>
+
+          <div class="options-container" id="vue-options-container"></div>
+
+          <div id="vue-study-feedback" class="study-feedback-panel hidden"></div>
+        </div>
+
+        <!-- Pearson VUE Bottom Action Bar -->
+        <div class="vue-footer">
+          <div class="vue-nav-group">
+            <button type="button" class="vue-btn" id="vue-btn-abort" style="background:#374151; border-color:#6b7280;">
+              ✕ Salir al Dashboard
+            </button>
+            <button type="button" class="vue-btn" id="vue-btn-prev">
+              ← Anterior
+            </button>
+            <button type="button" class="vue-btn vue-btn-check hidden" id="vue-btn-check-study">
+              💡 Comprobar Respuesta
+            </button>
+            <button type="button" class="vue-btn" id="vue-btn-next">
+              Siguiente →
+            </button>
+          </div>
+
+          <div class="vue-nav-group">
+            <button type="button" class="vue-btn" id="vue-btn-review-grid">
+              ▦ Pantalla de Revisión
+            </button>
+            <button type="button" class="vue-btn vue-btn-finish" id="vue-btn-finish-now">
+              ✓ Finalizar y Calificar
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 3: RESULTS & EXPANDABLE QUESTION REVIEW
+         ====================================================================== -->
+    <section id="view-results" class="hidden">
+      <div class="results-banner" id="results-summary-banner">
+        <div>
+          <span class="step-label" style="margin-top:0;">Informe Oficial de Resultados Microsoft</span>
+          <div class="score-display-row">
+            <div class="scaled-score-circle" id="results-score-circle">
+              <span class="scaled-number" id="results-scaled-number">780</span>
+              <span class="scaled-sub">de 1000 pts</span>
+            </div>
+            <div>
+              <div style="margin-bottom: 0.6rem;">
+                <span class="score-pill pass" id="results-pass-status">APROBADO</span>
+              </div>
+              <p id="results-subtitle-meta" style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.9rem;"></p>
+              <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
+                <button type="button" class="btn btn-primary btn-sm" id="btn-back-dashboard">
+                  ← Volver al Dashboard
+                </button>
+                <button type="button" class="btn btn-danger-outline btn-sm" id="btn-repeat-attempt-failed">
+                  🔁 Repetir las preguntas falladas de este test
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <span class="step-label" style="margin-top:0;">Desglose Visual por Dominios Evaluados</span>
+          <div class="breakdown-bars" id="results-domain-breakdown"></div>
+        </div>
+      </div>
+
+      <!-- Review Filter Tabs & Expand Controls -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1rem;">
+        <div class="review-tabs" style="margin-bottom:0;">
+          <button type="button" class="review-tab active" data-review-filter="FAILED">
+            ❌ Preguntas Falladas / En Blanco <span class="tab-count">(0)</span>
+          </button>
+          <button type="button" class="review-tab" data-review-filter="ALL">
+            📋 Todas las Preguntas <span class="tab-count">(0)</span>
+          </button>
+          <button type="button" class="review-tab" data-review-filter="PASSED">
+            ✅ Acertadas <span class="tab-count">(0)</span>
+          </button>
+          <button type="button" class="review-tab" data-review-filter="FLAGGED">
+            🚩 Marcadas para Revisión <span class="tab-count">(0)</span>
+          </button>
+        </div>
+
+        <button type="button" class="btn btn-secondary btn-sm" id="btn-expand-all-review">
+          ▾ Expandir todas las explicaciones
+        </button>
+      </div>
+
+      <!-- Expandable Review Cards -->
+      <div class="review-accordion-list" id="results-review-accordion"></div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       DRAWER: "📚 SABER MÁS" (Ficha Teórica + Consulta en Vivo a MS Learn MCP)
+       ======================================================================== -->
+  <div id="drawer-learn-more" class="theory-drawer-backdrop hidden">
+    <div class="theory-drawer-panel">
+      <div class="modal-header" style="margin-bottom:0.25rem;">
+        <h3 style="font-size:1.12rem; font-weight:700;">📚 Saber Más — Ficha Teórica y Microsoft Learn</h3>
+        <button type="button" class="modal-close" id="btn-close-theory-drawer">✕</button>
+      </div>
+      <div id="drawer-learn-more-body"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 1: ONBOARDING DE CERTIFICADO OBJETIVO Y PLAN DE ESTUDIO
+       ======================================================================== -->
+  <div id="modal-target-cert" class="modal-backdrop hidden" data-selected-cert="DP-600">
+    <div class="modal-window" style="max-width:720px;">
+      <div class="modal-header">
+        <h3 style="font-size:1.15rem; font-weight:700;">
+          🎯 Configura el Plan de Estudio para <span id="onboarding-profile-name">Estudiante</span>
+        </h3>
+        <button type="button" class="modal-close" id="btn-close-target-cert-modal">✕</button>
+      </div>
+
+      <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:1rem;">
+        ¿Qué certificación oficial de Microsoft quieres preparar como objetivo principal? Prepararemos tu ruta de estudio en <strong>4 Fases Progresivas</strong> (Cimientos, Dominios Adaptativos, Casos/Código y Simulacro Oficial Pearson VUE):
+      </p>
+
+      <div style="display:flex; flex-direction:column; gap:0.85rem; margin-bottom:1.35rem;" id="onboarding-cert-cards"></div>
+
+      <div style="display:flex; justify-content:flex-end; gap:0.75rem;">
+        <button type="button" class="btn btn-primary" id="btn-confirm-target-cert">
+          🗺️ Generar Mi Plan de Estudio Personalizado
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 2: PEARSON VUE PRE-SUBMIT REVIEW SCREEN
+       ======================================================================== -->
+  <div id="modal-review-grid" class="modal-backdrop hidden">
+    <div class="modal-window" style="max-width:760px;">
+      <div class="modal-header">
+        <h3 style="font-size:1.1rem; font-weight:700;">▦ Pantalla de Revisión del Examen (Pearson VUE)</h3>
+        <button type="button" class="modal-close" id="btn-close-review-modal">✕</button>
+      </div>
+
+      <p id="review-modal-summary" style="font-size:0.88rem; color:var(--text-secondary);"></p>
+      <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">
+        Haz clic sobre cualquier pregunta para volver a ella antes de calificar definitivamente el test.
+      </p>
+
+      <div class="review-grid-cells" id="review-grid-cells"></div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; padding-top:1rem; border-top:1px solid var(--border-subtle);">
+        <button type="button" class="btn btn-secondary" onclick="document.getElementById('modal-review-grid').classList.add('hidden')">
+          ← Seguir Revisando
+        </button>
+        <button type="button" class="btn btn-primary" id="btn-confirm-finish-exam" style="background:var(--cert-dp600);">
+          ✓ Entregar Examen y Ver Resultados
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

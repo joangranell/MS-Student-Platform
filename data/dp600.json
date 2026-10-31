@@ -1,0 +1,2290 @@
+{
+  "certification": "DP-600",
+  "title": "Implementing Analytics Solutions Using Microsoft Fabric",
+  "passingScore": 700,
+  "domains": [
+    "Maintain a data analytics solution",
+    "Prepare data",
+    "Implement and manage semantic models"
+  ],
+  "questions": [
+    {
+      "id": "DP600-001",
+      "certification": "DP-600",
+      "domain": "Maintain a data analytics solution",
+      "topic": "Git Integration & PBIP",
+      "topicIcon": "fabric",
+      "tags": ["Git Integration", "PBIP", "TMDL", "Source Control"],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Trabajas como ingeniero analítico de Microsoft Fabric. Tu equipo desea implementar control de versiones con Azure DevOps Git para un modelo semántico y un informe de Power BI que actualmente se desarrollan en Power BI Desktop. Necesitas que varios desarrolladores puedan editar definiciones de medidas DAX y relaciones en ramas separadas y resolver conflictos de fusión (merge conflicts) mediante archivos de texto legibles en Pull Requests antes de sincronizar con el área de trabajo de Fabric. ¿Qué formato de almacenamiento debes utilizar en Power BI Desktop?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Guardar el archivo como un proyecto de Power BI (.pbip) utilizando el formato de definición de modelo tabular (TMDL) o carpeta de definición (.Dataset/.SemanticModel).",
+          "isCorrect": true,
+          "rationale": "El formato Power BI Project (.pbip) descompone el archivo binario .pbix en artefactos de texto legibles (JSON y TMDL) para el informe y el modelo semántico, permitiendo control de versiones en Git y resolución de conflictos en Pull Requests."
+        },
+        {
+          "id": "opt_2",
+          "text": "Exportar el archivo como una plantilla de Power BI (.pbit) y subirlo directamente al repositorio de Azure Repos.",
+          "isCorrect": false,
+          "rationale": "Un archivo .pbit sigue siendo un archivo comprimido empaquetado que no expone directamente archivos de código fuente individuales para diff/merge nativo en Git sin extracción manual."
+        },
+        {
+          "id": "opt_3",
+          "text": "Guardar el archivo como origen de datos de Power BI (.pbids) y habilitar la sincronización automática con OneLake.",
+          "isCorrect": false,
+          "rationale": "Los archivos .pbids solo contienen metadatos de conexión al origen de datos para agilizar el inicio en Power BI Desktop, no las definiciones del modelo ni del informe."
+        },
+        {
+          "id": "opt_4",
+          "text": "Publicar el archivo .pbix en el área de trabajo y descargar una copia de seguridad (.abf) mediante el extremo XMLA.",
+          "isCorrect": false,
+          "rationale": "Los archivos .abf son copias de seguridad binarias de Analysis Services y no permiten comparar ni fusionar código en Git."
+        }
+      ],
+      "explanation": "Los proyectos de Power BI (.pbip) guardan los metadatos del modelo semántico (en formato TMDL o TMSL `model.bim`) y las definiciones del informe (PBIR) en carpetas con archivos de texto plano, lo que habilita la integración nativa con Git en Microsoft Fabric y Azure DevOps.",
+      "theoryPill": {
+        "title": "Power BI Projects (.pbip) e Integración con Git en Fabric",
+        "summary": "A diferencia del formato binario .pbix, el formato .pbip almacena la estructura del modelo semántico y del informe en carpetas de texto legibles por máquina y humanos, integrándose directamente con áreas de trabajo conectadas a Git.",
+        "keyPoints": [
+          ".pbip permite colaboración multi-desarrollador, diffs de código y Pull Requests en Azure DevOps o GitHub.",
+          ".pbit guarda una plantilla sin datos para reutilizar esquemas, pero sigue siendo un paquete comprimido.",
+          ".pbids únicamente preconfigura la conexión al origen de datos para los creadores de informes.",
+          "No se puede publicar un .pbip directamente con el botón Publish en escenarios restringidos sin usar la sincronización Git o APIs de Fabric."
+        ],
+        "examTrap": "No confundas .pbit (plantilla sin datos) con .pbip (proyecto en texto plano para Git/CI-CD).",
+        "searchQuery": "Power BI Desktop projects pbip Git integration Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "Power BI Desktop projects (PBIP) - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/developer/projects/projects-overview"
+        },
+        {
+          "title": "Introduction to Git integration in Microsoft Fabric - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/cicd/git-integration/intro-to-git-integration"
+        }
+      ]
+    },
+    {
+      "id": "DP600-002",
+      "certification": "DP-600",
+      "domain": "Maintain a data analytics solution",
+      "topic": "Deployment Pipelines",
+      "topicIcon": "fabric",
+      "tags": ["Deployment Pipelines", "CI/CD", "Deployment Rules", "Lifecycle"],
+      "difficulty": "intermediate",
+      "questionType": "multi",
+      "requiredSelections": 2,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": {
+        "overview": "Contoso Retail utiliza Microsoft Fabric con tres áreas de trabajo dedicadas: Ventas-Dev, Ventas-Test y Ventas-Prod, gestionadas mediante una canalización de implementación (Deployment Pipeline).",
+        "environment": "Cada área de trabajo contiene su propio Lakehouse y un modelo semántico que alimenta informes corporativos. El equipo de ingeniería quiere automatizar la transición entre entornos.",
+        "requirements": "Al promover el modelo semántico de Ventas-Dev a Ventas-Test, el modelo en Ventas-Test debe apuntar automáticamente al Lakehouse de Ventas-Test sin copiar los datos físicos durante la promoción, y solo los usuarios con permisos adecuados deben poder ejecutar la implementación."
+      },
+      "stem": "Debes configurar la canalización de implementación (Deployment Pipeline) para cumplir con los requisitos de Contoso Retail. ¿Qué DOS configuraciones o requisitos son necesarios? (Selecciona dos)",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Configurar reglas de implementación (Deployment Rules) o enlace automático en la etapa de destino para redirigir el origen de datos o parámetros del modelo semántico al Lakehouse del entorno Test.",
+          "isCorrect": true,
+          "rationale": "Las reglas de implementación (Deployment rules) permiten cambiar orígenes de datos y parámetros por etapa (por ejemplo, de Dev a Test) para que el modelo consuma los datos del entorno correspondiente."
+        },
+        {
+          "id": "opt_2",
+          "text": "Asegurar que el usuario que ejecuta el despliegue sea Administrador de la canalización (o tenga acceso a ella) y tenga al menos el rol de Colaborador (Contributor) o Miembro/Administrador en las áreas de trabajo origen y destino.",
+          "isCorrect": true,
+          "rationale": "Para implementar contenido entre etapas en Deployment Pipelines, el usuario necesita permisos tanto en la canalización de implementación como al menos rol de Colaborador (Contributor) en ambas áreas de trabajo involucradas."
+        },
+        {
+          "id": "opt_3",
+          "text": "Habilitar la opción 'Copiar datos de OneLake durante la implementación' en la configuración de la canalización para clonar las tablas Delta.",
+          "isCorrect": false,
+          "rationale": "En Microsoft Fabric Deployment Pipelines solo se copian los metadatos de los elementos durante la implementación; los datos no se copian entre etapas."
+        },
+        {
+          "id": "opt_4",
+          "text": "Asignar el rol de Visor (Viewer) en ambas áreas de trabajo al usuario encargado del despliegue para garantizar el principio de mínimo privilegio.",
+          "isCorrect": false,
+          "rationale": "El rol Viewer no permite escribir ni desplegar metadatos en el área de trabajo de destino."
+        }
+      ],
+      "explanation": "En las canalizaciones de implementación de Fabric solo se transfieren los metadatos de los artefactos (no los datos). Para enlazar un modelo semántico al origen de datos propio de cada etapa se usan reglas de implementación (o autobinding cuando ambos artefactos se despliegan juntos), y quien ejecuta el despliegue requiere permisos en la canalización más al menos el rol Contributor en las áreas de trabajo.",
+      "theoryPill": {
+        "title": "Canalizaciones de Implementación (Deployment Pipelines) en Fabric",
+        "summary": "Las canalizaciones de implementación promueven metadatos entre entornos (Dev, Test, Prod). Nunca copian filas de datos de un Lakehouse o Warehouse.",
+        "keyPoints": [
+          "Solo se copian metadatos durante el despliegue; los datos deben poblarse mediante pipelines/notebooks en cada etapa.",
+          "Las Reglas de Implementación (Deployment Rules) permiten sobrescribir conexiones de origen de datos y parámetros en Test y Prod.",
+          "Se requiere permiso en el Deployment Pipeline y al menos rol Contributor en las áreas de trabajo origen y destino.",
+          "Nunca debes modificar manualmente la propiedad interna logicalId de los elementos sincronizados."
+        ],
+        "examTrap": "Creer que al desplegar un Lakehouse o Warehouse mediante Deployment Pipelines también se copian las tablas con sus datos a Test/Prod.",
+        "searchQuery": "Microsoft Fabric deployment pipelines understand deployment process rules permissions"
+      },
+      "references": [
+        {
+          "title": "Understand the deployment process - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/cicd/deployment-pipelines/understand-the-deployment-process"
+        },
+        {
+          "title": "Create deployment rules in Fabric deployment pipelines - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/cicd/deployment-pipelines/create-rules"
+        }
+      ]
+    },
+    {
+      "id": "DP600-003",
+      "certification": "DP-600",
+      "domain": "Maintain a data analytics solution",
+      "topic": "Workspace Roles & Access Control",
+      "topicIcon": "security",
+      "tags": ["Workspace Roles", "Viewer", "Contributor", "Least Privilege"],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un equipo de analistas financieros necesita consultar tablas de un Data Warehouse y un SQL Analytics Endpoint en un área de trabajo de Microsoft Fabric utilizando sentencias `SELECT` en SQL Server Management Studio (SSMS) y visualizar informes de Power BI existentes. Siguiendo el principio de privilegio mínimo, no deben poder crear nuevos elementos en el área de trabajo ni modificar datos ni publicar informes. ¿Qué rol de área de trabajo debes asignarles?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Visor (Viewer)",
+          "isCorrect": true,
+          "rationale": "El rol Viewer en un área de trabajo otorga acceso de lectura a informes de Power BI y permisos `CONNECT` y `SELECT` de solo lectura en el Data Warehouse y SQL Analytics Endpoint sin permitir crear o modificar artefactos."
+        },
+        {
+          "id": "opt_2",
+          "text": "Colaborador (Contributor)",
+          "isCorrect": false,
+          "rationale": "El rol Contributor permite crear, editar y eliminar elementos en el área de trabajo, así como escribir datos en el Lakehouse y Warehouse, violando el principio de mínimo privilegio."
+        },
+        {
+          "id": "opt_3",
+          "text": "Miembro (Member)",
+          "isCorrect": false,
+          "rationale": "El rol Member permite publicar aplicaciones, compartir elementos y agregar otros usuarios con roles inferiores, lo que excede los permisos requeridos."
+        },
+        {
+          "id": "opt_4",
+          "text": "Administrador (Admin)",
+          "isCorrect": false,
+          "rationale": "El rol Admin otorga control total sobre el área de trabajo, incluida su eliminación y administración de administradores."
+        }
+      ],
+      "explanation": "El rol Viewer permite ver e interactuar con informes y cuadros de mando, además de conectarse y leer datos a través del punto de conexión TDS (SQL Analytics Endpoint y Warehouse) sin otorgar permisos de escritura ni de creación de artefactos.",
+      "theoryPill": {
+        "title": "Roles de Área de Trabajo (Workspace Roles) en Microsoft Fabric",
+        "summary": "Fabric define cuatro roles a nivel de área de trabajo (Admin, Member, Contributor, Viewer) que determinan tanto las capacidades de gestión de artefactos como el acceso predeterminado a los datos.",
+        "keyPoints": [
+          "Viewer: solo lectura en informes, lectura en SQL Analytics Endpoint y Warehouse (equivalente a db_datareader). No puede leer carpetas de OneLake directamente con Spark a menos que se conceda permiso explícito ReadAll.",
+          "Contributor: puede crear/editar/eliminar artefactos, programar actualizaciones y escribir en Lakehouses/Warehouses, pero no puede compartir con otros ni publicar Workspace Apps.",
+          "Member: todo lo de Contributor más compartir elementos, publicar/actualizar Apps y añadir miembros/colaboradores/visores.",
+          "Admin: control total, incluyendo eliminar el área de trabajo y gestionar otros Admins."
+        ],
+        "examTrap": "Recuerda que un usuario con rol Contributor o superior salta las reglas de RLS en un modelo semántico del área de trabajo; para que RLS aplique en el área de trabajo, el usuario debe ser Viewer (o tener permisos directos sobre el artefacto sin rol elevado).",
+        "searchQuery": "Roles in workspaces in Microsoft Fabric permissions lakehouse warehouse"
+      },
+      "references": [
+        {
+          "title": "Roles in workspaces in Microsoft Fabric - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/get-started/roles-workspaces"
+        }
+      ]
+    },
+    {
+      "id": "DP600-004",
+      "certification": "DP-600",
+      "domain": "Maintain a data analytics solution",
+      "topic": "XMLA Endpoint Management",
+      "topicIcon": "powerbi",
+      "tags": ["XMLA Endpoint", "Tabular Editor", "TMSL", "Capacity Settings"],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Eres el ingeniero analítico de una capacidad F64 en Microsoft Fabric. Quieres desplegar cambios estructurales en un modelo semántico empresarial utilizando Tabular Editor 2 y ejecutar el siguiente script TMSL para refrescar únicamente una partición histórica sin reprocesar todo el modelo:\n\n¿Qué configuración debes verificar que esté habilitada en la capacidad de Fabric y qué permiso necesita tu cuenta sobre el modelo semántico?",
+      "codeSnippet": "{\n  \"refresh\": {\n    \"type\": \"full\",\n    \"objects\": [\n      {\n        \"database\": \"VentasCorp_Model\",\n        \"table\": \"FactSales\",\n        \"partition\": \"FactSales_2025Q4\"\n      }\n    ]\n  }\n}",
+      "codeLanguage": "TMSL/XMLA",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Configurar el extremo XMLA en Lectura y escritura (Read Write) en la configuración de la carga de trabajo de la capacidad y contar con permiso de Escritura (Write) en el modelo semántico.",
+          "isCorrect": true,
+          "rationale": "Para realizar operaciones de escritura o administración (como desplegar metadatos con Tabular Editor o ejecutar comandos TMSL de actualización de particiones), el extremo XMLA de la capacidad debe estar en 'Read Write' y el usuario debe tener permisos de Escritura (Write) sobre el modelo semántico."
+        },
+        {
+          "id": "opt_2",
+          "text": "Configurar el extremo XMLA en Solo lectura (Read Only) en la capacidad y contar con permiso de Compilación (Build) en el modelo semántico.",
+          "isCorrect": false,
+          "rationale": "Read Only y Build solo permiten consultar y analizar datos (por ejemplo, desde DAX Studio en modo consulta o Excel), pero no permiten modificar metadatos ni ejecutar comandos TMSL de refresco."
+        },
+        {
+          "id": "opt_3",
+          "text": "Habilitar la exportación automática a OneLake en el modelo semántico y contar con el rol de Visor (Viewer) en el área de trabajo.",
+          "isCorrect": false,
+          "rationale": "El rol Viewer no tiene permisos de escritura sobre el modelo semántico y la exportación a OneLake no controla las operaciones TMSL por XMLA."
+        },
+        {
+          "id": "opt_4",
+          "text": "Deshabilitar el almacenamiento de modelos grandes (Large semantic model storage format) antes de conectar Tabular Editor 2.",
+          "isCorrect": false,
+          "rationale": "El formato de almacenamiento de modelos grandes es totalmente compatible (y recomendado) para trabajar con el extremo XMLA."
+        }
+      ],
+      "explanation": "El punto de conexión XMLA expone el motor Analysis Services subyacente del modelo semántico. De forma predeterminada puede estar en 'Read Only'. Para desplegar modelos con Tabular Editor, ejecutar scripts TMSL o refrescar particiones individuales, la capacidad debe tener el XMLA Endpoint en 'Read Write' y el usuario debe poseer permiso Write sobre el modelo semántico.",
+      "theoryPill": {
+        "title": "Conectividad y Despliegue mediante el Extremo XMLA",
+        "summary": "El extremo XMLA permite que herramientas externas como Tabular Editor, DAX Studio, SSMS y scripts de automatización interactúen directamente con el motor VertiPaq/Analysis Services de Fabric.",
+        "keyPoints": [
+          "XMLA Read-Only + permiso Build: suficiente para consultar datos y analizar planes de consulta en DAX Studio o SSMS.",
+          "XMLA Read-Write + permiso Write: obligatorio para modificar metadatos (Tabular Editor), crear/refrescar particiones con TMSL o depurar la caché.",
+          "En Direct Lake, el extremo XMLA muestra el modelo con compatibilityLevel >= 1604 y particiones en modo directLake.",
+          "Una vez que un modelo semántico importado se edita y guarda mediante XMLA Read-Write, puede perderse la capacidad de descargarlo como .pbix tradicional."
+        ],
+        "examTrap": "Confundir el permiso Build (necesario para crear informes o consultar por XMLA Read-Only) con el permiso Write (necesario para modificar o refrescar el modelo por XMLA Read-Write).",
+        "searchQuery": "Semantic model connectivity and management with the XMLA endpoint in Power BI"
+      },
+      "references": [
+        {
+          "title": "Semantic model connectivity and management with the XMLA endpoint in Power BI - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/enterprise/service-premium-connect-tools"
+        }
+      ]
+    },
+    {
+      "id": "DP600-005",
+      "certification": "DP-600",
+      "domain": "Maintain a data analytics solution",
+      "topic": "Data Gateways",
+      "topicIcon": "fabric",
+      "tags": ["Data Gateway", "VNet Data Gateway", "On-premises Data Gateway", "Security"],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Tu organización tiene una instancia de Azure SQL Database configurada con un punto de conexión privado (Private Endpoint) dentro de una red virtual de Azure (VNet), bloqueando todo el acceso desde la red pública. Necesitas conectar un Dataflow Gen2 y un modelo semántico de Microsoft Fabric a esta base de datos sin aprovisionar ni mantener máquinas virtuales propias para actuar como puente. ¿Qué componente debes implementar?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Puerta de enlace de datos de red virtual (Virtual network / VNet data gateway)",
+          "isCorrect": true,
+          "rationale": "El VNet data gateway es un servicio administrado sin servidor (no requiere instalar software en una máquina virtual) que inyecta de forma segura la conectividad de Fabric y Power BI dentro de una subred delegada de tu Azure VNet."
+        },
+        {
+          "id": "opt_2",
+          "text": "Puerta de enlace de datos local en modo personal (On-premises data gateway - personal mode)",
+          "isCorrect": false,
+          "rationale": "El modo personal requiere una máquina en ejecución, solo funciona para un único usuario, solo soporta modelos en modo Import y no soporta Dataflow Gen2 de forma empresarial."
+        },
+        {
+          "id": "opt_3",
+          "text": "Puerta de enlace de datos local en modo estándar (On-premises data gateway - standard mode)",
+          "isCorrect": false,
+          "rationale": "Aunque soporta múltiples usuarios y orígenes privados, requiere aprovisionar, parchear y mantener máquinas virtuales o servidores Windows donde se instala el agente."
+        },
+        {
+          "id": "opt_4",
+          "text": "Un acceso directo (Shortcut) público de OneLake con autenticación anónima.",
+          "isCorrect": false,
+          "rationale": "Un Shortcut público no puede atravesar un Private Endpoint sin configuración de red privada ni sustituye el gateway para Dataflows y Azure SQL."
+        }
+      ],
+      "explanation": "La puerta de enlace de datos de red virtual (VNet data gateway) permite que los servicios de datos de Microsoft Fabric y Power BI se comuniquen de forma segura con orígenes de datos en Azure protegidos por VNet/Private Endpoints sin la sobrecarga operativa de administrar máquinas virtuales.",
+      "theoryPill": {
+        "title": "Tipos de Puertas de Enlace de Datos (Data Gateways) en Fabric",
+        "summary": "Cuando el origen de datos no es accesible públicamente en Internet, Fabric necesita una puerta de enlace para establecer la conexión segura.",
+        "keyPoints": [
+          "On-premises data gateway (Standard mode): se instala en VM/servidor local; compartido entre varios usuarios, soporta Import, DirectQuery, Dataflows y Pipelines.",
+          "On-premises data gateway (Personal mode): se ejecuta como aplicación de un solo usuario; solo soporta actualización bajo demanda/programada de modelos Import en Power BI.",
+          "Virtual network (VNet) data gateway: servicio administrado por Microsoft (sin VM) que se conecta a una subred delegada en Azure VNet y consume capacidad Fabric/Premium.",
+          "Se recomienda instalar el On-premises gateway en un clúster de al menos 2 nodos para alta disponibilidad."
+        ],
+        "examTrap": "Si el enunciado menciona 'sin administrar ni mantener máquinas virtuales (no VM management overhead)' para conectar a servicios de datos dentro de una Azure VNet, la respuesta siempre es Virtual network (VNet) data gateway.",
+        "searchQuery": "What is a virtual network VNet data gateway Microsoft Fabric Power BI"
+      },
+      "references": [
+        {
+          "title": "What is a virtual network (VNet) data gateway? - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/data-integration/vnet/overview"
+        },
+        {
+          "title": "What is an on-premises data gateway? - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/data-integration/gateway/service-gateway-onprem"
+        }
+      ]
+    },
+    {
+      "id": "DP600-006",
+      "certification": "DP-600",
+      "domain": "Maintain a data analytics solution",
+      "topic": "Sensitivity Labels & Lineage",
+      "topicIcon": "security",
+      "tags": ["Sensitivity Labels", "Microsoft Purview", "Impact Analysis", "Lineage"],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "En un área de trabajo de Microsoft Fabric tienes un Lakehouse llamado `LH_Finanzas` del cual dependen tres modelos semánticos y doce informes distribuidos en cuatro áreas de trabajo distintas. Antes de eliminar una columna crítica en `LH_Finanzas` y aplicar una etiqueta de confidencialidad 'Altamente Confidencial' de Microsoft Purview, deseas identificar todos los elementos descendentes afectados y notificar a los propietarios de esos elementos desde la interfaz de Fabric. ¿Qué funcionalidad debes utilizar?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Cambiar a la vista de linaje (Lineage view) del área de trabajo, abrir el panel de análisis de impacto (Impact analysis) de `LH_Finanzas` y usar la opción 'Notificar a los contactos' (Notify contacts).",
+          "isCorrect": true,
+          "rationale": "La vista de linaje y el análisis de impacto (Impact analysis) muestran todas las dependencias descendentes a través de todas las áreas de trabajo del inquilino y permiten enviar correos de notificación directamente a los contactos de los elementos afectados."
+        },
+        {
+          "id": "opt_2",
+          "text": "Abrir la aplicación Microsoft Fabric Capacity Metrics y revisar la pestaña de estrangulamiento (Throttling).",
+          "isCorrect": false,
+          "rationale": "La aplicación Capacity Metrics mide el consumo de unidades de capacidad (CUs) y estrangulamiento de recursos, no las dependencias de linaje entre elementos."
+        },
+        {
+          "id": "opt_3",
+          "text": "Ejecutar `DBCC CHECKDB` en el SQL Analytics Endpoint de `LH_Finanzas`.",
+          "isCorrect": false,
+          "rationale": "`DBCC CHECKDB` no existe en el SQL Analytics Endpoint ni proporciona análisis de impacto de informes en otras áreas de trabajo."
+        },
+        {
+          "id": "opt_4",
+          "text": "Revisar el historial de confirmaciones (Commits) en la integración con Git del área de trabajo actual.",
+          "isCorrect": false,
+          "rationale": "El historial de Git de un área de trabajo solo registra cambios de archivos en esa área de trabajo y no descubre informes dependientes en otras áreas de trabajo."
+        }
+      ],
+      "explanation": "El análisis de impacto (Impact analysis) en la vista de linaje de Microsoft Fabric identifica qué flujos de datos, modelos semánticos e informes dependen de un Lakehouse, Warehouse o modelo semántico, incluso en otras áreas de trabajo, e incluye la función 'Notify contacts' para avisar a los responsables.",
+      "theoryPill": {
+        "title": "Linaje, Análisis de Impacto y Herencia de Etiquetas Purview",
+        "summary": "Fabric rastrea el linaje de extremo a extremo desde el origen hasta los informes, lo que facilita tanto el análisis de impacto ante cambios como la herencia descendente de etiquetas de confidencialidad.",
+        "keyPoints": [
+          "Impact Analysis muestra el número de áreas de trabajo, modelos semánticos, informes y vistas afectadas por un cambio.",
+          "La función 'Notify contacts' envía un mensaje a los propietarios/contactos configurados en los artefactos dependientes.",
+          "Las etiquetas de confidencialidad de Microsoft Purview se heredan automáticamente hacia abajo (por ejemplo, de un modelo semántico a un informe nuevo, o al exportar a Excel/PDF/PBIX).",
+          "Las etiquetas de confidencialidad no sobrescriben automáticamente una etiqueta más restrictiva ya aplicada manualmente en un elemento descendente."
+        ],
+        "examTrap": "Si un elemento descendente ya tiene una etiqueta aplicada manualmente o más restrictiva, la herencia automática desde el origen no la degradará.",
+        "searchQuery": "Impact analysis and lineage in Microsoft Fabric sensitivity labels"
+      },
+      "references": [
+        {
+          "title": "Data lineage in Microsoft Fabric - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/governance/lineage"
+        },
+        {
+          "title": "Information protection in Microsoft Fabric - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/governance/service-security-sensitivity-label-overview"
+        }
+      ]
+    },
+    {
+      "id": "DP600-007",
+      "certification": "DP-600",
+      "domain": "Maintain a data analytics solution",
+      "topic": "Fabric Capacity & SKUs",
+      "topicIcon": "fabric",
+      "tags": ["Fabric SKUs", "F64", "Power BI Free", "Licensing"],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Tu empresa cuenta con 800 usuarios de negocio que únicamente necesitan consumir informes interactivos de Power BI publicados en una aplicación de área de trabajo (Workspace App) en Microsoft Fabric. Esos 800 usuarios tienen asignada la licencia gratuita (Microsoft Fabric Free) y la empresa no desea comprar licencias Power BI Pro individuales para cada lector. ¿Cuál es el SKU mínimo de capacidad de Microsoft Fabric (F SKU) que debes asignar al área de trabajo para permitir esto?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "F64",
+          "isCorrect": true,
+          "rationale": "A partir del SKU F64 (equivalente a P1), los usuarios con licencia gratuita (Fabric Free) pueden consumir contenido de Power BI (informes y aplicaciones) alojado en esa capacidad sin necesitar licencia Power BI Pro."
+        },
+        {
+          "id": "opt_2",
+          "text": "F2",
+          "isCorrect": false,
+          "rationale": "F2 habilita las cargas de trabajo de Fabric (Lakehouse, Warehouse, Pipelines, Direct Lake), pero en SKUs menores que F64 (F2 a F32), los consumidores de informes de Power BI siguen necesitando licencia Power BI Pro o PPU."
+        },
+        {
+          "id": "opt_3",
+          "text": "F16",
+          "isCorrect": false,
+          "rationale": "En F16, al ser inferior a F64, todos los usuarios que visualizan informes de Power BI deben contar con una licencia Power BI Pro o Premium Per User (PPU)."
+        },
+        {
+          "id": "opt_4",
+          "text": "F32",
+          "isCorrect": false,
+          "rationale": "F32 sigue siendo inferior a F64, por lo que no incluye distribución gratuita de informes de Power BI para usuarios con licencia Free."
+        }
+      ],
+      "explanation": "Aunque cualquier capacidad F (desde F2 en adelante) permite crear elementos de Fabric como Lakehouses, Warehouses y modelos Direct Lake, para que los usuarios con licencia gratuita (Free) puedan ver informes de Power BI sin licencia Pro se requiere al menos una capacidad F64 (o superior) o P1.",
+      "theoryPill": {
+        "title": "Licenciamiento y Capacidades F-SKU en Microsoft Fabric",
+        "summary": "Las capacidades de Microsoft Fabric (F2 a F2048) proporcionan potencia de cómputo compartida en unidades de capacidad (CUs), pero existen diferencias clave en el umbral F64 para Power BI.",
+        "keyPoints": [
+          "F2 a F32: soportan todos los artefactos de Fabric, pero tanto creadores como lectores de informes Power BI necesitan licencia Power BI Pro (o PPU).",
+          "F64 o superior: los lectores de informes de Power BI solo necesitan licencia gratuita (Fabric Free), aunque quienes publican o editan informes de Power BI siguen necesitando licencia Pro.",
+          "Los desarrolladores que solo crean artefactos no-Power BI (como Lakehouses, Notebooks o Pipelines) no requieren licencia Power BI Pro, solo acceso a la capacidad F.",
+          "La aplicación Microsoft Fabric Capacity Metrics permite monitorizar el uso de CUs, smoothing y throttling."
+        ],
+        "examTrap": "No confundas crear un Lakehouse/Notebook (posible desde F2 sin licencia Pro) con publicar o consumir un informe de Power BI (consumidores sin Pro requieren F64+; publicadores de Power BI siempre requieren Pro o PPU).",
+        "searchQuery": "Microsoft Fabric concepts and licenses F64 Power BI Pro Free"
+      },
+      "references": [
+        {
+          "title": "Microsoft Fabric concepts and licenses - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/enterprise/licenses"
+        }
+      ]
+    },
+    {
+      "id": "DP600-008",
+      "certification": "DP-600",
+      "domain": "Maintain a data analytics solution",
+      "topic": "Item Sharing & OneLake Permissions",
+      "topicIcon": "security",
+      "tags": ["Item Sharing", "ReadData", "ReadAll", "SQL Analytics Endpoint"],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Tienes un Lakehouse llamado `LH_Logistica` en el área de trabajo A. Un científico de datos externo al área de trabajo A necesita leer las tablas Delta de `LH_Logistica` directamente desde un Notebook de Apache Spark ubicado en el área de trabajo B, pero NO debe ser agregado como miembro de ningún rol del área de trabajo A. Cuando compartes (Share) el Lakehouse `LH_Logistica` con ese usuario, ¿qué opción de permiso específico debes seleccionar en el cuadro de diálogo de uso compartido?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Leer todos los datos de Apache Spark (Read all Apache Spark data / ReadAll)",
+          "isCorrect": true,
+          "rationale": "Al compartir un Lakehouse individualmente, la opción 'Read all Apache Spark' (permiso ReadAll) otorga acceso de lectura directo a las carpetas y tablas en OneLake para que el usuario pueda consultarlas mediante Apache Spark o crear Shortcuts."
+        },
+        {
+          "id": "opt_2",
+          "text": "Leer todos los datos del punto de conexión de análisis SQL (Read all SQL endpoint data / ReadData)",
+          "isCorrect": false,
+          "rationale": "La opción 'Read all SQL endpoint data' (ReadData) otorga acceso `SELECT` a través del motor T-SQL del SQL Analytics Endpoint, pero no concede acceso a los archivos subyacentes de OneLake desde Apache Spark."
+        },
+        {
+          "id": "opt_3",
+          "text": "Compilar informes en el modelo semántico predeterminado (Build reports on the default semantic model)",
+          "isCorrect": false,
+          "rationale": "El permiso Build permite crear informes de Power BI sobre el modelo semántico, pero no habilita la lectura de archivos Parquet/Delta desde un Notebook Spark."
+        },
+        {
+          "id": "opt_4",
+          "text": "Compartir sin marcar ninguna casilla adicional (solo permiso Read predeterminado).",
+          "isCorrect": false,
+          "rationale": "Compartir un Lakehouse con solo el permiso Read base concede conexión a los metadatos y al SQL Analytics Endpoint (sin SELECT a menos que se den permisos SQL explícitos), pero no otorga acceso ReadAll en OneLake para Spark."
+        }
+      ],
+      "explanation": "Al compartir un Lakehouse a nivel de elemento (Item-level sharing), el permiso predeterminado solo permite ver los metadatos y conectarse al punto de conexión SQL (donde se aplicarían permisos GRANT de SQL). Para que un usuario externo al área de trabajo lea los archivos y tablas de OneLake mediante Apache Spark o cree accesos directos de OneLake, debes marcar 'Read all Apache Spark' (permiso `ReadAll`).",
+      "theoryPill": {
+        "title": "Uso Compartido de Lakehouse a Nivel de Elemento (Item-level Sharing)",
+        "summary": "Compartir un Lakehouse otorga acceso sin necesidad de dar un rol completo en el área de trabajo, diferenciando entre acceso vía T-SQL, acceso vía Spark/OneLake y acceso al modelo semántico.",
+        "keyPoints": [
+          "Permiso base (sin casillas): otorga permiso Read (ver metadatos y conectarse al SQL Analytics Endpoint, donde las tablas visibles dependen de GRANT SELECT en T-SQL).",
+          "Read all SQL endpoint data (ReadData): otorga SELECT sobre todas las tablas y vistas del SQL Analytics Endpoint sin escribir sentencias GRANT.",
+          "Read all Apache Spark (ReadAll): otorga acceso de lectura directo al almacenamiento OneLake (Tables y Files) para usar en Notebooks Spark y crear OneLake Shortcuts.",
+          "Build reports on the default semantic model: otorga permiso Build sobre el modelo semántico asociado."
+        ],
+        "examTrap": "Un error clásico en el examen es elegir 'Read all SQL endpoint data' cuando el usuario necesita ejecutar un Notebook PySpark o crear un OneLake Shortcut hacia el Lakehouse.",
+        "searchQuery": "Share your lakehouse and manage permissions Microsoft Fabric ReadAll ReadData"
+      },
+      "references": [
+        {
+          "title": "Share your lakehouse and manage permissions - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-sharing"
+        }
+      ]
+    },
+    {
+      "id": "DP600-009",
+      "certification": "DP-600",
+      "domain": "Maintain a data analytics solution",
+      "topic": "Custom Report Themes & Assets",
+      "topicIcon": "powerbi",
+      "tags": ["Report Theme", "JSON", "PBIDS", "Reusable Assets"],
+      "difficulty": "basic",
+      "questionType": "multi",
+      "requiredSelections": 2,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "El departamento de diseño corporativo te pide estandarizar la creación de nuevos informes en Power BI Desktop para 50 analistas. Tienes dos requisitos:\n1. Todos los informes deben aplicar automáticamente la paleta de colores corporativa hexadecimal, tamaños de fuente y estilos predeterminados para objetos visuales.\n2. Los analistas deben poder abrir un archivo ligero que configure automáticamente la dirección del servidor y la base de datos del Data Warehouse corporativo sin tener que escribir la cadena de conexión manualmente.\n\n¿Qué DOS activos reutilizables debes distribuir a los analistas? (Selecciona dos)",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Un archivo de tema de informe personalizado en formato JSON (`.json`).",
+          "isCorrect": true,
+          "rationale": "Los archivos JSON de tema de Power BI permiten definir la paleta `dataColors`, fuentes y propiedades predeterminadas de formato de los objetos visuales (`visualStyles`)."
+        },
+        {
+          "id": "opt_2",
+          "text": "Un archivo de origen de datos de Power BI (`.pbids`).",
+          "isCorrect": true,
+          "rationale": "Los archivos `.pbids` contienen la configuración del conector, el servidor y la base de datos para que el autor del informe solo tenga que autenticarse y seleccionar las tablas."
+        },
+        {
+          "id": "opt_3",
+          "text": "Un archivo de estilos en cascada CSS (`.css`) importado en la vista de modelo.",
+          "isCorrect": false,
+          "rationale": "Power BI Desktop no admite hojas de estilo `.css` para aplicar temas a informes."
+        },
+        {
+          "id": "opt_4",
+          "text": "Un archivo de copia de seguridad de modelo tabular (`.abf`).",
+          "isCorrect": false,
+          "rationale": "Un archivo `.abf` es una copia de seguridad de Analysis Services y no sirve para preconfigurar orígenes de datos en Power BI Desktop."
+        }
+      ],
+      "explanation": "Para estandarizar el diseño visual se utiliza un archivo JSON de tema personalizado (`.json`), mientras que para preconfigurar la conexión al origen de datos (como un Data Warehouse o SQL Endpoint) se utiliza un archivo Power BI Data Source (`.pbids`).",
+      "theoryPill": {
+        "title": "Activos Reutilizables en Power BI (.json, .pbids, .pbit, .pbip)",
+        "summary": "Conocer la finalidad exacta de cada extensión de archivo en Power BI es esencial para el bloque de ciclo de vida y gobernanza de DP-600.",
+        "keyPoints": [
+          "Tema JSON (.json): define colores corporativos (dataColors), colores de estado y estilos de visuales (visualStyles).",
+          ".pbids (Power BI Data Source): preconfigura el tipo de conector y la ruta del servidor/base de datos sin incluir modelo ni visuales.",
+          ".pbit (Power BI Template): incluye el esquema del modelo semántico, consultas Power Query, medidas DAX, tema y páginas de informe, pero sin filas de datos.",
+          ".pbip (Power BI Project): estructura de carpetas y archivos de texto plano (TMDL/PBIR) diseñada para control de código fuente en Git."
+        ],
+        "examTrap": "No confundas .pbids (solo datos de conexión al servidor) con .pbit (plantilla completa con modelo y visuales vacíos).",
+        "searchQuery": "Use report themes in Power BI Desktop pbids files Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Use report themes in Power BI Desktop - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-report-themes"
+        },
+        {
+          "title": "Data source (PBIDS) files in Power BI Desktop - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-data-sources"
+        }
+      ]
+    },
+    {
+      "id": "DP600-010",
+      "certification": "DP-600",
+      "domain": "Maintain a data analytics solution",
+      "topic": "Fabric Admin Portal Settings",
+      "topicIcon": "fabric",
+      "tags": ["Admin Portal", "Tenant Settings", "Security Groups", "Governance"],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Como administrador de Microsoft Fabric, deseas permitir que únicamente los miembros del departamento de Ingeniería de Datos puedan crear elementos de Fabric (como Lakehouses, Warehouses y Notebooks) y sincronizar áreas de trabajo con repositorios de Git, mientras que el resto de la organización solo pueda usar funcionalidades clásicas de Power BI. ¿Cómo debes configurar esto en el Portal de administración de Fabric (Admin portal)?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "En la configuración del inquilino (Tenant settings), habilitar las opciones correspondientes y restringir su aplicación a 'Grupos de seguridad específicos' (Specific security groups) de Microsoft Entra ID.",
+          "isCorrect": true,
+          "rationale": "Las configuraciones de inquilino en el Admin portal de Fabric permiten delegar permisos de forma granular aplicando cada directiva a toda la organización o a grupos de seguridad específicos de Microsoft Entra ID (con opción de exceptuar grupos)."
+        },
+        {
+          "id": "opt_2",
+          "text": "Crear una regla de implementación en Deployment Pipelines que bloquee la creación de artefactos por correo electrónico individual.",
+          "isCorrect": false,
+          "rationale": "Las reglas de implementación solo modifican parámetros u orígenes de datos durante el despliegue y las directivas del inquilino no aceptan usuarios individuales sino grupos de seguridad."
+        },
+        {
+          "id": "opt_3",
+          "text": "Ejecutar una instrucción `DENY CREATE TABLE` en el modelo semántico predeterminado del inquilino.",
+          "isCorrect": false,
+          "rationale": "No existe un modelo semántico predeterminado del inquilino ni se controla la creación de artefactos de Fabric mediante sentencias T-SQL."
+        },
+        {
+          "id": "opt_4",
+          "text": "Agregar las cuentas individuales de los usuarios directamente en la directiva del inquilino sin usar grupos de seguridad.",
+          "isCorrect": false,
+          "rationale": "Las configuraciones del inquilino (Tenant settings) en el portal de administración de Fabric solo admiten grupos de seguridad (Security groups), no cuentas de usuario individuales."
+        }
+      ],
+      "explanation": "En el Portal de administración de Microsoft Fabric, las configuraciones de inquilino (Tenant settings) pueden habilitarse para toda la organización o restringirse a grupos de seguridad específicos de Microsoft Entra ID (anteriormente Azure AD). No se permite agregar usuarios individuales directamente en las configuraciones del inquilino.",
+      "theoryPill": {
+        "title": "Configuración del Inquilino (Tenant Settings) en el Admin Portal",
+        "summary": "El portal de administración de Fabric controla qué características están disponibles en el inquilino y quién puede utilizarlas.",
+        "keyPoints": [
+          "Las directivas del inquilino pueden aplicarse a: 'Toda la organización' o 'Grupos de seguridad específicos', y permiten excluir grupos de seguridad específicos.",
+          "No es posible asignar usuarios individuales directamente en Tenant Settings; siempre debes usar grupos de seguridad de Microsoft Entra ID.",
+          "Algunas configuraciones del inquilino (como la creación de elementos de Fabric o el uso de XMLA) también pueden delegarse a los administradores de capacidad.",
+          "El rol 'Fabric Administrator' en Microsoft Entra ID otorga acceso al portal de administración sin dar acceso automático a todas las áreas de trabajo privadas."
+        ],
+        "examTrap": "Si una opción propone 'añadir usuarios individuales en Tenant Settings', descártala inmediatamente: Tenant Settings solo acepta grupos de seguridad.",
+        "searchQuery": "About tenant settings in Microsoft Fabric admin portal security groups"
+      },
+      "references": [
+        {
+          "title": "About tenant settings - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/admin/tenant-settings"
+        }
+      ]
+    },
+    {
+      "id": "DP600-011",
+      "certification": "DP-600",
+      "domain": "Prepare data",
+      "topic": "OneLake Shortcuts & Caching",
+      "topicIcon": "onelake",
+      "tags": ["OneLake Shortcuts", "ADLS Gen2", "Amazon S3", "Cache"],
+      "difficulty": "intermediate",
+      "questionType": "multi",
+      "requiredSelections": 2,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Estás diseñando un Lakehouse en Microsoft Fabric que necesita acceder a tablas Delta almacenadas en un bucket externo de Amazon S3 y en una cuenta de Azure Data Lake Storage (ADLS) Gen2 sin duplicar los archivos mediante pipelines de copia. Además, deseas minimizar los costos de salida de datos (egress) desde Amazon S3 cuando los analistas consultan repetidamente los mismos archivos. ¿Qué DOS acciones o características de OneLake debes utilizar? (Selecciona dos)",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Crear accesos directos (Shortcuts) de OneLake en la sección `Tables` del Lakehouse apuntando a las carpetas raíz de las tablas Delta en Amazon S3 y ADLS Gen2.",
+          "isCorrect": true,
+          "rationale": "Los accesos directos de OneLake creados bajo la sección `Tables` que apuntan a directorios con formato Delta Lake válido se registran automáticamente como tablas administradas consultables por Spark, SQL Analytics Endpoint y Direct Lake."
+        },
+        {
+          "id": "opt_2",
+          "text": "Habilitar el almacenamiento en caché de accesos directos (Shortcut caching) en el área de trabajo para almacenar en caché los archivos leídos desde Amazon S3 hasta por un periodo de retención configurable (entre 1 y 28 días).",
+          "isCorrect": true,
+          "rationale": "La caché de accesos directos de OneLake para orígenes externos (como S3, GCS) almacena archivos leídos recientemente en una caché local en OneLake (de 1 a 28 días), reduciendo la latencia y los costos de egress de la nube externa."
+        },
+        {
+          "id": "opt_3",
+          "text": "Crear los accesos directos dentro de la sección `Files` del Lakehouse para que aparezcan automáticamente como tablas en el SQL Analytics Endpoint.",
+          "isCorrect": false,
+          "rationale": "Los accesos directos creados en la carpeta `Files` se tratan como archivos no administrados y NO se exponen automáticamente como tablas en el SQL Analytics Endpoint ni en el modelo semántico predeterminado."
+        },
+        {
+          "id": "opt_4",
+          "text": "Ejecutar `COPY INTO` cada hora para sincronizar los punteros de los accesos directos con Amazon S3.",
+          "isCorrect": false,
+          "rationale": "`COPY INTO` copia físicamente los datos en una tabla del Warehouse; los Shortcuts reflejan los datos del origen en vivo sin necesidad de ejecutar `COPY INTO`."
+        }
+      ],
+      "explanation": "Los accesos directos (Shortcuts) de OneLake permiten virtualizar datos de ADLS Gen2, Amazon S3, Google Cloud Storage, Dataverse y otros elementos de OneLake sin copiarlos. Si apuntan a tablas Delta y se colocan en la carpeta `Tables` del Lakehouse, se descubren automáticamente como tablas. Para orígenes multi-nube como S3, habilitar la caché de Shortcuts reduce drásticamente los costos de salida (egress).",
+      "theoryPill": {
+        "title": "Accesos Directos de OneLake (OneLake Shortcuts) y Caché",
+        "summary": "Un Shortcut es una referencia simbólica en OneLake hacia otra ubicación interna o externa (ADLS Gen2, S3, GCS, Dataverse) que evita mover o duplicar datos.",
+        "keyPoints": [
+          "En la carpeta `Tables` del Lakehouse, el destino del Shortcut debe estar en formato Delta Parquet para ser reconocido como tabla en Spark, SQL y Direct Lake.",
+          "En la carpeta `Files` del Lakehouse, el Shortcut puede apuntar a cualquier formato (CSV, JSON, imágenes, Parquet), pero no se expone en el SQL Analytics Endpoint.",
+          "La caché de accesos directos (Shortcut caching) para S3/GCS guarda en caché archivos de hasta 1 GB accedidos recientemente con retención de 1 a 28 días; si el archivo cambia en el origen, la caché se actualiza automáticamente.",
+          "Los Shortcuts hacia elementos protegidos por firewall/VNet pueden usar On-premises o VNet Data Gateways según el conector soportado."
+        ],
+        "examTrap": "Colocar un Shortcut hacia una tabla Delta dentro de la carpeta `Files` en lugar de `Tables` impedirá que el SQL Analytics Endpoint y Direct Lake la vean como tabla.",
+        "searchQuery": "OneLake shortcuts overview caching Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "OneLake shortcuts - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/onelake/onelake-shortcuts"
+        },
+        {
+          "title": "OneLake shortcut caching - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/onelake/onelake-shortcut-caching"
+        }
+      ]
+    },
+    {
+      "id": "DP600-012",
+      "certification": "DP-600",
+      "domain": "Prepare data",
+      "topic": "Warehouse Ingestion with COPY INTO",
+      "topicIcon": "warehouse",
+      "tags": ["COPY INTO", "T-SQL", "Data Warehouse", "Parquet"],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Estás cargando 500 millones de filas desde archivos Parquet almacenados en una cuenta externa de Azure Data Lake Storage (ADLS) Gen2 hacia una tabla existente llamada `dbo.FactOrders` en un Data Warehouse de Microsoft Fabric. Quieres usar la instrucción T-SQL nativa de mayor rendimiento para ingesta masiva desde almacenamiento externo. Revisa el siguiente código T-SQL incompleto:\n\n¿Qué cláusula completa correctamente el bloque `WITH` para cargar archivos Parquet autenticándose mediante una firma de acceso compartido (SAS)?",
+      "codeSnippet": "COPY INTO dbo.FactOrders\nFROM 'https://stcontosodatalake.dfs.core.windows.net/raw/orders/*.parquet'\nWITH (\n    -- Completa la configuración aquí\n);",
+      "codeLanguage": "T-SQL",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "FILE_TYPE = 'PARQUET', CREDENTIAL = (IDENTITY = 'Shared Access Signature', SECRET = '<sv_sas_token>')",
+          "isCorrect": true,
+          "rationale": "La instrucción `COPY INTO` en Microsoft Fabric Data Warehouse utiliza `FILE_TYPE = 'PARQUET'` (o `'CSV'`) y la cláusula `CREDENTIAL = (IDENTITY = 'Shared Access Signature', SECRET = '...')` para autenticarse con un token SAS contra cuentas de Azure Storage externas."
+        },
+        {
+          "id": "opt_2",
+          "text": "FORMAT = 'DELTA', DATA_SOURCE = 'OneLakeExternal'",
+          "isCorrect": false,
+          "rationale": "`COPY INTO` en Fabric Data Warehouse admite actualmente los formatos `PARQUET` y `CSV` con `FILE_TYPE`, no `FORMAT = 'DELTA'`."
+        },
+        {
+          "id": "opt_3",
+          "text": "ROWTERMINATOR = '\\n', FIELDTERMINATOR = ',', FIRSTROW = 2",
+          "isCorrect": false,
+          "rationale": "`ROWTERMINATOR`, `FIELDTERMINATOR` y `FIRSTROW` son opciones exclusivas para archivos de texto delimitado (`FILE_TYPE = 'CSV'`), no para archivos binarios `PARQUET`."
+        },
+        {
+          "id": "opt_4",
+          "text": "DISTRIBUTION = HASH(OrderID), CLUSTERED COLUMNSTORE INDEX",
+          "isCorrect": false,
+          "rationale": "Las opciones `DISTRIBUTION = HASH(...)` y `CLUSTERED COLUMNSTORE INDEX` pertenecen a Azure Synapse Dedicated SQL Pools, no a Microsoft Fabric Data Warehouse."
+        }
+      ],
+      "explanation": "La sentencia `COPY INTO` es el método T-SQL recomendado para la ingesta de alto rendimiento de archivos Parquet o CSV desde cuentas externas de Azure Storage hacia tablas de un Fabric Data Warehouse. Requiere especificar `FILE_TYPE = 'PARQUET'` (o `'CSV'`) y `CREDENTIAL` cuando no se usa la identidad de la organización.",
+      "theoryPill": {
+        "title": "Ingesta en Fabric Data Warehouse: COPY INTO vs CTAS vs Pipelines",
+        "summary": "Fabric Data Warehouse ofrece múltiples métodos de ingesta T-SQL y sin código, cada uno optimizado para distintos orígenes.",
+        "keyPoints": [
+          "`COPY INTO`: ideal para ingesta masiva de alto rendimiento desde archivos Parquet o CSV en Azure Blob Storage / ADLS Gen2 hacia una tabla existente.",
+          "`CREATE TABLE AS SELECT (CTAS)`: ideal para crear y poblar una nueva tabla a partir de consultas sobre otras tablas, vistas o consultas cross-database hacia un Lakehouse del mismo workspace.",
+          "En Fabric Data Warehouse NO existen `DISTRIBUTION = HASH/ROUND_ROBIN` ni `CREATE EXTERNAL TABLE` tradicionales de Synapse Dedicated SQL Pool.",
+          "Todos los datos insertados en Fabric Data Warehouse se almacenan automáticamente como tablas Delta Parquet con optimización V-Order en OneLake."
+        ],
+        "examTrap": "Cualquier opción en el examen DP-600 que incluya `DISTRIBUTION = HASH(...)` o `DISTRIBUTION = REPLICATE` en `CREATE TABLE` es un distractor heredado de Azure Synapse Dedicated SQL Pool; Fabric Data Warehouse no usa esas cláusulas.",
+        "searchQuery": "COPY INTO Transact-SQL Microsoft Fabric Data Warehouse"
+      },
+      "references": [
+        {
+          "title": "Ingest data into your Warehouse using the COPY statement - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-warehouse/ingest-data-copy"
+        }
+      ]
+    },
+    {
+      "id": "DP600-013",
+      "certification": "DP-600",
+      "domain": "Prepare data",
+      "topic": "Cross-Database Queries & CTAS",
+      "topicIcon": "warehouse",
+      "tags": ["CTAS", "Cross-Database Query", "Three-part naming", "T-SQL"],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "En una misma área de trabajo de Microsoft Fabric tienes un Lakehouse llamado `LH_Bronze` (que contiene la tabla `dbo.RawCustomers`) y un Data Warehouse llamado `DW_Gold`. Necesitas crear una nueva tabla llamada `dbo.DimCustomer` en `DW_Gold` eliminando duplicados de `LH_Bronze` en una sola operación transaccional T-SQL sin mover datos fuera de OneLake. ¿Qué consulta debes ejecutar conectado a `DW_Gold`?",
+      "codeSnippet": "-- Conectado a DW_Gold\n-- Selecciona la sentencia T-SQL correcta:",
+      "codeLanguage": "T-SQL",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "CREATE TABLE dbo.DimCustomer AS SELECT DISTINCT CustomerID, CustomerName, Country FROM LH_Bronze.dbo.RawCustomers;",
+          "isCorrect": true,
+          "rationale": "En Fabric Data Warehouse puedes usar `CREATE TABLE AS SELECT (CTAS)` junto con nomenclatura de tres partes (`LakehouseName.schema.TableName`) para consultar directamente el SQL Analytics Endpoint de un Lakehouse en la misma área de trabajo."
+        },
+        {
+          "id": "opt_2",
+          "text": "SELECT DISTINCT CustomerID, CustomerName, Country INTO LH_Bronze.dbo.DimCustomer FROM dbo.RawCustomers;",
+          "isCorrect": false,
+          "rationale": "El SQL Analytics Endpoint de un Lakehouse (`LH_Bronze`) es de solo lectura para tablas; no puedes crear ni escribir tablas en un Lakehouse usando T-SQL."
+        },
+        {
+          "id": "opt_3",
+          "text": "EXEC sp_addlinkedserver @server = 'LH_Bronze'; INSERT INTO dbo.DimCustomer SELECT * FROM OPENQUERY(LH_Bronze, 'SELECT * FROM RawCustomers');",
+          "isCorrect": false,
+          "rationale": "Los servidores vinculados (`sp_addlinkedserver` / `OPENQUERY`) no son necesarios ni están soportados para consultas entre almacenes dentro del mismo área de trabajo de Fabric."
+        },
+        {
+          "id": "opt_4",
+          "text": "MERGE INTO LH_Bronze.dbo.RawCustomers AS T USING DW_Gold.dbo.DimCustomer AS S ON T.CustomerID = S.CustomerID WHEN NOT MATCHED THEN INSERT;",
+          "isCorrect": false,
+          "rationale": "No se pueden ejecutar operaciones DML (`INSERT`, `UPDATE`, `DELETE`, `MERGE`) contra tablas de un Lakehouse a través del motor T-SQL."
+        }
+      ],
+      "explanation": "Dentro de una misma área de trabajo de Microsoft Fabric, el motor T-SQL de un Data Warehouse puede consultar directamente tablas de cualquier otro Data Warehouse o del SQL Analytics Endpoint de un Lakehouse mediante nombres de tres partes (`[Database].[Schema].[Table]`). Combinado con `CREATE TABLE AS SELECT (CTAS)`, permite crear y poblar tablas en `DW_Gold` de forma paralela y optimizada.",
+      "theoryPill": {
+        "title": "Consultas Cross-Database y Límites de Escritura entre Lakehouse y Warehouse",
+        "summary": "Comprender qué motor puede leer y escribir en cada artefacto de Fabric es fundamental para elegir entre T-SQL y PySpark.",
+        "keyPoints": [
+          "Data Warehouse: lectura y escritura completas en T-SQL (DDL y DML: CREATE TABLE, INSERT, UPDATE, DELETE, CTAS, COPY INTO, Stored Procedures).",
+          "SQL Analytics Endpoint del Lakehouse: SOLO LECTURA para tablas Delta. Solo permite crear vistas (`CREATE VIEW`), funciones con valores de tabla (`TVF`) y procedimientos almacenados que NO modifiquen tablas del Lakehouse.",
+          "Consultas cross-database con nombres de 3 partes (`db.schema.table`) funcionan sin configuración extra entre Warehouses y SQL Analytics Endpoints de la misma área de trabajo.",
+          "Para consultar tablas de otra área de trabajo con nombres de 3 partes sin duplicar datos, primero crea un OneLake Shortcut en un Lakehouse de tu área de trabajo."
+        ],
+        "examTrap": "Intentar usar `INSERT`, `UPDATE`, `CTAS` o `COPY INTO` teniendo como destino una tabla de un Lakehouse desde el editor T-SQL siempre fallará porque el SQL Analytics Endpoint es de solo lectura sobre las tablas Delta.",
+        "searchQuery": "Cross-database queries in Microsoft Fabric Data Warehouse CTAS"
+      },
+      "references": [
+        {
+          "title": "Write a cross-database query - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-warehouse/cross-database-query"
+        },
+        {
+          "title": "CREATE TABLE AS SELECT (CTAS) in Fabric Data Warehouse - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-warehouse/ingest-data-tsql"
+        }
+      ]
+    },
+    {
+      "id": "DP600-014",
+      "certification": "DP-600",
+      "domain": "Prepare data",
+      "topic": "Slowly Changing Dimensions (SCD Type 2)",
+      "topicIcon": "warehouse",
+      "tags": ["Star Schema", "SCD Type 2", "Surrogate Key", "Dimensional Modeling"],
+      "difficulty": "intermediate",
+      "questionType": "multi",
+      "requiredSelections": 2,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": {
+        "overview": "Tailspin Toys está rediseñando su modelo dimensional en un Data Warehouse de Microsoft Fabric (`DW_Sales`) siguiendo un esquema en estrella (Star Schema).",
+        "environment": "La tabla de origen de recursos humanos envía diariamente los datos de los vendedores (`EmployeeNaturalKey`, `FullName`, `SalesTerritory`). Un vendedor puede cambiar de territorio de ventas a mitad de año.",
+        "requirements": "Los informes financieros deben atribuir las ventas históricas al territorio en el que trabajaba el vendedor en la fecha exacta de la venta, además de permitir filtrar fácilmente el territorio actual de cada vendedor."
+      },
+      "stem": "Estás diseñando la tabla de dimensión `dbo.DimSalesperson` para cumplir con los requisitos de Tailspin Toys mediante una Dimensión Lentamente Cambiante de Tipo 2 (SCD Type 2). ¿Qué DOS elementos de diseño debes incluir en la tabla? (Selecciona dos)",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Una columna de clave sustituta (Surrogate Key) única por cada versión de fila, manteniendo `EmployeeNaturalKey` como clave de negocio (Business/Alternate Key).",
+          "isCorrect": true,
+          "rationale": "En SCD Tipo 2, un mismo empleado tendrá múltiples filas a lo largo del tiempo, por lo que `EmployeeNaturalKey` se repite y es obligatorio usar una clave sustituta (Surrogate Key) como clave primaria para relacionarla con la tabla de hechos."
+        },
+        {
+          "id": "opt_2",
+          "text": "Columnas de vigencia temporal como `StartDate`, `EndDate` y un indicador booleano/bit `IsCurrent` para identificar el intervalo de validez de cada versión.",
+          "isCorrect": true,
+          "rationale": "SCD Tipo 2 requiere columnas de fecha de inicio/fin (`StartDate`, `EndDate`) y una marca de fila activa (`IsCurrent`) para rastrear el historial completo de cambios."
+        },
+        {
+          "id": "opt_3",
+          "text": "Sobrescribir el valor de la columna `SalesTerritory` en la fila existente usando un único `UPDATE` sin insertar nuevas filas.",
+          "isCorrect": false,
+          "rationale": "Sobrescribir el valor existente destruye el historial y corresponde a una SCD Tipo 1, lo que impediría atribuir las ventas históricas al territorio anterior."
+        },
+        {
+          "id": "opt_4",
+          "text": "Definir una restricción `PRIMARY KEY` sobre la columna `EmployeeNaturalKey`.",
+          "isCorrect": false,
+          "rationale": "Si `EmployeeNaturalKey` fuera clave única/primaria, la tabla no permitiría insertar una nueva fila cuando el empleado cambie de territorio."
+        }
+      ],
+      "explanation": "Una dimensión lentamente cambiante de Tipo 2 (SCD Type 2) conserva el historial completo insertando una nueva fila cada vez que cambia un atributo rastreado (como `SalesTerritory`). Esto exige una clave sustituta (`Surrogate Key`) única por versión, conservar la clave natural del sistema origen y añadir columnas de validez (`StartDate`, `EndDate`, `IsCurrent`).",
+      "theoryPill": {
+        "title": "Dimensiones Lentamente Cambiantes (SCD Tipo 1, Tipo 2 y Tipo 3)",
+        "summary": "El modelado dimensional en estrella requiere definir cómo reaccionan las tablas de dimensiones cuando cambian los atributos descriptivos en el origen.",
+        "keyPoints": [
+          "SCD Tipo 0: el atributo nunca cambia (ej. Fecha de nacimiento o Fecha original de alta).",
+          "SCD Tipo 1: sobrescribe el valor antiguo con el nuevo; no guarda historial y mantiene una sola fila por clave de negocio.",
+          "SCD Tipo 2: inserta una nueva fila por cada cambio histórico; requiere clave sustituta (Surrogate Key), clave natural, fecha inicio, fecha fin y flag de registro actual.",
+          "SCD Tipo 3: añade una columna adicional (ej. `PreviousTerritory`) en la misma fila para guardar únicamente el valor inmediatamente anterior."
+        ],
+        "examTrap": "Nota importante de Fabric Data Warehouse: las columnas `IDENTITY` no están soportadas directamente en Fabric Data Warehouse tradicional, por lo que las claves sustitutas suelen generarse con `ROW_NUMBER() OVER (...) + MAX(Key)` en T-SQL o en PySpark/Dataflow Gen2.",
+        "searchQuery": "Dimension tables star schema SCD Type 2 Microsoft Fabric Data Warehouse"
+      },
+      "references": [
+        {
+          "title": "Dimensional modeling in Microsoft Fabric Warehouse - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-warehouse/dimensional-modeling-dimension-tables"
+        },
+        {
+          "title": "Understand star schema and the importance for Power BI - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema"
+        }
+      ]
+    },
+    {
+      "id": "DP600-015",
+      "certification": "DP-600",
+      "domain": "Prepare data",
+      "topic": "PySpark Data Cleansing & Deduplication",
+      "topicIcon": "spark",
+      "tags": ["PySpark", "dropDuplicates", "fillna", "Data Cleansing"],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "En un Notebook de Microsoft Fabric estás procesando un DataFrame de PySpark llamado `df_orders` que proviene de la capa Bronze. Necesitas realizar dos transformaciones antes de escribir en la capa Silver:\n1. Eliminar filas duplicadas basándote únicamente en la combinación de las columnas `OrderID` y `OrderLineID`.\n2. Reemplazar los valores nulos (`null`) en la columna numérica `DiscountAmount` por `0.0` y en la columna de texto `CouponCode` por `'NONE'`.\n\n¿Qué bloque de código PySpark realiza ambas operaciones correctamente?",
+      "codeSnippet": "# df_orders contiene: OrderID, OrderLineID, CustomerID, DiscountAmount, CouponCode\n# Selecciona la transformación PySpark correcta:",
+      "codeLanguage": "PySpark",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "df_clean = df_orders.dropDuplicates([\"OrderID\", \"OrderLineID\"]).fillna({\"DiscountAmount\": 0.0, \"CouponCode\": \"NONE\"})",
+          "isCorrect": true,
+          "rationale": "`dropDuplicates([\"OrderID\", \"OrderLineID\"])` elimina duplicados considerando solo ese subconjunto de columnas clave, y `fillna({...})` con un diccionario reemplaza los valores nulos de cada columna específica con el valor predeterminado indicado."
+        },
+        {
+          "id": "opt_2",
+          "text": "df_clean = df_orders.distinct(\"OrderID\", \"OrderLineID\").dropna({\"DiscountAmount\": 0.0, \"CouponCode\": \"NONE\"})",
+          "isCorrect": false,
+          "rationale": "En PySpark, `distinct()` no acepta argumentos de nombres de columnas (evalúa todas las columnas de la fila), y `dropna()` elimina filas con nulos en lugar de rellenarlas."
+        },
+        {
+          "id": "opt_3",
+          "text": "df_clean = df_orders.drop(\"OrderID\", \"OrderLineID\").replace(None, 0.0)",
+          "isCorrect": false,
+          "rationale": "El método `.drop(\"OrderID\", \"OrderLineID\")` elimina las dos columnas enteras del DataFrame en lugar de eliminar filas duplicadas."
+        },
+        {
+          "id": "opt_4",
+          "text": "df_clean = df_orders.groupBy(\"OrderID\", \"OrderLineID\").isNull(0.0, \"NONE\")",
+          "isCorrect": false,
+          "rationale": "`groupBy()` devuelve un objeto `GroupedData` que no tiene un método `.isNull()` para rellenar valores nulos."
+        }
+      ],
+      "explanation": "En PySpark, `df.dropDuplicates(['col1', 'col2'])` (o su alias `drop_duplicates`) permite deduplicar filas según un subconjunto de columnas clave (a diferencia de `df.distinct()`, que compara todas las columnas). Por su parte, `df.fillna({'colA': valA, 'colB': valB})` (o `df.na.fill(...)`) imputa valores predeterminados distintos por columna.",
+      "theoryPill": {
+        "title": "Limpieza de Datos y Manejo de Nulos/Duplicados en PySpark",
+        "summary": "Las preguntas de código PySpark en DP-600 evalúan con frecuencia métodos de la API DataFrame para deduplicación, imputación de nulos y conversión de tipos.",
+        "keyPoints": [
+          "`df.distinct()` elimina filas idénticas en TODAS las columnas; no recibe parámetros.",
+          "`df.dropDuplicates(['col1', 'col2'])` elimina filas con valores repetidos en las columnas especificadas.",
+          "`df.fillna({'col1': 0, 'col2': 'N/A'})` o `df.na.fill(...)` reemplaza valores `null`/`NaN` sin eliminar la fila.",
+          "`df.dropna(subset=['col1'], how='any'|'all')` elimina las filas que contienen valores nulos en las columnas indicadas."
+        ],
+        "examTrap": "Trampa común: `df.distinct('OrderID')` lanza un TypeError en PySpark porque `distinct()` no acepta argumentos; cuando necesites deduplicar por columnas específicas, elige siempre `dropDuplicates([...])`.",
+        "searchQuery": "PySpark DataFrame dropDuplicates fillna dropna Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "Transform data with Apache Spark in Microsoft Fabric - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/tut-convert-to-delta"
+        }
+      ]
+    },
+    {
+      "id": "DP600-016",
+      "certification": "DP-600",
+      "domain": "Prepare data",
+      "topic": "Delta Table Optimization & V-Order",
+      "topicIcon": "lakehouse",
+      "tags": ["OPTIMIZE", "VACUUM", "V-Order", "Small Files Problem"],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Tienes una tabla Delta llamada `fact_telemetry` en un Lakehouse de Microsoft Fabric que recibe micro-lotes de escritura cada 5 minutos. Como resultado, la tabla acumula miles de archivos Parquet diminutos ('small files problem'), degradando el rendimiento de lectura de un modelo semántico en modo Direct Lake. Además, deseas eliminar físicamente del almacenamiento OneLake los archivos Parquet huérfanos que tienen más de 7 días de antigüedad. ¿Qué secuencia de comandos Spark SQL debes programar en un Notebook de mantenimiento?",
+      "codeSnippet": "%%sql\n-- Selecciona los comandos de mantenimiento de la tabla Delta fact_telemetry:",
+      "codeLanguage": "PySpark",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "OPTIMIZE fact_telemetry VORDER;\nVACUUM fact_telemetry;",
+          "isCorrect": true,
+          "rationale": "`OPTIMIZE fact_telemetry VORDER;` compacta los archivos pequeños (bin-packing) en archivos Parquet más grandes aplicando la ordenación V-Order para acelerar Direct Lake, y `VACUUM fact_telemetry;` elimina físicamente los archivos no referenciados más antiguos que el umbral de retención predeterminado (7 días / 168 horas)."
+        },
+        {
+          "id": "opt_2",
+          "text": "VACUUM fact_telemetry RETAIN 0 HOURS;\nANALYZE TABLE fact_telemetry COMPUTE STATISTICS;",
+          "isCorrect": false,
+          "rationale": "`VACUUM` no compacta archivos pequeños (solo borra archivos ya marcados como eliminados en el log), y `RETAIN 0 HOURS` falla por seguridad a menos que se desactive `retentionDurationCheck` y corrompe el viaje en el tiempo y lectores concurrentes."
+        },
+        {
+          "id": "opt_3",
+          "text": "ALTER TABLE fact_telemetry REBUILD WITH (DATA_COMPRESSION = PAGE);\nDBCC SHRINKDATABASE (fact_telemetry);",
+          "isCorrect": false,
+          "rationale": "`ALTER TABLE ... REBUILD` y `DBCC SHRINKDATABASE` son comandos de SQL Server relacional, no de tablas Delta Lake en Spark SQL."
+        },
+        {
+          "id": "opt_4",
+          "text": "REFRESH TABLE fact_telemetry;\nTRUNCATE TABLE fact_telemetry;",
+          "isCorrect": false,
+          "rationale": "`TRUNCATE TABLE` borra todos los datos de la tabla en lugar de optimizar los archivos."
+        }
+      ],
+      "explanation": "El comando `OPTIMIZE <table_name> VORDER` ejecuta la compactación de archivos pequeños (bin-packing) fusionándolos en archivos Parquet de tamaño óptimo (~1 GB / row groups grandes) y aplica la optimización de escritura V-Order, crítica para el rendimiento de Direct Lake. Posteriormente, `VACUUM <table_name>` purga físicamente de OneLake los archivos obsoletos que superan el periodo de retención (7 días por defecto).",
+      "theoryPill": {
+        "title": "Mantenimiento de Tablas Delta: OPTIMIZE, V-Order y VACUUM",
+        "summary": "El rendimiento de lectura en Spark, SQL Analytics Endpoint y Direct Lake depende directamente del tamaño de los archivos Parquet y de la compresión V-Order.",
+        "keyPoints": [
+          "`OPTIMIZE`: compacta muchos archivos Parquet pequeños en archivos grandes (bin-packing) y reescribe nuevas versiones en el Delta Log.",
+          "`VORDER`: optimización de escritura exclusiva de Microsoft sobre Parquet que aplica ordenación, codificación RLE y diccionario para lecturas ultrarrápidas en VertiPaq (Direct Lake) y SQL.",
+          "`ZORDER BY (col)`: co-localiza valores relacionados en el mismo conjunto de archivos para acelerar el filtrado (data skipping) por predicados de alta cardinalidad.",
+          "`VACUUM`: elimina físicamente del almacenamiento los archivos Parquet que ya no forman parte de la versión actual de la tabla tras el periodo de retención (por defecto 7 días = 168 horas)."
+        ],
+        "examTrap": "Nunca elijas `VACUUM` como solución para fusionar archivos pequeños; `VACUUM` solo borra archivos obsoletos para ahorrar almacenamiento. Quien fusiona archivos pequeños es `OPTIMIZE`.",
+        "searchQuery": "Delta Lake table optimization and V-Order Microsoft Fabric OPTIMIZE VACUUM"
+      },
+      "references": [
+        {
+          "title": "Delta Lake table optimization and V-Order - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/delta-optimization-and-v-order"
+        },
+        {
+          "title": "Table maintenance in Lakehouse - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-table-maintenance"
+        }
+      ]
+    },
+    {
+      "id": "DP600-017",
+      "certification": "DP-600",
+      "domain": "Prepare data",
+      "topic": "Dataflow Gen2 Staging & Query Folding",
+      "topicIcon": "pipeline",
+      "tags": ["Dataflow Gen2", "Query Folding", "Staging", "Performance"],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Has creado un Dataflow Gen2 en Microsoft Fabric que extrae datos de un servidor SQL Server local a través de un On-premises data gateway, realiza un filtrado simple de filas, un `GROUP BY` y carga el resultado en un Fabric Data Warehouse. Observas que una de las consultas intermedias (`Query_Lookup`) solo se usa para combinarse (`Merge`) con otra consulta y no necesita cargarse como tabla independiente, pero su ejecución tarda mucho tiempo. Además, quieres verificar qué pasos de Power Query se están delegando al motor SQL de origen. ¿Qué dos acciones mejoran el rendimiento y diagnóstico del Dataflow Gen2?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Revisar los indicadores de plegado de consultas (Query Folding indicators) colocando los filtros y agrupaciones al principio de los pasos, y habilitar/deshabilitar estratégicamente el almacenamiento provisional (Enable staging) según si la transformación se ejecuta en el motor SQL de ensayo o en el origen.",
+          "isCorrect": true,
+          "rationale": "Los indicadores visuales de Query Folding en Power Query muestran qué pasos se traducen a SQL nativo en el origen, y controlar `Enable staging` en consultas intermedias permite aprovechar el cómputo del Warehouse/Lakehouse interno de staging para uniones pesadas o desactivarlo para evitar escrituras intermedias innecesarias cuando el origen ya resuelve el plegado."
+        },
+        {
+          "id": "opt_2",
+          "text": "Convertir todas las columnas de clave de unión a tipo texto (`Text.From`) antes del paso de filtro para forzar el plegado de consultas.",
+          "isCorrect": false,
+          "rationale": "Aplicar transformaciones de texto arbitrarias antes de filtrar suele romper el plegado de consultas (Query Folding) e impide el uso de índices en el origen."
+        },
+        {
+          "id": "opt_3",
+          "text": "Insertar un paso `Table.Buffer()` al inicio de la consulta antes de aplicar el filtro de fechas.",
+          "isCorrect": false,
+          "rationale": "`Table.Buffer()` carga toda la tabla sin filtrar en la memoria del motor Mashup, deteniendo inmediatamente el Query Folding hacia el origen SQL."
+        },
+        {
+          "id": "opt_4",
+          "text": "Desactivar la copia rápida (Fast Copy) cuando se cargan cientos de millones de filas desde Azure Data Lake Storage Gen2.",
+          "isCorrect": false,
+          "rationale": "Fast Copy utiliza el motor de movimiento de datos de Data Factory para acelerar la ingesta masiva en Dataflow Gen2; desactivarlo empeora el rendimiento."
+        }
+      ],
+      "explanation": "En Dataflow Gen2, mantener el plegado de consultas (Query Folding) aplicando filtros (`WHERE`) y selecciones de columnas lo antes posible reduce el volumen de datos transferidos. Además, el uso adecuado de Staging (`Enable staging`) y `Fast Copy` permite delegar operaciones pesadas de combinación (`Merge`) al motor de cómputo SQL de staging de Fabric o evitar doble escritura cuando el plegado en origen ya es completo.",
+      "theoryPill": {
+        "title": "Optimización de Dataflow Gen2: Query Folding, Staging y Fast Copy",
+        "summary": "Dataflow Gen2 combina el motor Mashup de Power Query con un Lakehouse/Warehouse oculto de Staging y el conector Fast Copy.",
+        "keyPoints": [
+          "Query Folding (plegado de consultas): traduce pasos M de Power Query a una única instrucción nativa del origen (ej. SQL). Los iconos de paso en Power Query Online indican si el paso se pliega o no.",
+          "Enable Staging: escribe los datos de una consulta en el almacenamiento provisional de Fabric para que las combinaciones (Merges) o transformaciones posteriores usen el motor SQL de cómputo de Fabric en vez de memoria Mashup.",
+          "Si una consulta ya realiza todo el trabajo mediante Query Folding en el origen y va directo al destino, deshabilitar el staging intermedio puede ahorrar tiempo de E/S.",
+          "Fast Copy: acelera drásticamente la ingesta de grandes volúmenes desde conectores compatibles (ADLS Gen2, Blob, SQL, Parquet, CSV) usando el backend de pipelines."
+        ],
+        "examTrap": "Usar `Table.Buffer` al inicio de una consulta sobre una tabla grande rompe el Query Folding y obliga a descargar toda la tabla en memoria.",
+        "searchQuery": "Dataflow Gen2 query folding staging fast copy Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "Query folding indicators in Power Query - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-query/query-folding-indicators"
+        },
+        {
+          "title": "Understand and optimize dataflows refresh - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-factory/dataflow-gen2-refresh-understand-optimize"
+        }
+      ]
+    },
+    {
+      "id": "DP600-018",
+      "certification": "DP-600",
+      "domain": "Prepare data",
+      "topic": "Data Factory Pipelines Orchestration",
+      "topicIcon": "pipeline",
+      "tags": ["Data Pipelines", "Stored Procedure Activity", "Notebook Activity", "Orchestration"],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Estás diseñando un flujo de trabajo de orquestación diario en Microsoft Fabric que debe ejecutar tres pasos en secuencia:\n1. Ejecutar un Dataflow Gen2 para limpiar datos de clientes.\n2. Si el Dataflow Gen2 tiene éxito, ejecutar un Notebook de PySpark que entrena una puntuación de segmentación.\n3. Independientemente de si el Notebook tiene éxito o falla, ejecutar un procedimiento almacenado (`dbo.usp_LogExecutionStatus`) en un Fabric Data Warehouse para registrar el resultado.\n\n¿Qué herramienta de Microsoft Fabric debes usar para orquestar este proceso y qué condición de dependencia debes conectar entre la actividad del Notebook y la actividad de Procedimiento Almacenado?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Usar una canalización de datos (Data Pipeline) de Data Factory y conectar la actividad Notebook con la actividad Stored Procedure mediante la dependencia 'Al completarse' (On completion).",
+          "isCorrect": true,
+          "rationale": "Una Data Pipeline en Fabric permite encadenar actividades de Dataflow, Notebook y Stored Procedure. La condición de ruta 'On completion' (Al completarse) ejecuta la actividad siguiente tanto si la actividad previa tuvo éxito como si falló."
+        },
+        {
+          "id": "opt_2",
+          "text": "Usar una canalización de datos (Data Pipeline) y conectar la actividad Notebook con la actividad Stored Procedure mediante la dependencia 'Al omitirse' (On skip).",
+          "isCorrect": false,
+          "rationale": "La condición 'On skip' solo se activa cuando la actividad previa no llegó a ejecutarse debido a una rama condicional no cumplida."
+        },
+        {
+          "id": "opt_3",
+          "text": "Usar una canalización de implementación (Deployment Pipeline) con tres etapas y programar un disparador cada 24 horas.",
+          "isCorrect": false,
+          "rationale": "Las Deployment Pipelines son para gestión del ciclo de vida (CI/CD entre Dev, Test y Prod), no para orquestar cargas ETL de datos."
+        },
+        {
+          "id": "opt_4",
+          "text": "Programar los tres elementos con horarios independientes separados por 15 minutos en la configuración de cada elemento.",
+          "isCorrect": false,
+          "rationale": "Programar horarios independientes no garantiza el orden de ejecución ni controla las condiciones de éxito/fallo entre pasos."
+        }
+      ],
+      "explanation": "Las canalizaciones de datos (Data Pipelines) en Microsoft Fabric orquestan actividades heterogéneas (Copy Data, Dataflow Gen2, Notebook, Stored Procedure, Script, etc.) mediante dependencias condicionales: `On success` (éxito), `On fail` (fallo), `On completion` (éxito o fallo) y `On skip` (omitido).",
+      "theoryPill": {
+        "title": "Orquestación con Data Pipelines y Condiciones de Dependencia",
+        "summary": "Data Factory Data Pipelines es el orquestador central de cargas de trabajo en Microsoft Fabric, capaz de coordinar Dataflows, Notebooks, scripts T-SQL y procedimientos almacenados.",
+        "keyPoints": [
+          "On success (verde): se ejecuta solo si la actividad anterior finaliza correctamente.",
+          "On fail (rojo): se ejecuta solo si la actividad anterior falla (ideal para enviar alertas por Outlook/Teams).",
+          "On completion (azul): se ejecuta siempre que la actividad anterior termine, ya sea con éxito o con error (ideal para auditoría y limpieza).",
+          "On skip (gris): se ejecuta si la actividad anterior fue omitida en el flujo lógico."
+        ],
+        "examTrap": "No confundas Data Pipeline (orquestación ETL en Data Factory) con Deployment Pipeline (promoción CI/CD entre áreas de trabajo Dev/Test/Prod).",
+        "searchQuery": "Data pipelines orchestration activities dependencies Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "How to monitor pipeline runs in Microsoft Fabric - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-factory/monitor-pipeline-runs"
+        }
+      ]
+    },
+    {
+      "id": "DP600-019",
+      "certification": "DP-600",
+      "domain": "Prepare data",
+      "topic": "Lakehouse Partitioning & PySpark Writes",
+      "topicIcon": "spark",
+      "tags": ["Partitioning", "partitionBy", "Delta Lake", "PySpark"],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Estás escribiendo un DataFrame de PySpark llamado `df_sales` con 2 mil millones de filas en una tabla Delta administrada del Lakehouse llamada `fact_sales`. Las consultas analíticas filtran casi siempre por `SalesYear` (que tiene 10 valores distintos) y por `TransactionID` (que tiene 2 mil millones de valores únicos). Quieres particionar físicamente la tabla en subdirectorios de OneLake evitando el problema de sobre-particionamiento (over-partitioning). ¿Qué instrucción PySpark debes ejecutar?",
+      "codeSnippet": "# Selecciona el comando de escritura PySpark óptimo:",
+      "codeLanguage": "PySpark",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "df_sales.write.format(\"delta\").mode(\"overwrite\").partitionBy(\"SalesYear\").saveAsTable(\"fact_sales\")",
+          "isCorrect": true,
+          "rationale": "Particionar por una columna de baja cardinalidad como `SalesYear` permite el descarte de particiones (partition pruning) sin generar millones de carpetas diminutas."
+        },
+        {
+          "id": "opt_2",
+          "text": "df_sales.write.format(\"delta\").mode(\"overwrite\").partitionBy(\"TransactionID\").saveAsTable(\"fact_sales\")",
+          "isCorrect": false,
+          "rationale": "Particionar por una columna de cardinalidad extremadamente alta (`TransactionID`) crea miles de millones de directorios con archivos minúsculos, arruinando el rendimiento en OneLake y Direct Lake."
+        },
+        {
+          "id": "opt_3",
+          "text": "df_sales.write.format(\"csv\").mode(\"append\").bucketBy(10, \"SalesYear\").save(\"Files/fact_sales\")",
+          "isCorrect": false,
+          "rationale": "Escribir en CSV dentro de `Files/` no crea una tabla Delta administrada en `Tables/`."
+        },
+        {
+          "id": "opt_4",
+          "text": "df_sales.write.format(\"parquet\").partitionBy(\"TransactionID\", \"SalesYear\").saveAsTable(\"fact_sales\")",
+          "isCorrect": false,
+          "rationale": "Incluir `TransactionID` en `partitionBy` produce sobre-particionamiento extremo y el formato nativo requerido para tablas del Lakehouse es `delta`."
+        }
+      ],
+      "explanation": "El particionamiento físico mediante `.partitionBy()` en tablas Delta debe aplicarse únicamente sobre columnas de baja cardinalidad (como año o año/mes) cuando cada partición contendrá un volumen significativo de datos (idealmente >= 1 GB por partición). Para columnas de alta cardinalidad usadas en filtros (`WHERE`), se debe usar `ZORDER BY` o Liquid Clustering en lugar de `partitionBy`.",
+      "theoryPill": {
+        "title": "Particionamiento Físico vs Z-Order en un Lakehouse",
+        "summary": "Elegir la estrategia correcta de organización de archivos evita el problema de archivos pequeños (small files) y maximiza el partition pruning y data skipping.",
+        "keyPoints": [
+          "Usa `.partitionBy(col)` solo en tablas muy grandes y con columnas de baja cardinalidad (ej. Year, Region).",
+          "Nunca uses `.partitionBy(col)` con columnas de alta cardinalidad (IDs de transacción, marcas de tiempo con milisegundos).",
+          "Usa `OPTIMIZE tabla ZORDER BY (col_alta_cardinalidad)` para mejorar el data skipping en columnas con muchos valores distintos.",
+          "Para guardar una tabla administrada en el catálogo del Lakehouse se utiliza `.format('delta').saveAsTable('nombre_tabla')`."
+        ],
+        "examTrap": "Si una opción propone `.partitionBy('CustomerID')` o `.partitionBy('OrderID')`, es incorrecta por causar over-partitioning y miles de archivos pequeños.",
+        "searchQuery": "Implement file partitioning for analytics workloads in a lakehouse Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "Delta Lake table optimization and V-Order - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/delta-optimization-and-v-order"
+        }
+      ]
+    },
+    {
+      "id": "DP600-020",
+      "certification": "DP-600",
+      "domain": "Prepare data",
+      "topic": "Bridge Tables & Many-to-Many Modeling",
+      "topicIcon": "warehouse",
+      "tags": ["Bridge Table", "Many-to-Many", "Star Schema", "Data Modeling"],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "En tu Data Warehouse de Microsoft Fabric estás modelando cuentas bancarias (`FactAccountBalance`) y clientes (`DimCustomer`). Una cuenta bancaria conjunta puede pertenecer a varios clientes titulares, y un mismo cliente puede ser titular de múltiples cuentas bancarias. Quieres resolver esta relación de muchos a muchos en la capa física del Data Warehouse siguiendo las mejores prácticas de modelado dimensional en estrella. ¿Qué estructura debes implementar?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Crear una tabla puente (Bridge Table) `BridgeAccountCustomer` que contenga los pares de claves sustitutas `AccountKey` y `CustomerKey` (y opcionalmente un factor de ponderación/reparto).",
+          "isCorrect": true,
+          "rationale": "Una tabla puente (Bridge table / factless fact table) resuelve relaciones válidas de muchos a muchos entre dimensiones o entre cuentas y clientes, almacenando las combinaciones de claves `AccountKey` y `CustomerKey`."
+        },
+        {
+          "id": "opt_2",
+          "text": "Añadir columnas `CustomerKey1`, `CustomerKey2`, `CustomerKey3`... hasta `CustomerKey20` en la tabla `FactAccountBalance`.",
+          "isCorrect": false,
+          "rationale": "Crear grupos repetitivos de columnas (repeating groups) viola las reglas de diseño dimensional, limita arbitrariamente el número de titulares y complica las consultas DAX/SQL."
+        },
+        {
+          "id": "opt_3",
+          "text": "Concatenar todos los IDs de clientes separados por comas dentro de una única columna `VARCHAR(MAX)` en `FactAccountBalance`.",
+          "isCorrect": false,
+          "rationale": "Almacenar listas separadas por comas impide crear relaciones de integridad referencial y degrada severamente el motor VertiPaq."
+        },
+        {
+          "id": "opt_4",
+          "text": "Eliminar la tabla `DimCustomer` y almacenar todos los nombres de los clientes directamente dentro de la tabla de fechas `DimDate`.",
+          "isCorrect": false,
+          "rationale": "Los atributos del cliente no tienen relación jerárquica con la dimensión de fecha."
+        }
+      ],
+      "explanation": "Cuando existe una relación legítima de muchos a muchos entre entidades (como cuentas bancarias con múltiples titulares o pacientes con múltiples diagnósticos), el patrón dimensional estándar consiste en introducir una tabla puente (Bridge Table) que contenga las claves foráneas de ambas entidades.",
+      "theoryPill": {
+        "title": "Tablas Puente (Bridge Tables) en Esquemas en Estrella",
+        "summary": "Las tablas puente permiten representar asociaciones multivaluadas (muchos a muchos) sin romper la granularidad de la tabla de hechos principal.",
+        "keyPoints": [
+          "Contienen las claves sustitutas de las dos tablas que conectan (ej. `AccountKey` y `CustomerKey`).",
+          "En el modelo semántico de Power BI, la tabla puente suele requerir filtrado cruzado bidireccional desde la dimensión hacia la tabla puente para propagar el filtro a la tabla de hechos.",
+          "Pueden incluir un factor de ponderación (`WeightFactor`, ej. 0.50 para dos titulares) para evitar la doble contabilización al sumar totales.",
+          "Alternativamente, si solo se requiere análisis a nivel de cuenta o cliente sin atributos adicionales en el puente, se evalúa el costo del filtro bidireccional en DAX."
+        ],
+        "examTrap": "Recuerda que al usar una tabla puente sin factor de ponderación, la suma de las filas individuales por cliente puede superar el total general (non-additive across the multivalued dimension), lo cual es esperado en relaciones M:N.",
+        "searchQuery": "Many-to-many relationship guidance bridge table Power BI Fabric"
+      },
+      "references": [
+        {
+          "title": "Many-to-many relationship guidance - Power BI | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/guidance/relationships-many-to-many"
+        }
+      ]
+    },
+    {
+      "id": "DP600-021",
+      "certification": "DP-600",
+      "domain": "Prepare data",
+      "topic": "T-SQL Window Functions & Deduplication",
+      "topicIcon": "sql",
+      "tags": ["T-SQL", "ROW_NUMBER", "Window Functions", "Deduplication"],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "En un Data Warehouse de Microsoft Fabric tienes una tabla de preparación `staging.CustomerUpdates` que contiene múltiples registros históricos por cada `CustomerID`. Necesitas escribir una consulta T-SQL para extraer únicamente el registro más reciente de cada `CustomerID` según la columna `ModifiedDate` (y en caso de empate, el mayor `UpdateID`). Revisa la siguiente consulta:\n\n¿Qué expresión de ventana debe reemplazar `/* EXPRESIÓN_VENTANA */`?",
+      "codeSnippet": "WITH RankedCustomers AS (\n    SELECT \n        CustomerID,\n        CustomerName,\n        Email,\n        ModifiedDate,\n        /* EXPRESIÓN_VENTANA */ AS rn\n    FROM staging.CustomerUpdates\n)\nSELECT CustomerID, CustomerName, Email, ModifiedDate\nFROM RankedCustomers\nWHERE rn = 1;",
+      "codeLanguage": "T-SQL",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "ROW_NUMBER() OVER (PARTITION BY CustomerID ORDER BY ModifiedDate DESC, UpdateID DESC)",
+          "isCorrect": true,
+          "rationale": "`ROW_NUMBER()` asigna un entero secuencial único empezando en 1 para cada partición de `CustomerID`, ordenando de forma descendente por `ModifiedDate` y desempatando por `UpdateID DESC`, garantizando exactamente una fila cuando se filtra `WHERE rn = 1`."
+        },
+        {
+          "id": "opt_2",
+          "text": "RANK() OVER (ORDER BY CustomerID, ModifiedDate ASC)",
+          "isCorrect": false,
+          "rationale": "Sin `PARTITION BY CustomerID`, `RANK()` numera toda la tabla globalmente (devolviendo un solo cliente en total con `rn = 1`), y `ASC` traería el registro más antiguo en vez del más reciente."
+        },
+        {
+          "id": "opt_3",
+          "text": "DENSE_RANK() OVER (PARTITION BY ModifiedDate ORDER BY CustomerID DESC)",
+          "isCorrect": false,
+          "rationale": "Particionar por `ModifiedDate` agrupa por fecha en lugar de por cliente, y `DENSE_RANK()` puede devolver múltiples filas con `rn = 1` si hay empates."
+        },
+        {
+          "id": "opt_4",
+          "text": "NTILE(1) OVER (PARTITION BY CustomerID ORDER BY ModifiedDate DESC)",
+          "isCorrect": false,
+          "rationale": "`NTILE(1)` asigna el valor `1` a absolutamente todas las filas de la partición, por lo que `WHERE rn = 1` no eliminaría ningún duplicado."
+        }
+      ],
+      "explanation": "El patrón estándar en T-SQL para deduplicar registros quedándose con el último estado por entidad consiste en usar una expresión de tabla común (CTE) con `ROW_NUMBER() OVER (PARTITION BY <ClaveEntidad> ORDER BY <FechaCambio> DESC)` y filtrar `WHERE rn = 1`.",
+      "theoryPill": {
+        "title": "Funciones de Ventana T-SQL para Deduplicación (ROW_NUMBER vs RANK vs DENSE_RANK)",
+        "summary": "Las funciones de clasificación en T-SQL se comportan de manera diferente ante valores empatados.",
+        "keyPoints": [
+          "`ROW_NUMBER()`: siempre genera números únicos consecutivos (1, 2, 3...) dentro de cada `PARTITION BY`; ideal para deduplicación estricta (`WHERE rn = 1`).",
+          "`RANK()`: asigna el mismo número a los empates y deja huecos en la secuencia (1, 1, 3...).",
+          "`DENSE_RANK()`: asigna el mismo número a los empates sin dejar huecos (1, 1, 2...).",
+          "`PARTITION BY` reinicia el contador para cada grupo (ej. por `CustomerID`), mientras que `ORDER BY ... DESC` coloca el registro más reciente en la posición 1."
+        ],
+        "examTrap": "Si necesitas garantizar que solo sobreviva una única fila por clave primaria/natural al filtrar `WHERE rn = 1`, usa siempre `ROW_NUMBER()`, nunca `RANK()` ni `DENSE_RANK()`.",
+        "searchQuery": "ROW_NUMBER Transact-SQL deduplicate rows Microsoft Fabric Warehouse"
+      },
+      "references": [
+        {
+          "title": "ROW_NUMBER (Transact-SQL) - SQL Server & Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/row-number-transact-sql"
+        }
+      ]
+    },
+    {
+      "id": "DP600-022",
+      "certification": "DP-600",
+      "domain": "Prepare data",
+      "topic": "Disabling V-Order in Staging Warehouses",
+      "topicIcon": "warehouse",
+      "tags": ["V-Order", "Staging Warehouse", "Write Performance", "T-SQL"],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": {
+        "overview": "World Wide Importers utiliza Microsoft Fabric para procesar grandes volúmenes de datos transaccionales nocturnos antes de exponerlos a Power BI.",
+        "environment": "La arquitectura separa los almacenes en dos artefactos distintos: un almacén de preparación (`DW_Staging`) donde las tablas se truncan, cargan y transforman intensivamente varias veces por hora mediante scripts T-SQL, y un almacén final de presentación (`DW_Presentation`) consumido por modelos semánticos en modo Direct Lake.",
+        "requirements": "El equipo de ingeniería necesita reducir el tiempo total de escritura/ingesta en `DW_Staging`, donde las tablas transitorias solo se leen una vez para enviarse a `DW_Presentation` y nunca son consultadas por Power BI."
+      },
+      "stem": "Según las directrices oficiales de rendimiento de Microsoft Fabric Data Warehouse, ¿qué acción debes realizar para optimizar la velocidad de ingesta en `DW_Staging` sin afectar el rendimiento de Direct Lake en `DW_Presentation`?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Deshabilitar V-Order en `DW_Staging` mediante `ALTER DATABASE CURRENT SET VORDER = OFF;` y mantener V-Order habilitado en `DW_Presentation`.",
+          "isCorrect": true,
+          "rationale": "Deshabilitar V-Order en un Data Warehouse dedicado exclusivamente a staging (escritura intensiva donde los datos se leen una sola vez y no usan Direct Lake) reduce la sobrecarga de CPU/tiempo durante la escritura. En cambio, `DW_Presentation` debe mantener V-Order activado porque Direct Lake depende de V-Order."
+        },
+        {
+          "id": "opt_2",
+          "text": "Deshabilitar V-Order tanto en `DW_Staging` como en `DW_Presentation`, y volver a activarlo en `DW_Presentation` cada mañana.",
+          "isCorrect": false,
+          "rationale": "En Fabric Data Warehouse, deshabilitar V-Order es una operación irreversible a nivel de almacén: una vez desactivado en un Warehouse, no se puede volver a habilitar."
+        },
+        {
+          "id": "opt_3",
+          "text": "Crear índices agrupados B-Tree (`CREATE CLUSTERED INDEX`) en todas las tablas de `DW_Staging` antes de ejecutar la ingesta.",
+          "isCorrect": false,
+          "rationale": "Los índices en tablas de preparación ralentizan las escrituras y Fabric Data Warehouse utiliza almacenamiento columnar Delta Parquet gestionado automáticamente."
+        },
+        {
+          "id": "opt_4",
+          "text": "Reemplazar todas las sentencias `COPY INTO` en `DW_Staging` por cursores T-SQL fila por fila (`INSERT INTO ... VALUES`).",
+          "isCorrect": false,
+          "rationale": "Las inserciones fila por fila (singleton inserts) mediante cursores son un antipatrón severo en motores MPP/Delta que genera miles de archivos pequeños y pésimo rendimiento."
+        }
+      ],
+      "explanation": "V-Order es una optimización en tiempo de escritura que mejora enormemente las lecturas (especialmente en Direct Lake), pero añade cierta latencia durante la escritura. En un Data Warehouse dedicado exclusivamente a staging transitorio (write-intensive), deshabilitar V-Order acelera las cargas. Es fundamental recordar que en un Warehouse esta acción es a nivel de base de datos e irreversible.",
+      "theoryPill": {
+        "title": "Comportamiento de V-Order en Fabric Data Warehouse vs Lakehouse",
+        "summary": "V-Order optimiza los archivos Parquet para el motor Verti-Scan de Power BI y SQL, pero se controla de forma distinta en un Warehouse que en un Lakehouse.",
+        "keyPoints": [
+          "En un Warehouse, V-Order está habilitado por defecto para todas las tablas.",
+          "Deshabilitar V-Order en un Warehouse (`ALTER DATABASE CURRENT SET VORDER = OFF`) afecta a todo el Warehouse y es IRREVERSIBLE.",
+          "Solo se recomienda deshabilitar V-Order en Warehouses dedicados a staging de escritura intensiva que NO son consumidos por Direct Lake.",
+          "En un Lakehouse (Spark), V-Order sí se puede controlar de forma reversible por sesión o por propiedad de tabla (`delta.parquet.vorder.enabled`)."
+        ],
+        "examTrap": "Presta mucha atención a la advertencia oficial: desactivar V-Order en un Fabric Data Warehouse es irreversible (no puedes ejecutar `SET VORDER = ON` después en ese mismo Warehouse).",
+        "searchQuery": "Understand V-Order for Microsoft Fabric Warehouse disable v-order irreversible"
+      },
+      "references": [
+        {
+          "title": "Understand V-Order for Microsoft Fabric Warehouse - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-warehouse/v-order"
+        },
+        {
+          "title": "Disable V-Order in Warehouse in Microsoft Fabric - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-warehouse/disable-v-order"
+        }
+      ]
+    },
+    {
+      "id": "DP600-023",
+      "certification": "DP-600",
+      "domain": "Prepare data",
+      "topic": "Visual Query Editor & Data Profiling",
+      "topicIcon": "sql",
+      "tags": ["Visual Query Editor", "Data Profiling", "Column Distribution", "Power Query"],
+      "difficulty": "basic",
+      "questionType": "multi",
+      "requiredSelections": 2,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un analista de negocio sin conocimientos profundos de T-SQL quiere explorar y perfilar una tabla de 50,000 filas dentro del SQL Analytics Endpoint de un Lakehouse o en un Dataflow Gen2 antes de diseñar un informe. Desea:\n1. Construir una consulta combinando dos tablas y filtrando filas mediante una interfaz gráfica de arrastrar y soltar dentro del punto de conexión SQL del navegador.\n2. Inspeccionar el número de valores distintos (distinct) y valores únicos (unique), así como el porcentaje de valores vacíos o errores en la totalidad de las 50,000 filas en el editor de consultas.\n\n¿Qué DOS acciones debe realizar? (Selecciona dos)",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Utilizar el Editor de consultas visuales (Visual Query Editor) en el SQL Analytics Endpoint o Warehouse para arrastrar tablas al lienzo y aplicar operaciones de combinación (`Merge`) y filtro sin escribir código SQL.",
+          "isCorrect": true,
+          "rationale": "El Visual Query Editor en el SQL Analytics Endpoint y Data Warehouse ofrece una experiencia visual tipo diagrama basada en Power Query para diseñar consultas sobre tablas del almacén sin escribir T-SQL."
+        },
+        {
+          "id": "opt_2",
+          "text": "Habilitar 'Calidad de columnas' (Column quality) y 'Distribución de columnas' (Column distribution) en la pestaña Vista, y cambiar la configuración de generación de perfiles de datos en la barra de estado inferior de 'Basado en las primeras 1,000 filas' a 'Basado en todo el conjunto de datos'.",
+          "isCorrect": true,
+          "rationale": "Por defecto, el perfilado de datos en Power Query evalúa solo las primeras 1,000 filas; para analizar las 50,000 filas completas con Column quality (válidos, error, vacíos) y Column distribution (distintos vs únicos), se debe cambiar a todo el conjunto de datos."
+        },
+        {
+          "id": "opt_3",
+          "text": "Activar únicamente la opción 'Encabezados de columna en negrita' para calcular los valores únicos de las 50,000 filas.",
+          "isCorrect": false,
+          "rationale": "El formato visual de los encabezados no realiza perfilado estadístico de datos."
+        },
+        {
+          "id": "opt_4",
+          "text": "Usar DAX Studio conectado al archivo CSV bruto antes de crear el Lakehouse.",
+          "isCorrect": false,
+          "rationale": "DAX Studio se conecta a modelos tabulares/semánticos de Analysis Services, no a archivos CSV sueltos ni reemplaza al Visual Query Editor del Warehouse."
+        }
+      ],
+      "explanation": "El Editor de consultas visuales (Visual Query Editor) permite crear consultas sin código sobre un Warehouse o SQL Analytics Endpoint usando un lienzo de diagrama. Dentro de la interfaz de Power Query, las herramientas de perfilado (`Column quality`, `Column distribution`, `Column profile`) evalúan por defecto las primeras 1,000 filas, pero pueden cambiarse en la barra inferior para evaluar todo el conjunto de datos.",
+      "theoryPill": {
+        "title": "Perfilado de Datos (Data Profiling) y Visual Query Editor",
+        "summary": "Las herramientas de perfilado de Power Query ayudan a detectar anomalías, nulos y cardinalidad antes de cargar los datos al modelo semántico.",
+        "keyPoints": [
+          "Column quality (Calidad de columnas): muestra los porcentajes de valores Válidos (Valid), con Error (Error) y Vacíos/Nulos (Empty).",
+          "Column distribution (Distribución de columnas): muestra un histograma rápido con el conteo de valores Distintos (Distinct: cuántos valores diferentes existen) y Únicos (Unique: cuántos valores aparecen exactamente una sola vez).",
+          "Column profile (Perfil de columna): muestra estadísticas detalladas (Min, Max, Media, Desviación estándar, Pares/Impares) y la distribución de valores de la columna seleccionada.",
+          "Por defecto se calculan sobre las primeras 1,000 filas; puedes cambiarlo a 'Column profiling based on entire dataset' en la esquina inferior izquierda."
+        ],
+        "examTrap": "En el examen suelen preguntar la diferencia entre 'Distinct' (número total de valores diferentes, incluyendo los que se repiten) y 'Unique' (valores que solo ocurren una única vez en toda la columna).",
+        "searchQuery": "Query using the visual query editor Microsoft Fabric data profiling Power Query"
+      },
+      "references": [
+        {
+          "title": "Query using the visual query editor - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-warehouse/visual-query-editor"
+        },
+        {
+          "title": "Using the data profiling tools in Power Query - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-query/data-profiling-tools"
+        }
+      ]
+    },
+    {
+      "id": "DP600-024",
+      "certification": "DP-600",
+      "domain": "Implement and manage semantic models",
+      "topic": "Direct Lake Fallback & Security",
+      "topicIcon": "powerbi",
+      "tags": ["Direct Lake", "DirectQuery Fallback", "DirectLakeBehavior", "RLS"],
+      "difficulty": "hardcore",
+      "questionType": "multi",
+      "requiredSelections": 2,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": {
+        "overview": "Adventure Works ha creado un modelo semántico personalizado en modo Direct Lake sobre el SQL Analytics Endpoint de un Lakehouse (`Direct Lake on SQL`) en una capacidad F64.",
+        "environment": "Durante las pruebas de rendimiento con DAX Studio, los ingenieros notan que ciertas consultas visuales no se sirven desde la memoria de VertiPaq (Direct Lake), sino que provocan un retroceso (fallback) a modo DirectQuery contra el punto de conexión SQL.",
+        "requirements": "El equipo necesita identificar qué configuraciones están provocando el fallback a DirectQuery y cómo configurar el modelo para que nunca permita el fallback silencioso a DirectQuery durante las pruebas de validación."
+      },
+      "stem": "En relación con el escenario de Adventure Works en un modelo `Direct Lake on SQL`, ¿qué DOS afirmaciones o acciones son correctas? (Selecciona dos)",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Basar una tabla del modelo semántico en una vista SQL (`CREATE VIEW`) o definir seguridad a nivel de fila (RLS) directamente en el SQL Analytics Endpoint provoca que las consultas hagan fallback a modo DirectQuery.",
+          "isCorrect": true,
+          "rationale": "En Direct Lake on SQL, las tablas basadas en vistas SQL o las tablas que tienen reglas RLS aplicadas en la capa del SQL Analytics Endpoint no pueden leerse directamente desde los archivos Parquet en OneLake y provocan fallback a DirectQuery."
+        },
+        {
+          "id": "opt_2",
+          "text": "Establecer la propiedad `DirectLakeBehavior` del modelo semántico en `DirectLakeOnly` para impedir el fallback a DirectQuery y devolver un error explícito si una consulta no puede procesarse en modo Direct Lake.",
+          "isCorrect": true,
+          "rationale": "La propiedad `DirectLakeBehavior` admite `Automatic` (valor por defecto: hace fallback a DirectQuery si es necesario), `DirectLakeOnly` (prohíbe el fallback y falla si no puede usar Direct Lake) y `DirectQueryOnly` (fuerza DirectQuery)."
+        },
+        {
+          "id": "opt_3",
+          "text": "Definir roles de seguridad a nivel de fila (RLS) dentro del propio modelo semántico con una conexión de identidad fija (Fixed identity) obliga siempre a hacer fallback a DirectQuery.",
+          "isCorrect": false,
+          "rationale": "Al contrario: definir RLS en el modelo semántico junto con una conexión en la nube de identidad fija (Fixed identity) mantiene las consultas 100% en memoria en modo Direct Lake sin hacer fallback a DirectQuery."
+        },
+        {
+          "id": "opt_4",
+          "text": "Establecer `DirectLakeBehavior` en `DirectQueryOnly` para garantizar que todas las columnas se carguen en memoria desde los archivos Delta de OneLake.",
+          "isCorrect": false,
+          "rationale": "`DirectQueryOnly` desactiva la carga en memoria de Direct Lake y fuerza a que absolutamente todas las consultas vayan por T-SQL al SQL Analytics Endpoint."
+        }
+      ],
+      "explanation": "En modelos `Direct Lake on SQL`, el motor carga las columnas directamente desde los archivos Parquet V-Ordered en OneLake hacia la memoria de Analysis Services. Sin embargo, si una tabla apunta a una vista SQL, si el SQL Analytics Endpoint tiene RLS configurado, o si se superan los límites de memoria/archivos de la capacidad SKU, ocurre un fallback a DirectQuery. Configurar `DirectLakeBehavior = DirectLakeOnly` impide ese fallback.",
+      "theoryPill": {
+        "title": "Direct Lake: Reglas de Fallback a DirectQuery y Modos (OneLake vs SQL)",
+        "summary": "Direct Lake combina la velocidad en memoria del modo Import con la frescura en tiempo real de DirectQuery leyendo directamente archivos Delta Parquet desde OneLake.",
+        "keyPoints": [
+          "Causas de fallback a DirectQuery en Direct Lake on SQL: vistas SQL, RLS en el SQL Analytics Endpoint, o superar las guardrails del SKU (ej. `max framing`, memoria máxima en disco/RAM).",
+          "Para implementar RLS sin fallback a DirectQuery: define los roles RLS en el modelo semántico y usa una conexión de identidad fija (Fixed identity) hacia el origen.",
+          "`DirectLakeBehavior`: `Automatic` (hace fallback cuando es necesario), `DirectLakeOnly` (nunca hace fallback; devuelve error si no cabe o no se soporta), `DirectQueryOnly` (siempre usa DirectQuery para probar el rendimiento de fallback).",
+          "Con el nuevo modo `Direct Lake on OneLake`, puedes combinar tablas de múltiples Lakehouses/Warehouses y crear modelos compuestos con Import/DirectQuery."
+        ],
+        "examTrap": "Es la pregunta estrella de DP-600: RLS en el SQL Analytics Endpoint = Fallback a DirectQuery. RLS en el Modelo Semántico (con Fixed Identity) = Sin fallback (se evalúa en memoria en Direct Lake).",
+        "searchQuery": "Direct Lake overview fallback DirectLakeBehavior Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "Direct Lake overview - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/fundamentals/direct-lake-overview"
+        },
+        {
+          "title": "Integrate Direct Lake security - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/fundamentals/direct-lake-security-integration"
+        }
+      ]
+    },
+    {
+      "id": "DP600-025",
+      "certification": "DP-600",
+      "domain": "Implement and manage semantic models",
+      "topic": "Calculation Groups & Dynamic Format Strings",
+      "topicIcon": "powerbi",
+      "tags": ["Calculation Groups", "SELECTEDMEASURE", "Tabular Editor", "DAX"],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Tienes un modelo semántico con 25 medidas base (como `[Total Sales]`, `[Total Cost]`, `[Total Margin]`, `[Orders Count]`). Quieres permitir que los usuarios apliquen cálculos de inteligencia temporal (`YTD`, `PY`, `YoY %`) a cualquiera de las 25 medidas sin crear 75 medidas adicionales. Además, cuando el usuario seleccione el elemento de cálculo `YoY %`, el formato numérico debe cambiar dinámicamente a porcentaje (`0.0%`), mientras que en `YTD` y `PY` debe conservar el formato original de cada medida base. Revisa las expresiones del elemento de cálculo `YoY %`:\n\n¿Qué función DAX debe usarse tanto en la expresión de cálculo como en la cadena de formato dinámico (Format String Expression) para referenciar la medida que está actualmente en el contexto?",
+      "codeSnippet": "-- Expresión del Calculation Item 'YoY %':\nVAR CurrentVal = /* FUNCIÓN_DAX */\nVAR PriorVal = CALCULATE(/* FUNCIÓN_DAX */, SAMEPERIODLASTYEAR('Date'[Date]))\nRETURN\n    DIVIDE(CurrentVal - PriorVal, PriorVal)",
+      "codeLanguage": "DAX",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "SELECTEDMEASURE() para evaluar el valor de la medida activa y \"0.0%\" (o SELECTEDMEASUREFORMATSTRING() en otros elementos) en la propiedad Format String Expression.",
+          "isCorrect": true,
+          "rationale": "`SELECTEDMEASURE()` es la función DAX que evalúa cualquiera de las medidas base que esté en el contexto del objeto visual cuando se aplica un grupo de cálculo (Calculation Group), y `Format String Expression` permite devolver `\"0.0%\"` o `SELECTEDMEASUREFORMATSTRING()`."
+        },
+        {
+          "id": "opt_2",
+          "text": "SELECTEDVALUE('Measures'[MeasureName]) en la expresión del elemento de cálculo.",
+          "isCorrect": false,
+          "rationale": "`SELECTEDVALUE()` devuelve el valor escalar de una columna cuando solo hay un valor distinto en el contexto, pero no ejecuta dinámicamente la referencia a una medida activa en un Calculation Group."
+        },
+        {
+          "id": "opt_3",
+          "text": "ISINSCOPE() combinado con USERELATIONSHIP().",
+          "isCorrect": false,
+          "rationale": "`ISINSCOPE()` comprueba si una columna está en un nivel de jerarquía de agrupación y `USERELATIONSHIP()` activa una relación inactiva; ninguna sustituye a `SELECTEDMEASURE()`."
+        },
+        {
+          "id": "opt_4",
+          "text": "NAMEOF() dentro de una columna calculada en la tabla de hechos.",
+          "isCorrect": false,
+          "rationale": "`NAMEOF()` se utiliza en parámetros de campo (Field Parameters), no para evaluar la medida activa dentro de un Calculation Item."
+        }
+      ],
+      "explanation": "Los grupos de cálculo (Calculation Groups), creados en Power BI Desktop Model View o Tabular Editor, reducen la proliferación de medidas reutilizando lógica transversal (como Time Intelligence) mediante `SELECTEDMEASURE()`. Además, la propiedad `Format String Expression` permite sobrescribir el formato a `\"0.0%\"` para variaciones porcentuales o mantener el formato original con `SELECTEDMEASUREFORMATSTRING()`.",
+      "theoryPill": {
+        "title": "Grupos de Cálculo (Calculation Groups) vs Parámetros de Campo (Field Parameters)",
+        "summary": "Ambos reducen la complejidad de informes, pero resuelven problemas distintos en el diseño de modelos semánticos.",
+        "keyPoints": [
+          "Calculation Groups: aplican una transformación matemática (YTD, MTD, YoY%, conversión de moneda) sobre cualquier medida activa usando `SELECTEDMEASURE()`.",
+          "Funciones clave de Calculation Groups: `SELECTEDMEASURE()`, `SELECTEDMEASURENAME()`, `ISSELECTEDMEASURE([M1], [M2])` y `SELECTEDMEASUREFORMATSTRING()`.",
+          "Cuando un modelo tiene múltiples Calculation Groups, es obligatorio definir la propiedad `Precedence` (mayor número = mayor precedencia de evaluación).",
+          "Field Parameters (Parámetros de campo): permiten al usuario cambiar dinámicamente qué columnas o medidas existentes se muestran en los ejes o valores de un visual usando `NAMEOF()`."
+        ],
+        "examTrap": "Recuerda que al crear el primer Calculation Group en un modelo, se recomienda activar `DiscourageImplicitMeasures = true`, lo que obliga a usar medidas explícitas en los informes.",
+        "searchQuery": "Calculation groups in Analysis Services and Power BI SELECTEDMEASURE"
+      },
+      "references": [
+        {
+          "title": "Create calculation groups in Power BI - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/transform-model/calculation-groups"
+        }
+      ]
+    },
+    {
+      "id": "DP600-026",
+      "certification": "DP-600",
+      "domain": "Implement and manage semantic models",
+      "topic": "Dynamic Row-Level Security (RLS) & OLS",
+      "topicIcon": "security",
+      "tags": ["RLS", "OLS", "USERPRINCIPALNAME", "Tabular Editor"],
+      "difficulty": "intermediate",
+      "questionType": "multi",
+      "requiredSelections": 2,
+      "hasCodeSnippet": true,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Estás configurando la seguridad de un modelo semántico financiero en Microsoft Fabric. Tienes dos requisitos de seguridad:\n1. Cada gerente regional solo debe ver las filas de ventas correspondientes a su correo electrónico corporativo autenticado en Microsoft Entra ID (almacenado en `DimManager[Email]`).\n2. Los usuarios del rol `Ventas_Externas` no deben poder ver ni siquiera la existencia de la columna `FactSales[UnitCost]` en la lista de campos ni en consultas DAX/Excel.\n\nRevisa el filtro DAX del rol:\n¿Qué DOS acciones debes realizar para cumplir ambos requisitos? (Selecciona dos)",
+      "codeSnippet": "-- Filtro de tabla en DimManager:\nDimManager[Email] = /* FUNCIÓN_IDENTIDAD */",
+      "codeLanguage": "DAX",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Configurar seguridad dinámica a nivel de fila (Dynamic RLS) utilizando la función `USERPRINCIPALNAME()` en la expresión de filtro de `DimManager[Email]`.",
+          "isCorrect": true,
+          "rationale": "`USERPRINCIPALNAME()` devuelve el UPN (correo electrónico de inicio de sesión en Microsoft Entra ID, ej. `usuario@contoso.com`) del usuario que consulta el informe, permitiendo filtrar dinámicamente con un solo rol RLS."
+        },
+        {
+          "id": "opt_2",
+          "text": "Configurar seguridad a nivel de objeto (Object-Level Security - OLS) usando Tabular Editor o TMDL para establecer `MetadataPermission = None` en la columna `FactSales[UnitCost]` para el rol `Ventas_Externas`.",
+          "isCorrect": true,
+          "rationale": "Object-Level Security (OLS) oculta completamente los metadatos y datos de tablas o columnas restringidas; para el usuario restringido es como si la columna `UnitCost` no existiera en el modelo."
+        },
+        {
+          "id": "opt_3",
+          "text": "Marcar únicamente la propiedad `IsHidden = true` (Ocultar en la vista de informe) en la columna `FactSales[UnitCost]` para impedir que los usuarios con permiso Build la consulten desde Excel o DAX.",
+          "isCorrect": false,
+          "rationale": "Ocultar una columna (`IsHidden = true`) es solo una mejora de usabilidad visual, NO una característica de seguridad; cualquier usuario con DAX o Analizar en Excel puede seguir consultándola o viéndola si no se aplica OLS."
+        },
+        {
+          "id": "opt_4",
+          "text": "Usar la función `CUSTOMDATA()` sin configuración de inserción para obtener el correo electrónico en el servicio Power BI.",
+          "isCorrect": false,
+          "rationale": "`CUSTOMDATA()` se usa en escenarios de Power BI Embedded o cadenas de conexión personalizadas con Analysis Services, no para recuperar el UPN estándar del usuario en el servicio de Power BI."
+        }
+      ],
+      "explanation": "La seguridad dinámica a nivel de fila (Dynamic RLS) filtra filas usando `USERPRINCIPALNAME()`, que devuelve el correo/UPN del usuario en el servicio Power BI. Para restringir el acceso a una columna o tabla completa (incluyendo sus metadatos), se utiliza Object-Level Security (OLS) mediante Tabular Editor o TMDL, ya que ocultar una columna (`IsHidden`) no protege los datos.",
+      "theoryPill": {
+        "title": "RLS Dinámico (USERPRINCIPALNAME) vs OLS (Object-Level Security)",
+        "summary": "RLS restringe filas de datos según predicados DAX, mientras que OLS restringe el acceso a objetos completos (tablas o columnas) y sus metadatos.",
+        "keyPoints": [
+          "`USERPRINCIPALNAME()` devuelve siempre el correo UPN (`user@domain.com`) en el servicio Power BI; `USERNAME()` puede devolver `DOMAIN\\user` en entornos locales.",
+          "OLS (Object-Level Security) se configura en Tabular Editor o TMDL asignando permiso `None` a tablas o columnas dentro de un rol.",
+          "Si un objeto visual o una medida DAX hace referencia a una columna bloqueada por OLS, el visual fallará con un error para ese usuario indicando que el objeto no existe.",
+          "Para que RLS/OLS tenga efecto sobre un usuario, este debe tener rol `Viewer` en el área de trabajo (o acceder vía App sin rol Admin/Member/Contributor en el workspace)."
+        ],
+        "examTrap": "Trampa clásica de Pearson VUE: 'Ocultar la columna en la vista de modelo (`Hide in report view`)' NUNCA es una respuesta válida para un requisito de seguridad confidencial; la respuesta correcta siempre es Object-Level Security (OLS).",
+        "searchQuery": "Row-level security RLS and Object-level security OLS in Power BI USERPRINCIPALNAME"
+      },
+      "references": [
+        {
+          "title": "Row-level security (RLS) with Power BI - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/security/service-admin-rls"
+        },
+        {
+          "title": "Object-level security (OLS) with Power BI - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/security/service-admin-ols"
+        }
+      ]
+    },
+    {
+      "id": "DP600-027",
+      "certification": "DP-600",
+      "domain": "Implement and manage semantic models",
+      "topic": "DAX Window Functions (OFFSET, WINDOW, INDEX)",
+      "topicIcon": "powerbi",
+      "tags": ["DAX", "OFFSET", "WINDOW", "ORDERBY"],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "En un modelo semántico tienes una dimensión de periodos fiscales personalizados (`DimFiscalPeriod`) donde los periodos no coinciden con meses del calendario estándar y están numerados secuencialmente mediante la columna `DimFiscalPeriod[PeriodSeq]`. Necesitas crear una medida DAX que devuelva las ventas del periodo fiscal inmediatamente anterior dentro de cada año fiscal (`DimFiscalPeriod[FiscalYear]`), utilizando las funciones de ventana nativas de DAX. Revisa la medida:\n\n¿Qué función de ventana DAX debe reemplazar `/* FUNCIÓN_VENTANA */`?",
+      "codeSnippet": "Sales Previous Fiscal Period = \nCALCULATE(\n    [Total Sales],\n    /* FUNCIÓN_VENTANA */(\n        -1,\n        ALLSELECTED(DimFiscalPeriod[FiscalYear], DimFiscalPeriod[PeriodSeq]),\n        ORDERBY(DimFiscalPeriod[PeriodSeq], ASC),\n        KEEP,\n        PARTITIONBY(DimFiscalPeriod[FiscalYear])\n    )\n)",
+      "codeLanguage": "DAX",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "OFFSET",
+          "isCorrect": true,
+          "rationale": "La función `OFFSET(delta, relation, orderBy, blanks, partitionBy)` desplaza el contexto de fila un número relativo de posiciones (`-1` = fila inmediatamente anterior) según el orden especificado en `ORDERBY` y dentro de la partición `PARTITIONBY`."
+        },
+        {
+          "id": "opt_2",
+          "text": "INDEX",
+          "isCorrect": false,
+          "rationale": "`INDEX(position, ...)` devuelve una fila en una posición absoluta fija (por ejemplo, `1` para el primer periodo del año o `-1` para el último periodo absoluto del año), no la fila inmediatamente anterior a la actual."
+        },
+        {
+          "id": "opt_3",
+          "text": "WINDOW",
+          "isCorrect": false,
+          "rationale": "`WINDOW(from, from_type, to, to_type, ...)` define un rango de múltiples filas (por ejemplo, para promedios móviles o acumulados) y requiere parámetros de inicio y fin."
+        },
+        {
+          "id": "opt_4",
+          "text": "RANK",
+          "isCorrect": false,
+          "rationale": "`RANK()` devuelve el número escalar de clasificación de la fila actual, no una tabla de filtro para desplazarse al periodo anterior dentro de `CALCULATE`."
+        }
+      ],
+      "explanation": "Las funciones de ventana de DAX (`OFFSET`, `INDEX`, `WINDOW`) son ideales para calendarios no estándar y comparaciones posicionales. `OFFSET(-1, ...)` se desplaza exactamente una posición hacia atrás respecto a la fila actual; `INDEX(1, ...)` obtiene siempre la primera fila absoluta (o `-1` la última); y `WINDOW(...)` devuelve un intervalo de filas para acumulados o medias móviles.",
+      "theoryPill": {
+        "title": "Funciones de Ventana en DAX: OFFSET vs INDEX vs WINDOW",
+        "summary": "Las funciones de ventana DAX simplifican cálculos posicionales complejos sin depender de las funciones clásicas de Time Intelligence que exigen calendarios gregorianos estándar.",
+        "keyPoints": [
+          "`OFFSET(delta, ...)`: se mueve una cantidad relativa de filas (`-1` = anterior, `+1` = siguiente) respecto a la fila actual.",
+          "`INDEX(position, ...)`: selecciona una fila por su posición absoluta (`1` = primera fila de la partición, `-1` = última fila de la partición).",
+          "`WINDOW(from, from_type, to, to_type, ...)`: selecciona un rango de filas usando coordenadas `REL` (relativas) o `ABS` (absolutas), ideal para acumulados (`WINDOW(1, ABS, 0, REL, ...)`) y medias móviles (`WINDOW(-2, REL, 0, REL, ...)`).",
+          "Todas se apoyan en las cláusulas auxiliares `ORDERBY(...)` y `PARTITIONBY(...)`."
+        ],
+        "examTrap": "No confundas `OFFSET(-1, ...)` (la fila justo antes de la actual) con `INDEX(-1, ...)` (la última fila absoluta de toda la partición).",
+        "searchQuery": "DAX window functions OFFSET INDEX WINDOW ORDERBY PARTITIONBY"
+      },
+      "references": [
+        {
+          "title": "OFFSET function (DAX) - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/dax/offset-function-dax"
+        },
+        {
+          "title": "WINDOW function (DAX) - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/dax/window-function-dax"
+        }
+      ]
+    },
+    {
+      "id": "DP600-028",
+      "certification": "DP-600",
+      "domain": "Implement and manage semantic models",
+      "topic": "Role-Playing Dimensions & USERELATIONSHIP",
+      "topicIcon": "powerbi",
+      "tags": ["USERELATIONSHIP", "Inactive Relationship", "DAX", "Star Schema"],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "En tu modelo semántico tienes una única tabla de fechas `DimDate` y una tabla de hechos `FactSales` que contiene tanto `OrderDateKey` como `ShipDateKey`. Existe una relación activa de uno a muchos entre `DimDate[DateKey]` y `FactSales[OrderDateKey]`, y una relación inactiva entre `DimDate[DateKey]` y `FactSales[ShipDateKey]`. Necesitas crear una medida llamada `[Sales by Ship Date]` que calcule la suma de `FactSales[SalesAmount]` filtrando por la fecha de envío sin duplicar la tabla `DimDate`. ¿Qué expresión DAX debes escribir?",
+      "codeSnippet": "Sales by Ship Date = \n-- Selecciona la expresión DAX correcta:",
+      "codeLanguage": "DAX",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "CALCULATE(SUM(FactSales[SalesAmount]), USERELATIONSHIP(DimDate[DateKey], FactSales[ShipDateKey]))",
+          "isCorrect": true,
+          "rationale": "`USERELATIONSHIP()` dentro de `CALCULATE` activa temporalmente una relación inactiva existente durante la evaluación de la medida y desactiva la relación activa entre las mismas dos tablas."
+        },
+        {
+          "id": "opt_2",
+          "text": "CALCULATE(SUM(FactSales[SalesAmount]), CROSSFILTER(DimDate[DateKey], FactSales[OrderDateKey], Both))",
+          "isCorrect": false,
+          "rationale": "`CROSSFILTER` cambia la dirección del filtro cruzado de una relación, pero aquí está apuntando a `OrderDateKey` en lugar de activar la relación inactiva con `ShipDateKey`."
+        },
+        {
+          "id": "opt_3",
+          "text": "SUMX(RELATEDTABLE(DimDate), FactSales[SalesAmount])",
+          "isCorrect": false,
+          "rationale": "`RELATEDTABLE` sigue únicamente las relaciones activas del modelo y no activa `ShipDateKey`."
+        },
+        {
+          "id": "opt_4",
+          "text": "CALCULATE(SUM(FactSales[SalesAmount]), RELATED(FactSales[ShipDateKey]))",
+          "isCorrect": false,
+          "rationale": "`RELATED()` requiere contexto de fila desde el lado muchos hacia el lado uno en una relación activa y no es un modificador de relación válido de `CALCULATE`."
+        }
+      ],
+      "explanation": "En Power BI solo puede haber una relación activa a la vez entre dos tablas. Para usar una sola tabla `DimDate` y evaluar medidas por otra fecha (como fecha de envío o fecha de vencimiento), se crea una relación física inactiva y se activa bajo demanda dentro de `CALCULATE` mediante `USERELATIONSHIP(Columna1, Columna2)`.",
+      "theoryPill": {
+        "title": "Relaciones Inactivas (USERELATIONSHIP) vs Dimensiones Role-Playing",
+        "summary": "Cuando una tabla de hechos tiene múltiples claves de fecha, tienes dos opciones de diseño en el modelo semántico.",
+        "keyPoints": [
+          "Opción 1 (Relación inactiva + `USERELATIONSHIP`): mantiene una sola tabla `DimDate` y crea medidas específicas (`Sales by Ship Date`). Ahorra memoria pero no permite filtrar simultáneamente por dos fechas independientes en dos segmentadores distintos salvo que uses tablas desconectadas.",
+          "Opción 2 (Role-playing dimensions / copias de tabla): duplica `DimDate` como `DimOrderDate` y `DimShipDate` con relaciones activas independientes. Permite filtrar por fecha de pedido y fecha de envío a la vez con una sola medida `[Total Sales]`.",
+          "`USERELATIONSHIP` solo puede usarse en funciones que modifican el contexto de filtro como `CALCULATE`, `CALCULATETABLE` o `TOTALYTD`.",
+          "No se puede usar `USERELATIONSHIP` cuando la seguridad a nivel de fila (RLS) está definida sobre la tabla de dimensión afectada en ciertos escenarios de DirectQuery."
+        ],
+        "examTrap": "Si el requisito pide que el usuario pueda usar DOS segmentadores de fecha independientes al mismo tiempo (ej. filtrar Pedidos de Enero enviados en Febrero) sin crear nuevas medidas, debes crear dos tablas de dimensión (Role-playing dimensions); si pide mantener una sola tabla `DimDate` en la lista de campos, usa `USERELATIONSHIP`.",
+        "searchQuery": "Active vs inactive relationship guidance Power BI USERELATIONSHIP"
+      },
+      "references": [
+        {
+          "title": "Active vs inactive relationship guidance - Power BI | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/guidance/relationships-active-inactive"
+        },
+        {
+          "title": "USERELATIONSHIP function (DAX) - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/dax/userelationship-function-dax"
+        }
+      ]
+    },
+    {
+      "id": "DP600-029",
+      "certification": "DP-600",
+      "domain": "Implement and manage semantic models",
+      "topic": "DAX Studio & Query Performance Optimization",
+      "topicIcon": "powerbi",
+      "tags": ["DAX Studio", "Server Timings", "Formula Engine", "Storage Engine"],
+      "difficulty": "hardcore",
+      "questionType": "multi",
+      "requiredSelections": 2,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": {
+        "overview": "Northwind Traders tiene un informe de Power BI conectado a un modelo semántico de 120 millones de filas. Un objeto visual de matriz tarda más de 18 segundos en renderizarse.",
+        "environment": "Capturas la consulta DAX del visual con el Analizador de rendimiento (Performance Analyzer) y la ejecutas en DAX Studio con la opción 'Server Timings' y 'Clear Cache' activadas.",
+        "requirements": "En la pestaña Server Timings observas que el tiempo total es de 17,500 ms, de los cuales el Formula Engine (FE) consume el 94% del tiempo (un solo hilo de CPU) y las consultas xmSQL del Storage Engine (SE) muestran la aparición resaltada de `CallbackDataID`."
+      },
+      "stem": "Basándote en el diagnóstico de DAX Studio para Northwind Traders, ¿qué DOS conclusiones o acciones de optimización son correctas? (Selecciona dos)",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "La presencia de `CallbackDataID` en xmSQL indica que el Storage Engine (VertiPaq) no puede resolver por sí solo una expresión compleja dentro de un iterador (como `IF`, `SWITCH` o `DIVIDE` complejo dentro de `SUMX`) y está llamando de vuelta al Formula Engine de un solo subproceso.",
+          "isCorrect": true,
+          "rationale": "`CallbackDataID` aparece en las consultas xmSQL del Storage Engine cuando VertiPaq encuentra una construcción DAX que no puede evaluar nativamente de forma multihilo y debe pedir ayuda al Formula Engine fila por fila, degradando el rendimiento e impidiendo almacenar en caché ese resultado SE."
+        },
+        {
+          "id": "opt_2",
+          "text": "Debes refactorizar la medida DAX para sustituir el iterador fila por fila sobre la tabla de hechos o empujar la lógica condicional a columnas precalculadas / agregaciones nativas compatibles con el Storage Engine.",
+          "isCorrect": true,
+          "rationale": "Reescribir expresiones complejas dentro de `SUMX(FactTable, ...)` usando medidas basadas en `CALCULATE` con filtros de columna o moviendo lógica estática a la capa de transformación (Lakehouse/Warehouse) elimina `CallbackDataID` y traslada la carga al Storage Engine multihilo."
+        },
+        {
+          "id": "opt_3",
+          "text": "El Formula Engine (FE) es multihilo y almacena automáticamente sus resultados en la caché de datos del disco de OneLake.",
+          "isCorrect": false,
+          "rationale": "El Formula Engine (FE) es estrictamente de un solo subproceso (single-threaded) por consulta y NO tiene caché propia; quien es multihilo y posee caché de consultas en memoria es el Storage Engine (SE)."
+        },
+        {
+          "id": "opt_4",
+          "text": "Debes desactivar 'Clear Cache' en producción porque eso cambia permanentemente el plan físico de consulta en el modelo semántico.",
+          "isCorrect": false,
+          "rationale": "'Clear Cache' en DAX Studio solo limpia la caché en memoria durante la sesión de diagnóstico para medir tiempos en frío (cold cache); no modifica planes de consulta del modelo."
+        }
+      ],
+      "explanation": "El motor de Analysis Services / Power BI consta de dos motores: el Formula Engine (FE, de un solo hilo, procesa lógica DAX compleja pero sin caché) y el Storage Engine (SE, multihilo, ejecuta consultas xmSQL sobre VertiPaq o SQL sobre DirectQuery y guarda resultados en caché). Cuando `SUMX` o `FILTER` incluye lógica que SE no soporta, xmSQL invoca `CallbackDataID` hacia el FE, penalizando el rendimiento y deshabilitando la caché del SE.",
+      "theoryPill": {
+        "title": "Diagnóstico con DAX Studio: Formula Engine (FE) vs Storage Engine (SE)",
+        "summary": "Server Timings en DAX Studio es la herramienta definitiva para distinguir cuellos de botella entre el motor de fórmulas y el motor de almacenamiento.",
+        "keyPoints": [
+          "Formula Engine (FE): single-threaded (un solo hilo de CPU), interpreta todo el lenguaje DAX, pero NO almacena resultados en caché.",
+          "Storage Engine (SE): multi-threaded (usa múltiples núcleos en paralelo), ejecuta consultas simples xmSQL sobre VertiPaq (o T-SQL en DirectQuery) y almacena resultados en la caché del SE.",
+          "`CallbackDataID`: indica que el SE tuvo que invocar al FE durante un escaneo (común en `SUMX(Fact, IF(...))`); las consultas SE con `CallbackDataID` no se guardan en caché.",
+          "Usa 'Clear Cache' antes de ejecutar pruebas en DAX Studio para medir el rendimiento real en frío (cold cache)."
+        ],
+        "examTrap": "Recuerda siempre: Formula Engine = Single-threaded y sin caché. Storage Engine = Multi-threaded y con caché.",
+        "searchQuery": "DAX Studio Server Timings Formula Engine Storage Engine CallbackDataID"
+      },
+      "references": [
+        {
+          "title": "Use Performance Analyzer to examine report element performance in Power BI Desktop - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-performance-analyzer"
+        },
+        {
+          "title": "Optimization guide for Power BI - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/guidance/power-bi-optimization"
+        }
+      ]
+    },
+    {
+      "id": "DP600-030",
+      "certification": "DP-600",
+      "domain": "Implement and manage semantic models",
+      "topic": "Incremental Refresh & Hybrid Tables",
+      "topicIcon": "powerbi",
+      "tags": ["Incremental Refresh", "RangeStart", "RangeEnd", "Hybrid Tables"],
+      "difficulty": "intermediate",
+      "questionType": "multi",
+      "requiredSelections": 2,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Deseas configurar la actualización incremental (Incremental Refresh) con datos en tiempo real (Hybrid Table) para la tabla `FactTransactions` en Power BI Desktop antes de publicarla en un área de trabajo de Microsoft Fabric. Quieres archivar 5 años de datos históricos en modo Import, actualizar incrementalmente los últimos 10 días y consultar en tiempo real mediante DirectQuery las transacciones del día actual. ¿Qué DOS requisitos técnicos son estrictamente obligatorios en Power Query? (Selecciona dos)",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Crear dos parámetros en Power Query con los nombres exactos sensibles a mayúsculas y minúsculas `RangeStart` y `RangeEnd` y de tipo de datos `Date/Time` (Fecha/Hora).",
+          "isCorrect": true,
+          "rationale": "La actualización incremental en Power BI exige obligatoriamente dos parámetros llamados exactamente `RangeStart` y `RangeEnd` (case-sensitive) configurados con el tipo de datos `Date/Time` (incluso si la columna de la tabla es de tipo Fecha o entero convertido)."
+        },
+        {
+          "id": "opt_2",
+          "text": "Aplicar un filtro personalizado en la columna de fecha de `FactTransactions` donde un límite use un operador inclusivo (`>=` o `<=`) y el otro límite use un operador estrictamente exclusivo (`<` o `>`), evitando `BETWEEN` inclusivo en ambos extremos.",
+          "isCorrect": true,
+          "rationale": "Para evitar que las filas situadas exactamente en la medianoche del límite se dupliquen en dos particiones contiguas, el filtro debe ser inclusivo en un extremo y exclusivo en el otro (por ejemplo, `>= RangeStart and < RangeEnd`)."
+        },
+        {
+          "id": "opt_3",
+          "text": "Configurar la columna `LastModifiedDate` como la misma columna que se filtra con `RangeStart` y `RangeEnd` al activar 'Detectar cambios en los datos' (Detect data changes).",
+          "isCorrect": false,
+          "rationale": "Al activar 'Detect data changes', la columna de fecha/hora de auditoría seleccionada DEBE ser diferente de la columna de fecha utilizada para particionar con `RangeStart` y `RangeEnd`."
+        },
+        {
+          "id": "opt_4",
+          "text": "Definir `RangeStart` y `RangeEnd` con el tipo de datos `Text` (Texto) en Power Query.",
+          "isCorrect": false,
+          "rationale": "Los parámetros `RangeStart` y `RangeEnd` deben ser obligatoriamente de tipo `Date/Time`; si son `Date` o `Text`, el cuadro de diálogo de actualización incremental permanecerá deshabilitado."
+        }
+      ],
+      "explanation": "Para habilitar Incremental Refresh (y tablas híbridas con una partición final en DirectQuery), Power Query exige dos parámetros llamados exactamente `RangeStart` y `RangeEnd` de tipo `Date/Time`. El filtro sobre la tabla debe ser semi-abierto (`>= RangeStart` y `< RangeEnd`) para no duplicar filas en los bordes de partición, y el origen debe soportar Query Folding.",
+      "theoryPill": {
+        "title": "Actualización Incremental y Tablas Híbridas (Hybrid Tables)",
+        "summary": "La actualización incremental divide automáticamente las tablas grandes en particiones históricas (Import), particiones de refresco reciente (Import) y opcionalmente una partición en tiempo real (DirectQuery).",
+        "keyPoints": [
+          "Parámetros obligatorios: `RangeStart` y `RangeEnd` (exactamente con esas mayúsculas y tipo `Date/Time`).",
+          "Condición de filtro obligatoria: un límite inclusivo y otro exclusivo (`>= RangeStart` y `< RangeEnd`) para evitar filas duplicadas entre particiones.",
+          "Get the latest data in real time with DirectQuery: crea una tabla híbrida añadiendo una partición DirectQuery para el periodo actual sobre las particiones Import históricas.",
+          "Detect data changes: requiere una columna de fecha/hora de última modificación (`LastUpdatedDate`) DISTINTA a la columna usada con `RangeStart`/`RangeEnd`."
+        ],
+        "examTrap": "Cuidado con dos trampas frecuentes: 1) Crear `RangeStart`/`RangeEnd` como tipo `Date` en vez de `Date/Time`. 2) Usar `>= RangeStart` y `<= RangeEnd` (ambos inclusivos), lo cual no está permitido porque duplica registros en el corte de partición.",
+        "searchQuery": "Configure incremental refresh and real-time data for Power BI semantic models RangeStart RangeEnd"
+      },
+      "references": [
+        {
+          "title": "Configure incremental refresh and real-time data for Power BI semantic models - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/incremental-refresh-overview"
+        }
+      ]
+    },
+    {
+      "id": "DP600-031",
+      "certification": "DP-600",
+      "domain": "Implement and manage semantic models",
+      "topic": "Composite Models & User-Defined Aggregations",
+      "topicIcon": "powerbi",
+      "tags": ["Aggregations", "Composite Model", "Dual Storage Mode", "DirectQuery"],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": {
+        "overview": "Fabrikam opera un modelo semántico sobre una tabla de hechos `FactWebClicks` de 15 mil millones de filas que permanece en modo `DirectQuery` debido a su volumen.",
+        "environment": "El 90% de las consultas de los cuadros de mando agrupan los clics únicamente por `DateKey`, `CountryKey` y `DeviceTypeKey`. Has creado una tabla resumida `AggWebClicks` con solo 2 millones de filas agrupadas por esas tres claves y las has relacionado con las dimensiones `DimDate`, `DimCountry` y `DimDeviceType`.",
+        "requirements": "Necesitas configurar los modos de almacenamiento de las tablas para que las consultas agregadas por fecha, país o dispositivo (incluyendo los segmentadores de informe basados en esas tres dimensiones) se resuelvan 100% en memoria sin enviar ninguna consulta SQL al origen DirectQuery, mientras que las consultas a nivel de `ClickID` individual vayan automáticamente a `FactWebClicks`."
+      },
+      "stem": "¿Qué combinación de modos de almacenamiento debes configurar para `FactWebClicks`, `AggWebClicks` y las tres tablas de dimensiones (`DimDate`, `DimCountry`, `DimDeviceType`)?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "`FactWebClicks` en `DirectQuery`, `AggWebClicks` en `Import`, y las tres tablas de dimensiones (`DimDate`, `DimCountry`, `DimDeviceType`) en modo `Dual`.",
+          "isCorrect": true,
+          "rationale": "En un modelo con agregaciones definidas por el usuario, la tabla de detalles masiva se mantiene en `DirectQuery`, la tabla de agregaciones se carga en `Import` para máxima velocidad en memoria, y las dimensiones compartidas deben estar en modo `Dual` para actuar como `Import` al consultar la tabla agregada (y poblar segmentadores desde memoria) y como `DirectQuery` al hacer join en el origen con la tabla de detalles."
+        },
+        {
+          "id": "opt_2",
+          "text": "`FactWebClicks` en `Import`, `AggWebClicks` en `DirectQuery`, y las tres tablas de dimensiones en modo `Import`.",
+          "isCorrect": false,
+          "rationale": "Poner la tabla de 15 mil millones de filas en `Import` y la tabla agregada en `DirectQuery` invierte por completo el propósito de las agregaciones en memoria."
+        },
+        {
+          "id": "opt_3",
+          "text": "`FactWebClicks` en `DirectQuery`, `AggWebClicks` en `Import`, y las tres tablas de dimensiones en modo `DirectQuery`.",
+          "isCorrect": false,
+          "rationale": "Si las dimensiones están en `DirectQuery`, poblar los segmentadores y agrupar por atributos de dimensión obligará a enviar consultas SQL al origen y generará relaciones de grupo de origen cruzado (limited relationships)."
+        },
+        {
+          "id": "opt_4",
+          "text": "`FactWebClicks` en `Dual`, `AggWebClicks` en `Dual`, y las tres tablas de dimensiones en `DirectQuery`.",
+          "isCorrect": false,
+          "rationale": "Poner `FactWebClicks` en `Dual` obligaría a importar en memoria los 15 mil millones de filas."
+        }
+      ],
+      "explanation": "El patrón arquitectónico oficial para agregaciones definidas por el usuario en Power BI requiere: 1) Tabla de hechos de detalle en `DirectQuery`; 2) Tabla de agregaciones oculta en `Import` (configurando Manage Aggregations con funciones Sum, Count, Min, Max); y 3) Tablas de dimensiones relacionadas con ambas en modo de almacenamiento `Dual`.",
+      "theoryPill": {
+        "title": "Agregaciones Definidas por el Usuario y Modo de Almacenamiento Dual",
+        "summary": "El modo de almacenamiento `Dual` almacena la tabla en memoria (como Import) pero también permite hacer `JOIN` nativo en el origen SQL cuando la consulta va a una tabla DirectQuery.",
+        "keyPoints": [
+          "Tabla de hechos detallada: `DirectQuery`.",
+          "Tabla de agregaciones (`Agg...`): `Import` (se oculta automáticamente a los usuarios finales tras mapear las agregaciones).",
+          "Tablas de dimensión relacionadas tanto con la tabla de hechos como con la de agregaciones: `Dual`.",
+          "Para que el mapeo de agregaciones (`Sum`, `Min`, `Max`) sea válido, la columna numérica en la tabla de agregaciones debe tener exactamente el mismo tipo de datos que en la tabla de hechos de detalle."
+        ],
+        "examTrap": "Si una pregunta habla de optimizar una tabla de hechos en `DirectQuery` con una tabla de agregaciones en `Import`, las dimensiones compartidas SIEMPRE deben configurarse en modo `Dual`.",
+        "searchQuery": "User-defined aggregations in Power BI Dual storage mode"
+      },
+      "references": [
+        {
+          "title": "User-defined aggregations - Power BI | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/transform-model/aggregations-advanced"
+        },
+        {
+          "title": "Manage storage mode in Power BI Desktop - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-storage-mode"
+        }
+      ]
+    },
+    {
+      "id": "DP600-032",
+      "certification": "DP-600",
+      "domain": "Implement and manage semantic models",
+      "topic": "DAX Variables, Iterators & Context Transition",
+      "topicIcon": "powerbi",
+      "tags": ["DAX", "Context Transition", "SUMX", "Variables"],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un desarrollador junior escribió la siguiente medida DAX para contar cuántos clientes tienen ventas totales superiores a 10,000 EUR, pero la medida devuelve siempre un resultado incorrecto (o evalúa el mismo total global para todos los clientes):\n\n¿Por qué falla la Expresión 1 y cuál de las opciones corrige el cálculo aprovechando la transición de contexto o la medida existente `[Total Sales]`?",
+      "codeSnippet": "-- Expresión 1 (Incorrecta):\nHigh Value Customers = \nVAR TotalSalesAll = SUM(FactSales[SalesAmount])\nRETURN\n    COUNTROWS(\n        FILTER(\n            DimCustomer,\n            TotalSalesAll > 10000\n        )\n    )",
+      "codeLanguage": "DAX",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Las variables DAX se evalúan una sola vez en el contexto donde se declaran (fuera de `FILTER`), y además `SUM(...)` dentro de `FILTER(DimCustomer, ...)` no realiza transición de contexto; debe reemplazarse la condición del `FILTER` por `CALCULATE(SUM(FactSales[SalesAmount])) > 10000` (o invocar directamente la medida `[Total Sales] > 10000`).",
+          "isCorrect": true,
+          "rationale": "En DAX, una variable (`VAR`) es una constante que se evalúa en el contexto de definición (antes de entrar en `FILTER`). Además, `FILTER(DimCustomer, ...)` crea un contexto de fila sobre `DimCustomer` que solo se convierte en contexto de filtro sobre `FactSales` mediante transición de contexto (`CALCULATE(...)` o llamando a una referencia de medida `[Total Sales]`)."
+        },
+        {
+          "id": "opt_2",
+          "text": "Las variables DAX se reevalúan en cada iteración de `FILTER`, por lo que basta con cambiar `COUNTROWS` por `DISTINCTCOUNT(DimCustomer)`.",
+          "isCorrect": false,
+          "rationale": "Las variables DAX NUNCA se reevalúan dentro de funciones posteriores al `RETURN` si fueron definidas fuera del iterador, y `DISTINCTCOUNT` no acepta una tabla como argumento."
+        },
+        {
+          "id": "opt_3",
+          "text": "Mover `SUM(FactSales[SalesAmount]) > 10000` directamente dentro de `FILTER(DimCustomer, SUM(FactSales[SalesAmount]) > 10000)` sin `CALCULATE` realiza la transición de contexto automáticamente.",
+          "isCorrect": false,
+          "rationale": "`SUM(FactSales[SalesAmount])` sin `CALCULATE` no realiza transición de contexto y devuelve el total general del contexto de filtro externo para cada fila de `DimCustomer`."
+        },
+        {
+          "id": "opt_4",
+          "text": "Reemplazar `FILTER` por `ALL(DimCustomer)` sin ninguna condición booleana.",
+          "isCorrect": false,
+          "rationale": "`ALL(DimCustomer)` devolvería el conteo de todos los clientes sin filtrar por aquellos que superan 10,000 EUR."
+        }
+      ],
+      "explanation": "Existen dos reglas de oro de DAX en esta pregunta: 1) Una variable (`VAR`) se evalúa una única vez en el contexto en el que se define, no donde se utiliza. 2) Dentro de un iterador como `FILTER(DimCustomer, ...)`, existe un contexto de fila sobre `DimCustomer`; para filtrar la tabla relacionada `FactSales` por el cliente actual se necesita transición de contexto, la cual ocurre al envolver la agregación en `CALCULATE(SUM(FactSales[SalesAmount]))` o al invocar una medida como `[Total Sales]` (que incluye un `CALCULATE` implícito).",
+      "theoryPill": {
+        "title": "Variables DAX y Transición de Contexto (Context Transition)",
+        "summary": "Entender cuándo se evalúa una variable (`VAR`) y cómo `CALCULATE` convierte un contexto de fila en un contexto de filtro es indispensable para las preguntas DAX de nivel experto en DP-600.",
+        "keyPoints": [
+          "Las variables (`VAR`) son constantes inmutables evaluadas en el alcance donde se declaran.",
+          "Un iterador (`SUMX`, `FILTER`, `ADDCOLUMNS`) crea un contexto de fila, el cual NO filtra automáticamente las tablas relacionadas.",
+          "`CALCULATE` (explícito o implícito al referenciar una `[Medida]`) ejecuta la Transición de Contexto, transformando la fila actual en un filtro equivalente que sí se propaga por las relaciones.",
+          "Escribir `FILTER(DimCustomer, SUM(Fact[Sales]) > 10000)` sin `CALCULATE` evalúa el mismo total general para cada cliente."
+        ],
+        "examTrap": "Recordar que `[Total Sales]` tiene un `CALCULATE` implícito alrededor de su expresión, mientras que `SUM(FactSales[SalesAmount])` escrito directamente dentro de un iterador NO tiene `CALCULATE` implícito.",
+        "searchQuery": "Use variables to improve your DAX formulas context transition CALCULATE"
+      },
+      "references": [
+        {
+          "title": "Use variables to improve your DAX formulas - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/dax/best-practices/dax-variables"
+        },
+        {
+          "title": "CALCULATE function (DAX) - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/dax/calculate-function-dax"
+        }
+      ]
+    },
+    {
+      "id": "DP600-033",
+      "certification": "DP-600",
+      "domain": "Implement and manage semantic models",
+      "topic": "VertiPaq Memory Optimization & Large Semantic Models",
+      "topicIcon": "powerbi",
+      "tags": ["VertiPaq", "Auto Date/Time", "Cardinality", "Large Semantic Model"],
+      "difficulty": "basic",
+      "questionType": "multi",
+      "requiredSelections": 2,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Estás optimizando un modelo semántico en modo Import que actualmente ocupa 3.8 GB en memoria y que pronto crecerá hasta superar los 12 GB en una capacidad F64. Al inspeccionar las estadísticas de memoria con VertiPaq Analyzer en DAX Studio, observas docenas de tablas ocultas `LocalDateTable_...` y una columna `EventTimestamp` (con fecha y hora hasta el milisegundo) que consume el 45% de la memoria total del modelo. ¿Qué DOS acciones debes realizar para reducir la huella de memoria y permitir que el modelo supere el límite estándar de tamaño en la capacidad? (Selecciona dos)",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Deshabilitar la opción 'Fecha y hora automáticas' (Auto date/time) en las opciones de carga de datos y dividir la columna `EventTimestamp` en una columna de Fecha (`Date`) y otra columna de Hora (`Time`) truncando la precisión innecesaria.",
+          "isCorrect": true,
+          "rationale": "Desactivar Auto date/time elimina todas las tablas ocultas `LocalDateTable_...`, y separar `DateTime` en `Date` + `Time` (reduciendo precisión a minutos/segundos) disminuye drásticamente la cardinalidad y el tamaño del diccionario en VertiPaq."
+        },
+        {
+          "id": "opt_2",
+          "text": "Habilitar el 'Formato de almacenamiento de modelos semánticos grandes' (Large semantic model storage format) en la configuración del modelo semántico en el servicio.",
+          "isCorrect": true,
+          "rationale": "El formato de almacenamiento de modelos semánticos grandes (Large semantic model storage format) permite que los modelos superen el límite predeterminado de tamaño y escalen hasta el límite de memoria de la capacidad SKU (además de mejorar el rendimiento de escritura XMLA)."
+        },
+        {
+          "id": "opt_3",
+          "text": "Convertir todas las claves enteras (`INT64`) de las relaciones a cadenas de texto (`STRING` / `GUID`) para mejorar la compresión de diccionario.",
+          "isCorrect": false,
+          "rationale": "Las columnas de tipo entero (`Integer`) utilizan codificación por valores (Value Encoding) mucho más eficiente que las cadenas `STRING` o `GUID`, las cuales inflan el diccionario Hash."
+        },
+        {
+          "id": "opt_4",
+          "text": "Reemplazar todas las medidas DAX por columnas calculadas dentro de la tabla de hechos.",
+          "isCorrect": false,
+          "rationale": "Las columnas calculadas en tablas de hechos grandes se materializan en RAM y aumentan el tamaño del modelo, mientras que las medidas DAX se calculan en tiempo de consulta sin ocupar almacenamiento en las tablas."
+        }
+      ],
+      "explanation": "En el motor columnar VertiPaq, el factor que más impacta el consumo de memoria es la cardinalidad de las columnas (número de valores únicos). Dividir columnas `DateTime` en `Date` y `Time` y desactivar `Auto date/time` reduce masivamente el diccionario. Además, para modelos empresariales grandes en capacidades Fabric/Premium, es necesario activar `Large semantic model storage format`.",
+      "theoryPill": {
+        "title": "Reducción de Memoria en VertiPaq y Formato de Modelos Grandes",
+        "summary": "VertiPaq comprime datos por columnas; una menor cardinalidad se traduce directamente en diccionarios más pequeños y escaneos mucho más rápidos.",
+        "keyPoints": [
+          "Desactiva siempre `Auto date/time` para eliminar las tablas ocultas `LocalDateTable_...` y usa una tabla `DimDate` dedicada marcada como tabla de fechas.",
+          "Divide las columnas `DateTime` de alta precisión en dos columnas separadas (`Date` y `Time`) o elimina la parte horaria si no se analiza.",
+          "Elimina columnas de clave primaria de la tabla de hechos (como `OrderLineID` o `GUID`) si no se usan en relaciones, filtros ni conteos.",
+          "Activa `Large semantic model storage format` para permitir tamaños superiores al límite base y acelerar operaciones por el extremo XMLA."
+        ],
+        "examTrap": "Si una pregunta pide reducir el tamaño en memoria de una columna `DateTime`, la respuesta correcta es dividirla en dos columnas (`Date` y `Time`) o redondear la precisión, nunca concatenarla como texto.",
+        "searchQuery": "Data reduction techniques for Import modeling Power BI Large semantic model storage format"
+      },
+      "references": [
+        {
+          "title": "Data reduction techniques for Import modeling - Power BI | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/guidance/import-modeling-data-reduction"
+        },
+        {
+          "title": "Large semantic models in Power BI Premium and Fabric - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/enterprise/service-premium-large-models"
+        }
+      ]
+    },
+    {
+      "id": "DP600-034",
+      "certification": "DP-600",
+      "domain": "Implement and manage semantic models",
+      "topic": "DAX Virtual Relationships with TREATAS",
+      "topicIcon": "powerbi",
+      "tags": ["TREATAS", "Virtual Relationship", "Granularity", "DAX"],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "En tu modelo semántico tienes una tabla de presupuesto `FactBudget` cuya granularidad está a nivel de `Brand` (Marca) y `CalendarYear` (Año), mientras que la dimensión de productos `DimProduct` tiene como clave primaria `ProductKey` (donde muchos productos pertenecen a una misma `Brand`) y la dimensión `DimDate` tiene como clave primaria `DateKey`. No existe relación física directa entre `DimProduct` y `FactBudget` porque `Brand` no es única en `DimProduct`. Quieres propagar los filtros seleccionados en `DimProduct[Brand]` y `DimDate[CalendarYear]` hacia `FactBudget` dentro de una medida DAX usando la función más eficiente para relaciones virtuales. ¿Qué expresión DAX debes utilizar?",
+      "codeSnippet": "Budget Amount = \nCALCULATE(\n    SUM(FactBudget[BudgetValue]),\n    -- Selecciona la función DAX de relación virtual:\n)",
+      "codeLanguage": "DAX",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "TREATAS(SUMMARIZE(DimProduct, DimProduct[Brand]), FactBudget[Brand]), TREATAS(VALUES(DimDate[CalendarYear]), FactBudget[CalendarYear])",
+          "isCorrect": true,
+          "rationale": "`TREATAS(table_expression, column1, ...)` aplica el resultado de una expresión de tabla como filtro directo sobre columnas de otra tabla no relacionada físicamente, siendo el método más eficiente en DAX para relaciones virtuales y tablas de hechos de distinta granularidad."
+        },
+        {
+          "id": "opt_2",
+          "text": "USERELATIONSHIP(DimProduct[Brand], FactBudget[Brand])",
+          "isCorrect": false,
+          "rationale": "`USERELATIONSHIP` exige que ya exista una relación física inactiva creada en el modelo entre las dos columnas."
+        },
+        {
+          "id": "opt_3",
+          "text": "RELATED(FactBudget[Brand]) = RELATED(DimProduct[Brand])",
+          "isCorrect": false,
+          "rationale": "`RELATED()` solo funciona dentro de un contexto de fila a través de una relación física existente de muchos a uno."
+        },
+        {
+          "id": "opt_4",
+          "text": "CROSSJOIN(DimProduct, FactBudget)",
+          "isCorrect": false,
+          "rationale": "`CROSSJOIN` genera el producto cartesiano de ambas tablas sin filtrar por coincidencia de `Brand`."
+        }
+      ],
+      "explanation": "Cuando no existe (o no se desea crear) una relación física entre dos tablas debido a diferencias de granularidad (como presupuestos por Marca/Año frente a dimensiones a nivel de Producto/Día), la función `TREATAS` transfiere el linaje de datos de los valores activos en la dimensión hacia las columnas destino de la tabla de presupuesto con mejor rendimiento que `INTERSECT` o `FILTER`.",
+      "theoryPill": {
+        "title": "Relaciones Virtuales con TREATAS en DAX",
+        "summary": "`TREATAS` sobrescribe el linaje de datos de una tabla de valores para filtrar columnas arbitrarias de otra tabla dentro de `CALCULATE`.",
+        "keyPoints": [
+          "Sintaxis: `TREATAS(expresión_tabla_origen, columna_destino_1, [columna_destino_2], ...)`.",
+          "Es la función más rápida para implementar relaciones virtuales cuando no hay relación física (supera en rendimiento a `INTERSECT` y `FILTER(ALL(...), CONTAINS(...))`).",
+          "No obstante, una relación física real en el modelo siempre es más rápida que `TREATAS`, por lo que `TREATAS` se reserva para casos donde una relación física no es viable o deseable.",
+          "Admite múltiples columnas simultáneamente: `TREATAS(SUMMARIZE(Dim, Dim[C1], Dim[C2]), Fact[C1], Fact[C2])`."
+        ],
+        "examTrap": "Recuerda que `USERELATIONSHIP` requiere una relación física inactiva previa en el diagrama del modelo; si las tablas están desconectadas en el diagrama, debes usar `TREATAS`.",
+        "searchQuery": "TREATAS function DAX virtual relationship Power BI"
+      },
+      "references": [
+        {
+          "title": "TREATAS function (DAX) - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/dax/treatas-function-dax"
+        }
+      ]
+    },
+    {
+      "id": "DP600-035",
+      "certification": "DP-600",
+      "domain": "Implement and manage semantic models",
+      "topic": "Tabular Editor 2 & Best Practice Analyzer",
+      "topicIcon": "powerbi",
+      "tags": ["Tabular Editor 2", "Best Practice Analyzer", "Perspectives", "Optimization"],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Has heredado un modelo semántico empresarial con más de 60 tablas y 400 medidas. Quieres realizar una auditoría automatizada de reglas de calidad sobre los metadatos del modelo (como detectar columnas de clave foránea visibles, columnas de punto flotante innecesarias, medidas sin cadena de formato o relaciones bidireccionales riesgosas) y aplicar correcciones por lotes sin cargar los datos en memoria local. ¿Qué herramienta externa y funcionalidad debes utilizar?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Tabular Editor 2 con el Analizador de procedimientos recomendados (Best Practice Analyzer - BPA).",
+          "isCorrect": true,
+          "rationale": "Tabular Editor 2 permite editar metadatos TOM/BIM sin necesidad de cargar datos localmente e incluye el Best Practice Analyzer (BPA), que evalúa reglas JSON sobre todo el modelo y aplica correcciones automáticas en lote."
+        },
+        {
+          "id": "opt_2",
+          "text": "DAX Studio con la pestaña Query Plan.",
+          "isCorrect": false,
+          "rationale": "DAX Studio está diseñado para ejecutar y perfilar consultas DAX y analizar métricas de almacenamiento (VertiPaq Analyzer), pero no modifica metadatos del modelo ni ejecuta reglas de Best Practice Analyzer."
+        },
+        {
+          "id": "opt_3",
+          "text": "El Editor de consultas visuales (Visual Query Editor) del SQL Analytics Endpoint.",
+          "isCorrect": false,
+          "rationale": "El Visual Query Editor sirve para consultar datos en el almacén SQL, no para auditar ni editar modelos semánticos de Power BI."
+        },
+        {
+          "id": "opt_4",
+          "text": "La aplicación Microsoft Fabric Capacity Metrics.",
+          "isCorrect": false,
+          "rationale": "La aplicación Capacity Metrics supervisa el consumo de unidades de capacidad (CUs) de la infraestructura, no las propiedades de diseño interno de las columnas y medidas de un modelo semántico."
+        }
+      ],
+      "explanation": "Tabular Editor 2 es la herramienta externa de referencia para manipular metadatos del modelo tabular (TOM): crear Calculation Groups, configurar Object-Level Security (OLS), crear Perspectivas (`Perspectives`) y auditar automáticamente la calidad del modelo mediante el Best Practice Analyzer (BPA). Por su parte, DAX Studio se enfoca en el rendimiento de consultas DAX (`Server Timings`, `Query Plan`) y tamaño en memoria (`VertiPaq Analyzer`).",
+      "theoryPill": {
+        "title": "Casos de Uso: Tabular Editor 2 vs DAX Studio en el Examen DP-600",
+        "summary": "El examen DP-600 evalúa explícitamente cuándo elegir Tabular Editor 2 frente a DAX Studio.",
+        "keyPoints": [
+          "Tabular Editor 2 (edición de metadatos BIM/TMDL): Best Practice Analyzer (BPA), Calculation Groups, Object-Level Security (OLS), Perspectives, edición masiva de carpetas/formatos y despliegue por XMLA.",
+          "DAX Studio (consultas y diagnóstico de motor): Server Timings (FE vs SE), Query Plan (físico y lógico), VertiPaq Analyzer (tamaño de tablas/columnas/cardinalidad en RAM), Clear Cache y exportación de datos.",
+          "Las Perspectivas (`Perspectives`) creadas en Tabular Editor son vistas personalizadas de un subconjunto de tablas/medidas para facilitar la navegación o personalizar visuales (NO son un mecanismo de seguridad).",
+          "Ambas herramientas pueden conectarse directamente a modelos publicados en Fabric mediante el extremo XMLA."
+        ],
+        "examTrap": "No confundas Perspectivas (`Perspectives`, que solo ocultan campos por comodidad de navegación y para Personalize Visuals) con Object-Level Security (`OLS`, que sí protege datos de forma segura).",
+        "searchQuery": "Tabular Editor 2 Best Practice Analyzer DAX Studio use cases Power BI"
+      },
+      "references": [
+        {
+          "title": "External tools in Power BI Desktop - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-external-tools"
+        },
+        {
+          "title": "Optimization guide for Power BI - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/guidance/power-bi-optimization"
+        }
+      ]
+    }
+  ]
+}

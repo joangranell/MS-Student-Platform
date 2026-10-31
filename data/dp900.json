@@ -1,0 +1,2073 @@
+{
+  "certification": "DP-900",
+  "title": "Microsoft Azure Data Fundamentals",
+  "passingScore": 700,
+  "domains": [
+    "Describe core data concepts",
+    "Identify considerations for relational data on Azure",
+    "Describe considerations for working with non-relational data on Azure",
+    "Describe an analytics workload on Azure"
+  ],
+  "questions": [
+    {
+      "id": "DP900-001",
+      "certification": "DP-900",
+      "domain": "Describe core data concepts",
+      "topic": "Transacciones ACID y OLTP",
+      "topicIcon": "sql",
+      "tags": [
+        "ACID",
+        "OLTP",
+        "Atomicidad",
+        "Aislamiento"
+      ],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Una entidad bancaria ejecuta una transferencia de fondos en un sistema de procesamiento de transacciones en línea (OLTP). El sistema debita 500 EUR de la cuenta de origen pero, antes de acreditar el importe en la cuenta de destino, se produce un fallo eléctrico en el servidor. Al reiniciarse la base de datos, el débito inicial se revierte automáticamente para que ninguna de las dos cuentas quede en un estado parcial. ¿Qué propiedad del modelo transaccional ACID garantiza este comportamiento de «todo o nada»?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Atomicidad (Atomicity)",
+          "isCorrect": true,
+          "rationale": "Correcto. La atomicidad garantiza que cada transacción se trate como una única unidad lógica: o bien todas sus operaciones se completan con éxito (commit), o ninguna se aplica (rollback)."
+        },
+        {
+          "id": "opt_2",
+          "text": "Consistencia (Consistency)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. La consistencia garantiza que los datos pasen de un estado válido a otro respetando todas las reglas, restricciones y triggers definidos en la base de datos."
+        },
+        {
+          "id": "opt_3",
+          "text": "Aislamiento (Isolation)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. El aislamiento asegura que las transacciones concurrentes no interfieran entre sí mientras están en ejecución."
+        },
+        {
+          "id": "opt_4",
+          "text": "Durabilidad (Durability)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. La durabilidad garantiza que, una vez que una transacción ha sido confirmada (committed), sus cambios persistan en almacenamiento no volátil incluso ante un apagón."
+        }
+      ],
+      "explanation": "En los sistemas transaccionales (OLTP), el cumplimiento de las garantías ACID es esencial para preservar la integridad de los datos. La Atomicidad asegura que todas las sentencias dentro de una transacción se ejecuten como una unidad indivisible; si cualquier parte falla, toda la transacción hace rollback.",
+      "theoryPill": {
+        "title": "Garantías Transaccionales ACID en Sistemas OLTP",
+        "summary": "Las bases de datos relacionales aplican el modelo ACID para proteger la integridad de las operaciones transaccionales concurrentes frente a errores lógicos o caídas de hardware.",
+        "keyPoints": [
+          "Atomicidad (Atomicity): Regla de «todo o nada»; si falla un paso, se deshacen todos los cambios previos de la transacción.",
+          "Consistencia (Consistency): Los datos siempre deben cumplir las restricciones del esquema (claves foráneas, CHECK, tipos de datos).",
+          "Aislamiento (Isolation): Las transacciones simultáneas se ejecutan como si estuvieran serializadas, evitando lecturas sucias (dirty reads).",
+          "Durabilidad (Durability): Una transacción confirmada se registra en el log transaccional en disco y sobrevive a reinicios del sistema."
+        ],
+        "examTrap": "No confundas Atomicidad con Durabilidad: si el fallo ocurre ANTES del commit y se deshace todo, es Atomicidad; si el fallo ocurre DESPUÉS del commit y el cambio permanece guardado, es Durabilidad.",
+        "searchQuery": "Transactional data processing ACID properties Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Describe transactional data processing - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/4-transactional-data-processing"
+        }
+      ]
+    },
+    {
+      "id": "DP900-002",
+      "certification": "DP-900",
+      "domain": "Describe core data concepts",
+      "topic": "Representación de Datos",
+      "topicIcon": "lakehouse",
+      "tags": [
+        "Datos Estructurados",
+        "Datos Semiestructurados",
+        "Datos No Estructurados",
+        "JSON"
+      ],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": "RetailOmni Corp está diseñando su plataforma de datos en Azure para centralizar información procedente de terminales de punto de venta, sensores de tiendas y cámaras de seguridad.",
+      "caseStudyTabs": {
+        "overview": "RetailOmni Corp opera 400 tiendas físicas y un portal de comercio electrónico. La dirección desea consolidar todos los orígenes de datos corporativos en Azure.",
+        "environment": "1. Base de datos de facturación con tablas fijas de filas y columnas tipadas.\n2. Eventos de telemetría enviados por balizas IoT en formato JSON con campos variables según el modelo del sensor.\n3. Grabaciones de vídeo MP4 de cámaras de vigilancia y archivos PDF de albaranes escaneados.",
+        "requirements": "El equipo de arquitectura necesita clasificar correctamente cada origen de datos según su estructura para elegir el servicio de almacenamiento adecuado en Azure."
+      },
+      "stem": "De acuerdo con el entorno de RetailOmni Corp, ¿cómo debes clasificar los eventos de telemetría enviados por las balizas IoT en formato JSON con atributos variables por dispositivo?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Datos semiestructurados (Semi-structured data)",
+          "isCorrect": true,
+          "rationale": "Correcto. Los documentos JSON contienen etiquetas, jerarquías y pares clave-valor que organizan la información sin requerir un esquema tabular rígido de filas y columnas."
+        },
+        {
+          "id": "opt_2",
+          "text": "Datos estructurados (Structured data)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Los datos estructurados se ajustan a un esquema fijo tabular donde todas las entidades comparten exactamente las mismas columnas y tipos de datos."
+        },
+        {
+          "id": "opt_3",
+          "text": "Datos no estructurados (Unstructured data)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Los datos no estructurados corresponden a archivos binarios o de texto libre sin jerarquía de campos autodescriptivos, como vídeos MP4, imágenes o audios."
+        },
+        {
+          "id": "opt_4",
+          "text": "Datos relacionales normalizados (Normalized relational data)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Los eventos JSON con esquemas variables por sensor no son tablas relacionales normalizadas."
+        }
+      ],
+      "explanation": "Los datos se dividen en tres categorías fundamentales: estructurados (tablas relacionales con esquema fijo), semiestructurados (JSON, XML, Avro, YAML, que definen jerarquías y claves por documento permitiendo variabilidad) y no estructurados (archivos multimedia, PDFs, imágenes binarias sin esquema interno de campos).",
+      "theoryPill": {
+        "title": "Clasificación de Datos: Estructurados, Semiestructurados y No Estructurados",
+        "summary": "Identificar cómo se representan los datos determina si deben almacenarse en un motor relacional, una base de datos NoSQL documental o un almacenamiento de objetos como Azure Blob Storage.",
+        "keyPoints": [
+          "Datos estructurados: Esquema tabular fijo (filas y columnas); ideales para Azure SQL Database o Data Warehouses.",
+          "Datos semiestructurados: Incorporan metadatos o etiquetas jerárquicas (JSON, XML, Avro) que permiten que cada registro tenga atributos distintos.",
+          "Datos no estructurados: Carecen de estructura de campos predefinida (vídeo, audio, imágenes, PDFs); se almacenan como blobs binarios."
+        ],
+        "examTrap": "Un archivo CSV con cabeceras fijas y columnas idénticas en todas las filas suele considerarse representación de datos estructurados/tabulares, mientras que JSON o XML con campos anidados u opcionales es siempre semiestructurado.",
+        "searchQuery": "Identify data formats structured semi-structured unstructured Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Identify data formats - Explore core data concepts | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/2-data-formats"
+        }
+      ]
+    },
+    {
+      "id": "DP900-003",
+      "certification": "DP-900",
+      "domain": "Describe core data concepts",
+      "topic": "Formatos de Archivo Analíticos",
+      "topicIcon": "onelake",
+      "tags": [
+        "Parquet",
+        "Avro",
+        "ORC",
+        "Almacenamiento Columnar"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "multi",
+      "requiredSelections": 2,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un equipo de ingeniería de datos almacena 50 TB de datos históricos en Azure Data Lake Storage Gen2 para ejecutar consultas analíticas que solo leen 4 de las 120 columnas de cada tabla y realizan agregaciones masivas (`SUM`, `AVG`). ¿Qué DOS formatos de archivo optimizados para almacenamiento en columnas (columnar storage) debes recomendar para minimizar la E/S de lectura y maximizar el ratio de compresión? (Selecciona dos).",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Apache Parquet",
+          "isCorrect": true,
+          "rationale": "Correcto. Apache Parquet es un formato binario de almacenamiento en columnas que permite leer únicamente las columnas solicitadas (column pruning) y ofrece excelente compresión."
+        },
+        {
+          "id": "opt_2",
+          "text": "Apache ORC (Optimized Row Columnar)",
+          "isCorrect": true,
+          "rationale": "Correcto. ORC organiza los datos en bandas (stripes) orientadas a columnas con índices ligeros integrados, ideal para lecturas analíticas de alto rendimiento en Hive y Spark."
+        },
+        {
+          "id": "opt_3",
+          "text": "Apache Avro",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Apache Avro es un formato basado en filas (row-based) con cabecera JSON para el esquema, óptimo para escritura intensiva y streaming (Kafka/Event Hubs), pero no es columnar."
+        },
+        {
+          "id": "opt_4",
+          "text": "CSV (Comma-Separated Values)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. CSV es un formato de texto plano orientado a filas que obliga a escanear todas las columnas de cada registro y carece de tipos de datos y compresión columnar nativa."
+        },
+        {
+          "id": "opt_5",
+          "text": "JSON Lines (NDJSON)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. JSON Lines almacena documentos completos fila por fila en texto, lo que resulta ineficiente para agregaciones analíticas sobre unas pocas columnas."
+        }
+      ],
+      "explanation": "Los formatos columnares como Apache Parquet y Apache ORC almacenan juntos los valores de cada columna en lugar de cada fila completa. Esto permite omitir la lectura de columnas innecesarias (projection pushdown) y aplicar algoritmos de compresión (RLE, Dictionary Encoding) altamente eficaces sobre valores del mismo tipo.",
+      "theoryPill": {
+        "title": "Formatos Basados en Filas (Avro/CSV) vs Basados en Columnas (Parquet/ORC)",
+        "summary": "La elección del formato de archivo en un Data Lake impacta directamente en el coste de cómputo y la velocidad de las consultas analíticas.",
+        "keyPoints": [
+          "Parquet y ORC (Columnar): Óptimos para cargas OLAP, Data Warehousing y Spark; leen solo las columnas requeridas y comprimen datos homogéneos.",
+          "Avro (Row-based): Almacena la definición del esquema en JSON y el payload en binario por filas; ideal para ingesta de streaming y escritura rápida.",
+          "CSV y TSV: Texto plano orientado a filas, legible por humanos pero sin tipado estricto ni optimización para big data."
+        ],
+        "examTrap": "En el examen DP-900 es muy frecuente la pregunta que enfrenta Apache Avro contra Apache Parquet: recuerda siempre que Avro es orientado a FILAS (row-based) y Parquet/ORC son orientados a COLUMNAS (columnar).",
+        "searchQuery": "Describe common formats for data files Parquet ORC Avro Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Explore file storage - Explore core data concepts | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/3-file-storage"
+        }
+      ]
+    },
+    {
+      "id": "DP900-004",
+      "certification": "DP-900",
+      "domain": "Describe core data concepts",
+      "topic": "Roles y Responsabilidades de Datos",
+      "topicIcon": "security",
+      "tags": [
+        "DBA",
+        "Data Engineer",
+        "Data Analyst",
+        "Roles"
+      ],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "En una organización que utiliza servicios de datos de Microsoft Azure, un profesional es responsable de aprovisionar servidores de bases de datos, configurar copias de seguridad y planes de recuperación ante desastres (HADR), conceder permisos de acceso a los usuarios y supervisar el rendimiento de las consultas del motor transaccional. ¿A qué rol profesional corresponden principalmente estas tareas?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Administrador de bases de datos (Database Administrator - DBA)",
+          "isCorrect": true,
+          "rationale": "Correcto. El DBA gestiona la disponibilidad, seguridad, copias de seguridad, restauración y rendimiento operativo de los sistemas de bases de datos."
+        },
+        {
+          "id": "opt_2",
+          "text": "Ingeniero de datos (Data Engineer)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. El ingeniero de datos diseña y construye canalizaciones (pipelines) de ingesta, transformación (ETL/ELT) y limpieza de datos a escala."
+        },
+        {
+          "id": "opt_3",
+          "text": "Analista de datos (Data Analyst)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. El analista de datos explora, modela y visualiza datos mediante herramientas como Power BI para responder preguntas de negocio."
+        },
+        {
+          "id": "opt_4",
+          "text": "Científico de datos (Data Scientist)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. El científico de datos realiza experimentos estadísticos avanzados y entrena modelos predictivos de Machine Learning."
+        }
+      ],
+      "explanation": "Microsoft define tres roles principales en las cargas de trabajo de datos para DP-900: el Administrador de bases de datos (DBA), encargado de la gestión operativa, seguridad, backups y rendimiento de las bases de datos; el Ingeniero de datos, que construye pipelines ETL/ELT y almacenes analíticos; y el Analista de datos, que crea modelos semánticos e informes visuales en Power BI.",
+      "theoryPill": {
+        "title": "Roles Profesionales en Cargas de Trabajo de Datos (DBA, Ingeniero, Analista)",
+        "summary": "Cada rol dentro del ciclo de vida del dato tiene responsabilidades bien delimitadas y herramientas asociadas en el ecosistema Azure.",
+        "keyPoints": [
+          "Database Administrator (DBA): Gestiona motores de bases de datos (Azure SQL, PostgreSQL), seguridad, permisos RBAC, parches, backups y alta disponibilidad.",
+          "Data Engineer: Desarrolla canalizaciones de integración de datos (Azure Data Factory, Synapse, Databricks, Microsoft Fabric) y aplica transformaciones de calidad y privacidad.",
+          "Data Analyst: Traduce datos en información accionable construyendo modelos semánticos, medidas DAX e informes interactivos en Power BI."
+        ],
+        "examTrap": "Si el enunciado menciona «diseñar y mantener canalizaciones de datos (pipelines) para consolidar datos de múltiples orígenes», la respuesta es Data Engineer, no Database Administrator.",
+        "searchQuery": "Explore roles and responsibilities in the world of data Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Explore roles and responsibilities in the world of data | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/"
+        }
+      ]
+    },
+    {
+      "id": "DP900-005",
+      "certification": "DP-900",
+      "domain": "Describe core data concepts",
+      "topic": "Cargas de Trabajo OLTP vs OLAP",
+      "topicIcon": "warehouse",
+      "tags": [
+        "OLTP",
+        "OLAP",
+        "Esquema en Estrella",
+        "Normalización"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "¿Cuál de las siguientes características distingue a un sistema de procesamiento analítico en línea (OLAP) frente a un sistema de procesamiento de transacciones en línea (OLTP)?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Utiliza esquemas desnormalizados (como el esquema en estrella) optimizados para consultas de lectura y agregación sobre grandes volúmenes de datos históricos.",
+          "isCorrect": true,
+          "rationale": "Correcto. Los sistemas OLAP priorizan el rendimiento de lectura (read-heavy) sobre millones de filas históricas usando tablas de hechos y dimensiones desnormalizadas."
+        },
+        {
+          "id": "opt_2",
+          "text": "Está optimizado para un alto volumen de pequeñas operaciones concurrentes de inserción, actualización y eliminación (`INSERT`, `UPDATE`, `DELETE`) con baja latencia.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Esta es la definición exacta de una carga de trabajo transaccional (OLTP)."
+        },
+        {
+          "id": "opt_3",
+          "text": "Exige esquemas altamente normalizados (3NF) para eliminar por completo la redundancia de datos y acelerar las escrituras individuales.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. La normalización estricta (3NF) es característica de las bases de datos OLTP para evitar anomalías de escritura, mientras que OLAP desnormaliza para reducir el número de JOINs."
+        },
+        {
+          "id": "opt_4",
+          "text": "Almacena exclusivamente el estado operativo actual del negocio y purga inmediatamente cualquier registro histórico cerrado.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Los sistemas OLAP conservan años de historial para permitir análisis de tendencias y series temporales."
+        }
+      ],
+      "explanation": "Las cargas de trabajo OLTP registran las operaciones cotidianas en tiempo real usando tablas altamente normalizadas y transacciones ACID rápidas. Por el contrario, los sistemas OLAP (como almacenes de datos en Microsoft Fabric o Azure Synapse) consolidan datos históricos en esquemas desnormalizados (estrella o copo de nieve) para responder consultas analíticas complejas con rapidez.",
+      "theoryPill": {
+        "title": "Comparativa Arquitectónica: OLTP frente a OLAP",
+        "summary": "Separar el procesamiento transaccional (OLTP) del analítico (OLAP) evita que las consultas pesadas de informes degraden el rendimiento de las aplicaciones operativas.",
+        "keyPoints": [
+          "OLTP (Transaccional): Operaciones CRUD de pocas filas, alta concurrencia de escritura, esquema normalizado (3NF), latencia de milisegundos.",
+          "OLAP (Analítico): Consultas de agregación sobre millones de filas, lecturas masivas (read-intensive), esquema en estrella/copo de nieve desnormalizado.",
+          "Flujo habitual: Los datos nacen en sistemas OLTP y se extraen periódicamente mediante procesos ETL/ELT hacia sistemas OLAP."
+        ],
+        "examTrap": "Si una pregunta pide optimizar la velocidad de escritura y evitar la duplicidad de datos en una app de pedidos, elige OLTP normalizado; si pide optimizar consultas de negocio que cruzan ventas de los últimos 5 años, elige OLAP desnormalizado.",
+        "searchQuery": "Analytical data processing OLAP vs OLTP Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Describe analytical data processing - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/5-analytical-data-processing"
+        }
+      ]
+    },
+    {
+      "id": "DP900-006",
+      "certification": "DP-900",
+      "domain": "Describe core data concepts",
+      "topic": "Procesamiento Batch vs Streaming",
+      "topicIcon": "kql",
+      "tags": [
+        "Batch Processing",
+        "Stream Processing",
+        "Tiempo Real",
+        "Latencia"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Una empresa de logística desea analizar la temperatura de sus camiones frigoríficos. Necesita que, en el mismo instante en que un sensor supere los 4 °C durante el trayecto, se envíe una alerta automática al conductor en menos de dos segundos. Al mismo tiempo, al final de cada mes se genera un informe contable con el consumo total de combustible de toda la flota. ¿Qué combinación de modelos de procesamiento de datos se requiere?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Procesamiento de flujos (Streaming) para las alertas de temperatura y procesamiento por lotes (Batch) para el informe mensual de combustible.",
+          "isCorrect": true,
+          "rationale": "Correcto. El procesamiento en streaming evalúa cada evento conforme llega con latencia de milisegundos/segundos, mientras que el procesamiento batch agrupa grandes volúmenes de datos en intervalos programados."
+        },
+        {
+          "id": "opt_2",
+          "text": "Procesamiento por lotes (Batch) para las alertas de temperatura y procesamiento de flujos (Streaming) para el informe mensual.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. El procesamiento por lotes introduce una latencia de horas o días, lo que impediría alertar al conductor en menos de dos segundos."
+        },
+        {
+          "id": "opt_3",
+          "text": "Procesamiento exclusivamente por lotes (Batch) utilizando disparadores programados cada 24 horas para ambos escenarios.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Un lote diario no cumple el requisito de detección en tiempo real (< 2 segundos) para proteger la cadena de frío."
+        },
+        {
+          "id": "opt_4",
+          "text": "Almacenamiento en nivel Archive de Azure Blob Storage para procesar directamente las alertas en tiempo real.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. El nivel Archive es un nivel de almacenamiento offline cuya rehidratación tarda horas, no un motor de procesamiento en tiempo real."
+        }
+      ],
+      "explanation": "El procesamiento por lotes (Batch) recopila un conjunto de datos a lo largo del tiempo y los procesa todos juntos en un momento programado (por ejemplo, cierres nocturnos o mensuales). El procesamiento de flujos (Streaming) procesa los datos de forma continua elemento por elemento o en micro-ventanas temporales conforme se generan.",
+      "theoryPill": {
+        "title": "Diferencias Clave entre Procesamiento por Lotes (Batch) y en Tiempo Real (Streaming)",
+        "summary": "La naturaleza temporal del caso de uso define si los datos deben acumularse antes de procesarse o analizarse en tránsito.",
+        "keyPoints": [
+          "Batch Processing: Procesa grandes bloques de datos acumulados en intervalos programados; latencia de minutos a horas/días.",
+          "Stream Processing: Procesa eventos individuales o ventanas temporales en movimiento; latencia de milisegundos a segundos.",
+          "Arquitecturas híbridas (Lambda/Kappa o Medallion): Combinan rutas en tiempo real (speed layer) con almacenamiento histórico en Data Lake."
+        ],
+        "examTrap": "No confundas la velocidad de una consulta SQL rápida sobre datos estáticos con «Streaming»: el procesamiento en streaming implica un flujo continuo e ilimitado (unbounded data) de eventos entrantes.",
+        "searchQuery": "Differences between batch and stream data processing Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Understand batch and stream processing - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-stream-processing/2-batch-stream-processing"
+        }
+      ]
+    },
+    {
+      "id": "DP900-007",
+      "certification": "DP-900",
+      "domain": "Describe core data concepts",
+      "topic": "Documentos JSON y Esquema Flexible",
+      "topicIcon": "cosmos",
+      "tags": [
+        "JSON",
+        "Semi-structured",
+        "NoSQL",
+        "Documentos"
+      ],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Observa el siguiente fragmento de datos almacenado en una colección de catálogo de productos:\n\n¿Qué afirmación describe con exactitud la estructura y las implicaciones de almacenamiento de este bloque de datos?",
+      "codeSnippet": "[\n  {\n    \"productId\": \"PRD-101\",\n    \"name\": \"Teclado Mecánico\",\n    \"price\": 89.99,\n    \"tags\": [\"gaming\", \"rgb\", \"usb-c\"],\n    \"specs\": { \"switchType\": \"Red\", \"layout\": \"ES\" }\n  },\n  {\n    \"productId\": \"PRD-102\",\n    \"name\": \"Monitor 4K 27\",\n    \"price\": 349.50,\n    \"resolution\": \"3840x2160\",\n    \"ports\": { \"hdmi\": 2, \"displayPort\": 1 }\n  }\n]",
+      "codeLanguage": "JSON",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Representa datos semiestructurados en formato JSON donde cada entidad puede contener matrices (`arrays`), objetos anidados y propiedades distintas dentro del mismo contenedor documental.",
+          "isCorrect": true,
+          "rationale": "Correcto. Ambos objetos están en formato JSON válido y comparten una colección aunque `PRD-101` tenga `tags`/`specs` y `PRD-102` tenga `resolution`/`ports`."
+        },
+        {
+          "id": "opt_2",
+          "text": "Es un conjunto de datos inválido para Azure Cosmos DB for NoSQL porque el segundo documento carece de las propiedades `tags` y `specs` definidas en el primero.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Las bases de datos documentales como Azure Cosmos DB for NoSQL son schema-agnostic y permiten que documentos del mismo contenedor tengan propiedades diferentes."
+        },
+        {
+          "id": "opt_3",
+          "text": "Representa datos no estructurados binarios que solo pueden almacenarse en páginas VHD de Azure Page Blob.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. JSON es un formato de texto semiestructurado con sintaxis bien definida de llaves `{}` y corchetes `[]`, no un bloque binario sin estructura."
+        },
+        {
+          "id": "opt_4",
+          "text": "Representa una tabla relacional en Tercera Forma Normal (3NF) porque incluye la matriz `[\"gaming\", \"rgb\", \"usb-c\"]` dentro de un único atributo.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. En el modelo relacional, incluso la Primera Forma Normal (1NF) prohíbe grupos repetitivos o listas multivalor dentro de una misma celda."
+        }
+      ],
+      "explanation": "El fragmento muestra una matriz JSON compuesta por dos documentos con esquemas polimórficos (diferentes atributos y objetos anidados). Esta flexibilidad es la ventaja principal de los datos semiestructurados almacenados en motores como Azure Cosmos DB for NoSQL frente a las tablas relacionales con esquemas rígidos.",
+      "theoryPill": {
+        "title": "Estructura de Documentos JSON y Polimorfismo en Motores NoSQL",
+        "summary": "JSON (JavaScript Object Notation) permite representar jerarquías complejas (objetos dentro de objetos y listas) en un único documento autocontenido.",
+        "keyPoints": [
+          "Las llaves `{}` delimitan objetos (colecciones de pares nombre/valor) y los corchetes `[]` delimitan matrices ordenadas (arrays).",
+          "Dos documentos dentro del mismo contenedor NoSQL pueden tener campos totalmente distintos sin necesidad de ejecutar `ALTER TABLE`.",
+          "Incluir listas (`arrays`) u objetos anidados viola la 1NF relacional, pero es una práctica óptima de diseño (embedding) en bases de datos documentales."
+        ],
+        "examTrap": "Si una pregunta muestra un documento con una lista `[\"a\", \"b\"]` en un campo y pregunta por qué NO cumple 1NF (Primera Forma Normal), recuerda que 1NF exige valores atómicos (un solo valor escalar por celda).",
+        "searchQuery": "JSON semi-structured data Azure Cosmos DB for NoSQL"
+      },
+      "references": [
+        {
+          "title": "Explore non-relational data offerings in Azure | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-non-relational-data-stores-azure/"
+        }
+      ]
+    },
+    {
+      "id": "DP900-008",
+      "certification": "DP-900",
+      "domain": "Describe core data concepts",
+      "topic": "Selección de Almacenes de Datos en Azure",
+      "topicIcon": "pipeline",
+      "tags": [
+        "Azure Datastores",
+        "Casos de Uso",
+        "Data Lake",
+        "Relacional"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "multi",
+      "requiredSelections": 2,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un arquitecto de soluciones está evaluando qué servicios de almacenamiento de datos de Azure utilizar para dos requisitos distintos de un cliente:\n1. Almacenar millones de archivos crudos en formatos CSV, Parquet y JSON dentro de una estructura de carpetas jerárquica con listas de control de acceso (ACL) estilo POSIX para procesarlos con Apache Spark.\n2. Almacenar un grafo social de usuarios, intereses y relaciones («quién sigue a quién») para ejecutar consultas de recorrido de nodos y aristas.\n\n¿Qué DOS servicios de Azure debes seleccionar para cubrir estos requisitos? (Selecciona dos).",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Azure Data Lake Storage Gen2 para el almacenamiento jerárquico de archivos analíticos.",
+          "isCorrect": true,
+          "rationale": "Correcto. ADLS Gen2 añade un espacio de nombres jerárquico (directorios reales y ACLs POSIX) sobre Azure Blob Storage, siendo el estándar para cargas analíticas con Spark."
+        },
+        {
+          "id": "opt_2",
+          "text": "Azure Cosmos DB for Apache Gremlin para el grafo de relaciones entre usuarios.",
+          "isCorrect": true,
+          "rationale": "Correcto. La API para Apache Gremlin de Azure Cosmos DB almacena datos como vértices (nodos) y aristas (relaciones dirigidas), permitiendo consultas de recorrido de grafos."
+        },
+        {
+          "id": "opt_3",
+          "text": "Azure Table Storage para ejecutar consultas nativas de recorrido de grafos de múltiples saltos.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Azure Table Storage es un almacén simple de pares clave-valor sin capacidad de consultas de grafos ni relaciones entre entidades."
+        },
+        {
+          "id": "opt_4",
+          "text": "Azure Files para almacenar tablas relacionales con integridad referencial ACID.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Azure Files ofrece recursos compartidos de archivos en red (SMB/NFS), no un motor de base de datos relacional ni un motor de grafos."
+        },
+        {
+          "id": "opt_5",
+          "text": "Azure Queue Storage para almacenar archivos Parquet de gran tamaño (> 50 GB por archivo).",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Azure Queue Storage está diseñado para mensajes pequeños de cola (hasta 64 KB por mensaje) entre componentes de aplicaciones."
+        }
+      ],
+      "explanation": "Cada caso de uso requiere un almacén especializado en Azure: Azure Data Lake Storage Gen2 proporciona el sistema de archivos jerárquico compatible con Hadoop/Spark (ABFS y POSIX ACLs), mientras que Azure Cosmos DB for Apache Gremlin modela redes complejas mediante vértices y aristas.",
+      "theoryPill": {
+        "title": "Mapa de Almacenes de Datos de Azure según el Caso de Uso",
+        "summary": "Elegir el almacén correcto en Azure depende de la estructura del dato y del patrón de consulta esperado.",
+        "keyPoints": [
+          "Transacciones relacionales (ACID / SQL): Azure SQL Database, Azure SQL Managed Instance, Azure Database for PostgreSQL/MySQL.",
+          "Documentos JSON globales de baja latencia: Azure Cosmos DB for NoSQL / MongoDB.",
+          "Relaciones complejas (redes sociales, detección de fraude, recomendaciones): Azure Cosmos DB for Apache Gremlin (vértices y aristas).",
+          "Analítica Big Data sobre archivos (Parquet, CSV, JSON) con carpetas y ACLs: Azure Data Lake Storage Gen2 o Microsoft Fabric OneLake."
+        ],
+        "examTrap": "Siempre que veas las palabras clave «espacio de nombres jerárquico (hierarchical namespace)» o «ACLs compatibles con POSIX para analítica», la respuesta es Azure Data Lake Storage Gen2.",
+        "searchQuery": "Identify Azure datastores for common use cases Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Introduction to Azure Data Lake Storage Gen2 | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction"
+        },
+        {
+          "title": "Introduction to Azure Cosmos DB for Apache Gremlin | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/gremlin/introduction"
+        }
+      ]
+    },
+    {
+      "id": "DP900-009",
+      "certification": "DP-900",
+      "domain": "Identify considerations for relational data on Azure",
+      "topic": "Normalización y Conceptos Relacionales",
+      "topicIcon": "sql",
+      "tags": [
+        "Normalización",
+        "3NF",
+        "Clave Primaria",
+        "Clave Foránea"
+      ],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un diseñador de bases de datos está aplicando el proceso de normalización hasta la Tercera Forma Normal (3NF) en una base de datos de pedidos. Para ello, separa los datos de los clientes en una tabla `Customers` y los pedidos en una tabla `Orders`, vinculándolas mediante la columna `CustomerID`. ¿Cuáles son los DOS objetivos principales de normalizar una base de datos relacional?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Minimizar la redundancia de datos (duplicidad) y evitar anomalías de inserción, actualización y eliminación.",
+          "isCorrect": true,
+          "rationale": "Correcto. Al almacenar la dirección del cliente una sola vez en `Customers`, se evita repetirla en cada fila de `Orders` y se previenen inconsistencias al actualizarla."
+        },
+        {
+          "id": "opt_2",
+          "text": "Eliminar por completo la necesidad de utilizar cláusulas `JOIN` al consultar múltiples entidades en informes analíticos.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. De hecho, la normalización divide los datos en más tablas, lo que INCREMENTA el número de `JOIN` necesarios al consultar los datos."
+        },
+        {
+          "id": "opt_3",
+          "text": "Permitir que una misma celda almacene múltiples valores separados por comas para ahorrar columnas.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Almacenar múltiples valores en una celda viola la Primera Forma Normal (1NF), que exige atomicidad en cada atributo."
+        },
+        {
+          "id": "opt_4",
+          "text": "Asegurar que las columnas no clave dependan de otras columnas no clave (dependencias transitivas) dentro de la misma tabla.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. La Tercera Forma Normal (3NF) exige precisamente ELIMINAR las dependencias transitivas (ningún atributo no clave debe depender de otro atributo no clave)."
+        }
+      ],
+      "explanation": "La normalización organiza las tablas relacionales para reducir la duplicación de datos y garantizar la integridad referencial mediante claves primarias (PK) y foráneas (FK). Sus tres reglas clásicas son: 1NF (valores atómicos y sin grupos repetitivos), 2NF (sin dependencias parciales de una clave compuesta) y 3NF (sin dependencias transitivas entre columnas no clave).",
+      "theoryPill": {
+        "title": "Reglas de Normalización Relacional (1NF, 2NF y 3NF)",
+        "summary": "Normalizar una base de datos transaccional evita datos inconsistentes y optimiza las operaciones de escritura.",
+        "keyPoints": [
+          "1NF (Primera Forma Normal): Cada celda contiene un único valor atómico (sin listas ni arrays) y no hay columnas repetidas (ej. Telefono1, Telefono2).",
+          "2NF (Segunda Forma Normal): Cumple 1NF y cada columna no clave depende de la totalidad de la clave primaria compuesta (no solo de una parte).",
+          "3NF (Tercera Forma Normal): Cumple 2NF y ninguna columna no clave depende de otra columna no clave (elimina dependencias transitivas)."
+        ],
+        "examTrap": "Recuerda la compensación (trade-off): normalizar mejora la integridad y el almacenamiento en OLTP, pero requiere más operaciones `JOIN` en las consultas de lectura.",
+        "searchQuery": "Explore fundamental relational data concepts normalization Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Explore fundamental relational data concepts | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/"
+        }
+      ]
+    },
+    {
+      "id": "DP900-010",
+      "certification": "DP-900",
+      "domain": "Identify considerations for relational data on Azure",
+      "topic": "Sublenguajes SQL (DDL, DML, DCL)",
+      "topicIcon": "sql",
+      "tags": [
+        "SQL",
+        "DDL",
+        "DML",
+        "DCL"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un administrador de bases de datos ejecuta el siguiente script en Azure SQL Database:\n\n¿A qué categoría de sentencias del lenguaje SQL pertenecen las instrucciones `CREATE TABLE` y `ALTER TABLE` utilizadas en este bloque?",
+      "codeSnippet": "CREATE TABLE Sales.Promotions (\n    PromotionID INT PRIMARY KEY,\n    PromoName NVARCHAR(100) NOT NULL,\n    DiscountPct DECIMAL(5,2) NOT NULL\n);\n\nALTER TABLE Sales.Promotions\nADD ValidUntil DATE NULL;",
+      "codeLanguage": "T-SQL",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "DDL (Data Definition Language)",
+          "isCorrect": true,
+          "rationale": "Correcto. Las instrucciones DDL (`CREATE`, `ALTER`, `DROP`, `TRUNCATE`, `RENAME`) definen y modifican la estructura de los objetos del esquema de la base de datos."
+        },
+        {
+          "id": "opt_2",
+          "text": "DML (Data Manipulation Language)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. DML agrupa las sentencias que consultan o modifican las filas de datos dentro de las tablas (`SELECT`, `INSERT`, `UPDATE`, `DELETE`)."
+        },
+        {
+          "id": "opt_3",
+          "text": "DCL (Data Control Language)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. DCL gestiona los permisos de seguridad sobre los objetos (`GRANT`, `REVOKE`, `DENY`)."
+        },
+        {
+          "id": "opt_4",
+          "text": "TCL (Transaction Control Language)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. TCL controla la confirmación o reversión de transacciones (`BEGIN TRAN`, `COMMIT`, `ROLLBACK`)."
+        }
+      ],
+      "explanation": "En el estándar SQL evaluado en DP-900, las sentencias se agrupan por su propósito: DDL (Data Definition Language) crea o altera estructuras en el catálogo (`CREATE`, `ALTER`, `DROP`); DML (Data Manipulation Language) opera sobre los registros (`SELECT`, `INSERT`, `UPDATE`, `DELETE`); y DCL (Data Control Language) administra permisos (`GRANT`, `REVOKE`, `DENY`).",
+      "theoryPill": {
+        "title": "Clasificación de Sentencias SQL: DDL vs DML vs DCL",
+        "summary": "Dominar qué verbos SQL pertenecen a cada categoría es una pregunta clásica garantizada en el examen DP-900.",
+        "keyPoints": [
+          "DDL (Data Definition Language): `CREATE`, `ALTER`, `DROP`, `TRUNCATE` — operan sobre la estructura de tablas, vistas e índices.",
+          "DML (Data Manipulation Language): `SELECT`, `INSERT`, `UPDATE`, `DELETE` — leen o modifican las filas de datos.",
+          "DCL (Data Control Language): `GRANT`, `REVOKE`, `DENY` — asignan o retiran permisos de acceso a usuarios y roles."
+        ],
+        "examTrap": "Cuidado con `DELETE` frente a `DROP` y `TRUNCATE`: `DELETE` elimina filas (es DML y admite cláusula `WHERE`), mientras que `DROP` elimina la tabla completa del esquema (es DDL).",
+        "searchQuery": "Identify common structured query language SQL statements DDL DML DCL Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Query relational data - Identify SQL statement types | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/"
+        }
+      ]
+    },
+    {
+      "id": "DP900-011",
+      "certification": "DP-900",
+      "domain": "Identify considerations for relational data on Azure",
+      "topic": "Objetos de Base de Datos (Vistas, Índices, SP)",
+      "topicIcon": "sql",
+      "tags": [
+        "Clustered Index",
+        "Non-clustered Index",
+        "Views",
+        "Stored Procedures"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un desarrollador está optimizando el rendimiento de una tabla en Azure SQL Database y desea entender cómo afectan los índices agrupados (`Clustered Index`) y no agrupados (`Non-clustered Index`) al almacenamiento físico de las filas. ¿Cuál de las siguientes afirmaciones es verdadera?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Una tabla solo puede tener un único índice agrupado (`Clustered Index`) porque este determina el orden físico en que se almacenan las filas de datos en las páginas de la tabla.",
+          "isCorrect": true,
+          "rationale": "Correcto. El nivel hoja de un índice agrupado es la propia tabla de datos ordenada por la clave del índice; por tanto, las filas solo pueden ordenarse físicamente de una manera."
+        },
+        {
+          "id": "opt_2",
+          "text": "Una tabla puede tener hasta 10 índices agrupados (`Clustered Indexes`), pero solo un índice no agrupado (`Non-clustered Index`).",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Es exactamente al revés: una tabla solo admite 1 índice agrupado y hasta 999 índices no agrupados."
+        },
+        {
+          "id": "opt_3",
+          "text": "Una vista estándar (`VIEW`) crea automáticamente una copia física duplicada de las filas en disco igual que una tabla independiente.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Una vista estándar es una consulta `SELECT` guardada (tabla virtual) que no almacena datos por sí misma, a menos que se defina explícitamente como vista indexada."
+        },
+        {
+          "id": "opt_4",
+          "text": "Añadir decenas de índices no agrupados a una tabla acelera las operaciones de escritura (`INSERT`, `UPDATE`, `DELETE`) sin ningún coste de mantenimiento.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Los índices aceleran las lecturas (`SELECT`), pero penalizan las escrituras porque cada `INSERT`, `UPDATE` o `DELETE` debe actualizar también todas las estructuras B-tree de los índices."
+        }
+      ],
+      "explanation": "En SQL Server y Azure SQL Database, los objetos comunes incluyen Vistas (tablas virtuales basadas en una consulta `SELECT`), Procedimientos Almacenados (bloques de código T-SQL precompilados que aceptan parámetros) e Índices. Un índice agrupado (`Clustered Index`) ordena y almacena físicamente las filas de la tabla según su clave (máximo 1 por tabla), mientras que un índice no agrupado (`Non-clustered Index`) es una estructura separada con punteros (row locators) hacia las filas de datos.",
+      "theoryPill": {
+        "title": "Objetos de Base de Datos Relacional: Vistas, Procedimientos e Índices",
+        "summary": "Conocer el propósito de cada objeto de base de datos y la diferencia física entre índices agrupados y no agrupados es clave en DP-900.",
+        "keyPoints": [
+          "Vista (View): Tabla virtual basada en el conjunto de resultados de una consulta `SELECT`; simplifica consultas y restringe el acceso a ciertas columnas/filas.",
+          "Procedimiento Almacenado (Stored Procedure): Encapsula lógica programática SQL reutilizable que puede modificar datos y recibir parámetros.",
+          "Clustered Index (máx. 1 por tabla): Ordena físicamente las filas de datos; por defecto se crea sobre la `PRIMARY KEY`.",
+          "Non-clustered Index (varios por tabla): Estructura separada que contiene las columnas indexadas y un puntero a la fila correspondiente."
+        ],
+        "examTrap": "Recuerda siempre el efecto secundario de los índices: aceleran las consultas `SELECT` con filtros `WHERE`/`JOIN`, pero ralentizan las operaciones `INSERT`, `UPDATE` y `DELETE` y consumen espacio adicional.",
+        "searchQuery": "Identify common database objects views stored procedures indexes Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Clustered and nonclustered indexes described - SQL Server | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/sql/relational-databases/indexes/clustered-and-nonclustered-indexes-described"
+        }
+      ]
+    },
+    {
+      "id": "DP900-012",
+      "certification": "DP-900",
+      "domain": "Identify considerations for relational data on Azure",
+      "topic": "Familia de Productos Azure SQL",
+      "topicIcon": "sql",
+      "tags": [
+        "Azure SQL Database",
+        "Azure SQL Managed Instance",
+        "SQL Server on Azure VM",
+        "PaaS vs IaaS"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": "FinanzasIberia S.A. desea migrar su servidor local de SQL Server 2019 a Microsoft Azure minimizando la carga administrativa de parches y copias de seguridad.",
+      "caseStudyTabs": {
+        "overview": "FinanzasIberia S.A. ejecuta un sistema ERP financiero crítico sobre SQL Server en su centro de datos local y planea una migración «lift-and-shift» a la nube.",
+        "environment": "El sistema ERP consta de 8 bases de datos en la misma instancia que ejecutan continuamente consultas entre bases de datos (`cross-database queries`), utilizan SQL Server Agent para programar trabajos nocturnos y emplean Service Broker y Common Language Runtime (CLR).",
+        "requirements": "1. Mantener casi el 100 % de compatibilidad con las características a nivel de instancia (SQL Server Agent, consultas cross-database, CLR).\n2. Utilizar un servicio PaaS totalmente administrado donde Microsoft gestione automáticamente los parches del sistema operativo, las actualizaciones del motor y las copias de seguridad."
+      },
+      "stem": "Según los requisitos técnicos y operativos de FinanzasIberia S.A., ¿qué servicio de la familia Azure SQL debes recomendar?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Azure SQL Managed Instance",
+          "isCorrect": true,
+          "rationale": "Correcto. Azure SQL Managed Instance es una oferta PaaS totalmente administrada que ofrece casi un 100 % de compatibilidad con una instancia on-premises de SQL Server, incluyendo SQL Server Agent, consultas entre bases de datos y CLR."
+        },
+        {
+          "id": "opt_2",
+          "text": "Azure SQL Database (Single Database)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Aunque es PaaS, Azure SQL Database está delimitado a nivel de base de datos individual y no admite nativamente SQL Server Agent, Service Broker ni consultas directas entre bases de datos de la misma instancia."
+        },
+        {
+          "id": "opt_3",
+          "text": "SQL Server en Azure Virtual Machines (IaaS)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Aunque ofrece el 100 % de compatibilidad, es una solución IaaS donde el cliente sigue teniendo la responsabilidad de administrar el sistema operativo subyacente y la infraestructura de la máquina virtual."
+        },
+        {
+          "id": "opt_4",
+          "text": "Azure Database for PostgreSQL - Flexible Server",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Es un motor relacional de código abierto distinto que no es compatible con SQL Server Agent ni con código T-SQL propietario sin reescritura."
+        }
+      ],
+      "explanation": "La familia Azure SQL comprende tres opciones principales: 1) SQL Server on Azure VMs (IaaS: control total sobre el SO y SQL Server, ideal cuando se requiere acceso al host o versiones específicas); 2) Azure SQL Managed Instance (PaaS a nivel de instancia: casi 100 % compatible con SQL Server local, ideal para migraciones lift-and-shift que usan SQL Agent, cross-database queries o linked servers); y 3) Azure SQL Database (PaaS a nivel de base de datos: ideal para aplicaciones cloud modernas, con opciones Serverless y Elastic Pools).",
+      "theoryPill": {
+        "title": "Árbol de Decisión de la Familia Azure SQL",
+        "summary": "Saber distinguir cuándo elegir SQL Server en VM (IaaS), SQL Managed Instance (PaaS de instancia) o SQL Database (PaaS de base de datos) es fundamental en DP-900.",
+        "keyPoints": [
+          "SQL Server on Azure VMs (IaaS): Control total sobre el sistema operativo y la versión exacta de SQL Server; mayor esfuerzo administrativo.",
+          "Azure SQL Managed Instance (PaaS): Compatibilidad cercana al 100 % con SQL Server local (SQL Agent, cross-database queries, native VNet) sin gestionar el SO.",
+          "Azure SQL Database (PaaS): Diseñado para nuevas aplicaciones en la nube; soporta Base de datos única, Grupos Elásticos (Elastic Pools) y cómputo Serverless."
+        ],
+        "examTrap": "Si la pregunta pide «PaaS administrado» + «migración sencilla desde SQL Server on-premises con SQL Agent / consultas entre bases de datos», elige siempre Azure SQL Managed Instance.",
+        "searchQuery": "What is Azure SQL Database Managed Instance SQL Server on Azure VMs Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "What is Azure SQL? - Azure SQL | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-sql/azure-sql-iaas-vs-paas-what-is-overview"
+        }
+      ]
+    },
+    {
+      "id": "DP900-013",
+      "certification": "DP-900",
+      "domain": "Identify considerations for relational data on Azure",
+      "topic": "Opciones de Implementación en Azure SQL Database",
+      "topicIcon": "sql",
+      "tags": [
+        "Elastic Pool",
+        "Serverless",
+        "DTU",
+        "vCore"
+      ],
+      "difficulty": "hardcore",
+      "questionType": "multi",
+      "requiredSelections": 2,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un proveedor de software como servicio (SaaS) despliega en Azure SQL Database una arquitectura multiinquilino donde cada cliente tiene su propia base de datos aislada (50 bases de datos en total). Los patrones de uso de cada cliente son impredecibles y presentan picos en horas distintas del día. Además, la empresa tiene una base de datos adicional de desarrollo que permanece inactiva durante noches y fines de semana, y desea que se pause automáticamente cuando no tenga actividad para pagar solo por el almacenamiento. ¿Qué DOS opciones de implementación de Azure SQL Database debes seleccionar? (Selecciona dos).",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Grupo elástico (Elastic Pool) para las 50 bases de datos de los clientes multiinquilino.",
+          "isCorrect": true,
+          "rationale": "Correcto. Un Elastic Pool permite compartir un conjunto fijo de recursos de cómputo (eDTUs o vCores) entre múltiples bases de datos cuyos picos de uso no coinciden en el tiempo."
+        },
+        {
+          "id": "opt_2",
+          "text": "Base de datos única en el nivel de cómputo sin servidor (Serverless) para la base de datos de desarrollo.",
+          "isCorrect": true,
+          "rationale": "Correcto. El nivel de cómputo Serverless escala automáticamente la CPU por segundo y permite configurar el retraso de pausa automática (auto-pause delay) durante periodos de inactividad."
+        },
+        {
+          "id": "opt_3",
+          "text": "SQL Server en Azure Virtual Machines con discos Ultra SSD para pausar automáticamente el cobro de licencia cada minuto.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Las máquinas virtuales IaaS no ofrecen escalado por segundo ni pausa automática transparente por inactividad de consultas como Azure SQL Database Serverless."
+        },
+        {
+          "id": "opt_4",
+          "text": "Azure Table Storage para ejecutar los procedimientos almacenados T-SQL de las 50 bases de datos.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Azure Table Storage es un almacén NoSQL clave-valor que no soporta T-SQL ni bases de datos relacionales."
+        },
+        {
+          "id": "opt_5",
+          "text": "Cómputo aprovisionado (Provisioned) en el nivel Crítico para la empresa (Business Critical) para que la base de datos de desarrollo se pause sola sin coste de CPU.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. El cómputo aprovisionado (Provisioned) asigna recursos fijos facturados por hora de forma continua y no dispone de función de auto-pausa."
+        }
+      ],
+      "explanation": "En Azure SQL Database existen dos opciones clave para optimizar costes: los Grupos Elásticos (Elastic Pools), que permiten a múltiples bases de datos compartir recursos de cómputo (ideal para arquitecturas SaaS multi-tenant con picos escalonados), y el nivel de cómputo Serverless en una Base de datos única, que escala automáticamente y puede pausar la base de datos cuando está inactiva, cobrando únicamente por el almacenamiento.",
+      "theoryPill": {
+        "title": "Grupos Elásticos (Elastic Pools) y Cómputo Serverless en Azure SQL Database",
+        "summary": "Elegir entre Single Database (Provisioned vs Serverless) y Elastic Pool permite ajustar la facturación al patrón real de consumo de CPU.",
+        "keyPoints": [
+          "Single Database (Provisioned): Recursos dedicados siempre activos a precio fijo por hora; para cargas predecibles y constantes.",
+          "Single Database (Serverless): Escala automáticamente los vCores y ofrece auto-pausa (auto-pause) en periodos de inactividad; ideal para cargas intermitentes o entornos dev/test.",
+          "Elastic Pool: Múltiples bases de datos comparten un mismo pool de eDTUs o vCores; ideal para SaaS con muchas bases de datos de uso variable."
+        ],
+        "examTrap": "Recuerda que la función de auto-pausa (auto-pause) solo existe en el nivel de cómputo Serverless de Azure SQL Database (bajo el modelo de compra vCore).",
+        "searchQuery": "Azure SQL Database elastic pools serverless compute tier Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Elastic pools help you manage and scale multiple databases in Azure SQL Database | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/elastic-pool-overview"
+        },
+        {
+          "title": "Serverless compute tier for Azure SQL Database | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/serverless-tier-overview"
+        }
+      ]
+    },
+    {
+      "id": "DP900-014",
+      "certification": "DP-900",
+      "domain": "Identify considerations for relational data on Azure",
+      "topic": "Bases de Datos Relacionales Open Source en Azure",
+      "topicIcon": "sql",
+      "tags": [
+        "PostgreSQL",
+        "MySQL",
+        "MariaDB",
+        "Open Source"
+      ],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Una empresa desarrolla aplicaciones web basadas en la pila LAMP (Linux, Apache, MySQL, PHP) y otra línea de aplicaciones geoespaciales que dependen de la extensión PostGIS y de tipos de datos objeto-relacionales avanzados de PostgreSQL. Quieren migrar ambas cargas de trabajo a servicios PaaS totalmente administrados en Azure. ¿Qué afirmación describe correctamente los servicios disponibles en Azure para motores relacionales de código abierto?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Azure ofrece servicios PaaS totalmente administrados tanto para Azure Database for MySQL como para Azure Database for PostgreSQL (Flexible Server), encargándose de la alta disponibilidad, copias de seguridad y parches.",
+          "isCorrect": true,
+          "rationale": "Correcto. Microsoft proporciona servicios PaaS nativos basados en las ediciones comunitarias oficiales de MySQL, PostgreSQL y MariaDB con mantenimiento automatizado."
+        },
+        {
+          "id": "opt_2",
+          "text": "Los motores de código abierto como MySQL y PostgreSQL solo pueden ejecutarse en Azure instalándolos manualmente dentro de máquinas virtuales Linux (IaaS).",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Además de máquinas virtuales IaaS, Azure ofrece servicios PaaS totalmente administrados para PostgreSQL y MySQL."
+        },
+        {
+          "id": "opt_3",
+          "text": "Azure SQL Managed Instance puede ejecutar de forma nativa bases de datos MySQL y PostgreSQL sin convertir el esquema.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Azure SQL Managed Instance ejecuta exclusivamente el motor Microsoft SQL Server (T-SQL)."
+        },
+        {
+          "id": "opt_4",
+          "text": "Azure Database for PostgreSQL es un almacén de archivos sin esquema que no soporta transacciones ACID ni consultas SQL.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. PostgreSQL es un motor de base de datos objeto-relacional completo que garantiza transacciones ACID y consultas SQL avanzadas."
+        }
+      ],
+      "explanation": "Además de la familia Azure SQL, Microsoft Azure ofrece servicios PaaS totalmente administrados para los sistemas de gestión de bases de datos relacionales de código abierto más populares: Azure Database for PostgreSQL, Azure Database for MySQL y Azure Database for MariaDB. La opción de implementación Flexible Server permite alta disponibilidad multizona, ventanas de mantenimiento personalizadas y parada/inicio para ahorrar costes.",
+      "theoryPill": {
+        "title": "Servicios de Bases de Datos Open Source en Azure (PostgreSQL, MySQL, MariaDB)",
+        "summary": "Azure permite ejecutar motores relacionales de código abierto en modalidad PaaS sin perder compatibilidad con sus versiones comunitarias.",
+        "keyPoints": [
+          "Azure Database for PostgreSQL: Motor objeto-relacional avanzado que soporta datos JSONB, extensiones como PostGIS y escalabilidad horizontal (Cosmos DB for PostgreSQL / Citus).",
+          "Azure Database for MySQL: El motor relacional de código abierto más extendido en aplicaciones web (LAMP stack, WordPress, Magento).",
+          "Azure Database for MariaDB: Bifurcación (fork) comunitaria de MySQL optimizada para rendimiento y compatibilidad con Oracle."
+        ],
+        "examTrap": "Si el enunciado menciona «LAMP stack» o «WordPress», piensa en Azure Database for MySQL; si menciona «base de datos híbrida objeto-relacional con soporte PostGIS y tipos personalizados», elige Azure Database for PostgreSQL.",
+        "searchQuery": "Identify Azure database services for open-source database systems PostgreSQL MySQL MariaDB Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Explore relational database services in Azure - Open-source databases | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-relational-database-offerings-azure/"
+        }
+      ]
+    },
+    {
+      "id": "DP900-015",
+      "certification": "DP-900",
+      "domain": "Identify considerations for relational data on Azure",
+      "topic": "Consultas SQL con JOIN y Agregaciones",
+      "topicIcon": "sql",
+      "tags": [
+        "LEFT JOIN",
+        "INNER JOIN",
+        "GROUP BY",
+        "T-SQL"
+      ],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un analista necesita obtener un listado de TODOS los clientes registrados en la tabla `Sales.Customers` junto con el importe total de sus pedidos en la tabla `Sales.Orders`. Si un cliente aún no ha realizado ningún pedido, debe aparecer igualmente en el resultado con un importe total de `0`. ¿Qué fragmento SQL resuelve correctamente este requisito?",
+      "codeSnippet": "-- Esquema de tablas:\n-- Sales.Customers (CustomerID, FullName)\n-- Sales.Orders (OrderID, CustomerID, OrderAmount)",
+      "codeLanguage": "T-SQL",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "SELECT c.FullName, COALESCE(SUM(o.OrderAmount), 0) AS TotalSpent FROM Sales.Customers AS c LEFT OUTER JOIN Sales.Orders AS o ON c.CustomerID = o.CustomerID GROUP BY c.FullName;",
+          "isCorrect": true,
+          "rationale": "Correcto. `LEFT OUTER JOIN` preserva todas las filas de la tabla izquierda (`Customers`) incluso si no tienen coincidencias en `Orders`, y `COALESCE(..., 0)` convierte el `NULL` resultante en `0`."
+        },
+        {
+          "id": "opt_2",
+          "text": "SELECT c.FullName, SUM(o.OrderAmount) AS TotalSpent FROM Sales.Customers AS c INNER JOIN Sales.Orders AS o ON c.CustomerID = o.CustomerID GROUP BY c.FullName;",
+          "isCorrect": false,
+          "rationale": "Incorrecto. `INNER JOIN` descarta cualquier cliente que no tenga al menos un registro coincidente en la tabla `Sales.Orders`."
+        },
+        {
+          "id": "opt_3",
+          "text": "SELECT c.FullName, SUM(o.OrderAmount) AS TotalSpent FROM Sales.Customers AS c RIGHT OUTER JOIN Sales.Orders AS o ON c.CustomerID = o.CustomerID GROUP BY c.FullName;",
+          "isCorrect": false,
+          "rationale": "Incorrecto. `RIGHT OUTER JOIN` preserva todas las filas de la tabla derecha (`Orders`), por lo que los clientes sin pedidos no aparecerán."
+        },
+        {
+          "id": "opt_4",
+          "text": "SELECT c.FullName, SUM(o.OrderAmount) AS TotalSpent FROM Sales.Customers AS c CROSS JOIN Sales.Orders AS o;",
+          "isCorrect": false,
+          "rationale": "Incorrecto. `CROSS JOIN` genera el producto cartesiano (combina cada cliente con todos los pedidos de todos los clientes) y carece de `GROUP BY`."
+        }
+      ],
+      "explanation": "En SQL, un `INNER JOIN` devuelve únicamente las filas que tienen correspondencia en ambas tablas. Cuando el requisito exige mostrar todos los registros de una tabla maestra (como `Customers`) aunque no tengan registros relacionados en la tabla transaccional (`Orders`), se debe emplear un `LEFT OUTER JOIN` (si `Customers` está a la izquierda del `JOIN`).",
+      "theoryPill": {
+        "title": "Tipos de Combinaciones (JOINs) en Consultas SQL",
+        "summary": "Comprender qué filas conserva o filtra cada tipo de `JOIN` es esencial para responder preguntas de código SQL en DP-900.",
+        "keyPoints": [
+          "INNER JOIN: Devuelve solo las filas donde existe coincidencia en ambas tablas según el predicado `ON`.",
+          "LEFT OUTER JOIN: Devuelve todas las filas de la tabla izquierda y las coincidentes de la derecha (rellenando con `NULL` cuando no hay coincidencia).",
+          "RIGHT OUTER JOIN: Devuelve todas las filas de la tabla derecha y las coincidentes de la izquierda.",
+          "FULL OUTER JOIN: Devuelve todas las filas de ambas tablas, haya o no coincidencia."
+        ],
+        "examTrap": "Si el enunciado dice «incluir todos los clientes, incluso aquellos que no han realizado ningún pedido», descarta inmediatamente `INNER JOIN` y busca `LEFT JOIN` (o `LEFT OUTER JOIN`).",
+        "searchQuery": "Query relational data in Azure SQL JOINs Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Joins (SQL Server) - SQL Server | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/sql/relational-databases/performance/joins"
+        }
+      ]
+    },
+    {
+      "id": "DP900-016",
+      "certification": "DP-900",
+      "domain": "Identify considerations for relational data on Azure",
+      "topic": "Seguridad y Cifrado en Azure SQL",
+      "topicIcon": "security",
+      "tags": [
+        "TDE",
+        "Dynamic Data Masking",
+        "Firewall",
+        "Seguridad"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un oficial de seguridad de la información exige que todos los archivos de datos (`.mdf`), archivos de registro transaccional (`.ldf`) y copias de seguridad de una base de datos en Azure SQL Database estén cifrados en reposo (encryption at rest) en el almacenamiento físico para protegerlos frente al acceso no autorizado a los medios de almacenamiento, sin necesidad de modificar el código de las aplicaciones clientes. ¿Qué característica de seguridad integrada en Azure SQL Database cumple exactamente esta función y viene habilitada de forma predeterminada?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Cifrado de datos transparente (Transparent Data Encryption - TDE)",
+          "isCorrect": true,
+          "rationale": "Correcto. TDE cifra y descifra en tiempo real los archivos de datos, logs y copias de seguridad en reposo a nivel de página sin requerir cambios en las aplicaciones."
+        },
+        {
+          "id": "opt_2",
+          "text": "Enmascaramiento dinámico de datos (Dynamic Data Masking - DDM)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. DDM oculta parcialmente datos sensibles (como tarjetas de crédito o emails, ej. `XXXX-XXXX-XXXX-1234`) en el conjunto de resultados devuelto a usuarios sin privilegios, pero NO cifra los datos en el disco."
+        },
+        {
+          "id": "opt_3",
+          "text": "Seguridad a nivel de fila (Row-Level Security - RLS)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. RLS filtra qué filas puede ver cada usuario según su identidad o rol, pero no realiza cifrado de los archivos en reposo."
+        },
+        {
+          "id": "opt_4",
+          "text": "Reglas de firewall a nivel de servidor de Azure SQL",
+          "isCorrect": false,
+          "rationale": "Incorrecto. El firewall de red restringe qué direcciones IP pueden conectarse al servidor, pero no cifra los archivos de base de datos en disco."
+        }
+      ],
+      "explanation": "Azure SQL Database ofrece una defensa en profundidad: las reglas de firewall y redes virtuales protegen el perímetro de red; Microsoft Entra ID y SQL Authentication gestionan la autenticación; Transparent Data Encryption (TDE) protege los datos en reposo cifrando los archivos físicos y copias de seguridad; Always Encrypted protege datos sensibles en uso y en tránsito desde el cliente; y Dynamic Data Masking (DDM) ofusca datos en pantalla para usuarios no privilegiados.",
+      "theoryPill": {
+        "title": "Capas de Seguridad en Azure SQL Database (TDE, Always Encrypted, DDM)",
+        "summary": "Distinguir qué tecnología protege los datos en reposo, en tránsito/uso o en visualización evita confusiones habituales en el examen.",
+        "keyPoints": [
+          "Transparent Data Encryption (TDE): Cifrado en reposo (at rest) de archivos de datos, logs y backups; activado por defecto en nuevas bases de datos Azure SQL.",
+          "Always Encrypted: Cifra columnas sensibles desde el controlador del cliente para que ni siquiera el administrador de la base de datos o la nube pueda ver los valores en texto plano.",
+          "Dynamic Data Masking (DDM): Enmascara datos sensibles en los resultados de las consultas (`xxxx@xxxx.com`) sin modificar el valor real almacenado en disco."
+        ],
+        "examTrap": "No confundas TDE con Dynamic Data Masking (DDM): DDM NO es un método de cifrado en disco, sino una capa de ofuscación en las respuestas de consultas para usuarios estándar.",
+        "searchQuery": "Transparent Data Encryption TDE Azure SQL Database Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Transparent data encryption for SQL Database, SQL Managed Instance, and Azure Synapse Analytics | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/transparent-data-encryption-tde-overview"
+        }
+      ]
+    },
+    {
+      "id": "DP900-017",
+      "certification": "DP-900",
+      "domain": "Describe considerations for working with non-relational data on Azure",
+      "topic": "Tipos de Blobs en Azure Blob Storage",
+      "topicIcon": "onelake",
+      "tags": [
+        "Block Blobs",
+        "Append Blobs",
+        "Page Blobs",
+        "Azure Blob Storage"
+      ],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Una empresa utiliza una cuenta de Azure Storage para tres cargas de trabajo distintas. En particular, necesita almacenar los discos duros virtuales (`.vhd`) que respaldan sus máquinas virtuales de Azure, los cuales requieren operaciones frecuentes de lectura y escritura de acceso aleatorio en páginas de 512 bytes. ¿Qué tipo de blob de Azure Blob Storage está diseñado específicamente para este escenario?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Blobs en páginas (Page blobs)",
+          "isCorrect": true,
+          "rationale": "Correcto. Los Page blobs son colecciones de páginas de 512 bytes optimizadas para operaciones de lectura y escritura aleatorias (random read/write) de hasta 8 TB, y sirven como base para los discos de máquinas virtuales de Azure."
+        },
+        {
+          "id": "opt_2",
+          "text": "Blobs en bloques (Block blobs)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Los Block blobs están compuestos por bloques que se suben y ensamblan para almacenar archivos de texto o binarios (imágenes, vídeos, documentos), pero no sirven para discos VHD de acceso aleatorio."
+        },
+        {
+          "id": "opt_3",
+          "text": "Blobs en anexos (Append blobs)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Los Append blobs están optimizados exclusivamente para añadir datos al final del archivo (operaciones append, como registros de auditoría o logs) y no permiten actualizar ni eliminar bloques existentes."
+        },
+        {
+          "id": "opt_4",
+          "text": "Tablas de Azure (Azure Table Storage)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Azure Table Storage es un almacén NoSQL de entidades clave-valor, no un tipo de blob para discos virtuales."
+        }
+      ],
+      "explanation": "Azure Blob Storage admite tres tipos de blobs que no pueden cambiarse una vez creados: 1) Block blobs (hasta ~190.7 TiB, ideales para objetos multimedia, documentos y backups); 2) Append blobs (optimizados para operaciones de anexado al final del archivo, ideales para logs de telemetría o aplicaciones); y 3) Page blobs (hasta 8 TB, organizados en páginas de 512 bytes para lecturas/escrituras aleatorias, utilizados para discos VHD de máquinas virtuales).",
+      "theoryPill": {
+        "title": "Los Tres Tipos de Blobs en Azure Storage: Block, Append y Page",
+        "summary": "Cada tipo de blob responde a un patrón de acceso de entrada/salida (E/S) específico que suele preguntarse directamente en el examen DP-900.",
+        "keyPoints": [
+          "Block Blobs: Almacenan archivos de texto y binarios discretos (imágenes, vídeos, Parquet, CSV) mediante bloques administrados individualmente.",
+          "Append Blobs: Solo permiten añadir nuevos bloques al final del blob; no admiten modificar ni borrar bloques existentes (caso de uso: archivos de log).",
+          "Page Blobs: Acceso de lectura/escritura aleatorio sobre páginas de 512 bytes; hasta 8 TB (caso de uso: discos VHD de Azure VMs)."
+        ],
+        "examTrap": "Asociación rápida para el examen: Archivos generales/multimedia -> Block Blob; Archivos de registro (logging) -> Append Blob; Discos virtuales VHD / acceso aleatorio -> Page Blob.",
+        "searchQuery": "Understanding block blobs append blobs and page blobs Azure Blob Storage Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Understanding block blobs, append blobs, and page blobs - Azure Storage | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs"
+        }
+      ]
+    },
+    {
+      "id": "DP900-018",
+      "certification": "DP-900",
+      "domain": "Describe considerations for working with non-relational data on Azure",
+      "topic": "Niveles de Acceso en Azure Blob Storage",
+      "topicIcon": "onelake",
+      "tags": [
+        "Hot Tier",
+        "Cool Tier",
+        "Cold Tier",
+        "Archive Tier"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un hospital debe conservar expedientes de imágenes médicas antiguas durante 7 años por motivos legales. Rara vez se accede a estos archivos y el hospital busca el menor coste mensual por gigabyte almacenado, aceptando que, si algún médico solicita recuperar un expediente, el archivo tarde varias horas en estar disponible para su lectura. ¿Qué nivel de acceso (Access Tier) de Azure Blob Storage cumple este requisito y qué acción es obligatoria antes de poder leer un archivo almacenado en él?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Nivel de archivo (Archive tier); el blob está sin conexión (offline) y debe rehidratarse previamente a un nivel en línea (Hot o Cool) antes de poder leerse.",
+          "isCorrect": true,
+          "rationale": "Correcto. El nivel Archive tiene un periodo mínimo de retención de 180 días, ofrece el coste de almacenamiento más bajo y es un nivel offline que requiere rehidratación (que puede tardar horas) para leer los datos."
+        },
+        {
+          "id": "opt_2",
+          "text": "Nivel esporádico (Cool tier); el blob está sin conexión y requiere esperar 24 horas de rehidratación antes de cada lectura.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Tanto el nivel Cool (mínimo 30 días) como el nivel Cold (mínimo 90 días) son niveles en línea (online) con latencia de milisegundos, no requieren rehidratación."
+        },
+        {
+          "id": "opt_3",
+          "text": "Nivel frecuente (Hot tier); ofrece el coste de almacenamiento por GB más bajo de todos los niveles.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. El nivel Hot tiene el coste de almacenamiento por GB MÁS ALTO, pero el coste de acceso/transacción más bajo."
+        },
+        {
+          "id": "opt_4",
+          "text": "Nivel frío (Cold tier); los datos se eliminan automáticamente a los 30 días de inactividad.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. El nivel Cold es un nivel online con retención mínima recomendada de 90 días y no borra datos automáticamente a menos que se configure una directiva de ciclo de vida."
+        }
+      ],
+      "explanation": "Azure Blob Storage ofrece cuatro niveles de acceso para optimizar costes en Block Blobs: Hot (acceso frecuente, mayor coste de almacenamiento pero menor coste de lectura), Cool (acceso poco frecuente, retención mínima de 30 días, online), Cold (acceso raro, retención mínima de 90 días, online) y Archive (retención mínima de 180 días, menor coste de almacenamiento y mayor coste de recuperación). En el nivel Archive los blobs están offline y no pueden leerse ni modificarse directamente hasta que se rehidratan a un nivel online.",
+      "theoryPill": {
+        "title": "Comparativa de Niveles de Acceso (Access Tiers) en Azure Blob Storage",
+        "summary": "A medida que bajas de Hot a Cool, Cold y Archive, disminuye el precio por GB almacenado pero aumenta el precio por operación de lectura y el periodo mínimo de retención.",
+        "keyPoints": [
+          "Hot Tier (Online): Latencia en milisegundos; mayor coste de almacenamiento, menor coste de acceso.",
+          "Cool Tier (Online, mín. 30 días): Latencia en milisegundos; para datos accedidos con poca frecuencia o copias de seguridad a corto plazo.",
+          "Cold Tier (Online, mín. 90 días): Latencia en milisegundos; menor coste de almacenamiento que Cool para datos raramente consultados.",
+          "Archive Tier (Offline, mín. 180 días): Latencia de horas; requiere rehidratar el blob a Hot o Cool antes de poder leerlo."
+        ],
+        "examTrap": "El nivel Archive NO se puede configurar como nivel por defecto a nivel de toda la cuenta de almacenamiento; se asigna a nivel de blob individual y solo se aplica a Block Blobs.",
+        "searchQuery": "Access tiers for blob data Hot Cool Cold Archive Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Access tiers for blob data - Azure Storage | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview"
+        }
+      ]
+    },
+    {
+      "id": "DP900-019",
+      "certification": "DP-900",
+      "domain": "Describe considerations for working with non-relational data on Azure",
+      "topic": "Capacidades de Azure Files",
+      "topicIcon": "cosmos",
+      "tags": [
+        "Azure Files",
+        "SMB",
+        "NFS",
+        "Lift and Shift"
+      ],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Una organización desea migrar a la nube varias aplicaciones heredadas que leen y escriben informes en una unidad de red compartida (`\\\\fileserver\\reports` montada como la letra de unidad `Z:`) utilizando las APIs estándar del sistema de archivos de Windows. Quieren eliminar su servidor de archivos físico sin modificar el código de las aplicaciones y montar el recurso compartido simultáneamente en máquinas virtuales de Azure y equipos locales. ¿Qué servicio de Azure Storage deben utilizar?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Azure Files",
+          "isCorrect": true,
+          "rationale": "Correcto. Azure Files ofrece recursos compartidos de archivos totalmente administrados en la nube accesibles mediante los protocolos estándar del sector SMB (Server Message Block) y NFS (Network File System)."
+        },
+        {
+          "id": "opt_2",
+          "text": "Azure Blob Storage (nivel Archive)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Azure Blob Storage es un almacenamiento de objetos accesible vía API REST/HTTPS y no ofrece recursos compartidos SMB nativos para montar como unidad de red en Windows con bloqueo de archivos SMB."
+        },
+        {
+          "id": "opt_3",
+          "text": "Azure Table Storage",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Azure Table Storage almacena entidades clave-valor estructuradas, no sistemas de archivos montables por red."
+        },
+        {
+          "id": "opt_4",
+          "text": "Azure Queue Storage",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Azure Queue Storage es un servicio de colas de mensajería asíncrona."
+        }
+      ],
+      "explanation": "Azure Files permite crear recursos compartidos de archivos en la nube mediante los protocolos SMB (versiones 2.1, 3.0 y 3.1.1) y NFS. Es la solución ideal para escenarios de migración lift-and-shift donde las aplicaciones esperan interactuar con un sistema de archivos montado con letra de unidad, o para sincronizar servidores de archivos Windows locales con la nube mediante Azure File Sync.",
+      "theoryPill": {
+        "title": "Cuándo Elegir Azure Files frente a Azure Blob Storage",
+        "summary": "Aunque ambos almacenan archivos dentro de una cuenta de Azure Storage, su protocolo de acceso y caso de uso son completamente diferentes.",
+        "keyPoints": [
+          "Azure Files: Soporta protocolos SMB y NFS; permite montar carpetas compartidas concurrentemente en Windows, Linux y macOS.",
+          "Azure File Sync: Permite almacenar en caché recursos compartidos de Azure Files en servidores Windows Server locales para acceso local rápido.",
+          "Azure Blob Storage: Almacenamiento masivo de objetos vía HTTP/HTTPS REST API y SDKs; ideal para aplicaciones cloud-native, streaming multimedia y Data Lakes."
+        ],
+        "examTrap": "Si la pregunta menciona los protocolos «SMB», «NFS», «montar una unidad de red compartida» o «sustituir un servidor de archivos local (file server)», la respuesta correcta es siempre Azure Files.",
+        "searchQuery": "What is Azure Files SMB NFS Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "What is Azure Files? | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-introduction"
+        }
+      ]
+    },
+    {
+      "id": "DP900-020",
+      "certification": "DP-900",
+      "domain": "Describe considerations for working with non-relational data on Azure",
+      "topic": "Arquitectura de Azure Table Storage",
+      "topicIcon": "cosmos",
+      "tags": [
+        "Azure Table Storage",
+        "PartitionKey",
+        "RowKey",
+        "Key-Value"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un desarrollador utiliza Azure Table Storage para almacenar millones de registros de configuración de usuarios de forma económica. Cada entidad (fila) en una tabla de Azure Table Storage contiene tres propiedades del sistema obligatorias que gestionan la partición, la identificación única dentro de la partición y el control de versiones. ¿Cuáles son esas tres propiedades del sistema?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "`PartitionKey`, `RowKey` y `Timestamp`",
+          "isCorrect": true,
+          "rationale": "Correcto. En Azure Table Storage, toda entidad incluye obligatoriamente `PartitionKey` (que agrupa entidades en el mismo nodo de partición), `RowKey` (identificador único dentro de esa partición) y `Timestamp` (gestionado por el servidor para concurrencia optimista)."
+        },
+        {
+          "id": "opt_2",
+          "text": "`PrimaryKey`, `ForeignKey` y `ClusteredIndex`",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Azure Table Storage es un almacén NoSQL desnormalizado que no soporta claves foráneas (`ForeignKey`) ni relaciones entre tablas."
+        },
+        {
+          "id": "opt_3",
+          "text": "`DocumentID`, `CollectionID` y `RequestUnits`",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Estos conceptos pertenecen a bases de datos documentales y al modelo de aprovisionamiento de Azure Cosmos DB."
+        },
+        {
+          "id": "opt_4",
+          "text": "`BlobName`, `ContainerName` y `AccessTier`",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Estos conceptos corresponden a Azure Blob Storage, no a Azure Table Storage."
+        }
+      ],
+      "explanation": "Azure Table Storage es un almacén NoSQL de pares clave-valor (o clave-atributos) sin esquema fijo. Las entidades se dividen horizontalmente por `PartitionKey` y se ordenan dentro de cada partición por `RowKey`. La combinación de `PartitionKey` + `RowKey` forma el único índice agrupado de la tabla, lo que hace que las búsquedas puntuales por ambas claves sean extremadamente rápidas.",
+      "theoryPill": {
+        "title": "Claves y Limitaciones en Azure Table Storage",
+        "summary": "Entender el papel de `PartitionKey` y `RowKey` en Azure Table Storage explica cómo se escalan y consultan las tablas NoSQL en una cuenta de almacenamiento.",
+        "keyPoints": [
+          "PartitionKey: Determina en qué partición lógica/física se almacena la entidad; las entidades con el mismo `PartitionKey` se alojan juntas y admiten transacciones por lotes.",
+          "RowKey: Identifica de forma única a una entidad dentro de una `PartitionKey` determinada.",
+          "Sin esquema (Schemaless): Dos entidades en la misma tabla pueden tener colecciones distintas de hasta 252 propiedades personalizadas (además de las 3 del sistema).",
+          "Sin claves foráneas ni índices secundarios: Solo se indexan `PartitionKey` y `RowKey` (a diferencia de Azure Cosmos DB for Table, que indexa todas las propiedades automáticamente)."
+        ],
+        "examTrap": "Si una aplicación que usa Azure Table Storage necesita distribución global activa-activa, latencia garantizada de menos de 10 ms e índices secundarios automáticos sobre todas las columnas sin cambiar el código, debe migrar a Azure Cosmos DB for Table.",
+        "searchQuery": "Understand the Table service data model PartitionKey RowKey Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Understand the Table service data model - Azure Storage | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-the-table-service-data-model"
+        }
+      ]
+    },
+    {
+      "id": "DP900-021",
+      "certification": "DP-900",
+      "domain": "Describe considerations for working with non-relational data on Azure",
+      "topic": "APIs de Azure Cosmos DB",
+      "topicIcon": "cosmos",
+      "tags": [
+        "Azure Cosmos DB",
+        "APIs",
+        "Cassandra",
+        "MongoDB"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "multi",
+      "requiredSelections": 2,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Una empresa está consolidando varias cargas de trabajo NoSQL en Azure Cosmos DB para aprovechar su distribución global llave en mano y sus acuerdos de nivel de servicio (SLA) de latencia inferior a 10 milisegundos. Tienen dos aplicaciones existentes:\n1. Una aplicación escrita en Node.js que utiliza controladores de cliente nativos de MongoDB para almacenar documentos BSON/JSON.\n2. Una plataforma de telemetría financiera que utiliza el modelo de almacenamiento orientado a familias de columnas anchas (wide-column) y el lenguaje de consulta CQL.\n\n¿Qué DOS APIs de Azure Cosmos DB debes elegir para migrar estas aplicaciones con cambios mínimos en el código? (Selecciona dos).",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Azure Cosmos DB for MongoDB",
+          "isCorrect": true,
+          "rationale": "Correcto. Implementa el protocolo de cable (wire protocol) de MongoDB, permitiendo que las aplicaciones existentes se conecten cambiando únicamente la cadena de conexión."
+        },
+        {
+          "id": "opt_2",
+          "text": "Azure Cosmos DB for Apache Cassandra",
+          "isCorrect": true,
+          "rationale": "Correcto. Soporta el modelo de datos orientado a familias de columnas anchas (wide-column) y es compatible con el lenguaje CQL (Cassandra Query Language) y los controladores de Apache Cassandra."
+        },
+        {
+          "id": "opt_3",
+          "text": "Azure Cosmos DB for Apache Gremlin",
+          "isCorrect": false,
+          "rationale": "Incorrecto. La API de Gremlin está diseñada para bases de datos de grafos (nodos/vértices y aristas), no para familias de columnas ni documentos MongoDB."
+        },
+        {
+          "id": "opt_4",
+          "text": "Azure Cosmos DB for Table",
+          "isCorrect": false,
+          "rationale": "Incorrecto. La API for Table está pensada para cargas clave-valor migradas desde Azure Table Storage, no soporta CQL ni wire protocol de MongoDB."
+        },
+        {
+          "id": "opt_5",
+          "text": "Azure Blob Storage API",
+          "isCorrect": false,
+          "rationale": "Incorrecto. No es una API de Azure Cosmos DB."
+        }
+      ],
+      "explanation": "Azure Cosmos DB es una base de datos multimodelo distribuida globalmente que ofrece diferentes APIs según el modelo de datos y el ecosistema de origen: API for NoSQL (nativa para documentos JSON con sintaxis SQL), API for MongoDB (documentos compatibles con el protocolo MongoDB), API for Apache Cassandra (familias de columnas anchas con CQL), API for Apache Gremlin (grafos de vértices y aristas), API for Table (clave-valor evolucionado desde Azure Table Storage) y API for PostgreSQL.",
+      "theoryPill": {
+        "title": "Guía Rápida de las APIs de Azure Cosmos DB para el Examen DP-900",
+        "summary": "Saber emparejar cada modelo de datos NoSQL con su API correspondiente en Azure Cosmos DB es un punto seguro en la certificación.",
+        "keyPoints": [
+          "API for NoSQL (antes Core SQL API): API nativa recomendada para proyectos nuevos; almacena documentos JSON y se consulta con sintaxis SQL.",
+          "API for MongoDB: Para migrar aplicaciones documentales que ya usan drivers y herramientas de MongoDB.",
+          "API for Apache Cassandra: Modelo de familia de columnas (wide-column) compatible con Cassandra Query Language (CQL).",
+          "API for Apache Gremlin: Modelo de grafos basado en vértices (entidades) y aristas (relaciones).",
+          "API for Table: Modelo clave-valor compatible con Azure Table Storage pero con distribución global e indexación automática."
+        ],
+        "examTrap": "Si el enunciado habla de un proyecto NUEVO documental que quiere consultar documentos JSON mediante sintaxis SQL estándar (`SELECT * FROM c WHERE...`), elige «API for NoSQL»; si habla de migrar una app existente de MongoDB, elige «API for MongoDB».",
+        "searchQuery": "Choose an API in Azure Cosmos DB NoSQL MongoDB Cassandra Gremlin Table Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Choose an API in Azure Cosmos DB | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/choose-api"
+        }
+      ]
+    },
+    {
+      "id": "DP900-022",
+      "certification": "DP-900",
+      "domain": "Describe considerations for working with non-relational data on Azure",
+      "topic": "Consistencia y Unidades de Solicitud en Cosmos DB",
+      "topicIcon": "cosmos",
+      "tags": [
+        "Consistency Levels",
+        "Session Consistency",
+        "Strong Consistency",
+        "Request Units"
+      ],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": "GlobalGaming Ltd utiliza Azure Cosmos DB for NoSQL replicado en cinco regiones del mundo para almacenar perfiles de jugadores y carritos de compra dentro del juego.",
+      "caseStudyTabs": {
+        "overview": "GlobalGaming Ltd opera un videojuego multijugador masivo con millones de usuarios conectados desde Europa, América y Asia.",
+        "environment": "La cuenta de Azure Cosmos DB está configurada con replicación multirregión. El consumo de recursos (CPU, memoria e IOPS) de todas las operaciones de base de datos se mide y factura de forma normalizada mediante Unidades de Solicitud por segundo (RU/s).",
+        "requirements": "El equipo de desarrollo necesita elegir el nivel de consistencia predeterminado óptimo que garantice que cada jugador vea inmediatamente sus propias escrituras («read-your-own-writes») y escrituras en orden dentro de su sesión activa, ofreciendo al mismo tiempo la menor latencia y el menor consumo de RU/s posible sin el sobrecoste de sincronización global síncrona."
+      },
+      "stem": "De acuerdo con los requisitos de GlobalGaming Ltd, ¿qué nivel de consistencia de Azure Cosmos DB cumple con las garantías de «leer tus propias escrituras» dentro de la sesión del usuario y viene configurado como el nivel predeterminado al crear una cuenta nueva?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Consistencia de sesión (Session consistency)",
+          "isCorrect": true,
+          "rationale": "Correcto. La consistencia de sesión es el nivel predeterminado en Azure Cosmos DB y garantiza lecturas monótonas, escrituras monótonas y la lectura de las propias escrituras dentro de la misma sesión de cliente con el mejor equilibrio entre rendimiento y disponibilidad."
+        },
+        {
+          "id": "opt_2",
+          "text": "Consistencia fuerte (Strong consistency)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. La consistencia fuerte ofrece linealidad global garantizando que todas las regiones confirmen el dato de forma síncrona antes de que sea visible, lo que incrementa la latencia de escritura y duplica el coste de RU de lectura respecto a Session/Eventual."
+        },
+        {
+          "id": "opt_3",
+          "text": "Consistencia eventual (Eventual consistency)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. La consistencia eventual no garantiza el orden de las lecturas ni que un cliente lea inmediatamente sus propias escrituras recién realizadas."
+        },
+        {
+          "id": "opt_4",
+          "text": "Obsolescencia limitada (Bounded staleness)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Bounded staleness garantiza que las lecturas solo puedan ir retrasadas un máximo de `K` versiones o un intervalo de tiempo `T`, pero consume más RU/s en lecturas globales que el nivel de sesión predeterminado."
+        }
+      ],
+      "explanation": "Azure Cosmos DB ofrece un espectro continuo de 5 niveles de consistencia ordenados de más estricto a más relajado: 1) Strong (Fuerte), 2) Bounded Staleness (Obsolescencia limitada), 3) Session (Sesión — nivel predeterminado y más utilizado), 4) Consistent Prefix (Prefijo coherente) y 5) Eventual (Eventual). Todas las operaciones en Cosmos DB (lecturas puntuales, escrituras, consultas) se expresan en Request Units (RUs), que abstraen CPU, IOPS y memoria.",
+      "theoryPill": {
+        "title": "Los 5 Niveles de Consistencia y las Request Units (RUs) en Azure Cosmos DB",
+        "summary": "Comprender el orden de los 5 niveles de consistencia y qué significa una Request Unit (RU) es indispensable para las preguntas de nivel intermedio/avanzado de DP-900.",
+        "keyPoints": [
+          "Orden de más fuerte a más débil: Strong -> Bounded Staleness -> Session (por defecto) -> Consistent Prefix -> Eventual.",
+          "Session Consistency: Nivel predeterminado; garantiza «read-your-own-writes» dentro de la sesión de un usuario.",
+          "Consistent Prefix: Garantiza que las lecturas nunca vean escrituras fuera de orden (si se escribió A, B, C, se verá A, o A,B, o A,B,C, nunca A,C).",
+          "Request Unit (RU): Moneda de rendimiento que abstrae CPU, memoria e IOPS; una lectura puntual de un documento de 1 KB por su ID y Partition Key cuesta 1 RU."
+        ],
+        "examTrap": "Si la pregunta pide «garantizar que nunca se lean escrituras desordenadas sin importar la demora», es Consistent Prefix; si pide «garantizar un retraso máximo de K versiones o T segundos», es Bounded Staleness; si pregunta por el nivel por defecto o «read your own writes», es Session.",
+        "searchQuery": "Consistency levels in Azure Cosmos DB Request Units Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Consistency levels in Azure Cosmos DB | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/consistency-levels"
+        },
+        {
+          "title": "Request Units in Azure Cosmos DB | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/request-units"
+        }
+      ]
+    },
+    {
+      "id": "DP900-023",
+      "certification": "DP-900",
+      "domain": "Describe considerations for working with non-relational data on Azure",
+      "topic": "Particionamiento y Consultas en Cosmos DB for NoSQL",
+      "topicIcon": "cosmos",
+      "tags": [
+        "Partition Key",
+        "Cosmos DB for NoSQL",
+        "SQL Query",
+        "JSON"
+      ],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un desarrollador almacena pedidos de comercio electrónico como documentos JSON en un contenedor de Azure Cosmos DB for NoSQL configurado con `/customerId` como clave de partición (`Partition Key`). Ejecuta la siguiente consulta:\n\n¿Por qué incluir el predicado `c.customerId = 'CUST-9942'` en la cláusula `WHERE` optimiza drásticamente el consumo de Unidades de Solicitud (RUs) y la latencia?",
+      "codeSnippet": "SELECT c.id, c.orderDate, c.totalAmount\nFROM c\nWHERE c.customerId = 'CUST-9942'\n  AND c.orderDate >= '2026-01-01'",
+      "codeLanguage": "SQL",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Porque permite a Azure Cosmos DB dirigir la consulta directamente a una única partición lógica y física (`single-partition query`), evitando escanear todas las particiones del contenedor (`cross-partition query`).",
+          "isCorrect": true,
+          "rationale": "Correcto. Al filtrar por la clave de partición `/customerId`, el enrutador de consultas envía la petición únicamente a la partición física que aloja esa partición lógica."
+        },
+        {
+          "id": "opt_2",
+          "text": "Porque desactiva temporalmente la indexación automática del contenedor y convierte el documento JSON en una tabla relacional T-SQL.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Azure Cosmos DB for NoSQL mantiene siempre su índice invertido automático sobre documentos JSON y no los convierte en tablas T-SQL."
+        },
+        {
+          "id": "opt_3",
+          "text": "Porque las consultas en Azure Cosmos DB for NoSQL fallan con un error de sintaxis si no incluyen la clave de partición en la cláusula `SELECT`.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Las consultas sin filtro de clave de partición son válidas sintácticamente, pero se ejecutan como consultas entre particiones (`fan-out`) con mayor coste en RUs."
+        },
+        {
+          "id": "opt_4",
+          "text": "Porque obliga a rehidratar el contenedor desde el nivel Archive de Azure Blob Storage en menos de 1 milisegundo.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Azure Cosmos DB almacena los datos en unidades SSD de baja latencia, no en el nivel Archive de Blob Storage."
+        }
+      ],
+      "explanation": "En Azure Cosmos DB, los contenedores escalan horizontalmente dividiendo los documentos en particiones lógicas según el valor de la propiedad elegida como `Partition Key`. Cuando una consulta incluye un filtro de igualdad sobre la clave de partición en el `WHERE`, se ejecuta como una consulta de partición única (`in-partition query`), minimizando la latencia y los cargos de RUs.",
+      "theoryPill": {
+        "title": "Particionamiento e Indexación en Azure Cosmos DB for NoSQL",
+        "summary": "La clave de partición (`Partition Key`) determina cómo se distribuyen el almacenamiento y el rendimiento (RU/s) entre las particiones físicas subyacentes.",
+        "keyPoints": [
+          "Buena elección de Partition Key: Propiedad con alta cardinalidad (muchos valores distintos) que distribuya uniformemente las escrituras y aparezca con frecuencia en los filtros `WHERE`.",
+          "In-partition query vs Cross-partition query: Filtrar por la clave de partición dirige la consulta a una sola partición; omitirla requiere un fan-out a todas las particiones.",
+          "Indexación por defecto: A diferencia de Azure Table Storage, Azure Cosmos DB indexa todas las propiedades de cada documento JSON de forma predeterminada."
+        ],
+        "examTrap": "El tamaño máximo de cada partición lógica en Azure Cosmos DB es de 20 GB; por tanto, nunca elijas una clave de partición con muy pocos valores posibles (baja cardinalidad, como un booleano `true/false`).",
+        "searchQuery": "Partitioning and horizontal scaling in Azure Cosmos DB Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Partitioning and horizontal scaling in Azure Cosmos DB | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/partitioning-overview"
+        }
+      ]
+    },
+    {
+      "id": "DP900-024",
+      "certification": "DP-900",
+      "domain": "Describe an analytics workload on Azure",
+      "topic": "Ingesta y Procesamiento de Datos (ETL vs ELT)",
+      "topicIcon": "pipeline",
+      "tags": [
+        "ETL",
+        "ELT",
+        "Azure Data Factory",
+        "Data Ingestion"
+      ],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "En una arquitectura moderna de analítica a gran escala en Azure, los datos en bruto procedentes de múltiples sistemas ERP se copian directamente en Azure Data Lake Storage Gen2 (o Microsoft Fabric OneLake) tal como vienen del origen y, posteriormente, se limpian y transforman a gran escala utilizando la potencia de cómputo distribuido del propio almacén analítico de destino (como Apache Spark o un motor de Data Warehouse MPP). ¿Qué acrónimo describe este patrón de integración de datos?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "ELT (Extract, Load, Transform)",
+          "isCorrect": true,
+          "rationale": "Correcto. En el enfoque ELT, los datos se extraen (Extract) del origen, se cargan (Load) primero sin procesar en el Data Lake o Data Warehouse, y luego se transforman (Transform) aprovechando la capacidad de escalado del sistema de destino."
+        },
+        {
+          "id": "opt_2",
+          "text": "ETL (Extract, Transform, Load)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. En el patrón tradicional ETL, los datos se transforman en un motor intermedio dedicado ANTES de ser cargados en el almacén de datos de destino."
+        },
+        {
+          "id": "opt_3",
+          "text": "OLTP (Online Transaction Processing)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. OLTP se refiere a bases de datos transaccionales operativas, no al orden de las fases de una canalización de ingesta."
+        },
+        {
+          "id": "opt_4",
+          "text": "TDE (Transparent Data Encryption)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. TDE es un mecanismo de cifrado de datos en reposo."
+        }
+      ],
+      "explanation": "En la analítica moderna en la nube existen dos paradigmas de procesamiento: ETL (Extract, Transform, Load), donde los datos se transforman en tránsito antes de escribirse en el destino (útil cuando hay que filtrar o anonimizar datos sensibles antes de almacenarlos), y ELT (Extract, Load, Transform), donde los datos crudos aterrizan primero en un Data Lake económico y escalable y se transforman después mediante motores distribuidos como Spark o T-SQL MPP.",
+      "theoryPill": {
+        "title": "Diferencia entre ETL y ELT en Canalizaciones de Datos",
+        "summary": "Distinguir cuándo ocurre la fase de Transformación (antes o después de la carga) y qué servicio la orquesta es esencial en el cuarto dominio de DP-900.",
+        "keyPoints": [
+          "ETL (Extract, Transform, Load): Transforma los datos antes de cargarlos en el destino; ideal para flujos simples o cuando por cumplimiento normativo los datos PII no deben almacenarse en bruto.",
+          "ELT (Extract, Load, Transform): Carga los datos crudos primero en el Data Lake (ADLS Gen2 / OneLake) y usa el motor masivo del destino (Spark / Warehouse) para transformarlos.",
+          "Azure Data Factory / Fabric Data Factory: Servicio sin servidor de integración y orquestación de datos que permite construir pipelines tanto ETL (con Dataflows) como ELT (con actividad Copy + Notebook/Stored Procedure)."
+        ],
+        "examTrap": "Si el escenario dice que los datos se copian primero en bruto a un Data Lake y luego un clúster de Spark o pool de SQL los transforma, la respuesta es siempre ELT, no ETL.",
+        "searchQuery": "Describe considerations for data ingestion and processing ETL vs ELT Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Explore fundamentals of large-scale analytics - Data ingestion and processing | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-warehousing/"
+        }
+      ]
+    },
+    {
+      "id": "DP900-025",
+      "certification": "DP-900",
+      "domain": "Describe an analytics workload on Azure",
+      "topic": "Azure Data Lake Storage Gen2 y Espacio de Nombres Jerárquico",
+      "topicIcon": "onelake",
+      "tags": [
+        "ADLS Gen2",
+        "Hierarchical Namespace",
+        "Data Lake",
+        "Big Data"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Al aprovisionar una cuenta de almacenamiento de Azure (StorageV2) para que actúe como un lago de datos (Data Lake) en cargas de trabajo analíticas con Azure Databricks y Azure Synapse Analytics, debes activar una opción específica que transforma los prefijos virtuales de blobs planos en un verdadero sistema de directorios. Esto permite que operaciones como renombrar o mover una carpeta con miles de archivos se ejecuten en una sola operación atómica de metadatos ($O(1)$) en lugar de copiar y borrar cada blob individualmente. ¿Cómo se denomina esta opción?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Espacio de nombres jerárquico (Hierarchical namespace)",
+          "isCorrect": true,
+          "rationale": "Correcto. Habilitar el espacio de nombres jerárquico (Hierarchical Namespace - HNS) en una cuenta de Azure Blob Storage activa las capacidades de Azure Data Lake Storage Gen2, proporcionando directorios reales y ACLs compatibles con POSIX."
+        },
+        {
+          "id": "opt_2",
+          "text": "Eliminación temporal de contenedores (Container soft delete)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. El borrado temporal protege contra eliminaciones accidentales reteniendo los datos borrados durante un periodo, pero no crea una jerarquía de archivos para Big Data."
+        },
+        {
+          "id": "opt_3",
+          "text": "Redundancia con acceso de lectura en zona geográfica (RA-GZRS)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. RA-GZRS es una opción de replicación para alta disponibilidad y recuperación ante desastres, no la característica que habilita Data Lake Storage Gen2."
+        },
+        {
+          "id": "opt_4",
+          "text": "Cifrado de datos transparente (Transparent Data Encryption)",
+          "isCorrect": false,
+          "rationale": "Incorrecto. TDE es la tecnología de cifrado en reposo de bases de datos SQL, mientras que Azure Storage usa Azure Storage Service Encryption (SSE)."
+        }
+      ],
+      "explanation": "En Azure Blob Storage estándar, el espacio de nombres es plano (las barras `/` en el nombre de un blob son solo parte del nombre del archivo, llamadas directorios virtuales). Al habilitar el Espacio de nombres jerárquico (Hierarchical Namespace), la cuenta se convierte en Azure Data Lake Storage Gen2 (ADLS Gen2), permitiendo operaciones atómicas sobre carpetas, control de acceso fino (POSIX ACLs) y el controlador ABFS optimizado para motores analíticos.",
+      "theoryPill": {
+        "title": "Azure Blob Storage vs Azure Data Lake Storage Gen2 (ADLS Gen2)",
+        "summary": "ADLS Gen2 no es un tipo de cuenta independiente, sino una capacidad que se construye sobre Azure Blob Storage al activar el Espacio de Nombres Jerárquico.",
+        "keyPoints": [
+          "Blob Storage estándar (Espacio de nombres plano): Los «directorios» son simples prefijos en el nombre del blob; renombrar una carpeta con 10.000 blobs exige 10.000 operaciones de copia y borrado.",
+          "ADLS Gen2 (Espacio de nombres jerárquico - HNS): Organiza objetos en una jerarquía real de directorios y archivos; renombrar un directorio es una única operación atómica instantánea.",
+          "Compatibilidad: ADLS Gen2 soporta el driver `abfss://` (Azure Blob File System) y permisos ACL granulares estilo POSIX a nivel de carpeta y archivo."
+        ],
+        "examTrap": "Si una pregunta del examen pregunta «¿Qué debes habilitar al crear una cuenta de Azure Storage para utilizarla como Azure Data Lake Storage Gen2?», la respuesta exacta es siempre «Hierarchical namespace (Espacio de nombres jerárquico)».",
+        "searchQuery": "Azure Data Lake Storage Gen2 hierarchical namespace Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Azure Data Lake Storage Gen2 hierarchical namespace | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace"
+        }
+      ]
+    },
+    {
+      "id": "DP900-026",
+      "certification": "DP-900",
+      "domain": "Describe an analytics workload on Azure",
+      "topic": "Servicios de Analítica a Gran Escala (Fabric, Databricks, Synapse)",
+      "topicIcon": "fabric",
+      "tags": [
+        "Microsoft Fabric",
+        "Azure Databricks",
+        "OneLake",
+        "Apache Spark"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "multi",
+      "requiredSelections": 2,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un director de datos está evaluando los servicios en la nube de Microsoft para implementar cargas de trabajo de analítica a gran escala. ¿Qué DOS afirmaciones describen correctamente las capacidades de Microsoft Fabric y Azure Databricks? (Selecciona dos).",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Microsoft Fabric es una plataforma de analítica unificada de software como servicio (SaaS) que integra ingeniería de datos, Data Factory, Data Warehouse, Real-Time Intelligence y Power BI sobre un único lago de datos lógico llamado OneLake.",
+          "isCorrect": true,
+          "rationale": "Correcto. Microsoft Fabric reúne todas las experiencias analíticas en un entorno SaaS unificado donde todos los motores almacenan los datos de forma nativa en formato abierto Delta/Parquet dentro de OneLake."
+        },
+        {
+          "id": "opt_2",
+          "text": "Azure Databricks es una plataforma de analítica basada en Apache Spark optimizada para Azure que ofrece áreas de trabajo colaborativas con notebooks en Python, Scala, SQL y R para ingeniería de datos y ciencia de datos.",
+          "isCorrect": true,
+          "rationale": "Correcto. Azure Databricks proporciona clústeres de Apache Spark administrados, Delta Lake y un entorno interactivo para procesamiento distribuido de Big Data y Machine Learning."
+        },
+        {
+          "id": "opt_3",
+          "text": "Microsoft Fabric es un servicio exclusivo para bases de datos transaccionales OLTP de menos de 2 GB que no soporta Power BI ni Apache Spark.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Microsoft Fabric está diseñado específicamente para cargas analíticas a gran escala e incluye de forma nativa tanto Ingeniería de Datos con Spark como Power BI."
+        },
+        {
+          "id": "opt_4",
+          "text": "Azure Databricks solo permite ejecutar consultas mediante procedimientos almacenados en Microsoft Access y no soporta procesamiento distribuido.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Azure Databricks es una plataforma de cómputo distribuido en memoria basada en Apache Spark."
+        },
+        {
+          "id": "opt_5",
+          "text": "OneLake en Microsoft Fabric requiere aprovisionar y administrar manualmente servidores físicos locales antes de crear un informe en Power BI.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. OneLake se aprovisiona automáticamente como un servicio SaaS único por inquilino (tenant) sin gestión de infraestructura."
+        }
+      ],
+      "explanation": "El ecosistema de analítica a gran escala de Microsoft incluye Microsoft Fabric (la solución SaaS todo-en-uno construida en torno a OneLake y formato Delta Lake), Azure Databricks (plataforma PaaS de primer nivel basada en Apache Spark para ingeniería de datos y Machine Learning) y Azure Synapse Analytics (que combina pipelines de integración, pools de SQL dedicados/serverless y pools de Apache Spark).",
+      "theoryPill": {
+        "title": "Servicios Cloud de Microsoft para Analítica a Gran Escala",
+        "summary": "El temario oficial de DP-900 destaca tres plataformas clave para analítica empresarial: Microsoft Fabric, Azure Databricks y Azure Synapse Analytics.",
+        "keyPoints": [
+          "Microsoft Fabric (SaaS): Plataforma unificada que integra Data Factory, Synapse Data Engineering, Data Warehouse, Data Science, Real-Time Intelligence y Power BI sobre OneLake.",
+          "OneLake: El «OneDrive para los datos» en Microsoft Fabric; un único Data Lake lógico por organización que almacena tablas en formato Delta Parquet y permite Shortcuts sin duplicar datos.",
+          "Azure Databricks (PaaS): Entorno colaborativo basado en Apache Spark con soporte para Python, Scala, R y SQL, ideal para cargas pesadas de Big Data y ML.",
+          "Azure Synapse Analytics (PaaS): Servicio que une almacenamiento de datos empresarial (Dedicated & Serverless SQL pools), Apache Spark y Data Explorer en Synapse Studio."
+        ],
+        "examTrap": "Si la pregunta menciona una solución «SaaS todo-en-uno» con un lago de datos centralizado llamado «OneLake», elige siempre Microsoft Fabric.",
+        "searchQuery": "Describe Microsoft cloud services for large-scale analytics Azure Databricks Microsoft Fabric Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "What is Microsoft Fabric? | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/get-started/microsoft-fabric-overview"
+        },
+        {
+          "title": "What is Azure Databricks? | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/databricks/introduction/"
+        }
+      ]
+    },
+    {
+      "id": "DP900-027",
+      "certification": "DP-900",
+      "domain": "Describe an analytics workload on Azure",
+      "topic": "Arquitectura de Analítica en Tiempo Real en Azure",
+      "topicIcon": "kql",
+      "tags": [
+        "Azure Event Hubs",
+        "Azure Stream Analytics",
+        "IoT Hub",
+        "Real-Time"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Una compañía eléctrica recibe cientos de miles de lecturas por segundo desde contadores inteligentes distribuidos por todo el país. Necesita una arquitectura de procesamiento de flujos en tiempo real en Azure compuesta por:\n1. Un servicio de ingesta de eventos (event broker) capaz de recibir y almacenar en búfer millones de eventos por segundo.\n2. Un motor de procesamiento de flujos sin servidor que ejecute consultas continuas en un lenguaje declarativo basado en SQL para filtrar anomalías y enviar los resultados agregados a un panel en tiempo real de Power BI.\n\n¿Qué combinación de servicios de Azure debes utilizar para la entrada (Input) y el motor de procesamiento (Query Engine)?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Azure Event Hubs (o Azure IoT Hub) como origen de ingesta de streaming y Azure Stream Analytics como motor de procesamiento de consultas en tiempo real.",
+          "isCorrect": true,
+          "rationale": "Correcto. Azure Event Hubs / IoT Hub ingieren millones de eventos por segundo y Azure Stream Analytics procesa esos flujos en movimiento usando consultas SQL con funciones de ventana temporal hacia salidas como Power BI o Blob Storage."
+        },
+        {
+          "id": "opt_2",
+          "text": "Azure Files como cola de ingesta de eventos y Azure Backup como motor de consultas SQL en tiempo real.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Ni Azure Files es un broker de streaming de eventos ni Azure Backup es un motor de procesamiento analítico."
+        },
+        {
+          "id": "opt_3",
+          "text": "Azure Blob Storage (nivel Archive) como ingesta en tiempo real y SQL Server Management Studio como motor de streaming.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. El nivel Archive es offline y SSMS es una herramienta administrativa de escritorio para clientes, no un servicio en la nube."
+        },
+        {
+          "id": "opt_4",
+          "text": "Azure Table Storage como motor de consultas de ventana temporal y Power BI Desktop como cola de ingesta IoT.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Power BI Desktop es una herramienta de autoría local de informes y Azure Table Storage es un almacén clave-valor en reposo."
+        }
+      ],
+      "explanation": "Una solución de analítica en tiempo real en Azure consta de tres bloques: 1) Orígenes de ingesta de eventos (Azure Event Hubs para telemetría general de gran escala o Azure IoT Hub para comunicación bidireccional con dispositivos IoT); 2) Motor de procesamiento de flujos (Azure Stream Analytics, Apache Spark Structured Streaming o Real-Time Intelligence / Eventstreams en Microsoft Fabric); y 3) Receptores o Sinks (Power BI, Azure Data Lake Storage Gen2, Azure SQL Database, Azure Cosmos DB o Eventhouse/KQL Database).",
+      "theoryPill": {
+        "title": "Componentes de una Solución de Streaming en Azure (Inputs, Query, Outputs)",
+        "summary": "En un trabajo (Job) de Azure Stream Analytics siempre se definen tres elementos: Entradas (Inputs), Consulta (Query) y Salidas (Outputs/Sinks).",
+        "keyPoints": [
+          "Inputs (Orígenes de ingesta): Azure Event Hubs, Azure IoT Hub o Azure Blob Storage / ADLS Gen2 (también permite datos de referencia estáticos para cruzar con el stream).",
+          "Motor de Procesamiento: Azure Stream Analytics ejecuta consultas continuas escritas en Stream Analytics Query Language (un subconjunto de T-SQL con ventanas temporales).",
+          "Outputs (Destinos): Power BI (datasets de streaming), Azure Data Lake Storage, Azure SQL Database, Azure Cosmos DB, Azure Functions o Service Bus.",
+          "En Microsoft Fabric: Real-Time Intelligence utiliza Eventstreams para ingerir/enrutar eventos y Eventhouse (bases de datos KQL) para analizarlos."
+        ],
+        "examTrap": "Si el examen pregunta qué servicio permite procesar flujos de datos en movimiento mediante consultas declarativas sencillas similares a SQL sin administrar clústeres, la respuesta es Azure Stream Analytics.",
+        "searchQuery": "Identify Microsoft cloud services for real-time analytics Stream Analytics Event Hubs Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Get started with Azure Stream Analytics - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-stream-processing/3-azure-stream-analytics"
+        }
+      ]
+    },
+    {
+      "id": "DP900-028",
+      "certification": "DP-900",
+      "domain": "Describe an analytics workload on Azure",
+      "topic": "Funciones de Ventana en Azure Stream Analytics",
+      "topicIcon": "kql",
+      "tags": [
+        "TumblingWindow",
+        "HoppingWindow",
+        "SlidingWindow",
+        "Stream Analytics"
+      ],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un ingeniero de datos ha escrito la siguiente consulta en un trabajo de Azure Stream Analytics para calcular el promedio de velocidad de los vehículos en una autopista:\n\n¿Cómo agrupa los eventos temporales la función `TumblingWindow(minute, 5)` utilizada en la cláusula `GROUP BY`?",
+      "codeSnippet": "SELECT\n    TollZoneID,\n    System.Timestamp() AS WindowEnd,\n    AVG(VehicleSpeedKmh) AS AvgSpeed\nINTO\n    [PowerBIDashboardOutput]\nFROM\n    [HighwaySensorInput] TIMESTAMP BY EventEnqueuedUtcTime\nGROUP BY\n    TollZoneID,\n    TumblingWindow(minute, 5)",
+      "codeLanguage": "SQL",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Divide el flujo de tiempo en segmentos contiguos de tamaño fijo (5 minutos) que NO se superponen entre sí, de modo que cada evento pertenece exactamente a una única ventana.",
+          "isCorrect": true,
+          "rationale": "Correcto. Una ventana de salto o en cascada (`TumblingWindow`) segmenta el flujo de datos en intervalos de tiempo fijos, contiguos y mutuamente excluyentes (sin solapamiento)."
+        },
+        {
+          "id": "opt_2",
+          "text": "Crea ventanas de 5 minutos que avanzan cada 1 minuto superponiéndose entre sí, por lo que un mismo evento puede pertenecer a cinco ventanas simultáneas.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Las ventanas programadas de tamaño fijo que se superponen entre sí avanzando un salto menor que su duración corresponden a `HoppingWindow` (ventana de salto superpuesta)."
+        },
+        {
+          "id": "opt_3",
+          "text": "Mantiene una ventana abierta indefinidamente hasta que transcurren 5 minutos de inactividad total sin llegar ningún evento nuevo.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Las ventanas de longitud variable que se cierran tras un periodo de inactividad (timeout) corresponden a `SessionWindow` (ventana de sesión)."
+        },
+        {
+          "id": "opt_4",
+          "text": "Agrupa únicamente los eventos que ocurren en el exacto mismo milisegundo sin duración temporal.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Agrupar eventos que comparten exactamente la misma marca de tiempo puntual corresponde a `SnapshotWindow`."
+        }
+      ],
+      "explanation": "Dado que un flujo de datos en streaming es infinito, para calcular agregaciones (`AVG`, `SUM`, `COUNT`) es necesario acotar el flujo en ventanas de tiempo (Windowing Functions) dentro del `GROUP BY`. En Azure Stream Analytics: `TumblingWindow` crea intervalos fijos contiguos que NO se solapan; `HoppingWindow` crea intervalos fijos que SÍ se solapan a intervalos regulares; `SlidingWindow` evalúa la ventana solo cuando un evento entra o sale de ella; y `SessionWindow` agrupa eventos cercanos separados por silencios de inactividad.",
+      "theoryPill": {
+        "title": "Funciones de Ventana Temporal (Windowing) en Azure Stream Analytics",
+        "summary": "Dominar la diferencia visual y conceptual entre Tumbling, Hopping, Sliding y Session Windows te permitirá acertar cualquier pregunta avanzada de streaming.",
+        "keyPoints": [
+          "Tumbling Window (Cascada): Duración fija, contigua y SIN superposición (non-overlapping); cada evento cae en una sola ventana (ej. cada 5 min: 12:00-12:05, 12:05-12:10).",
+          "Hopping Window (Salto): Duración fija CON superposición (overlapping); ej. calcular la media de los últimos 10 minutos actualizada cada 2 minutos.",
+          "Sliding Window (Deslizante): Emite un resultado únicamente cuando el contenido de la ventana cambia (cuando entra o sale un evento).",
+          "Session Window (Sesión): Duración variable; permanece abierta mientras sigan llegando eventos y se cierra tras un tiempo de inactividad (timeout)."
+        ],
+        "examTrap": "Palabras clave definitivas para el examen: «Fixed-size, non-overlapping, contiguous» = Tumbling Window. «Fixed-size, overlapping» = Hopping Window. «Variable size based on inactivity timeout» = Session Window.",
+        "searchQuery": "Windowing functions Azure Stream Analytics Tumbling Hopping Sliding Session Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Introduction to Azure Stream Analytics windowing functions | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/stream-analytics-query/windowing-azure-stream-analytics"
+        }
+      ]
+    },
+    {
+      "id": "DP900-029",
+      "certification": "DP-900",
+      "domain": "Describe an analytics workload on Azure",
+      "topic": "Arquitectura y Flujo de Trabajo de Microsoft Power BI",
+      "topicIcon": "powerbi",
+      "tags": [
+        "Power BI Desktop",
+        "Power BI Service",
+        "Dashboards",
+        "Reports"
+      ],
+      "difficulty": "basic",
+      "questionType": "multi",
+      "requiredSelections": 2,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un analista de datos utiliza Microsoft Power BI para crear y compartir soluciones de inteligencia empresarial en su organización. ¿Qué DOS afirmaciones distinguen correctamente las capacidades de Power BI Desktop frente al servicio en la nube Power BI Service, así como la diferencia entre un Informe (`Report`) y un Panel (`Dashboard`)? (Selecciona dos).",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "El flujo de trabajo habitual consiste en conectar orígenes, transformar datos con Power Query, construir el modelo semántico y diseñar informes multipágina en Power BI Desktop, para luego publicarlos en un área de trabajo de Power BI Service.",
+          "isCorrect": true,
+          "rationale": "Correcto. Power BI Desktop es la herramienta de autoría y modelado local gratuita, mientras que Power BI Service (SaaS) se utiliza para compartir, programar actualizaciones, crear paneles y distribuir aplicaciones."
+        },
+        {
+          "id": "opt_2",
+          "text": "Un Panel (`Dashboard`) es un lienzo de una sola página exclusivo de Power BI Service que puede combinar iconos (`tiles`) anclados desde múltiples informes y modelos semánticos distintos.",
+          "isCorrect": true,
+          "rationale": "Correcto. Mientras que un Informe (`Report`) puede tener múltiples páginas pero se basa en un único modelo semántico, un Panel (`Dashboard`) se crea exclusivamente en Power BI Service, ocupa una sola página y puede consolidar visualizaciones de varios informes."
+        },
+        {
+          "id": "opt_3",
+          "text": "Los Paneles (`Dashboards`) solo se pueden crear en la aplicación móvil Power BI Mobile y pueden tener hasta 50 páginas pestaña.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Los paneles siempre son de una sola página y se crean en Power BI Service (la app móvil solo sirve para visualizarlos e interactuar con ellos)."
+        },
+        {
+          "id": "opt_4",
+          "text": "Un Informe (`Report`) en Power BI Desktop puede conectarse directamente a cinco modelos semánticos publicados distintos dentro de la misma página sin combinarlos.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Cada informe de Power BI está vinculado a un único modelo semántico subyacente."
+        },
+        {
+          "id": "opt_5",
+          "text": "Power Query en Power BI Desktop sirve exclusivamente para administrar licencias de Microsoft Entra ID y no puede filtrar ni limpiar columnas.",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Power Query es precisamente el motor de preparación, limpieza y transformación de datos integrado en Power BI Desktop."
+        }
+      ],
+      "explanation": "Microsoft Power BI consta de tres componentes principales: Power BI Desktop (aplicación de escritorio Windows para ingerir con Power Query, modelar relaciones/DAX y diseñar informes), Power BI Service (plataforma SaaS en la nube para colaborar en áreas de trabajo, programar refrescos, crear Dashboards de una sola página a partir de iconos anclados de uno o varios informes y publicar Apps) y Power BI Mobile (apps para consumir informes y paneles en dispositivos móviles).",
+      "theoryPill": {
+        "title": "Informe (Report) vs Panel (Dashboard) en Microsoft Power BI",
+        "summary": "La comparación entre Informes (Reports) y Paneles (Dashboards), así como qué se hace en Desktop frente al Servicio web, es una pregunta recurrente en DP-900.",
+        "keyPoints": [
+          "Informe (Report): Puede tener 1 o muchas páginas; se basa en UN único modelo semántico; se crea en Power BI Desktop o en Power BI Service; soporta filtrado cruzado interactivo y drill-down.",
+          "Panel (Dashboard): Tiene SIEMPRE 1 sola página; se crea EXCLUSIVAMENTE en Power BI Service; contiene iconos (tiles) anclados desde UNO o VARIOS informes y modelos semánticos.",
+          "Flujo de trabajo estándar: 1) Diseñar modelo e informe en Power BI Desktop -> 2) Publicar en Power BI Service -> 3) Anclar iconos a un Dashboard y compartir mediante una App."
+        ],
+        "examTrap": "Si una pregunta dice «necesitas mostrar en una única vista de resumen elementos visuales procedentes de tres informes diferentes basados en distintos conjuntos de datos», la respuesta es siempre un Panel (`Dashboard`) en Power BI Service.",
+        "searchQuery": "Identify the capabilities of Power BI Desktop Service Report vs Dashboard Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Explore fundamentals of data visualization with Power BI | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-visualization-power-bi/"
+        }
+      ]
+    },
+    {
+      "id": "DP900-030",
+      "certification": "DP-900",
+      "domain": "Describe an analytics workload on Azure",
+      "topic": "Modelado en Estrella y Visualizaciones en Power BI",
+      "topicIcon": "powerbi",
+      "tags": [
+        "Star Schema",
+        "Fact Table",
+        "Dimension Table",
+        "Visualizations"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un analista de datos está diseñando un modelo semántico en esquema en estrella (`Star Schema`) en Power BI y seleccionando las visualizaciones adecuadas para el informe financiero. El modelo tiene una tabla central `FactSales` rodeada por las tablas `DimDate`, `DimProduct` y `DimStore`. Además, el director financiero pide un gráfico que muestre cómo el beneficio neto inicial se ve incrementado o reducido paso a paso por una serie de valores intermedios positivos (ingresos por línea) y negativos (costes operativos e impuestos) hasta llegar al saldo final. ¿Qué afirmación describe correctamente tanto la estructura del modelo como el objeto visual que debe utilizarse?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "La tabla `FactSales` contiene las métricas numéricas agregables y claves foráneas (lado «muchos» `*`), las tablas `Dim*` contienen los atributos descriptivos para filtrar/agrupar (lado «uno» `1`), y el objeto visual adecuado es un gráfico de cascada (`Waterfall chart`).",
+          "isCorrect": true,
+          "rationale": "Correcto. En un esquema en estrella, las tablas de dimensiones (1) filtran a la tabla de hechos (*) que almacena las medidas numéricas; y el gráfico de cascada (Waterfall) está diseñado para mostrar el efecto acumulado de valores positivos y negativos secuenciales entre un total inicial y uno final."
+        },
+        {
+          "id": "opt_2",
+          "text": "Las tablas `DimProduct` y `DimStore` almacenan los importes numéricos de cada línea de factura, mientras que `FactSales` almacena solo descripciones de texto, y el objeto visual adecuado es un gráfico circular (`Pie chart`).",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Es al revés: los hechos almacenan eventos numéricos medibles y las dimensiones almacenan atributos descriptivos (`NombreProducto`, `Categoría`, `Ciudad`). Además, un gráfico circular no muestra variaciones secuenciales positivas y negativas."
+        },
+        {
+          "id": "opt_3",
+          "text": "Todas las relaciones entre dimensiones y hechos deben ser de muchos a muchos (`*:*`) sin clave única, y el objeto visual adecuado es una segmentación de datos (`Slicer`).",
+          "isCorrect": false,
+          "rationale": "Incorrecto. En un esquema en estrella estándar, cada dimensión tiene una clave única y se relaciona de uno a muchos (`1:*`) con la tabla de hechos; y un Slicer es un filtro en el lienzo, no un gráfico de variaciones."
+        },
+        {
+          "id": "opt_4",
+          "text": "El esquema en estrella prohíbe tener una tabla de fechas (`DimDate`), y el único objeto visual capaz de mostrar restas es un mapa coroplético (`Filled map`).",
+          "isCorrect": false,
+          "rationale": "Incorrecto. Una tabla de calendario (`DimDate`) es una dimensión esencial para la inteligencia temporal en cualquier esquema en estrella."
+        }
+      ],
+      "explanation": "En los modelos analíticos de Power BI se recomienda el esquema en estrella: una tabla de hechos central (con medidas numéricas como cantidad vendida o importe y claves foráneas) conectada mediante relaciones de uno a muchos (`1:*`) con tablas de dimensiones (que contienen una clave primaria única y atributos descriptivos como producto, cliente, geografía y fecha para filtrar y agrupar). En cuanto a las visualizaciones, el gráfico de cascada (`Waterfall chart`) muestra un total acumulado a medida que se suman o restan valores.",
+      "theoryPill": {
+        "title": "Esquema en Estrella y Elección de Visualizaciones en Power BI",
+        "summary": "Dominar qué contiene una tabla de Hechos frente a una de Dimensiones y cuándo usar cada tipo de gráfico cierra el bloque de visualización de DP-900.",
+        "keyPoints": [
+          "Tabla de Hechos (Fact Table): Registra eventos de negocio (ventas, transacciones); contiene valores numéricos agregables y claves foráneas (lado `*` de la relación).",
+          "Tabla de Dimensiones (Dimension Table): Describe las entidades («quién, qué, dónde, cuándo»); contiene una clave única (`1`) y columnas descriptivas para filtrar y segmentar.",
+          "Gráficos clave: Líneas (tendencias en el tiempo), Barras/Columnas (comparar valores entre categorías), Cascada / Waterfall (aumentos y disminuciones acumulados), Dispersión / Scatter (relación o correlación entre 2 o 3 variables numéricas), Treemap (proporciones jerárquicas como rectángulos anidados)."
+        ],
+        "examTrap": "Si una pregunta pide mostrar «cómo un valor inicial cambia a través de una serie de aumentos y disminuciones intermedias hasta un valor final», elige siempre Gráfico de cascada (`Waterfall chart`).",
+        "searchQuery": "Describe features of data models in Power BI star schema visualizations Microsoft Learn"
+      },
+      "references": [
+        {
+          "title": "Understand star schema and the importance for Power BI - Power BI | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema"
+        },
+        {
+          "title": "Visualization types in Power BI - Power BI | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-types-for-reports-and-q-and-a"
+        }
+      ]
+    }
+  ]
+}
