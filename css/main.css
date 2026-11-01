@@ -2035,5 +2035,59 @@ html.light .multi-select-banner {
   flex-wrap: wrap;
 }
 
+/* ==========================================================================
+   Bloque 3: Técnico — Banners de Error, Carga, PWA Toast y Accesibilidad
+   ========================================================================== */
+.app-error-banner {
+  background: rgba(239, 68, 68, 0.14);
+  border-bottom: 2px solid var(--danger);
+  padding: 0.85rem 1.75rem;
+  font-size: 0.86rem;
+  color: var(--text-primary);
+}
+
+.error-banner-content {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.pwa-update-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-left: 4px solid var(--success);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 1000;
+  animation: slideInUp 0.3s ease;
+}
+
+@keyframes slideInUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
 
 

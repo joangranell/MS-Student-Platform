@@ -1,37 +1,58 @@
 ---
 name: ms-exam-generator
 description: >-
-  Skill oficial del proyecto MS Student Platform para diseñar, verificar y generar preguntas de certificación Microsoft (DP-900, DP-600, DP-700) con fidelidad Pearson VUE y validación directa contra el servidor MCP oficial de Microsoft Learn (https://learn.microsoft.com/api/mcp).
+  Skill del proyecto MS Student Platform para diseñar y generar preguntas de estudio técnico para certificaciones Microsoft (AZ-900, DP-900, DP-600, DP-700) con estilo inspirado en exámenes de certificación y verificación conceptual contra documentación de Microsoft Learn.
 ---
 
-# Microsoft Certification Exam Authoring Skill (Pearson VUE Standard)
+# Microsoft Certification Exam Authoring Skill (Estilo Inspirado en Certificaciones)
 
-Esta skill define el estándar de calidad, estructura JSON y flujo de verificación documental mediante el MCP de Microsoft Learn (`https://learn.microsoft.com/api/mcp`) para el repositorio modular de preguntas (`data/dp900.json`, `data/dp600.json`, `data/dp700.json`).
+Esta skill define el estándar de calidad, la estructura JSON y las directrices pedagógicas para generar y estructurar preguntas de preparación técnica en el repositorio modular (`data/az900.json`, `data/dp900.json`, `data/dp600.json`, `data/dp700.json`).
 
-## 1. Flujo de Verificación con Microsoft Learn MCP (`https://learn.microsoft.com/api/mcp`)
+> [!IMPORTANT]
+> **Prohibición de Braindumps y Respeto a las Políticas de Examen:**
+> Queda estrictamente prohibido intentar replicar o transcribir preguntas reales de exámenes de Microsoft (braindumps). Todo el contenido generado debe ser material original creado con fines formativos y pedagógicos, basado únicamente en los temarios y guías de habilidades públicas (*Skills Outline*) y la documentación técnica oficial de Microsoft Learn.
+
+## 1. Metadatos Obligatorios del Archivo de Certificación
+
+Cada archivo en `data/<cert>.json` debe encabezarse con un bloque de metadatos explícito:
+
+```json
+{
+  "certification": "DP-600",
+  "metadata": {
+    "title": "Microsoft Certified: Fabric Analytics Engineer Associate",
+    "skillsOutlineVersion": "2024-11-15",
+    "lastReviewed": "2026-11-01",
+    "idioma": "es"
+  },
+  "questions": [ ... ]
+}
+```
+
+## 2. Flujo de Consulta con Microsoft Learn MCP (`https://learn.microsoft.com/api/mcp`)
 
 Puedes consultar el MCP ejecutando el script `node scripts/mcp-mslearn.js`:
-- Buscar documentación oficial:
+- Buscar documentación técnica:
   `node scripts/mcp-mslearn.js search "<consulta>"`
-- Buscar ejemplos de código oficiales (`sql`, `kusto`, `python`, `powershell`):
+- Buscar ejemplos de código (`sql`, `kusto`, `python`, `powershell`):
   `node scripts/mcp-mslearn.js code "<consulta>" "<lenguaje>"`
-- Descargar página completa en Markdown:
+- Descargar contenido de un artículo en Markdown:
   `node scripts/mcp-mslearn.js fetch "<url_microsoft_learn>"`
 
-## 2. Tipologías Reales de Pearson VUE Soportadas
+## 3. Tipologías Inspiradas en Evaluaciones Técnicas
 
 1. **Opción Única (`"questionType": "single"`)**:
    - Se renderiza con botones de radio (`○`).
    - Exactamente 1 opción tiene `"isCorrect": true` y 3 opciones tienen `"isCorrect": false`.
 2. **Selección Múltiple (`"questionType": "multi"`, `"requiredSelections": 2`)**:
-   - Muy común en exámenes oficiales de Microsoft (*"¿Qué DOS acciones debes realizar? Cada respuesta correcta presenta parte de la solución."*).
-   - Se renderiza con casillas cuadradas (`☐`) en Pearson VUE.
+   - Muy común en exámenes de certificación de Microsoft (*"¿Qué DOS acciones debes realizar? Cada respuesta correcta presenta parte de la solución."*).
+   - Se renderiza con casillas cuadradas (`☐`) en la interfaz de examen.
    - Incluye entre 4 y 5 opciones, donde exactamente `requiredSelections` (ej. 2) tienen `"isCorrect": true`.
 3. **Caso de Estudio con Pestañas (`"caseStudyTabs"`)**:
-   - En Pearson VUE, los casos de estudio muestran pestañas a la izquierda (`overview`, `environment`, `requirements`).
+   - En el simulacro de examen, los casos de estudio muestran pestañas a la izquierda (`overview`, `environment`, `requirements`).
    - Puedes incluir `"caseStudyTabs": { "overview": "...", "environment": "...", "requirements": "..." }` además o en lugar de `"caseStudy"`.
 
-## 3. Esquema Exacto de cada Pregunta para el Modo Adaptativo y "Saber Más"
+## 4. Esquema Exacto de cada Pregunta para el Modo Adaptativo y "Saber Más"
 
 Cada objeto de pregunta debe seguir estrictamente esta estructura:
 
@@ -49,7 +70,7 @@ Cada objeto de pregunta debe seguir estrictamente esta estructura:
   "hasCodeSnippet": false,
   "caseStudy": null,
   "caseStudyTabs": null,
-  "stem": "Enunciado técnico claro al estilo Pearson VUE...",
+  "stem": "Enunciado técnico claro con contexto de escenario...",
   "codeSnippet": null,
   "codeLanguage": null,
   "options": [
@@ -69,7 +90,7 @@ Cada objeto de pregunta debe seguir estrictamente esta estructura:
       "Punto clave 2 (regla de oro / límite técnico)",
       "Punto clave 3 (cuándo elegir este servicio frente a otro)"
     ],
-    "examTrap": "Trampa típica de Pearson VUE: confundir RLS en el SQL Analytics Endpoint (causa fallback a DirectQuery) con RLS definido en el modelo semántico Direct Lake (soportado en memoria).",
+    "examTrap": "Trampa típica de examen: confundir RLS en el SQL Analytics Endpoint (causa fallback a DirectQuery) con RLS definido en el modelo semántico Direct Lake (soportado en memoria).",
     "searchQuery": "Microsoft Fabric Direct Lake overview fallback"
   },
   "references": [

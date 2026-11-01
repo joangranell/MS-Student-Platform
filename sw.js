@@ -1,9 +1,10 @@
 /**
  * sw.js — Service Worker for MS Student Platform PWA
- * Caches core shell assets and questions JSON for offline exam readiness.
+ * Version: ms-platform-v4
+ * Caches core shell assets and modular JSON catalogs for reliable offline studying.
  */
 
-const CACHE_NAME = 'ms-platform-v3';
+const CACHE_NAME = 'ms-platform-v4';
 
 const STATIC_ASSETS = [
   './',
@@ -27,16 +28,16 @@ const STATIC_ASSETS = [
   './icons/icon-512.png'
 ];
 
-// Install: Cache core assets
+// Install: precache application shell
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(STATIC_ASSETS);
-    }).then(() => self.skipWaiting())
+    })
   );
 });
 
-// Activate: Cleanup older caches
+// Activate: cleanup outdated caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -51,7 +52,14 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch: Stale-while-revalidate strategy (instant offline response + background refresh)
+// Skip waiting message listener for instant in-app update banner
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+
+// Fetch: Stale-while-revalidate for local assets, ignore live MCP proxy API
 self.addEventListener('fetch', (event) => {
   // Ignore API requests or non-GET
   if (event.request.method !== 'GET' || event.request.url.includes('/api/')) {

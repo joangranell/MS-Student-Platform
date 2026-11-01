@@ -1,0 +1,33 @@
+name: CI & Exam Platform Validation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run weekly link validation check every Sunday at 00:00 UTC
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+jobs:
+  test-and-validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run Unit Tests (node:test)
+        run: node --test tests/examEngine.test.js
+
+      - name: Validate Question Catalog Sychronization
+        run: node scripts/build-catalog.js --check
+
+      - name: Validate Microsoft Learn Documentation Links
+        run: node scripts/validate-links.js --sample 30

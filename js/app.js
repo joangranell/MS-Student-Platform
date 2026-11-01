@@ -387,32 +387,61 @@ function bindEvents() {
     loginWithProfile(created.id, true);
   });
 
-  // Backup Export / Import on Login Screen
-  document.getElementById('btn-export-profiles')?.addEventListener('click', () => {
-    const jsonStr = StorageManager.exportStoreJSON();
-    const blob = new Blob([jsonStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `ms-student-profiles-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  });
+  // Backup Export / Import on Login Screen & Dashboard
+  function triggerExportJSON() {
+    try {
+      const jsonStr = StorageManager.exportStoreJSON();
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ms-student-progress-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      alert('Error al exportar datos: ' + err.message);
+    }
+  }
 
-  document.getElementById('input-import-profiles')?.addEventListener('change', (e) => {
-    const file = e.target.files?.[0];
+  function handleImportFile(file) {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = () => {
       try {
+        if (!confirm('¿Deseas restaurar este archivo de progreso? Se sobrescribirán los perfiles actuales con la copia de seguridad.')) {
+          return;
+        }
         StorageManager.importStoreJSON(String(reader.result));
-        refreshLoginScreen();
-        alert('Perfiles e historial importados correctamente.');
+        if (AppState.isLoggedIn) {
+          refreshDashboard();
+        } else {
+          refreshLoginScreen();
+        }
+        alert('Progreso e historial importados correctamente.');
       } catch (err) {
         alert('Error al importar JSON: ' + err.message);
       }
     };
     reader.readAsText(file);
+  }
+
+  document.getElementById('btn-export-profiles')?.addEventListener('click', triggerExportJSON);
+  document.getElementById('btn-export-progress')?.addEventListener('click', triggerExportJSON);
+
+  document.getElementById('btn-import-progress-trigger')?.addEventListener('click', () => {
+    document.getElementById('input-import-progress-file')?.click();
+  });
+
+  document.getElementById('input-import-profiles')?.addEventListener('change', (e) => {
+    handleImportFile(e.target.files?.[0]);
+    e.target.value = '';
+  });
+
+  document.getElementById('input-import-progress-file')?.addEventListener('change', (e) => {
+    handleImportFile(e.target.files?.[0]);
+    e.target.value = '';
   });
 
   // 1.2 Target Certification & Study Plan Onboarding Modal Events (#modal-target-cert)
@@ -674,6 +703,39 @@ function bindEvents() {
     if (!currentQ) return;
     const optId = row.getAttribute('data-option-id');
     toggleOptionStrikethrough(currentQ.id, optId);
+  });
+
+  // Mobile long-press to strike out option (alternativa a clic derecho / botón)
+  let longPressTimer = null;
+  let touchMoved = false;
+  optionsContainer?.addEventListener('touchstart', (e) => {
+    touchMoved = false;
+    const row = e.target.closest('[data-option-id]');
+    if (!row) return;
+    const optId = row.getAttribute('data-option-id');
+    const currentQ = AppState.session?.questions?.[AppState.session.currentIndex];
+    if (!currentQ) return;
+
+    longPressTimer = setTimeout(() => {
+      if (!touchMoved) {
+        toggleOptionStrikethrough(currentQ.id, optId);
+        if (navigator.vibrate) {
+          try { navigator.vibrate(40); } catch (_) {}
+        }
+      }
+    }, 550);
+  }, { passive: true });
+
+  optionsContainer?.addEventListener('touchmove', () => {
+    touchMoved = true;
+    if (longPressTimer) clearTimeout(longPressTimer);
+  }, { passive: true });
+
+  optionsContainer?.addEventListener('touchend', () => {
+    if (longPressTimer) clearTimeout(longPressTimer);
+  });
+  optionsContainer?.addEventListener('touchcancel', () => {
+    if (longPressTimer) clearTimeout(longPressTimer);
   });
 
   document.getElementById('vue-mark-review-checkbox')?.addEventListener('change', (e) => {
@@ -968,6 +1030,94 @@ function bindEvents() {
       ? 'Quitar de preguntas favoritas'
       : 'Marcar como favorita';
   });
+
+  // 7. Keyboard Navigation for Exam & Study Modes
+  window.addEventListener('keydown', (e) => {
+    // If inside text fields, allow normal typing
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) {
+      if (e.key === 'Escape') {
+        document.activeElement.blur();
+      }
+      return;
+    }
+
+    // Modal closing on Escape
+    if (e.key === 'Escape') {
+      const modalReview = document.getElementById('modal-review-grid');
+      const drawer = document.getElementById('drawer-learn-more');
+      const modalTarget = document.getElementById('modal-target-cert');
+      if (modalReview && !modalReview.classList.contains('hidden')) {
+        modalReview.classList.add('hidden');
+        return;
+      }
+      if (drawer && !drawer.classList.contains('hidden')) {
+        drawer.classList.add('hidden');
+        return;
+      }
+      if (modalTarget && !modalTarget.classList.contains('hidden')) {
+        modalTarget.classList.add('hidden');
+        return;
+      }
+    }
+
+    if (!AppState.session || !AppState.session.active || AppState.currentView !== 'exam') {
+      return;
+    }
+
+    const modalReview = document.getElementById('modal-review-grid');
+    if (modalReview && !modalReview.classList.contains('hidden')) return;
+
+    // Alt+N or ArrowRight -> Next Question
+    if ((e.altKey && (e.key === 'n' || e.key === 'N')) || (e.key === 'ArrowRight' && !e.ctrlKey)) {
+      e.preventDefault();
+      document.getElementById('vue-btn-next')?.click();
+      return;
+    }
+    // Alt+P or ArrowLeft -> Previous Question
+    if ((e.altKey && (e.key === 'p' || e.key === 'P')) || (e.key === 'ArrowLeft' && !e.ctrlKey)) {
+      e.preventDefault();
+      document.getElementById('vue-btn-prev')?.click();
+      return;
+    }
+    // Alt+M or 'm' / 'M' -> Toggle Mark for Review
+    if (e.altKey && (e.key === 'm' || e.key === 'M')) {
+      e.preventDefault();
+      const chk = document.getElementById('vue-mark-review-checkbox');
+      if (chk) {
+        chk.checked = !chk.checked;
+        chk.dispatchEvent(new Event('change'));
+      }
+      return;
+    }
+
+    // Numbers 1-5 or letters A-E -> Select Options
+    const key = e.key.toUpperCase();
+    const optMap = { '1': 0, '2': 1, '3': 2, '4': 3, '5': 4, 'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4 };
+    if (key in optMap && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      const optIdx = optMap[key];
+      const optRows = document.querySelectorAll('#vue-options-container [data-option-id]');
+      if (optRows[optIdx]) {
+        e.preventDefault();
+        optRows[optIdx].click();
+      }
+    }
+  });
+
+  // 8. Retry Loading Catalog Button
+  document.getElementById('btn-retry-catalog-load')?.addEventListener('click', async () => {
+    const errorBanner = document.getElementById('app-load-error-banner');
+    try {
+      await loadQuestionsRepository();
+      if (errorBanner) errorBanner.classList.add('hidden');
+      if (AppState.isLoggedIn) {
+        refreshDashboard();
+      } else {
+        refreshLoginScreen();
+      }
+    } catch (e) {
+      alert('Sigue sin ser posible cargar los datos de preguntas. Comprueba tu conexión o ejecuta con el servidor local.');
+    }
+  });
 }
 
 async function initApp() {
@@ -981,17 +1131,49 @@ async function initApp() {
   UI.showView('login');
   refreshLoginScreen();
 
-  // 4. Load 100-question modular repository
+  // 4. Load modular repository
+  const errorBanner = document.getElementById('app-load-error-banner');
   try {
     await loadQuestionsRepository();
+    if (errorBanner) errorBanner.classList.add('hidden');
   } catch (err) {
     console.error('Error inicializando el repositorio de preguntas:', err);
+    if (errorBanner) errorBanner.classList.remove('hidden');
   }
 
-  // 5. Register PWA Service Worker for Offline Exam Support
+  // 5. Register PWA Service Worker with Update Detection & Cache Refresh
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').catch((err) => {
+    navigator.serviceWorker.register('./sw.js').then((reg) => {
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        if (!newWorker) return;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            const toast = document.getElementById('pwa-update-toast');
+            if (toast) toast.classList.remove('hidden');
+          }
+        });
+      });
+    }).catch((err) => {
       console.warn('Service Worker registration skipped:', err);
+    });
+
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!refreshing) {
+        refreshing = true;
+        window.location.reload();
+      }
+    });
+
+    document.getElementById('btn-pwa-reload')?.addEventListener('click', () => {
+      navigator.serviceWorker.getRegistration().then((reg) => {
+        if (reg && reg.waiting) {
+          reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+        } else {
+          window.location.reload();
+        }
+      });
     });
   }
 

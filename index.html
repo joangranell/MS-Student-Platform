@@ -5,12 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
   <title>MS Student Platform — Microsoft Certification Simulator (AZ-900 | DP-900 | DP-600 | DP-700)</title>
   
+  <meta name="description" content="Simulador adaptativo de certificaciones Microsoft Cloud, Data y Fabric (AZ-900, DP-900, DP-600, DP-700) con repetición espaciada, simulacros y hoja de trucos." />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://joangranell.github.io/MS-Student-Platform/" />
+  <meta property="og:title" content="MS Student Platform — Simulador de Certificaciones Microsoft" />
+  <meta property="og:description" content="Simulador adaptativo con estilo Pearson VUE, repetición espaciada Leitner, hoja de trucos y 300 preguntas de AZ-900, DP-900, DP-600 y DP-700." />
+  <meta property="og:image" content="./icons/icon-512.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="MS Student Platform — Simulador de Certificaciones Microsoft" />
+  <meta name="twitter:description" content="Estudio adaptativo para exámenes Microsoft (AZ-900, DP-900, DP-600, DP-700) con 300 preguntas y hoja de trucos." />
+  <meta name="twitter:image" content="./icons/icon-512.png" />
+  
   <!-- PWA Meta Tags & Icons -->
   <link rel="manifest" href="./manifest.json" />
   <meta name="theme-color" content="#0078d4" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="MS Platform" />
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
   <link rel="apple-touch-icon" href="./icons/icon-192.png" />
   
   <link rel="stylesheet" href="./css/variables.css" />
@@ -63,6 +79,14 @@
     </div>
   </header>
 
+  <!-- Global Application Error / file:// CORS Banner -->
+  <div id="app-load-error-banner" class="app-error-banner hidden">
+    <div class="error-banner-content">
+      <span>⚠️ <strong>Error al cargar el banco de preguntas:</strong> Si has abierto la aplicación con doble clic directo (<code>file://</code>), los navegadores bloquean la lectura de archivos JSON locales por política de seguridad (CORS). Ejecuta <code>node server.js</code> o haz doble clic en <code>iniciar-plataforma.bat</code>.</span>
+      <button type="button" class="btn btn-warning-solid btn-sm" id="btn-retry-catalog-load">🔄 Reintentar carga</button>
+    </div>
+  </div>
+
   <!-- ========================================================================
        Main SPA Container
        ======================================================================== -->
@@ -98,6 +122,16 @@
             </div>
 
             <div class="login-profiles-grid" id="login-profiles-list"></div>
+
+            <div style="display:flex; gap:0.5rem; margin-top:1rem; flex-wrap:wrap; border-top:1px solid var(--border-subtle); padding-top:0.85rem;">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-export-progress" title="Exportar una copia de seguridad en JSON de tus perfiles y progreso">
+                📥 Exportar Progreso (JSON)
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-import-progress-trigger" title="Restaurar o importar progreso desde un archivo JSON">
+                📤 Importar Progreso
+              </button>
+              <input type="file" id="input-import-progress" accept=".json,application/json" class="hidden" />
+            </div>
           </div>
 
           <!-- Right: Create New Profile -->
@@ -223,7 +257,7 @@
               <div class="cert-card selected" data-cert="AZ-900">
                 <div class="cert-card-top">
                   <span class="cert-code-badge az900">AZ-900 • Fundamentals</span>
-                  <span class="cert-q-count">0 preguntas</span>
+                  <span class="cert-q-count">...</span>
                 </div>
                 <div class="cert-card-header-with-logo">
                   <div class="cert-shield-wrap"></div>
@@ -241,7 +275,7 @@
               <div class="cert-card" data-cert="DP-900">
                 <div class="cert-card-top">
                   <span class="cert-code-badge dp900">DP-900 • Fundamentals</span>
-                  <span class="cert-q-count">0 preguntas</span>
+                  <span class="cert-q-count">...</span>
                 </div>
                 <div class="cert-card-header-with-logo">
                   <div class="cert-shield-wrap"></div>
@@ -259,7 +293,7 @@
               <div class="cert-card" data-cert="DP-600">
                 <div class="cert-card-top">
                   <span class="cert-code-badge dp600">DP-600 • Associate</span>
-                  <span class="cert-q-count">0 preguntas</span>
+                  <span class="cert-q-count">...</span>
                 </div>
                 <div class="cert-card-header-with-logo">
                   <div class="cert-shield-wrap"></div>
@@ -277,7 +311,7 @@
               <div class="cert-card" data-cert="DP-700">
                 <div class="cert-card-top">
                   <span class="cert-code-badge dp700">DP-700 • Associate</span>
-                  <span class="cert-q-count">0 preguntas</span>
+                  <span class="cert-q-count">...</span>
                 </div>
                 <div class="cert-card-header-with-logo">
                   <div class="cert-shield-wrap"></div>
@@ -685,7 +719,7 @@
     <div class="theory-drawer-panel">
       <div class="modal-header" style="margin-bottom:0.25rem;">
         <h3 style="font-size:1.12rem; font-weight:700;">📚 Saber Más — Ficha Teórica y Microsoft Learn</h3>
-        <button type="button" class="modal-close" id="btn-close-theory-drawer">✕</button>
+        <button type="button" class="modal-close" id="btn-close-theory-drawer" aria-label="Cerrar cajón de teoría">✕</button>
       </div>
       <div id="drawer-learn-more-body"></div>
     </div>
@@ -700,7 +734,7 @@
         <h3 style="font-size:1.15rem; font-weight:700;">
           🎯 Configura el Plan de Estudio para <span id="onboarding-profile-name">Estudiante</span>
         </h3>
-        <button type="button" class="modal-close" id="btn-close-target-cert-modal">✕</button>
+        <button type="button" class="modal-close" id="btn-close-target-cert-modal" aria-label="Cerrar modal de objetivo de certificación">✕</button>
       </div>
 
       <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:1rem;">

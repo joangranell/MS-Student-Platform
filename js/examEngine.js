@@ -280,7 +280,7 @@ export const ExamEngine = {
         secondsSpent,
         confidence,
         isRushAnswer,
-        wasFlagged: session.markedForReview.has(q.id),
+        wasFlagged: Boolean(session.markedForReview && session.markedForReview.has(q.id)),
         explanation: q.explanation,
         theoryPill: q.theoryPill || null,
         references: q.references || []
@@ -290,7 +290,7 @@ export const ExamEngine = {
     const percentage = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
     const scaledScore = this.calculateScaledScore(correctCount, totalQuestions);
     const passed = percentage >= 70;
-    const durationSeconds = Math.max(1, Math.round((Date.now() - session.startTimeMs) / 1000));
+    const durationSeconds = Math.max(1, Math.round((Date.now() - (session.startTimeMs || Date.now())) / 1000));
 
     // Calculate domain breakdown stats and find weakest domain
     const domainsList = Object.values(domainBreakdown).map((d) => {
