@@ -850,3 +850,163 @@
   border-radius: 4px;
   font-size: 0.81rem;
 }
+
+
+/* ==========================================================================
+   Exam Simulator & Results Mobile Optimizations
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .exam-viewport {
+    min-height: calc(100vh - 80px);
+    border-radius: var(--radius-sm);
+  }
+
+  .vue-header {
+    padding: 0.6rem 0.85rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .vue-exam-title {
+    font-size: 0.82rem;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .vue-header-right {
+    width: 100%;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    gap: 0.5rem;
+  }
+
+  .vue-subbar {
+    padding: 0.5rem 0.85rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.45rem;
+  }
+
+  .vue-subbar-left, .vue-subbar-right {
+    width: 100%;
+    justify-content: space-between;
+    font-size: 0.74rem;
+  }
+
+  .vue-content-area {
+    padding: 1rem 0.85rem;
+    gap: 1rem;
+  }
+
+  .question-stem {
+    font-size: 0.94rem;
+    line-height: 1.5;
+  }
+
+  .option-row {
+    padding: 0.75rem 0.8rem;
+    gap: 0.65rem;
+  }
+
+  .option-letter {
+    width: 24px;
+    height: 24px;
+    font-size: 0.78rem;
+  }
+
+  .option-text {
+    font-size: 0.86rem;
+  }
+
+  .strike-btn {
+    padding: 0.15rem 0.35rem;
+    font-size: 0.7rem;
+  }
+
+  /* Vue Footer navigation buttons on mobile */
+  .vue-footer {
+    padding: 0.65rem 0.85rem;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .vue-nav-group {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .vue-btn {
+    width: 100%;
+    padding: 0.55rem 0.4rem;
+    font-size: 0.78rem;
+    text-align: center;
+  }
+
+  #vue-btn-abort {
+    grid-column: span 2;
+  }
+
+  #vue-btn-check-study {
+    grid-column: span 2;
+  }
+
+  /* Results Screen mobile */
+  .results-banner {
+    padding: 1.25rem 1rem;
+    gap: 1.25rem;
+  }
+
+  .score-display-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .scaled-score-circle {
+    width: 100px;
+    height: 100px;
+  }
+
+  .scaled-number {
+    font-size: 1.6rem;
+  }
+
+  .review-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem;
+    width: 100%;
+  }
+
+  .review-tab {
+    padding: 0.45rem 0.5rem;
+    font-size: 0.76rem;
+    text-align: center;
+  }
+
+  .review-item-header {
+    padding: 0.85rem 0.9rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .review-item-title {
+    font-size: 0.85rem;
+  }
+
+  .answer-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Theory drawer slide-over full width on mobile */
+  .theory-drawer-panel {
+    max-width: 100%;
+    padding: 1.25rem 1rem 3rem;
+  }
+}

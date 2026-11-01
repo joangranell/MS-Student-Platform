@@ -1145,3 +1145,166 @@ html.light .multi-select-banner {
   color: #60a5fa;
   border: 1px solid rgba(96, 165, 250, 0.4);
 }
+
+
+/* ==========================================================================
+   Mobile & Responsive Enhancements (Phones, Tablets & Small Screens)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  /* Header adjustments */
+  .app-header {
+    height: auto;
+    padding: 0.65rem 1rem;
+    gap: 0.5rem;
+  }
+
+  .brand-name {
+    font-size: 0.92rem;
+  }
+
+  .brand-subtitle {
+    font-size: 0.66rem;
+  }
+
+  .profile-trigger {
+    padding: 0.25rem 0.55rem;
+  }
+
+  .profile-name {
+    font-size: 0.75rem;
+    max-width: 90px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .profile-role {
+    font-size: 0.64rem;
+  }
+
+  .theme-toggle-btn span {
+    display: none;
+  }
+
+  .theme-toggle-btn {
+    padding: 0.4rem 0.55rem;
+    font-size: 0.95rem;
+  }
+
+  /* Main container & Hero */
+  .main-container {
+    padding: 1rem 0.75rem 3rem;
+  }
+
+  .dashboard-hero {
+    padding: 1.25rem 1rem;
+    gap: 1rem;
+    border-radius: var(--radius-md);
+  }
+
+  .hero-info h1 {
+    font-size: 1.3rem;
+  }
+
+  .hero-info p {
+    font-size: 0.84rem;
+  }
+
+  .hero-kpis {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+  }
+
+  .kpi-box {
+    min-width: unset;
+    padding: 0.6rem 0.75rem;
+  }
+
+  .kpi-value {
+    font-size: 1.15rem;
+  }
+
+  /* Study Plan Roadmap */
+  .study-plan-card {
+    padding: 1rem;
+    border-radius: var(--radius-md);
+  }
+
+  .study-plan-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .study-phases-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  /* Mode switcher grid on mobile */
+  .mode-switch-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mode-box {
+    padding: 0.85rem;
+  }
+
+  .count-pills {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.45rem;
+  }
+
+  .count-pill {
+    padding: 0.45rem 0.5rem;
+    font-size: 0.78rem;
+    text-align: center;
+  }
+
+  .launch-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.85rem;
+  }
+
+  .launch-bar .btn-primary {
+    width: 100%;
+  }
+
+  /* Login screen on mobile */
+  .login-screen-wrapper {
+    margin: 0.5rem auto 2rem;
+  }
+
+  .login-hero-box {
+    padding: 1.5rem 1rem;
+  }
+
+  .login-hero-box h1 {
+    font-size: 1.4rem;
+  }
+
+  .login-profile-card {
+    padding: 0.75rem 0.85rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .login-profile-card .btn {
+    width: 100%;
+  }
+
+  .heatmap-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-window {
+    padding: 1.15rem 1rem;
+    max-height: 94vh;
+  }
+}
