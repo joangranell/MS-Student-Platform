@@ -782,6 +782,13 @@ async function initApp() {
   } catch (err) {
     console.error('Error inicializando el repositorio de preguntas:', err);
   }
+
+  // 5. Register PWA Service Worker for Offline Exam Support
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch((err) => {
+      console.warn('Service Worker registration skipped:', err);
+    });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', initApp);
