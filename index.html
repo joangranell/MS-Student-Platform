@@ -41,6 +41,11 @@
         ☀️ <span>Modo Claro</span>
       </button>
 
+      <!-- Cheat Sheet / 24h Review Quick Button -->
+      <button type="button" class="header-cheat-btn hidden" id="btn-header-cheatsheet" title="Hoja de Trucos & Repaso Rápido 24h">
+        ⚡ <span>Hoja de Trucos</span>
+      </button>
+
       <!-- Active Profile Pill (Hidden on Login screen, switches back to Login/Profile Picker) -->
       <button type="button" class="profile-trigger hidden" id="btn-open-profiles" title="Cambiar de perfil o cerrar sesión">
         <span class="avatar-circle" id="header-profile-avatar">UD</span>
@@ -154,6 +159,22 @@
 
       <!-- Personalized 4-Phase Study Plan for Target Certification -->
       <div id="study-plan-container"></div>
+
+      <!-- 24h Express Review / Cheat Sheet Banner -->
+      <div class="cheatsheet-banner-card">
+        <div class="cheatsheet-banner-info">
+          <div class="cheatsheet-banner-badge">⚡ REPASO EXPRESS 24H PRE-EXAMEN</div>
+          <h3>Hoja de Trucos &amp; Píldoras Teóricas de Certificación</h3>
+          <p>
+            Repasa en minutos los 240 conceptos clave, arquitecturas esenciales y las trampas frecuentes de Pearson VUE verificadas con Microsoft Learn.
+          </p>
+        </div>
+        <div class="cheatsheet-banner-cta">
+          <button type="button" class="btn btn-warning-solid" id="btn-dashboard-cheatsheet">
+            ⚡ Abrir Hoja de Trucos (240 Píldoras)
+          </button>
+        </div>
+      </div>
 
       <!-- Two-Column Layout -->
       <div class="dashboard-grid">
@@ -484,6 +505,9 @@
                 <button type="button" class="btn btn-primary btn-sm" id="btn-back-dashboard">
                   ← Volver al Dashboard
                 </button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-results-open-cheatsheet">
+                  ⚡ Repasar Conceptos en Hoja de Trucos
+                </button>
                 <button type="button" class="btn btn-danger-outline btn-sm" id="btn-repeat-attempt-failed">
                   🔁 Repetir las preguntas falladas de este test
                 </button>
@@ -522,6 +546,95 @@
 
       <!-- Expandable Review Cards -->
       <div class="review-accordion-list" id="results-review-accordion"></div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 4: HOJA DE TRUCOS / REPASO RÁPIDO 24H (CHEAT SHEET)
+         ====================================================================== -->
+    <section id="view-cheatsheet" class="hidden">
+      <div class="cheatsheet-header-banner">
+        <div class="cheatsheet-header-left">
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-cheatsheet-back">
+            ← Volver al Dashboard
+          </button>
+          <div class="cheatsheet-title-wrap">
+            <h1>⚡ Hoja de Trucos &amp; Repaso Rápido 24h</h1>
+            <p>
+              Píldoras teóricas condensadas, trampas de examen y enlaces oficiales a Microsoft Learn ordenados para repaso intensivo previo a la certificación.
+            </p>
+          </div>
+        </div>
+        <div class="cheatsheet-header-right">
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-cheatsheet-toggle-all">
+            ↕️ Colapsar / Expandir Todo
+          </button>
+        </div>
+      </div>
+
+      <!-- Controls & Filter Toolbar -->
+      <div class="panel-card cheatsheet-toolbar">
+        <!-- Certification Selector -->
+        <div class="cheatsheet-filter-group">
+          <span class="step-label" style="margin-top:0;">1. Selecciona la Certificación:</span>
+          <div class="cheatsheet-cert-pills" id="cheatsheet-cert-pills">
+            <button type="button" class="count-pill selected" data-cs-cert="ALL">Todas las Certificaciones (240)</button>
+            <button type="button" class="count-pill" data-cs-cert="AZ-900">AZ-900 (100)</button>
+            <button type="button" class="count-pill" data-cs-cert="DP-900">DP-900 (70)</button>
+            <button type="button" class="count-pill" data-cs-cert="DP-600">DP-600 (35)</button>
+            <button type="button" class="count-pill" data-cs-cert="DP-700">DP-700 (35)</button>
+          </div>
+        </div>
+
+        <!-- Search Bar & Domain Selector -->
+        <div class="cheatsheet-search-row">
+          <div class="cheatsheet-search-box">
+            <span class="search-icon">🔍</span>
+            <input
+              type="text"
+              id="input-cheatsheet-search"
+              class="form-input"
+              placeholder="Buscar concepto, servicio, código o trampa (ej. SLA, Direct Lake, Entra ID, Cosmos DB...)"
+            />
+            <button type="button" class="search-clear-btn hidden" id="btn-cheatsheet-clear-search" title="Limpiar búsqueda">✕</button>
+          </div>
+
+          <div class="cheatsheet-domain-box">
+            <select id="select-cheatsheet-domain" class="form-select" title="Filtrar por Dominio Oficial">
+              <option value="ALL">Todos los dominios oficiales</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Secondary Filters & Results Counter -->
+        <div class="cheatsheet-secondary-filters">
+          <div class="cheatsheet-checkboxes">
+            <label class="cheatsheet-checkbox-label">
+              <input type="checkbox" id="check-cheatsheet-only-traps" />
+              <span>⚠️ Solo trampas de examen (Exam Traps)</span>
+            </label>
+            <label class="cheatsheet-checkbox-label">
+              <input type="checkbox" id="check-cheatsheet-only-favs" />
+              <span>⭐ Solo mis preguntas favoritas</span>
+            </label>
+          </div>
+          <div class="cheatsheet-count-badge" id="cheatsheet-count-badge">
+            Mostrando <strong>240</strong> píldoras teóricas
+          </div>
+        </div>
+      </div>
+
+      <!-- Cards Grid -->
+      <div class="cheatsheet-grid" id="cheatsheet-cards-grid"></div>
+
+      <!-- Empty State -->
+      <div id="cheatsheet-empty-state" class="empty-state-box hidden">
+        <div style="font-size:2.5rem; margin-bottom:0.5rem;">🔍</div>
+        <h3>No se encontraron píldoras teóricas con estos filtros</h3>
+        <p>Prueba con otros términos de búsqueda o restablece los filtros aplicados.</p>
+        <button type="button" class="btn btn-secondary btn-sm" id="btn-cheatsheet-reset-filters">
+          ↺ Restablecer filtros
+        </button>
+      </div>
     </section>
 
   </main>

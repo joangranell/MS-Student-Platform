@@ -89,14 +89,15 @@ export const UI = {
   },
 
   /**
-   * Switches between the 4 primary SPA views: 'login' | 'dashboard' | 'exam' | 'results'
+   * Switches between the primary SPA views: 'login' | 'dashboard' | 'exam' | 'results' | 'cheatsheet'
    */
   showView(viewName) {
     const views = {
       login: document.getElementById('view-login'),
       dashboard: document.getElementById('view-dashboard'),
       exam: document.getElementById('view-exam'),
-      results: document.getElementById('view-results')
+      results: document.getElementById('view-results'),
+      cheatsheet: document.getElementById('view-cheatsheet')
     };
 
     Object.entries(views).forEach(([key, el]) => {
@@ -112,6 +113,13 @@ export const UI = {
     const profileTrigger = document.getElementById('btn-open-profiles');
     if (profileTrigger) {
       profileTrigger.classList.toggle('hidden', viewName === 'login');
+    }
+
+    // Show/hide top header Cheat Sheet button (hidden during active Pearson VUE exam and login)
+    const headerCheatBtn = document.getElementById('btn-header-cheatsheet');
+    if (headerCheatBtn) {
+      headerCheatBtn.classList.toggle('hidden', viewName === 'login' || viewName === 'exam');
+      headerCheatBtn.classList.toggle('active', viewName === 'cheatsheet');
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1301,6 +1309,225 @@ export const UI = {
                     : ''
                 }
               </div>
+            </div>
+          </div>
+        `;
+      })
+      .join('');
+  },
+
+  /**
+   * Renders the 24h Express Review & Cheat Sheet View (#view-cheatsheet)
+   */
+  renderCheatSheet(questions, filters, profile) {
+    const grid = document.getElementById('cheatsheet-cards-grid');
+    const emptyState = document.getElementById('cheatsheet-empty-state');
+    const counterBadge = document.getElementById('cheatsheet-count-badge');
+    const domainSelect = document.getElementById('select-cheatsheet-domain');
+    const searchInput = document.getElementById('input-cheatsheet-search');
+    const clearSearchBtn = document.getElementById('btn-cheatsheet-clear-search');
+    const checkOnlyTraps = document.getElementById('check-cheatsheet-only-traps');
+    const checkOnlyFavs = document.getElementById('check-cheatsheet-only-favs');
+    if (!grid) return;
+
+    // 1. Sync controls with filter state
+    if (searchInput && searchInput.value !== (filters.searchQuery || '')) {
+      searchInput.value = filters.searchQuery || '';
+    }
+    if (clearSearchBtn) {
+      clearSearchBtn.classList.toggle('hidden', !(filters.searchQuery && filters.searchQuery.trim()));
+    }
+    if (checkOnlyTraps) {
+      checkOnlyTraps.checked = Boolean(filters.onlyTraps);
+    }
+    if (checkOnlyFavs) {
+      checkOnlyFavs.checked = Boolean(filters.onlyFavs);
+    }
+
+    // Update active certification button
+    document.querySelectorAll('#cheatsheet-cert-pills [data-cs-cert]').forEach((btn) => {
+      const c = btn.getAttribute('data-cs-cert');
+      btn.classList.toggle('selected', c === filters.certification);
+    });
+
+    // 2. Populate Domain Select dropdown dynamically based on selected certification
+    if (domainSelect) {
+      const prevDomain = filters.selectedDomain || 'ALL';
+      const certPool = questions.filter(
+        (q) => filters.certification === 'ALL' || q.certification === filters.certification
+      );
+      const uniqueDomains = Array.from(new Set(certPool.map((q) => q.domain).filter(Boolean))).sort();
+
+      domainSelect.innerHTML = `
+        <option value="ALL">Todos los dominios (${uniqueDomains.length} dominios)</option>
+        ${uniqueDomains
+          .map(
+            (dom) =>
+              `<option value="${escapeHtml(dom)}" ${dom === prevDomain ? 'selected' : ''}>${escapeHtml(dom)}</option>`
+          )
+          .join('')}
+      `;
+    }
+
+    // 3. Filter questions
+    const qClean = (filters.searchQuery || '').trim().toLowerCase();
+    const filtered = questions.filter((q) => {
+      // Certification
+      if (filters.certification !== 'ALL' && q.certification !== filters.certification) {
+        return false;
+      }
+      // Domain
+      if (filters.selectedDomain !== 'ALL' && q.domain !== filters.selectedDomain) {
+        return false;
+      }
+      // Only Traps
+      if (filters.onlyTraps) {
+        if (!q.theoryPill || !q.theoryPill.examTrap || !q.theoryPill.examTrap.trim()) {
+          return false;
+        }
+      }
+      // Only Favs
+      if (filters.onlyFavs) {
+        const favs = profile ? profile.bookmarkedIds || [] : [];
+        if (!favs.includes(q.id)) {
+          return false;
+        }
+      }
+      // Search Query
+      if (qClean) {
+        const pill = q.theoryPill || {};
+        const blob = [
+          q.id,
+          q.certification,
+          q.domain,
+          q.topic,
+          pill.title || '',
+          pill.summary || '',
+          (pill.keyPoints || []).join(' '),
+          pill.examTrap || '',
+          (q.tags || []).join(' '),
+          q.stem || ''
+        ]
+          .join(' ')
+          .toLowerCase();
+
+        if (!blob.includes(qClean)) {
+          return false;
+        }
+      }
+      return true;
+    });
+
+    // 4. Update count badge
+    if (counterBadge) {
+      counterBadge.innerHTML = `Mostrando <strong>${filtered.length}</strong> de ${questions.length} píldoras teóricas`;
+    }
+
+    // 5. Handle empty state
+    if (filtered.length === 0) {
+      grid.innerHTML = '';
+      grid.classList.add('hidden');
+      if (emptyState) emptyState.classList.remove('hidden');
+      return;
+    }
+
+    grid.classList.remove('hidden');
+    if (emptyState) emptyState.classList.add('hidden');
+
+    // 6. Render Cards
+    const bookmarkedSet = new Set(profile ? profile.bookmarkedIds || [] : []);
+
+    grid.innerHTML = filtered
+      .map((q) => {
+        const topicMeta = getTopicMeta(q.topicIcon);
+        const pill = q.theoryPill || {
+          title: q.topic || q.stem,
+          summary: q.explanation || '',
+          keyPoints: [],
+          examTrap: ''
+        };
+        const certCode = (q.certification || 'DP-600').toLowerCase().replace('-', '');
+        const isFav = bookmarkedSet.has(q.id);
+
+        const keyPointsList = (pill.keyPoints || [])
+          .map((pt) => `<li>${escapeHtml(pt)}</li>`)
+          .join('');
+
+        const refItem = q.references && q.references[0] ? q.references[0] : null;
+
+        return `
+          <div class="cheatsheet-card" data-cs-id="${escapeHtml(q.id)}">
+            <div class="cheatsheet-card-top">
+              <div class="cheatsheet-card-badges">
+                <span class="cert-code-badge ${certCode}">${escapeHtml(q.certification)}</span>
+                <span class="topic-meta-tag">
+                  ${topicMeta.svg}
+                  <span>${escapeHtml(q.topic || q.domain)}</span>
+                </span>
+              </div>
+              <button
+                type="button"
+                class="btn-cheat-bookmark ${isFav ? 'active' : ''}"
+                data-cs-bookmark="${escapeHtml(q.id)}"
+                title="${isFav ? 'Quitar de preguntas favoritas' : 'Marcar como favorita'}"
+              >
+                ${isFav ? '⭐' : '☆'}
+              </button>
+            </div>
+
+            <div class="cheatsheet-card-title-row">
+              <h3>${escapeHtml(pill.title || q.topic || 'Concepto Clave')}</h3>
+            </div>
+
+            <div class="cheatsheet-card-domain">
+              Dominio oficial: <strong>${escapeHtml(q.domain)}</strong>
+            </div>
+
+            <p class="cheatsheet-card-summary">
+              ${escapeHtml(pill.summary || q.explanation || '')}
+            </p>
+
+            ${
+              keyPointsList
+                ? `
+              <div class="cheatsheet-keypoints-box">
+                <div class="cheatsheet-section-title">📌 Conceptos Clave para el Examen:</div>
+                <ul class="cheatsheet-keypoints-list">
+                  ${keyPointsList}
+                </ul>
+              </div>
+            `
+                : ''
+            }
+
+            ${
+              pill.examTrap
+                ? `
+              <div class="cheatsheet-exam-trap">
+                <div class="exam-trap-header">⚠️ Trampa Frecuente en Pearson VUE:</div>
+                <div class="exam-trap-body">${escapeHtml(pill.examTrap)}</div>
+              </div>
+            `
+                : ''
+            }
+
+            <div class="cheatsheet-card-footer">
+              ${
+                refItem
+                  ? `
+                <a href="${escapeHtml(refItem.url)}" target="_blank" rel="noopener noreferrer" class="cheatsheet-ref-link" title="${escapeHtml(refItem.title)}">
+                  📘 ${escapeHtml(refItem.title)} ↗
+                </a>
+              `
+                  : '<span></span>'
+              }
+              <button
+                type="button"
+                class="btn btn-primary btn-sm cheatsheet-learn-btn"
+                data-open-theory="${escapeHtml(q.id)}"
+              >
+                📚 Saber más &amp; MCP
+              </button>
             </div>
           </div>
         `;

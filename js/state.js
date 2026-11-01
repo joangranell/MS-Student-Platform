@@ -41,5 +41,15 @@ export const AppState = {
 
   // Last Finished Result (for Results & Review View)
   lastResult: null,
-  reviewFilter: 'ALL'
+  reviewFilter: 'ALL',
+
+  // Cheat Sheet / 24h Express Review State
+  cheatsheet: {
+    certification: 'ALL',       // 'ALL' | 'AZ-900' | 'DP-900' | 'DP-600' | 'DP-700'
+    searchQuery: '',
+    selectedDomain: 'ALL',
+    onlyTraps: false,
+    onlyFavs: false,
+    expandedAll: true
+  }
 };

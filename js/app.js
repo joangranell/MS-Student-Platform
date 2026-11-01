@@ -759,9 +759,140 @@ function bindEvents() {
     startSessionWithPool(pool, 'study', 'failed', AppState.lastResult.certification);
   });
 
+  document.getElementById('btn-results-open-cheatsheet')?.addEventListener('click', () => {
+    if (AppState.lastResult && AppState.lastResult.certification) {
+      AppState.cheatsheet.certification = AppState.lastResult.certification;
+      AppState.cheatsheet.selectedDomain = 'ALL';
+    }
+    openCheatSheet();
+  });
+
   document.getElementById('btn-back-dashboard')?.addEventListener('click', () => {
     UI.showView('dashboard');
     refreshDashboard();
+  });
+
+  // 6. "⚡ Hoja de Trucos & Repaso 24h" (Cheat Sheet) Events
+  function openCheatSheet() {
+    UI.showView('cheatsheet');
+    UI.renderCheatSheet(
+      AppState.allQuestions,
+      AppState.cheatsheet,
+      StorageManager.getActiveProfile()
+    );
+  }
+
+  document.getElementById('btn-header-cheatsheet')?.addEventListener('click', () => {
+    openCheatSheet();
+  });
+
+  document.getElementById('btn-dashboard-cheatsheet')?.addEventListener('click', () => {
+    const activeProfile = StorageManager.getActiveProfile();
+    if (activeProfile && activeProfile.targetCert && AppState.cheatsheet.certification === 'ALL') {
+      AppState.cheatsheet.certification = activeProfile.targetCert;
+      AppState.cheatsheet.selectedDomain = 'ALL';
+    }
+    openCheatSheet();
+  });
+
+  document.getElementById('btn-cheatsheet-back')?.addEventListener('click', () => {
+    UI.showView('dashboard');
+    refreshDashboard();
+  });
+
+  document.querySelectorAll('#cheatsheet-cert-pills [data-cs-cert]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      AppState.cheatsheet.certification = btn.getAttribute('data-cs-cert') || 'ALL';
+      AppState.cheatsheet.selectedDomain = 'ALL';
+      UI.renderCheatSheet(
+        AppState.allQuestions,
+        AppState.cheatsheet,
+        StorageManager.getActiveProfile()
+      );
+    });
+  });
+
+  let cheatSearchTimer = null;
+  document.getElementById('input-cheatsheet-search')?.addEventListener('input', (e) => {
+    clearTimeout(cheatSearchTimer);
+    cheatSearchTimer = setTimeout(() => {
+      AppState.cheatsheet.searchQuery = e.target.value;
+      UI.renderCheatSheet(
+        AppState.allQuestions,
+        AppState.cheatsheet,
+        StorageManager.getActiveProfile()
+      );
+    }, 120);
+  });
+
+  document.getElementById('btn-cheatsheet-clear-search')?.addEventListener('click', () => {
+    AppState.cheatsheet.searchQuery = '';
+    const input = document.getElementById('input-cheatsheet-search');
+    if (input) input.value = '';
+    UI.renderCheatSheet(
+      AppState.allQuestions,
+      AppState.cheatsheet,
+      StorageManager.getActiveProfile()
+    );
+  });
+
+  document.getElementById('select-cheatsheet-domain')?.addEventListener('change', (e) => {
+    AppState.cheatsheet.selectedDomain = e.target.value;
+    UI.renderCheatSheet(
+      AppState.allQuestions,
+      AppState.cheatsheet,
+      StorageManager.getActiveProfile()
+    );
+  });
+
+  document.getElementById('check-cheatsheet-only-traps')?.addEventListener('change', (e) => {
+    AppState.cheatsheet.onlyTraps = e.target.checked;
+    UI.renderCheatSheet(
+      AppState.allQuestions,
+      AppState.cheatsheet,
+      StorageManager.getActiveProfile()
+    );
+  });
+
+  document.getElementById('check-cheatsheet-only-favs')?.addEventListener('change', (e) => {
+    AppState.cheatsheet.onlyFavs = e.target.checked;
+    UI.renderCheatSheet(
+      AppState.allQuestions,
+      AppState.cheatsheet,
+      StorageManager.getActiveProfile()
+    );
+  });
+
+  document.getElementById('btn-cheatsheet-reset-filters')?.addEventListener('click', () => {
+    AppState.cheatsheet.certification = 'ALL';
+    AppState.cheatsheet.searchQuery = '';
+    AppState.cheatsheet.selectedDomain = 'ALL';
+    AppState.cheatsheet.onlyTraps = false;
+    AppState.cheatsheet.onlyFavs = false;
+    UI.renderCheatSheet(
+      AppState.allQuestions,
+      AppState.cheatsheet,
+      StorageManager.getActiveProfile()
+    );
+  });
+
+  document.getElementById('btn-cheatsheet-toggle-all')?.addEventListener('click', () => {
+    AppState.cheatsheet.expandedAll = !AppState.cheatsheet.expandedAll;
+    document.querySelectorAll('.cheatsheet-card').forEach((card) => {
+      card.classList.toggle('collapsed', !AppState.cheatsheet.expandedAll);
+    });
+  });
+
+  document.getElementById('cheatsheet-cards-grid')?.addEventListener('click', (e) => {
+    const bookmarkBtn = e.target.closest('[data-cs-bookmark]');
+    if (!bookmarkBtn) return;
+    const qId = bookmarkBtn.getAttribute('data-cs-bookmark');
+    const isNowBookmarked = StorageManager.toggleBookmark(qId);
+    bookmarkBtn.classList.toggle('active', isNowBookmarked);
+    bookmarkBtn.textContent = isNowBookmarked ? '⭐' : '☆';
+    bookmarkBtn.title = isNowBookmarked
+      ? 'Quitar de preguntas favoritas'
+      : 'Marcar como favorita';
   });
 }
 

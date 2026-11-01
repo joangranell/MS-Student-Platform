@@ -3,7 +3,7 @@
  * Caches core shell assets and questions JSON for offline exam readiness.
  */
 
-const CACHE_NAME = 'ms-platform-v1';
+const CACHE_NAME = 'ms-platform-v2';
 
 const STATIC_ASSETS = [
   './',

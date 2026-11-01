@@ -1307,4 +1307,419 @@ html.light .multi-select-banner {
     padding: 1.15rem 1rem;
     max-height: 94vh;
   }
+
+  /* Cheatsheet responsive */
+  .cheatsheet-banner-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem;
+  }
+
+  .cheatsheet-header-banner {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem;
+  }
+
+  .cheatsheet-search-row {
+    grid-template-columns: 1fr;
+  }
+
+  .cheatsheet-grid {
+    grid-template-columns: 1fr;
+  }
 }
+
+/* ==========================================================================
+   Hoja de Trucos / Repaso Rápido 24h Express (Cheat Sheet)
+   ========================================================================== */
+
+.header-cheat-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-md);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--warning);
+  background: var(--warning-bg);
+  border: 1px solid rgba(217, 119, 6, 0.35);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.header-cheat-btn:hover {
+  background: rgba(217, 119, 6, 0.25);
+  border-color: var(--warning);
+  transform: translateY(-1px);
+}
+
+.header-cheat-btn.active {
+  background: var(--warning);
+  color: #ffffff;
+}
+
+.cheatsheet-banner-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  background: linear-gradient(135deg, rgba(217, 119, 6, 0.08) 0%, rgba(0, 120, 212, 0.08) 100%);
+  border: 1px solid rgba(217, 119, 6, 0.28);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.6rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.cheatsheet-banner-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--warning);
+  background: var(--warning-bg);
+  border: 1px solid rgba(217, 119, 6, 0.3);
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  margin-bottom: 0.4rem;
+}
+
+.cheatsheet-banner-info h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.3rem;
+}
+
+.cheatsheet-banner-info p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.btn-warning-solid {
+  background: #d97706;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.65rem 1.25rem;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.35);
+}
+
+.btn-warning-solid:hover {
+  background: #b45309;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.45);
+}
+
+.cheatsheet-header-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.cheatsheet-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.cheatsheet-title-wrap h1 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.2rem;
+}
+
+.cheatsheet-title-wrap p {
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.cheatsheet-toolbar {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cheatsheet-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.cheatsheet-cert-pills {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.cheatsheet-search-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 0.85rem;
+}
+
+.cheatsheet-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cheatsheet-search-box .search-icon {
+  position: absolute;
+  left: 0.85rem;
+  font-size: 0.95rem;
+  pointer-events: none;
+  color: var(--text-muted);
+}
+
+.cheatsheet-search-box .form-input {
+  padding-left: 2.35rem;
+  padding-right: 2.2rem;
+  width: 100%;
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 0.75rem;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.cheatsheet-secondary-filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.cheatsheet-checkboxes {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.cheatsheet-checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.cheatsheet-count-badge {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  background: var(--bg-elevated);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+}
+
+.cheatsheet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.cheatsheet-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cheatsheet-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-default);
+  box-shadow: var(--shadow-md);
+}
+
+.cheatsheet-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cheatsheet-card-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.topic-meta-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-sm);
+}
+
+.topic-meta-tag svg {
+  width: 14px;
+  height: 14px;
+}
+
+.btn-cheat-bookmark {
+  background: transparent;
+  border: none;
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: transform 0.15s ease, color 0.15s ease;
+  padding: 0.15rem;
+  line-height: 1;
+}
+
+.btn-cheat-bookmark:hover {
+  transform: scale(1.15);
+  color: #eab308;
+}
+
+.btn-cheat-bookmark.active {
+  color: #eab308;
+}
+
+.cheatsheet-card-title-row h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.cheatsheet-card-domain {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.cheatsheet-card-summary {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.cheatsheet-keypoints-box {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 0.9rem;
+  font-size: 0.84rem;
+}
+
+.cheatsheet-section-title {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ms-blue-light);
+  margin-bottom: 0.45rem;
+}
+
+.cheatsheet-keypoints-list {
+  margin: 0;
+  padding-left: 1.15rem;
+  line-height: 1.55;
+  color: var(--text-primary);
+}
+
+.cheatsheet-keypoints-list li {
+  margin-bottom: 0.35rem;
+}
+
+.cheatsheet-keypoints-list li:last-child {
+  margin-bottom: 0;
+}
+
+.cheatsheet-exam-trap {
+  background: rgba(217, 119, 6, 0.12);
+  border: 1px solid rgba(217, 119, 6, 0.32);
+  border-radius: var(--radius-md);
+  padding: 0.7rem 0.85rem;
+}
+
+.exam-trap-header {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--warning);
+  margin-bottom: 0.25rem;
+}
+
+.exam-trap-body {
+  font-size: 0.84rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.cheatsheet-card-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.cheatsheet-ref-link {
+  font-size: 0.78rem;
+  color: var(--ms-blue-light);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.cheatsheet-ref-link:hover {
+  text-decoration: underline;
+}
+
+.cheatsheet-card.collapsed .cheatsheet-card-summary,
+.cheatsheet-card.collapsed .cheatsheet-keypoints-box,
+.cheatsheet-card.collapsed .cheatsheet-exam-trap {
+  display: none;
+}
+
