@@ -445,15 +445,15 @@ function bindEvents() {
 
       if (phase === 'basic') {
         const pool = certPool.filter((q) => q.difficulty === 'basic');
-        startSessionWithPool(pool, 'study', 'basic', targetCert);
+        startSessionWithPool(pool, 'study', 'basic', `${targetCert} • FASE 1 (CIMIENTOS)`);
       } else if (phase === 'adaptive') {
-        startSessionWithPool(certPool, 'study', 'adaptive', targetCert);
+        startSessionWithPool(certPool, 'study', 'adaptive', `${targetCert} • FASE 2 (CONSOLIDACIÓN)`);
       } else if (phase === 'hardcore') {
         const pool = certPool.filter((q) => q.difficulty === 'hardcore' || q.hasCodeSnippet);
-        startSessionWithPool(pool, 'study', 'hardcore', targetCert);
+        startSessionWithPool(pool, 'study', 'hardcore', `${targetCert} • FASE 3 (NIVEL EXPERTO)`);
       } else if (phase === 'exam') {
-        AppState.config.questionCount = 25;
-        startSessionWithPool(certPool, 'exam', 'all_study', targetCert);
+        AppState.config.questionCount = Math.min(certPool.length, 45);
+        startSessionWithPool(certPool, 'exam', 'all_study', `${targetCert} • SIMULACRO OFICIAL`);
       }
     }
   });
@@ -510,9 +510,13 @@ function bindEvents() {
 
   document.getElementById('btn-launch-failed-test')?.addEventListener('click', () => {
     const activeProfile = StorageManager.getActiveProfile();
+    const targetCert = activeProfile.targetCert || AppState.config.certification || 'DP-600';
     const failedIds = activeProfile.failedQuestionIds || [];
-    const failedPool = AppState.allQuestions.filter((q) => failedIds.includes(q.id));
-    startSessionWithPool(failedPool, 'study', 'failed', 'CLÍNICA DE FALLOS');
+    const failedPool = AppState.allQuestions.filter((q) => {
+      const matchCert = targetCert === 'ALL' || q.certification === targetCert;
+      return matchCert && failedIds.includes(q.id);
+    });
+    startSessionWithPool(failedPool, 'study', 'failed', `${targetCert} • CLÍNICA DE FALLOS`);
   });
 
   document.getElementById('knowledge-heatmap-grid')?.addEventListener('click', (e) => {
@@ -920,6 +924,38 @@ async function initApp() {
       console.warn('Service Worker registration skipped:', err);
     });
   }
+
+  // 6. Handle Native PWA Installation Prompt
+  let deferredInstallPrompt = null;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    const installBtn = document.getElementById('btn-pwa-install');
+    if (installBtn) installBtn.classList.remove('hidden');
+  });
+
+  document.getElementById('btn-pwa-install')?.addEventListener('click', async () => {
+    if (deferredInstallPrompt) {
+      deferredInstallPrompt.prompt();
+      const choice = await deferredInstallPrompt.userChoice;
+      if (choice && choice.outcome === 'accepted') {
+        document.getElementById('btn-pwa-install')?.classList.add('hidden');
+      }
+      deferredInstallPrompt = null;
+    } else {
+      alert(
+        'Para instalar MS Student Platform como app en tu teléfono:\n\n' +
+        '• En Android (Chrome/Edge): Pulsa los tres puntos del navegador (⋮) y selecciona "Instalar aplicación" o "Añadir a pantalla principal".\n\n' +
+        '• En iPhone/iPad (Safari): Pulsa el botón Compartir (el icono ⬆) y selecciona "Añadir a pantalla de inicio".\n\n' +
+        'Una vez instalada, funcionará sin conexión a internet como una app nativa.'
+      );
+    }
+  });
+
+  window.addEventListener('appinstalled', () => {
+    document.getElementById('btn-pwa-install')?.classList.add('hidden');
+    deferredInstallPrompt = null;
+  });
 }
 
 document.addEventListener('DOMContentLoaded', initApp);

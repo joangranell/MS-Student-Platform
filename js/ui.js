@@ -403,16 +403,20 @@ export const UI = {
     this.renderHeaderProfile(activeProfile);
     this.renderStudyPlanRoadmap(state, activeProfile);
 
-    // 1. Hero KPIs
-    const history = activeProfile.history || [];
-    const totalAttempts = history.length;
-    const passedAttempts = history.filter((h) => h.passed).length;
+    // 1. Hero KPIs — strictly focused on the student's target certification
+    const targetCert = activeProfile.targetCert || 'DP-600';
+    const targetCertQuestions = state.allQuestions.filter((q) => q.certification === targetCert);
+    const targetCertQIds = new Set(targetCertQuestions.map((q) => q.id));
+
+    const certHistory = (activeProfile.history || []).filter((h) => h.certification === targetCert);
+    const totalAttempts = certHistory.length;
+    const passedAttempts = certHistory.filter((h) => h.passed).length;
     const avgScore =
       totalAttempts > 0
-        ? Math.round(history.reduce((acc, h) => acc + (h.scaledScore || 0), 0) / totalAttempts)
+        ? Math.round(certHistory.reduce((acc, h) => acc + (h.scaledScore || 0), 0) / totalAttempts)
         : 0;
-    const failedCount = (activeProfile.failedQuestionIds || []).length;
-    const masteredCount = (activeProfile.masteredIds || []).length;
+    const failedCount = (activeProfile.failedQuestionIds || []).filter((id) => targetCertQIds.has(id)).length;
+    const masteredCount = (activeProfile.masteredIds || []).filter((id) => targetCertQIds.has(id)).length;
 
     const welcomeName = document.getElementById('hero-profile-name');
     if (welcomeName) welcomeName.textContent = activeProfile.name;
@@ -447,7 +451,10 @@ export const UI = {
 
       const countSpan = card.querySelector('.cert-q-count');
       if (countSpan && certCounts[certCode] !== undefined) {
-        countSpan.textContent = `${certCounts[certCode]} preguntas`;
+        const isTarget = certCode === targetCert;
+        countSpan.innerHTML = isTarget
+          ? `<strong style="color:var(--ms-blue-light);">${certCounts[certCode]} preg. (🎯 Tu Objetivo)</strong>`
+          : `${certCounts[certCode]} preguntas`;
       }
 
       const shieldSlot = card.querySelector('.cert-shield-wrap');

@@ -6,11 +6,11 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![Vanilla JS](https://img.shields.io/badge/Frontend-HTML5%20%7C%20CSS3%20%7C%20Vanilla%20JS-0078D4)](./index.html)
-[![Questions](https://img.shields.io/badge/Banco%20de%20Preguntas-240%20Verificadas-107C41)](./data/questions.json)
+[![Questions](https://img.shields.io/badge/Banco%20de%20Preguntas-300%20Verificadas-107C41)](./data/questions.json)
 [![AZ-900](https://img.shields.io/badge/AZ--900-100%20Preguntas-2563EB)](./data/az900.json)
-[![DP-900](https://img.shields.io/badge/DP--900-70%20Preguntas-00A4EF)](./data/dp900.json)
-[![DP-600](https://img.shields.io/badge/DP--600-35%20Preguntas-107C41)](./data/dp600.json)
-[![DP-700](https://img.shields.io/badge/DP--700-35%20Preguntas-D97706)](./data/dp700.json)
+[![DP-900](https://img.shields.io/badge/DP--900-80%20Preguntas-00A4EF)](./data/dp900.json)
+[![DP-600](https://img.shields.io/badge/DP--600-60%20Preguntas-107C41)](./data/dp600.json)
+[![DP-700](https://img.shields.io/badge/DP--700-60%20Preguntas-D97706)](./data/dp700.json)
 
 <br/>
 
@@ -37,39 +37,51 @@ Combina **dos mundos en una sola herramienta**:
 
 ---
 
-## 🏆 Certificaciones Incluidas (240 Preguntas Originales)
+## 🏆 Certificaciones Incluidas (300 Preguntas Originales)
 
 | Código | Certificación Oficial | Nivel | Preguntas | Archivo Modular | Temáticas Clave |
 | :--- | :--- | :---: | :---: | :--- | :--- |
 | **AZ-900** | **Microsoft Azure Fundamentals** | *Fundamentals* ★ | **100** | [`data/az900.json`](./data/az900.json) | Cloud Concepts, IaaS/PaaS/SaaS, VMs, Containers, VNets, VPN/ExpressRoute, Storage, Entra ID, RBAC, Cost Management, Policy, ARM/Bicep, Monitor. |
-| **DP-900** | **Microsoft Azure Data Fundamentals** | *Fundamentals* ★ | **70** | [`data/dp900.json`](./data/dp900.json) | ACID/OLTP vs OLAP, Parquet/Avro/ORC, Azure SQL (DTU/vCore/Hyperscale), Cosmos DB, Blob Storage, Data Factory, Synapse, Fabric, Power BI. |
-| **DP-600** | **Fabric Analytics Engineer Associate** | *Associate* ★★ | **35** | [`data/dp600.json`](./data/dp600.json) | Lakehouses, Warehouses, Direct Lake & Fallback, Modelos Semánticos Star Schema, DAX avanzado, Calculation Groups, XMLA, RLS/OLS/CLS, CI/CD & Git. |
-| **DP-700** | **Fabric Data Engineer Associate** | *Associate* ★★ | **35** | [`data/dp700.json`](./data/dp700.json) | Real-Time Intelligence, Eventstreams, Eventhouse (KQL `arg_max`, `mv-expand`), PySpark, Delta Lake (`MERGE`, `OPTIMIZE`, `VACUUM`), `notebookutils`, Spark Tuning. |
+| **DP-900** | **Microsoft Azure Data Fundamentals** | *Fundamentals* ★ | **80** | [`data/dp900.json`](./data/dp900.json) | ACID/OLTP vs OLAP, Parquet/Avro/ORC, Azure SQL (DTU/vCore/Serverless/Hyperscale), Cosmos DB (APIs, consistencia y particionado), Blob Storage, Data Factory, Synapse, Fabric, Power BI. |
+| **DP-600** | **Fabric Analytics Engineer Associate** | *Associate* ★★ | **60** | [`data/dp600.json`](./data/dp600.json) | Lakehouses, Warehouses, Direct Lake & Fallback, Modelos Semánticos Star Schema, DAX avanzado (TREATAS, transición de contexto), Calculation Groups, XMLA, RLS/OLS/CLS, CI/CD, Git & TMDL. |
+| **DP-700** | **Fabric Data Engineer Associate** | *Associate* ★★ | **60** | [`data/dp700.json`](./data/dp700.json) | Real-Time Intelligence, Eventstreams (enrutamiento y ventanas), Eventhouse (KQL `arg_max`, `mv-expand`, Update Policy, Materialized Views), PySpark, Delta Lake (`MERGE`, `OPTIMIZE`, `VACUUM`, Liquid Clustering, CDF), `notebookutils`, Spark Tuning & Capacity Metrics. |
 
 ---
 
 ## ✨ Características Principales
 
-### 👤 1. Pantalla de Login Multi-Perfil y Plan de Estudio a Medida
+### 👤 1. Pantalla de Login Multi-Perfil y Plan de Estudio Aislado (Sin Mezclas)
 - **Múltiples perfiles sin contraseña (`localStorage`):** Cada usuario mantiene aislado su historial, estadísticas por dominio y caja de repetición.
-- **Gestión en línea (`🛠️ Ver perfiles`):** Permite renombrar perfiles, cambiar su certificación objetivo o eliminarlos, además de exportar/importar copias de seguridad en `.json`.
-- **Plan de Estudio en 4 Fases Progresivas:** Al iniciar un perfil y elegir tu **Certificado Objetivo**, la plataforma construye tu hoja de ruta dividida en:
+- **Enfoque 100% Focalizado por Certificación:** Al elegir tu **Certificado Objetivo** (ej. *AZ-900*, *DP-600*, *DP-700* o *DP-900*), la plataforma calibra toda la experiencia exclusivamente en esa certificación:
+  - Las 4 fases del plan de estudio solo evalúan preguntas de tu certificado objetivo.
+  - La **Clínica de Fallos** solo rescata errores pertenecientes a ese certificado.
+  - El **Mapa de Conocimientos** y los KPIs reflejan únicamente el avance en la meta elegida.
+- **Plan de Estudio en 4 Fases Progresivas:**
   1. *Fase 1 • Cimientos (`🟢 Fundamentos y Conceptos`)*
   2. *Fase 2 • Consolidación (`🔄 Estudio Adaptativo por Dominios`)*
   3. *Fase 3 • Nivel Experto (`🔴 Casos de Estudio y Código`)*
   4. *Fase 4 • Validación Final (`🏛️ Simulacro Oficial Pearson VUE`)*
 
-### 🧠 2. Motor de Repetición Adaptativa y Mapa de Calor Visual
+### ⚡ 2. Hoja de Trucos / Repaso Rápido 24h Express (Cheat Sheet)
+- **Buscador en Vivo y Filtros Inteligentes:** Localiza al instante conceptos, sintaxis o trampas de examen (ej. *SLA, Direct Lake, Entra ID, Cosmos DB, Liquid Clustering, Eventstreams...*).
+- **Filtro de Trampas de Examen:** Casilla `⚠️ Solo trampas de examen (Exam Traps)` para repasar las confusiones frecuentes de Pearson VUE el día previo al test.
+- **Acceso Directo a Fichas Teóricas:** Resúmenes condensados, conceptos clave y enlaces verificados a Microsoft Learn.
+
+### 📱 3. Instalación PWA en 1 Clic y Experiencia Móvil Optimizada
+- **Instalación como App Nativa (`📲 Instalar App`):** Compatible con Android (Chrome/Edge) y escritorio con soporte para el evento `beforeinstallprompt`, además de instrucciones paso a paso para iOS Safari.
+- **Diseño Ergonómico Móvil (Touch First):** Botones con objetivos táctiles amplios (48px), selector de opciones optimizado para pantallas pequeñas (360px+), navegación horizontal por pestañas en casos de estudio y Service Worker v3 para estudio 100% offline sin conexión a internet.
+
+### 🧠 4. Motor de Repetición Adaptativa y Mapa de Calor Visual
 - **Sistema de Cajas 0 a 3:** Cuando fallas una pregunta, entra en la **Caja 0 (Prioridad Crítica)** y vuelve a aparecer en tus sesiones hasta que la aciertes de forma consistente.
 - **Refuerzo por Tema Débil:** Si fallas una pregunta sobre *Direct Lake*, *KQL* o *Azure Networking*, el motor adaptativo incrementa la probabilidad de extraer **otras preguntas del mismo tema** para asegurar que dominas el concepto y no solo memorizas una letra.
 - **Mapa de Calor con Iconos Vectoriales:** Visualiza de un vistazo tu porcentaje de dominio en cada tecnología y lanza un entrenamiento focalizado en 1 clic.
 
-### 📚 3. Botón "Saber Más" + Consulta en Vivo a Microsoft Learn MCP
+### 📚 5. Botón "Saber Más" + Consulta en Vivo a Microsoft Learn MCP
 - Cada pregunta cuenta con una **Ficha Teórica (`theoryPill`)** que resume la arquitectura del servicio, los puntos clave para el examen y la alerta **"⚠️ Trampa frecuente en Pearson VUE"**.
 - Desde el mismo cajón lateral puedes interrogar en vivo a `https://learn.microsoft.com/api/mcp` (al ejecutar en local con `server.js`) para buscar artículos oficiales (`microsoft_docs_search`) y fragmentos de código (`microsoft_code_sample_search`) sin abandonar el test.
 
-### 🌗 4. Modo Oscuro y Modo Claro (Fluent UI)
-- Alterna en cualquier momento entre **Fluent Dark Mode** (por defecto) y **Fluent Light Mode** desde la barra superior.
+### 🌗 6. Modo Claro por Defecto y Modo Oscuro (Fluent UI)
+- Diseñado con la paleta oficial **Microsoft Fluent Light** por defecto y conmutador rápido a **Fluent Dark** en la cabecera.
 
 ---
 
@@ -113,7 +125,7 @@ flowchart LR
 La plataforma está publicada y lista para usar directamente en GitHub Pages:  
 👉 **[https://joangranell.github.io/MS-Student-Platform/](https://joangranell.github.io/MS-Student-Platform/)**
 
-*(Funciona 100% en local en tu navegador: guarda tus notas, progreso, modo claro/oscuro y todas las 240 preguntas con sus explicaciones teóricas).*
+*(Funciona 100% en local en tu navegador: guarda tus notas, progreso, modo claro/oscuro y todas las 300 preguntas con sus explicaciones teóricas).*
 
 ---
 
@@ -158,10 +170,10 @@ MS-Student-Platform/
 │   └── icons.js                # Escudos de certificación e iconos de servicios en SVG
 ├── data/
 │   ├── az900.json              # 100 preguntas de AZ-900: Azure Fundamentals
-│   ├── dp900.json              # 70 preguntas de DP-900: Azure Data Fundamentals
-│   ├── dp600.json              # 35 preguntas de DP-600: Fabric Analytics Engineer
-│   ├── dp700.json              # 35 preguntas de DP-700: Fabric Data Engineer
-│   └── questions.json          # Catálogo unificado (240 preguntas)
+│   ├── dp900.json              # 80 preguntas de DP-900: Azure Data Fundamentals
+│   ├── dp600.json              # 60 preguntas de DP-600: Fabric Analytics Engineer
+│   ├── dp700.json              # 60 preguntas de DP-700: Fabric Data Engineer
+│   └── questions.json          # Catálogo unificado (300 preguntas)
 └── scripts/
     └── mcp-mslearn.js          # Conector JSON-RPC/SSE hacia https://learn.microsoft.com/api/mcp
 ```

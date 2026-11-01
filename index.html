@@ -2,7 +2,7 @@
 <html lang="es" class="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
   <title>MS Student Platform — Microsoft Certification Simulator (AZ-900 | DP-900 | DP-600 | DP-700)</title>
   
   <!-- PWA Meta Tags & Icons -->
@@ -36,6 +36,11 @@
     </div>
 
     <div class="header-right">
+      <!-- PWA Install Button (Prompted when available) -->
+      <button type="button" class="header-install-btn hidden" id="btn-pwa-install" title="Instalar la app en tu teléfono o PC">
+        📲 <span>Instalar App</span>
+      </button>
+
       <!-- Dark / Light Mode Toggle -->
       <button type="button" class="theme-toggle-btn" id="btn-theme-toggle" title="Alternar entre Modo Oscuro y Modo Claro">
         ☀️ <span>Modo Claro</span>
@@ -166,12 +171,12 @@
           <div class="cheatsheet-banner-badge">⚡ REPASO EXPRESS 24H PRE-EXAMEN</div>
           <h3>Hoja de Trucos &amp; Píldoras Teóricas de Certificación</h3>
           <p>
-            Repasa en minutos los 240 conceptos clave, arquitecturas esenciales y las trampas frecuentes de Pearson VUE verificadas con Microsoft Learn.
+            Repasa en minutos los 300 conceptos clave, arquitecturas esenciales y las trampas frecuentes de Pearson VUE verificadas con Microsoft Learn.
           </p>
         </div>
         <div class="cheatsheet-banner-cta">
           <button type="button" class="btn btn-warning-solid" id="btn-dashboard-cheatsheet">
-            ⚡ Abrir Hoja de Trucos (240 Píldoras)
+            ⚡ Abrir Hoja de Trucos (300 Píldoras)
           </button>
         </div>
       </div>
@@ -577,11 +582,11 @@
         <div class="cheatsheet-filter-group">
           <span class="step-label" style="margin-top:0;">1. Selecciona la Certificación:</span>
           <div class="cheatsheet-cert-pills" id="cheatsheet-cert-pills">
-            <button type="button" class="count-pill selected" data-cs-cert="ALL">Todas las Certificaciones (240)</button>
+            <button type="button" class="count-pill selected" data-cs-cert="ALL">Todas las Certificaciones (300)</button>
             <button type="button" class="count-pill" data-cs-cert="AZ-900">AZ-900 (100)</button>
-            <button type="button" class="count-pill" data-cs-cert="DP-900">DP-900 (70)</button>
-            <button type="button" class="count-pill" data-cs-cert="DP-600">DP-600 (35)</button>
-            <button type="button" class="count-pill" data-cs-cert="DP-700">DP-700 (35)</button>
+            <button type="button" class="count-pill" data-cs-cert="DP-900">DP-900 (80)</button>
+            <button type="button" class="count-pill" data-cs-cert="DP-600">DP-600 (60)</button>
+            <button type="button" class="count-pill" data-cs-cert="DP-700">DP-700 (60)</button>
           </div>
         </div>
 
@@ -618,7 +623,7 @@
             </label>
           </div>
           <div class="cheatsheet-count-badge" id="cheatsheet-count-badge">
-            Mostrando <strong>240</strong> píldoras teóricas
+            Mostrando <strong>300</strong> píldoras teóricas
           </div>
         </div>
       </div>

@@ -14,7 +14,12 @@
       "domain": "Implement and manage an analytics solution",
       "topic": "Spark Workspace Settings",
       "topicIcon": "spark",
-      "tags": ["Spark Pools", "Starter Pools", "High Concurrency", "Workspace Settings"],
+      "tags": [
+        "Spark Pools",
+        "Starter Pools",
+        "High Concurrency",
+        "Workspace Settings"
+      ],
       "difficulty": "basic",
       "questionType": "single",
       "requiredSelections": 1,
@@ -80,7 +85,12 @@
       "domain": "Implement and manage an analytics solution",
       "topic": "Row-Level Security (RLS)",
       "topicIcon": "security",
-      "tags": ["RLS", "Warehouse", "T-SQL", "Security Policy"],
+      "tags": [
+        "RLS",
+        "Warehouse",
+        "T-SQL",
+        "Security Policy"
+      ],
       "difficulty": "intermediate",
       "questionType": "single",
       "requiredSelections": 1,
@@ -142,7 +152,12 @@
       "domain": "Implement and manage an analytics solution",
       "topic": "Dynamic Data Masking & CLS",
       "topicIcon": "security",
-      "tags": ["Dynamic Data Masking", "CLS", "Warehouse", "UNMASK"],
+      "tags": [
+        "Dynamic Data Masking",
+        "CLS",
+        "Warehouse",
+        "UNMASK"
+      ],
       "difficulty": "intermediate",
       "questionType": "multi",
       "requiredSelections": 2,
@@ -214,7 +229,12 @@
       "domain": "Implement and manage an analytics solution",
       "topic": "Git Integration & Database Projects",
       "topicIcon": "fabric",
-      "tags": ["CI/CD", "Git Integration", "Database Projects", "Deployment Pipelines"],
+      "tags": [
+        "CI/CD",
+        "Git Integration",
+        "Database Projects",
+        "Deployment Pipelines"
+      ],
       "difficulty": "intermediate",
       "questionType": "single",
       "requiredSelections": 1,
@@ -284,7 +304,12 @@
       "domain": "Implement and manage an analytics solution",
       "topic": "Notebook Orchestration (runMultiple)",
       "topicIcon": "spark",
-      "tags": ["notebookutils", "runMultiple", "DAG", "Orchestration"],
+      "tags": [
+        "notebookutils",
+        "runMultiple",
+        "DAG",
+        "Orchestration"
+      ],
       "difficulty": "hardcore",
       "questionType": "single",
       "requiredSelections": 1,
@@ -346,7 +371,13 @@
       "domain": "Implement and manage an analytics solution",
       "topic": "Workspace Roles & Item Permissions",
       "topicIcon": "security",
-      "tags": ["Workspace Roles", "Viewer", "OneLake", "ReadData", "ReadAll"],
+      "tags": [
+        "Workspace Roles",
+        "Viewer",
+        "OneLake",
+        "ReadData",
+        "ReadAll"
+      ],
       "difficulty": "hardcore",
       "questionType": "multi",
       "requiredSelections": 2,
@@ -414,7 +445,12 @@
       "domain": "Implement and manage an analytics solution",
       "topic": "OneLake Security & Shortcuts",
       "topicIcon": "onelake",
-      "tags": ["OneLake", "Shortcuts", "Delegated Identity", "Data Access Roles"],
+      "tags": [
+        "OneLake",
+        "Shortcuts",
+        "Delegated Identity",
+        "Data Access Roles"
+      ],
       "difficulty": "hardcore",
       "questionType": "single",
       "requiredSelections": 1,
@@ -480,7 +516,12 @@
       "domain": "Implement and manage an analytics solution",
       "topic": "Pipeline vs Notebook Orchestration",
       "topicIcon": "pipeline",
-      "tags": ["Data Factory", "Pipelines", "Dynamic Expressions", "ForEach"],
+      "tags": [
+        "Data Factory",
+        "Pipelines",
+        "Dynamic Expressions",
+        "ForEach"
+      ],
       "difficulty": "intermediate",
       "questionType": "single",
       "requiredSelections": 1,
@@ -546,7 +587,12 @@
       "domain": "Implement and manage an analytics solution",
       "topic": "Event-based Triggers & Activator",
       "topicIcon": "pipeline",
-      "tags": ["Storage Events", "Activator", "Pipelines", "Event-based Triggers"],
+      "tags": [
+        "Storage Events",
+        "Activator",
+        "Pipelines",
+        "Event-based Triggers"
+      ],
       "difficulty": "basic",
       "questionType": "single",
       "requiredSelections": 1,
@@ -608,7 +654,13 @@
       "domain": "Implement and manage an analytics solution",
       "topic": "Governance: Domains, Endorsement & Sensitivity Labels",
       "topicIcon": "fabric",
-      "tags": ["Domains", "Endorsement", "Certified", "Promoted", "Purview Sensitivity Labels"],
+      "tags": [
+        "Domains",
+        "Endorsement",
+        "Certified",
+        "Promoted",
+        "Purview Sensitivity Labels"
+      ],
       "difficulty": "basic",
       "questionType": "multi",
       "requiredSelections": 2,
@@ -680,7 +732,12 @@
       "domain": "Implement and manage an analytics solution",
       "topic": "Database Mirroring in Fabric",
       "topicIcon": "warehouse",
-      "tags": ["Mirroring", "CDC", "Zero-ETL", "OneLake"],
+      "tags": [
+        "Mirroring",
+        "CDC",
+        "Zero-ETL",
+        "OneLake"
+      ],
       "difficulty": "intermediate",
       "questionType": "single",
       "requiredSelections": 1,
@@ -742,7 +799,12 @@
       "domain": "Implement and manage an analytics solution",
       "topic": "Spark Environments & Library Management",
       "topicIcon": "spark",
-      "tags": ["Environment", "Libraries", "Spark", "Workspace Defaults"],
+      "tags": [
+        "Environment",
+        "Libraries",
+        "Spark",
+        "Workspace Defaults"
+      ],
       "difficulty": "basic",
       "questionType": "single",
       "requiredSelections": 1,
@@ -804,7 +866,12 @@
       "domain": "Ingest and transform data",
       "topic": "PySpark Delta Lake Merge (Upsert)",
       "topicIcon": "spark",
-      "tags": ["PySpark", "DeltaTable", "MERGE", "SCD Type 1"],
+      "tags": [
+        "PySpark",
+        "DeltaTable",
+        "MERGE",
+        "SCD Type 1"
+      ],
       "difficulty": "intermediate",
       "questionType": "single",
       "requiredSelections": 1,
@@ -866,7 +933,12 @@
       "domain": "Ingest and transform data",
       "topic": "Spark Structured Streaming Triggers",
       "topicIcon": "spark",
-      "tags": ["Structured Streaming", "availableNow", "checkpointLocation", "PySpark"],
+      "tags": [
+        "Structured Streaming",
+        "availableNow",
+        "checkpointLocation",
+        "PySpark"
+      ],
       "difficulty": "hardcore",
       "questionType": "single",
       "requiredSelections": 1,
@@ -928,7 +1000,12 @@
       "domain": "Ingest and transform data",
       "topic": "Handling Late-Arriving & Duplicate Data in Streaming",
       "topicIcon": "spark",
-      "tags": ["withWatermark", "dropDuplicates", "Structured Streaming", "Windowing"],
+      "tags": [
+        "withWatermark",
+        "dropDuplicates",
+        "Structured Streaming",
+        "Windowing"
+      ],
       "difficulty": "hardcore",
       "questionType": "multi",
       "requiredSelections": 2,
@@ -996,7 +1073,12 @@
       "domain": "Ingest and transform data",
       "topic": "KQL Deduplication & Latest State (arg_max)",
       "topicIcon": "kql",
-      "tags": ["KQL", "arg_max", "Eventhouse", "Materialized Views"],
+      "tags": [
+        "KQL",
+        "arg_max",
+        "Eventhouse",
+        "Materialized Views"
+      ],
       "difficulty": "intermediate",
       "questionType": "single",
       "requiredSelections": 1,
@@ -1062,7 +1144,12 @@
       "domain": "Ingest and transform data",
       "topic": "KQL JSON Unnesting & Time Bucketing (mv-expand & bin)",
       "topicIcon": "kql",
-      "tags": ["KQL", "mv-expand", "bin", "parse_json"],
+      "tags": [
+        "KQL",
+        "mv-expand",
+        "bin",
+        "parse_json"
+      ],
       "difficulty": "intermediate",
       "questionType": "single",
       "requiredSelections": 1,
@@ -1128,7 +1215,12 @@
       "domain": "Ingest and transform data",
       "topic": "Eventhouse Update Policies vs Materialized Views",
       "topicIcon": "kql",
-      "tags": ["Update Policy", "Materialized View", "Eventhouse", "KQL"],
+      "tags": [
+        "Update Policy",
+        "Materialized View",
+        "Eventhouse",
+        "KQL"
+      ],
       "difficulty": "hardcore",
       "questionType": "single",
       "requiredSelections": 1,
@@ -1198,7 +1290,13 @@
       "domain": "Ingest and transform data",
       "topic": "Eventstreams Routing & Ingestion Modes",
       "topicIcon": "kql",
-      "tags": ["Eventstreams", "Eventhouse", "Direct Ingestion", "Event Processing", "Lakehouse"],
+      "tags": [
+        "Eventstreams",
+        "Eventhouse",
+        "Direct Ingestion",
+        "Event Processing",
+        "Lakehouse"
+      ],
       "difficulty": "intermediate",
       "questionType": "multi",
       "requiredSelections": 2,
@@ -1270,7 +1368,12 @@
       "domain": "Ingest and transform data",
       "topic": "Warehouse Ingestion with COPY INTO & CTAS",
       "topicIcon": "warehouse",
-      "tags": ["COPY INTO", "CTAS", "Warehouse", "T-SQL"],
+      "tags": [
+        "COPY INTO",
+        "CTAS",
+        "Warehouse",
+        "T-SQL"
+      ],
       "difficulty": "basic",
       "questionType": "single",
       "requiredSelections": 1,
@@ -1332,7 +1435,12 @@
       "domain": "Ingest and transform data",
       "topic": "Dimensional Modeling: Surrogate Keys & SCD Type 2",
       "topicIcon": "lakehouse",
-      "tags": ["Dimensional Model", "SCD Type 2", "Surrogate Keys", "PySpark"],
+      "tags": [
+        "Dimensional Model",
+        "SCD Type 2",
+        "Surrogate Keys",
+        "PySpark"
+      ],
       "difficulty": "hardcore",
       "questionType": "single",
       "requiredSelections": 1,
@@ -1402,7 +1510,13 @@
       "domain": "Ingest and transform data",
       "topic": "Choosing Transformation Tools: Dataflow Gen2 vs Notebooks vs T-SQL",
       "topicIcon": "pipeline",
-      "tags": ["Dataflow Gen2", "Fast Copy", "Notebooks", "T-SQL", "Architecture"],
+      "tags": [
+        "Dataflow Gen2",
+        "Fast Copy",
+        "Notebooks",
+        "T-SQL",
+        "Architecture"
+      ],
       "difficulty": "basic",
       "questionType": "single",
       "requiredSelections": 1,
@@ -1468,7 +1582,13 @@
       "domain": "Ingest and transform data",
       "topic": "Incremental Loads & Change Data Feed / Watermark Pattern",
       "topicIcon": "pipeline",
-      "tags": ["Incremental Load", "Watermark", "Pipelines", "Lookup", "Stored Procedure"],
+      "tags": [
+        "Incremental Load",
+        "Watermark",
+        "Pipelines",
+        "Lookup",
+        "Stored Procedure"
+      ],
       "difficulty": "intermediate",
       "questionType": "multi",
       "requiredSelections": 2,
@@ -1536,7 +1656,12 @@
       "domain": "Ingest and transform data",
       "topic": "PySpark Schema Evolution & Handling Missing/Corrupt Records",
       "topicIcon": "spark",
-      "tags": ["PySpark", "mergeSchema", "columnNameOfCorruptRecord", "PERMISSIVE"],
+      "tags": [
+        "PySpark",
+        "mergeSchema",
+        "columnNameOfCorruptRecord",
+        "PERMISSIVE"
+      ],
       "difficulty": "intermediate",
       "questionType": "single",
       "requiredSelections": 1,
@@ -1598,7 +1723,13 @@
       "domain": "Monitor and optimize an analytics solution",
       "topic": "Delta Lake Maintenance: OPTIMIZE, V-Order & VACUUM",
       "topicIcon": "onelake",
-      "tags": ["OPTIMIZE", "V-Order", "VACUUM", "Direct Lake", "Spark SQL"],
+      "tags": [
+        "OPTIMIZE",
+        "V-Order",
+        "VACUUM",
+        "Direct Lake",
+        "Spark SQL"
+      ],
       "difficulty": "intermediate",
       "questionType": "single",
       "requiredSelections": 1,
@@ -1664,7 +1795,13 @@
       "domain": "Monitor and optimize an analytics solution",
       "topic": "Delta Lake Liquid Clustering vs Partitioning & Z-Order",
       "topicIcon": "lakehouse",
-      "tags": ["Liquid Clustering", "CLUSTER BY", "Z-Order", "File Skipping", "Spark SQL"],
+      "tags": [
+        "Liquid Clustering",
+        "CLUSTER BY",
+        "Z-Order",
+        "File Skipping",
+        "Spark SQL"
+      ],
       "difficulty": "hardcore",
       "questionType": "single",
       "requiredSelections": 1,
@@ -1730,7 +1867,13 @@
       "domain": "Monitor and optimize an analytics solution",
       "topic": "Spark Performance: Data Skew & Broadcast Joins",
       "topicIcon": "spark",
-      "tags": ["Spark UI", "Data Skew", "AQE", "Broadcast Join", "PySpark"],
+      "tags": [
+        "Spark UI",
+        "Data Skew",
+        "AQE",
+        "Broadcast Join",
+        "PySpark"
+      ],
       "difficulty": "hardcore",
       "questionType": "multi",
       "requiredSelections": 2,
@@ -1798,7 +1941,13 @@
       "domain": "Monitor and optimize an analytics solution",
       "topic": "Monitoring Fabric Data Warehouse via DMVs & Query Insights",
       "topicIcon": "warehouse",
-      "tags": ["Query Insights", "DMVs", "sys.dm_exec_requests", "Warehouse", "T-SQL"],
+      "tags": [
+        "Query Insights",
+        "DMVs",
+        "sys.dm_exec_requests",
+        "Warehouse",
+        "T-SQL"
+      ],
       "difficulty": "intermediate",
       "questionType": "single",
       "requiredSelections": 1,
@@ -1864,7 +2013,13 @@
       "domain": "Monitor and optimize an analytics solution",
       "topic": "Eventhouse Optimization: Caching Policy, Retention & Partitioning",
       "topicIcon": "kql",
-      "tags": ["Eventhouse", "Caching Policy", "Hot Cache", "Retention Policy", "KQL"],
+      "tags": [
+        "Eventhouse",
+        "Caching Policy",
+        "Hot Cache",
+        "Retention Policy",
+        "KQL"
+      ],
       "difficulty": "intermediate",
       "questionType": "single",
       "requiredSelections": 1,
@@ -1930,7 +2085,13 @@
       "domain": "Monitor and optimize an analytics solution",
       "topic": "Warehouse Data Clustering & Statistics",
       "topicIcon": "warehouse",
-      "tags": ["Data Clustering", "CLUSTER BY", "Statistics", "Warehouse", "T-SQL"],
+      "tags": [
+        "Data Clustering",
+        "CLUSTER BY",
+        "Statistics",
+        "Warehouse",
+        "T-SQL"
+      ],
       "difficulty": "intermediate",
       "questionType": "single",
       "requiredSelections": 1,
@@ -2000,7 +2161,13 @@
       "domain": "Monitor and optimize an analytics solution",
       "topic": "Troubleshooting Pipeline & Dataflow Gen2 Errors",
       "topicIcon": "pipeline",
-      "tags": ["Pipelines", "Dataflow Gen2", "Query Folding", "Fault Tolerance", "Staging"],
+      "tags": [
+        "Pipelines",
+        "Dataflow Gen2",
+        "Query Folding",
+        "Fault Tolerance",
+        "Staging"
+      ],
       "difficulty": "intermediate",
       "questionType": "multi",
       "requiredSelections": 2,
@@ -2072,7 +2239,13 @@
       "domain": "Monitor and optimize an analytics solution",
       "topic": "Deletion Vectors & REORG TABLE PURGE",
       "topicIcon": "onelake",
-      "tags": ["Deletion Vectors", "REORG TABLE", "PURGE", "OPTIMIZE", "Delta Lake"],
+      "tags": [
+        "Deletion Vectors",
+        "REORG TABLE",
+        "PURGE",
+        "OPTIMIZE",
+        "Delta Lake"
+      ],
       "difficulty": "hardcore",
       "questionType": "single",
       "requiredSelections": 1,
@@ -2134,7 +2307,13 @@
       "domain": "Monitor and optimize an analytics solution",
       "topic": "Direct Lake Fallback & Framing Optimization",
       "topicIcon": "powerbi",
-      "tags": ["Direct Lake", "Fallback", "DirectQuery", "Framing", "SQL Endpoint"],
+      "tags": [
+        "Direct Lake",
+        "Fallback",
+        "DirectQuery",
+        "Framing",
+        "SQL Endpoint"
+      ],
       "difficulty": "hardcore",
       "questionType": "single",
       "requiredSelections": 1,
@@ -2204,7 +2383,13 @@
       "domain": "Monitor and optimize an analytics solution",
       "topic": "Capacity Monitoring, Throttling & Monitoring Hub",
       "topicIcon": "fabric",
-      "tags": ["Capacity Metrics App", "Monitoring Hub", "Bursting", "Smoothing", "Throttling"],
+      "tags": [
+        "Capacity Metrics App",
+        "Monitoring Hub",
+        "Bursting",
+        "Smoothing",
+        "Throttling"
+      ],
       "difficulty": "intermediate",
       "questionType": "multi",
       "requiredSelections": 2,
@@ -2276,7 +2461,13 @@
       "domain": "Monitor and optimize an analytics solution",
       "topic": "Optimizing Materialized Views in Eventhouse",
       "topicIcon": "kql",
-      "tags": ["Materialized Views", "Update Policy", "Eventhouse", "Optimization", "KQL"],
+      "tags": [
+        "Materialized Views",
+        "Update Policy",
+        "Eventhouse",
+        "Optimization",
+        "KQL"
+      ],
       "difficulty": "hardcore",
       "questionType": "single",
       "requiredSelections": 1,
@@ -2337,6 +2528,1634 @@
         {
           "title": "Monitor materialized views - Kusto / Microsoft Fabric | Microsoft Learn",
           "url": "https://learn.microsoft.com/en-us/kusto/management/materialized-views/materialized-views-monitoring?view=microsoft-fabric"
+        }
+      ]
+    },
+    {
+      "id": "DP700-041",
+      "certification": "DP-700",
+      "domain": "Implement and manage an analytics solution",
+      "topic": "Fabric Notebookutils & Key Vault Credentials",
+      "topicIcon": "spark",
+      "tags": [
+        "notebookutils",
+        "Security",
+        "Key Vault",
+        "Credentials"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "codeLanguage": "Python",
+      "codeSnippet": "import notebookutils\napi_key = notebookutils.credentials.getSecret(\"https://myvault.vault.azure.net/\", \"ERP-API-Key\")",
+      "stem": "En un cuaderno de PySpark en Microsoft Fabric, necesitas conectar con una API externa segura. Para evitar codificar credenciales en texto plano (hardcoding) o exponerlas en el historial de Git, utilizas la biblioteca 'notebookutils.credentials'. ¿Qué requisito de identidad y permisos debe cumplirse en Azure Key Vault para que la función 'getSecret()' se ejecute con éxito?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "El usuario que ejecuta el cuaderno o la identidad administrada del área de trabajo de Fabric debe tener asignado el rol 'Key Vault Secrets User' (Usuario de secretos de Key Vault) en Azure Key Vault.",
+          "isCorrect": true,
+          "rationale": "notebookutils.credentials.getSecret utiliza la identidad de Microsoft Entra del usuario que interactúa con el cuaderno o la identidad administrada configurada en el espacio de trabajo. Requiere el rol de control de acceso basado en roles (RBAC) de Azure 'Key Vault Secrets User' sobre el almacén de claves."
+        },
+        {
+          "id": "opt_2",
+          "text": "La contraseña de la cuenta raíz de Windows Server debe sincronizarse con Active Directory.",
+          "isCorrect": false,
+          "rationale": "Fabric utiliza Microsoft Entra ID y servicios nativos de Azure; no utiliza contraseñas de cuentas raíz de servidores locales."
+        },
+        {
+          "id": "opt_3",
+          "text": "El secreto debe codificarse en Base64 en el encabezado del archivo JSON del cuaderno.",
+          "isCorrect": false,
+          "rationale": "Almacenar el secreto en el cuaderno (incluso en Base64) vulnera el principio de seguridad y expondría la clave en el repositorio Git."
+        },
+        {
+          "id": "opt_4",
+          "text": "Azure Key Vault debe configurarse para permitir el acceso público anónimo sin autenticación.",
+          "isCorrect": false,
+          "rationale": "Key Vault nunca admite acceso anónimo; requiere autenticación y autorización estrictas mediante Entra ID."
+        }
+      ],
+      "explanation": "El paquete `notebookutils` (sucesor de `mssparkutils`) en Microsoft Fabric proporciona utilidades seguras para el sistema de archivos (`notebookutils.fs`), gestión de cuadernos (`notebookutils.notebook`) y recuperación segura de secretos (`notebookutils.credentials.getSecret`).",
+      "theoryPill": {
+        "title": "Gestión Segura de Secretos con notebookutils en Fabric",
+        "summary": "Integración nativa entre cuadernos Spark y Azure Key Vault.",
+        "keyPoints": [
+          "Sintaxis: notebookutils.credentials.getSecret(keyVaultUri, secretName).",
+          "Elimina credenciales del código fuente y del control de versiones Git.",
+          "Requiere permisos de RBAC: 'Key Vault Secrets User' sobre el almacén de claves.",
+          "Compatible con ejecuciones interactivas y programadas desde canalizaciones de datos."
+        ],
+        "examTrap": "No confundas notebookutils.credentials con variables de entorno del sistema operativo; getSecret realiza una llamada autenticada directa a Azure Key Vault.",
+        "searchQuery": "notebookutils credentials getSecret Microsoft Fabric Azure Key Vault"
+      },
+      "references": [
+        {
+          "title": "Microsoft Spark Utilities (notebookutils) in Fabric - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/notebook-utilities"
+        }
+      ]
+    },
+    {
+      "id": "DP700-042",
+      "certification": "DP-700",
+      "domain": "Ingest and transform data",
+      "topic": "Delta Lake Change Data Feed (CDF)",
+      "topicIcon": "lakehouse",
+      "tags": [
+        "Delta Lake",
+        "CDF",
+        "Streaming",
+        "CDC"
+      ],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "codeLanguage": "Python",
+      "codeSnippet": "# Leer cambios incrementales de una tabla Delta con CDF habilitado\ndf_changes = (spark.readStream\n    .format(\"delta\")\n    .option(\"readChangeFeed\", \"true\")\n    .option(\"startingVersion\", 10)\n    .table(\"Silver_Customers\"))",
+      "stem": "Analiza el código PySpark utilizado en una arquitectura Medallion en Microsoft Fabric. La tabla 'Silver_Customers' tiene habilitada la propiedad 'delta.enableChangeDataFeed = true'. Al consumir el flujo de cambios con 'readChangeFeed', ¿qué columnas adicionales de metadatos genera automáticamente Delta Lake para identificar el tipo de operación de cambio que afectó a cada registro?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "_change_type ('insert', 'update_preimage', 'update_postimage', 'delete'), _commit_version y _commit_timestamp.",
+          "isCorrect": true,
+          "rationale": "Delta Lake Change Data Feed (CDF) inyecta columnas de auditoría de CDC automáticas: '_change_type' (que indica si la fila fue insertada, eliminada o el estado antes/después de una actualización), '_commit_version' (versión de Delta) y '_commit_timestamp' (marca temporal del commit)."
+        },
+        {
+          "id": "opt_2",
+          "text": "sql_user_id, machine_ip_address y row_checksum_sha256.",
+          "isCorrect": false,
+          "rationale": "CDF registra información de auditoría de transacciones de datos, no direcciones IP ni hashes criptográficos de máquina."
+        },
+        {
+          "id": "opt_3",
+          "text": "Únicamente la columna booleana 'is_deleted'.",
+          "isCorrect": false,
+          "rationale": "CDF proporciona granularidad completa de 4 estados en _change_type, no solo una bandera booleana simple."
+        },
+        {
+          "id": "opt_4",
+          "text": "Un archivo log de texto externo almacenado en Azure Event Hubs.",
+          "isCorrect": false,
+          "rationale": "Los cambios se exponen como columnas del DataFrame columnar directamente en Apache Spark."
+        }
+      ],
+      "explanation": "Delta Lake Change Data Feed (CDF) permite capturar cambios de datos incrementales (CDC) fila a fila entre versiones de una tabla Delta. Es fundamental para propagar actualizaciones y eliminaciones ordenadas desde la capa Silver hacia modelos agregados en Gold.",
+      "theoryPill": {
+        "title": "Change Data Feed (CDF) en Delta Lake",
+        "summary": "Captura de cambios de datos nativa para pipelines eficientes.",
+        "keyPoints": [
+          "Habilitación: ALTER TABLE mi_tabla SET TBLPROPERTIES (delta.enableChangeDataFeed = true).",
+          "Columnas automáticas: _change_type, _commit_version, _commit_timestamp.",
+          "Valores de _change_type: 'insert', 'delete', 'update_preimage' (fila antes del cambio) y 'update_postimage' (fila tras el cambio).",
+          "Evita re-procesar tablas completas en la capa Gold cuando solo cambian algunas filas en Silver."
+        ],
+        "examTrap": "CDF no está habilitado por defecto en tablas Delta; debes habilitarlo explícitamente en las propiedades de la tabla antes de que comience a registrar pre-imágenes y post-imágenes.",
+        "searchQuery": "Delta Lake Change Data Feed readChangeFeed Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "Use Delta Lake Change Data Feed - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/change-data-feed"
+        }
+      ]
+    },
+    {
+      "id": "DP700-043",
+      "certification": "DP-700",
+      "domain": "Monitor and optimize an analytics solution",
+      "topic": "Spark AQE & Skew Join Optimization",
+      "topicIcon": "spark",
+      "tags": [
+        "Spark",
+        "AQE",
+        "Skew Join",
+        "Performance"
+      ],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "codeLanguage": "Python",
+      "codeSnippet": "# Configuración en Spark Session de Fabric\nspark.conf.set(\"spark.sql.adaptive.enabled\", \"true\")\nspark.conf.set(\"spark.sql.adaptive.skewJoin.enabled\", \"true\")",
+      "stem": "Durante la ejecución de un trabajo de Apache Spark que realiza un JOIN entre una tabla de ventas masiva (100 millones de filas) y una tabla de tiendas, observas en el Spark UI que 199 de las 200 tareas terminan en menos de 10 segundos, pero una única tarea ('straggler task') tarda más de 25 minutos debido a que una tienda específica ('Tienda Online Central') concentra el 45% de todas las ventas mundiales (sesgo de datos o data skew). ¿Cómo mitiga Adaptive Query Execution (AQE) con 'skewJoin.enabled' este cuello de botella automáticamente?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Detecta dinámicamente la partición desproporcionadamente grande durante el intercambio (shuffle) y la divide automáticamente en múltiples sub-particiones más pequeñas que se procesan en paralelo por varios ejecutores.",
+          "isCorrect": true,
+          "rationale": "La optimización de uniones con sesgo de AQE (Skew Join Optimization) supervisa las estadísticas del shuffle en tiempo de ejecución. Cuando detecta que una partición supera el umbral de sesgo, la divide en fragmentos menores y replica la fila correspondiente del otro lado del JOIN, permitiendo que múltiples núcleos procesen el sesgo en paralelo sin bloquear el trabajo."
+        },
+        {
+          "id": "opt_2",
+          "text": "Elimina automáticamente las ventas de la tienda conflictiva para que el trabajo finalice a tiempo.",
+          "isCorrect": false,
+          "rationale": "Spark nunca elimina datos de negocio legítimos para acelerar la computación."
+        },
+        {
+          "id": "opt_3",
+          "text": "Convierte la consulta en una macro de Excel para que se calcule localmente en la máquina del cliente.",
+          "isCorrect": false,
+          "rationale": "Excel no puede procesar 100 millones de filas ni se integra con el optimizador interno de Spark AQE."
+        },
+        {
+          "id": "opt_4",
+          "text": "Reinicia el nodo maestro de Spark cada vez que una tarea supera los 60 segundos.",
+          "isCorrect": false,
+          "rationale": "Reiniciar el nodo maestro provocaría el fallo catastrófico de todo el clúster y cancelaría la sesión."
+        }
+      ],
+      "explanation": "El sesgo de datos (data skew) es una de las causas más frecuentes de lentitud en Spark. AQE (Adaptive Query Execution), habilitado por defecto en Fabric, optimiza planes de ejecución en tiempo real mediante la unión con sesgo (skew join), coalescencia de particiones y conversión a broadcast join.",
+      "theoryPill": {
+        "title": "Optimización de Sesgo de Datos (Skew Join) con AQE en Fabric Spark",
+        "summary": "Mitigación automática de tareas lentas (stragglers) en Apache Spark.",
+        "keyPoints": [
+          "AQE está habilitado por defecto en los runtimes de Apache Spark en Microsoft Fabric.",
+          "Identifica particiones anormalmente grandes en comparación con la mediana de las particiones.",
+          "Divide la partición sesgada en trozos manejables y los procesa en paralelo.",
+          "Alternativa manual: 'Salting' (añadir un número aleatorio a la clave de join) cuando el motor no pueda balancear automáticamente."
+        ],
+        "examTrap": "Si AQE está deshabilitado explícitamente, la tarea con sesgo procesará todos los datos de esa clave en un solo hilo/core, provocando errores de OutOfMemory (OOM) o tiempos de espera infinitos.",
+        "searchQuery": "Adaptive Query Execution AQE skew join Apache Spark Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "Apache Spark performance tuning in Fabric - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/spark-performance-tuning"
+        }
+      ]
+    },
+    {
+      "id": "DP700-044",
+      "certification": "DP-700",
+      "domain": "Implement and manage an analytics solution",
+      "topic": "Real-Time Intelligence: Data Activator Reflexes",
+      "topicIcon": "kql",
+      "tags": [
+        "Data Activator",
+        "Reflex",
+        "Real-Time Intelligence",
+        "Alerts"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "En una solución de Real-Time Intelligence en Fabric, monitorizas la temperatura de servidores en un Eventhouse. Necesitas que, en el instante exacto en que la temperatura de cualquier servidor supere los 85°C durante más de 3 lecturas consecutivas, se envíe una alerta automática por Microsoft Teams a los técnicos de guardia y se active un webhook de remediación para apagar las cargas de trabajo no críticas. ¿Qué artefacto nativo de Fabric debes crear?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Un elemento de reflejo de Data Activator (Data Activator Reflex).",
+          "isCorrect": true,
+          "rationale": "Data Activator (cuyo artefacto se denomina 'Reflex') es el servicio de monitorización y disparo de acciones en tiempo real de Fabric. Se conecta directamente a Eventstreams, consultas KQL o visuales de Power BI para detectar patrones o umbrales en eventos y activar acciones automáticas (Teams, correo, Power Automate o Webhooks)."
+        },
+        {
+          "id": "opt_2",
+          "text": "Un modelo semántico de DirectQuery con refresco de página cada 24 horas.",
+          "isCorrect": false,
+          "rationale": "Un refresco diario no proporciona la capacidad de respuesta en tiempo real requerida para emergencias de hardware."
+        },
+        {
+          "id": "opt_3",
+          "text": "Una regla de cortafuegos de Azure Virtual Network.",
+          "isCorrect": false,
+          "rationale": "Las reglas de cortafuegos bloquean puertos y tráfico de red; no evalúan telemetría IoT ni envían alertas a Teams."
+        },
+        {
+          "id": "opt_4",
+          "text": "Un acceso directo de OneLake apuntando a un bucket de Amazon S3.",
+          "isCorrect": false,
+          "rationale": "Los accesos directos virtualizan datos en OneLake, no actúan como motores de reglas de eventos."
+        }
+      ],
+      "explanation": "Data Activator permite pasar de la observación pasiva (dashboards) a la acción proactiva en tiempo real. Monitoriza continuamente las fuentes de datos de Fabric y ejecuta acciones automáticas cuando se cumplen las condiciones configuradas en un elemento 'Reflex'.",
+      "theoryPill": {
+        "title": "Data Activator (Reflex) en Real-Time Intelligence",
+        "summary": "Detección de patrones y automatización de acciones basadas en eventos.",
+        "keyPoints": [
+          "Artefacto: 'Reflex' en el área de trabajo de Fabric.",
+          "Fuentes compatibles: Eventstreams, KQL Database / Eventhouse, informes y paneles de Power BI.",
+          "Componentes: Eventos (datos brutos), Objetos (entidad de negocio como 'Servidor'), Disparadores (Triggers que evalúan condiciones) y Acciones.",
+          "Acciones admitidas: Mensajes en Microsoft Teams, correos electrónicos, flujos de Power Automate o llamadas a Webhooks HTTP."
+        ],
+        "examTrap": "No confundas las alertas de métricas de Power BI clásicas (que solo comprueban valores en tarjetas tras un refresco de informe) con Data Activator Reflex, que evalúa transmisiones continuas de eventos al milisegundo.",
+        "searchQuery": "What is Data Activator Microsoft Fabric Real-Time Intelligence"
+      },
+      "references": [
+        {
+          "title": "What is Data Activator? - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/real-time-intelligence/data-activator/data-activator-introduction"
+        }
+      ]
+    },
+    {
+      "id": "DP700-045",
+      "certification": "DP-700",
+      "domain": "Ingest and transform data",
+      "topic": "Eventstream Content-Based Routing",
+      "topicIcon": "kql",
+      "tags": [
+        "Eventstreams",
+        "Routing",
+        "Architecture",
+        "Lakehouse"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un Fabric Eventstream recibe transacciones financieras globales en tiempo real. La arquitectura de datos requiere implementar un patrón de ruta doble (Lambda / Kappa): las transacciones estándar de clientes deben almacenarse en un Lakehouse en formato Delta para análisis por lotes y auditoría histórica (ruta fría/tibia), mientras que las transacciones marcadas con 'IsFraudAlert == true' deben enviarse inmediatamente a un KQL Database con latencia mínima para análisis forense interactivo (ruta caliente). ¿Cómo debes configurar el flujo en el editor visual de Eventstream?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Añadir un operador de filtro/enrutamiento en el lienzo de Eventstream que bifurque el flujo: una rama con filtro 'IsFraudAlert == true' con destino al KQL Database, y la rama principal con destino a la tabla Delta del Lakehouse.",
+          "isCorrect": true,
+          "rationale": "Fabric Eventstreams admite múltiples destinos en paralelo desde el mismo lienzo. Mediante operadores de transformación y filtrado basados en contenido, es posible derivar eventos críticos en tiempo real hacia Eventhouse (KQL) mientras se persiste la totalidad o el flujo normal en un Lakehouse."
+        },
+        {
+          "id": "opt_2",
+          "text": "Crear dos áreas de trabajo de Fabric en diferentes continentes y duplicar el ancho de banda de la red.",
+          "isCorrect": false,
+          "rationale": "Duplicar áreas de trabajo geográficamente no realiza el enrutamiento lógico por contenido de eventos."
+        },
+        {
+          "id": "opt_3",
+          "text": "Configurar una tarea de SQL Server Agent en una máquina virtual de Azure.",
+          "isCorrect": false,
+          "rationale": "No utiliza las capacidades nativas sin servidor de Eventstream en Fabric."
+        },
+        {
+          "id": "opt_4",
+          "text": "Los Eventstreams solo pueden enviar datos a un único destino a la vez.",
+          "isCorrect": false,
+          "rationale": "Un único Eventstream puede emitir datos simultáneamente a múltiples destinos (Lakehouses, KQL Databases, Custom Endpoints)."
+        }
+      ],
+      "explanation": "El lienzo sin código de Fabric Eventstream permite crear transformaciones complejas con bifurcación de flujos hacia múltiples destinos nativos (Lakehouses, KQL Databases, Reflex) permitiendo arquitecturas Kappa/Lambda unificadas.",
+      "theoryPill": {
+        "title": "Enrutamiento Multidestino en Fabric Eventstreams",
+        "summary": "Arquitectura híbrida de ingesta para streaming continuo y persistencia Delta.",
+        "keyPoints": [
+          "Un origen puede alimentar múltiples destinos concurrentes.",
+          "Destino KQL Database: Ideal para análisis interactivo sub-segundo con sintaxis Kusto.",
+          "Destino Lakehouse: Escribe directamente en tablas Delta en OneLake para procesamiento masivo por lotes.",
+          "Destino Data Activator: Para detección inmediata de condiciones de alerta.",
+          "Transformaciones intermedias: Filter, Manage Fields, Aggregate, Union y Expand."
+        ],
+        "examTrap": "Para escribir en tablas Delta de Lakehouse desde Eventstream, los tipos de datos de los campos de entrada deben coincidir con el esquema Delta de destino para evitar descarte de registros.",
+        "searchQuery": "Eventstream routing destinations lakehouse kql database Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "Add and manage destinations in an eventstream - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/real-time-intelligence/event-streams/add-destination"
+        }
+      ]
+    },
+    {
+      "id": "DP700-046",
+      "certification": "DP-700",
+      "domain": "Ingest and transform data",
+      "topic": "KQL mv-expand Operator for Dynamic Arrays",
+      "topicIcon": "kql",
+      "tags": [
+        "KQL",
+        "mv-expand",
+        "JSON",
+        "Arrays"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "codeLanguage": "KQL",
+      "codeSnippet": "Orders\n| project OrderID, Items // Items es de tipo dynamic: [{\"Item\":\"A\", \"Qty\":2}, {\"Item\":\"B\", \"Qty\":5}]\n| mv-expand Items\n| project OrderID, ItemName = tostring(Items.Item), Quantity = toint(Items.Qty)",
+      "stem": "En un Eventhouse de Fabric, la tabla 'Orders' almacena una columna de tipo 'dynamic' llamada 'Items' que contiene una matriz JSON con los artículos comprados en cada pedido. Necesitas aplanar (desanidar) esta matriz para que cada artículo se convierta en una fila independiente asociada a su 'OrderID'. ¿Qué operador de Kusto Query Language (KQL) realiza esta operación en la consulta mostrada?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "mv-expand (Multi-Value Expand).",
+          "isCorrect": true,
+          "rationale": "El operador 'mv-expand' expande matrices dinámicas (dynamic arrays) o bolsas de propiedades (property bags) de modo que cada elemento de la colección genera una nueva fila en el conjunto de resultados, duplicando el resto de columnas de la fila original."
+        },
+        {
+          "id": "opt_2",
+          "text": "summarize count().",
+          "isCorrect": false,
+          "rationale": "summarize realiza agregaciones y reducción de filas, no desanidado de matrices dinámicas."
+        },
+        {
+          "id": "opt_3",
+          "text": "fork.",
+          "isCorrect": false,
+          "rationale": "fork bifurca la ejecución de una consulta hacia múltiples operadores de salida paralelos."
+        },
+        {
+          "id": "opt_4",
+          "text": "render barchart.",
+          "isCorrect": false,
+          "rationale": "render barchart genera visualizaciones gráficas de barras, no transforma tipos de datos dinámicos."
+        }
+      ],
+      "explanation": "El operador `mv-expand` en KQL es el equivalente funcional de `EXPLODE()` en Apache Spark o `UNNEST()` en SQL estándar. Es indispensable para trabajar con telemetría y mensajes JSON en Eventhouse.",
+      "theoryPill": {
+        "title": "Operador mv-expand en Kusto Query Language (KQL)",
+        "summary": "Desanidado de matrices y listas dinámicas en bases de datos KQL.",
+        "keyPoints": [
+          "Convierte cada elemento de un array JSON en una fila independiente.",
+          "Sintaxis: Tabla | mv-expand ColumnaDinamica.",
+          "Permite acceder a propiedades internas con notación de punto: Items.Item, tostring(), toint().",
+          "Soporta la opción 'bagexpansion = bag' para desanidar objetos de propiedades."
+        ],
+        "examTrap": "Si el campo es una cadena de texto en lugar de un tipo dynamic nativo, debes invocar primero parse_json() antes de aplicar mv-expand.",
+        "searchQuery": "mv-expand operator KQL Kusto Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "mv-expand operator - Azure Data Explorer & Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/kusto/query/mvexpand-operator"
+        }
+      ]
+    },
+    {
+      "id": "DP700-047",
+      "certification": "DP-700",
+      "domain": "Ingest and transform data",
+      "topic": "KQL arg_max & arg_min for Deduplication",
+      "topicIcon": "kql",
+      "tags": [
+        "KQL",
+        "arg_max",
+        "Deduplication",
+        "Latest State"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "codeLanguage": "KQL",
+      "codeSnippet": "DeviceTelemetry\n| summarize arg_max(Timestamp, *) by DeviceID",
+      "stem": "Analiza la consulta KQL mostrada ejecutada sobre una base de datos KQL en Fabric Eventhouse. ¿Cuál es el propósito y resultado de utilizar la función de agregación 'arg_max(Timestamp, *) by DeviceID'?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Devuelve la última lectura más reciente registrada para cada dispositivo (DeviceID), deduplicando el flujo y reteniendo todas las demás columnas ('*') de la fila que contiene la marca temporal máxima.",
+          "isCorrect": true,
+          "rationale": "La función de agregación arg_max(ExpresionMax, [Columnas]) encuentra la fila donde la primera expresión alcanza el valor máximo dentro de cada grupo ('by DeviceID') y devuelve las columnas especificadas (el comodín '*' incluye todas las columnas del registro)."
+        },
+        {
+          "id": "opt_2",
+          "text": "Calcula el valor promedio de la temperatura de los dispositivos a lo largo de un año.",
+          "isCorrect": false,
+          "rationale": "arg_max no calcula medias; identifica el registro correspondiente al máximo de la clave indicada."
+        },
+        {
+          "id": "opt_3",
+          "text": "Elimina permanentemente los registros antiguos de la base de datos física.",
+          "isCorrect": false,
+          "rationale": "arg_max es un operador de consulta de lectura; no altera el almacenamiento físico de la tabla."
+        },
+        {
+          "id": "opt_4",
+          "text": "Ordena la tabla en orden alfabético inverso por el identificador del dispositivo.",
+          "isCorrect": false,
+          "rationale": "El ordenamiento en KQL se realiza con 'order by' o 'sort by', no con 'summarize arg_max'."
+        }
+      ],
+      "explanation": "El patrón `summarize arg_max(Timestamp, *) by Entidad` es el estándar en KQL para obtener el estado actual o más reciente de dispositivos IoT, transacciones o sesiones en arquitecturas de tiempo real.",
+      "theoryPill": {
+        "title": "Deduplicación y Último Estado con arg_max() en KQL",
+        "summary": "Obtención del registro más reciente por entidad sin joins costosos.",
+        "keyPoints": [
+          "arg_max(CampoOrden, ColumnasARetener): Localiza la fila con el máximo valor del campo.",
+          "Comodín '*': Retorna todas las columnas de esa fila ganadora.",
+          "arg_min(): Hace exactamente lo opuesto, devolviendo la fila con el valor mínimo.",
+          "Rendimiento excepcional en Kusto: Mucho más rápido que un subquery correlacionado o ROW_NUMBER() en SQL tradicional."
+        ],
+        "examTrap": "Si pones arg_max(Timestamp, Temperatura) solo devolverá la temperatura y el DeviceID; para retener todas las columnas del evento debes usar el asterisco: arg_max(Timestamp, *).",
+        "searchQuery": "arg_max aggregation function KQL Kusto Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "arg_max() (aggregation function) - Azure Data Explorer & Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/kusto/query/arg-max-aggfunction"
+        }
+      ]
+    },
+    {
+      "id": "DP700-048",
+      "certification": "DP-700",
+      "domain": "Implement and manage an analytics solution",
+      "topic": "Fabric Spark Custom Environments",
+      "topicIcon": "spark",
+      "tags": [
+        "Spark",
+        "Environment",
+        "Libraries",
+        "Conda"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un equipo de ingenieros de datos en Fabric utiliza con frecuencia librerías de Python no preinstaladas (como 'great_expectations' y 'delta-rs') en múltiples cuadernos Spark de un área de trabajo. En lugar de instalar las dependencias manualmente en cada cuaderno usando comandos '%pip install' (lo cual ralentiza el inicio de las sesiones hasta en 3 minutos cada vez), ¿qué práctica recomendada oficial de Fabric debes implementar?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Crear un artefacto de 'Entorno' (Environment) en el área de trabajo de Fabric, definir las dependencias en la sección de bibliotecas públicas (PyPI/Conda YAML), publicarlo y asociarlo como entorno predeterminado del área de trabajo o de los cuadernos.",
+          "isCorrect": true,
+          "rationale": "Los artefactos de tipo 'Environment' en Fabric permiten preconfigurar runtimes de Spark, dependencias de Python (vía PyPI o archivos conda.yaml) y bibliotecas JAR personalizadas. Al publicarse, se precompilan en las imágenes base del clúster eliminando el retraso de instalación en cada arranque de cuaderno."
+        },
+        {
+          "id": "opt_2",
+          "text": "Subir los archivos .whl binarios a la carpeta 'Files' del Lakehouse y pedir a los usuarios que configuren sys.path manualmente en cada celda.",
+          "isCorrect": false,
+          "rationale": "Modificar sys.path manualmente es frágil, propenso a errores y no gestiona dependencias transitivas ni ejecutores de Spark."
+        },
+        {
+          "id": "opt_3",
+          "text": "Crear un contenedor Docker local y ejecutarlo en el ordenador portátil del analista.",
+          "isCorrect": false,
+          "rationale": "Las cargas de trabajo de Fabric Spark se ejecutan en la infraestructura de nube de Fabric, no en contenedores locales de laptops."
+        },
+        {
+          "id": "opt_4",
+          "text": "Configurar una máquina virtual Linux en Amazon Web Services.",
+          "isCorrect": false,
+          "rationale": "No utiliza las capacidades nativas gobernadas de entornos Spark de Microsoft Fabric."
+        }
+      ],
+      "explanation": "Los artefactos de tipo 'Environment' (Entornos de Spark) en Fabric estandarizan el software en todo el equipo. Permiten fijar versiones de paquetes, configurar propiedades de Spark (`spark.conf`) y reutilizar la configuración en múltiples cuadernos y trabajos de definición de Spark (Spark Job Definitions).",
+      "theoryPill": {
+        "title": "Gestión de Entornos Personalizados (Environments) en Fabric Spark",
+        "summary": "Estandarización y aceleración de bibliotecas en clústeres Spark.",
+        "keyPoints": [
+          "Artefacto 'Environment': Se crea en el Workspace como cualquier otro elemento de Fabric.",
+          "Soporte de bibliotecas: Paquetes públicos (PyPI, Conda) y paquetes personalizados (archivos .whl y .jar).",
+          "Aceleración: Las bibliotecas se preinstalan al publicar el entorno; los cuadernos asociados inician de inmediato sin ejecutar pip install.",
+          "Asociación flexible: Puede asignarse a nivel de toda el área de trabajo o especificarse individualmente por cuaderno."
+        ],
+        "examTrap": "Modificar un entorno requiere pulsar 'Publicar' (Publish); hasta que el proceso de compilación del entorno finalice, los cuadernos seguirán utilizando la versión anterior.",
+        "searchQuery": "Create and manage environments in Microsoft Fabric Spark libraries"
+      },
+      "references": [
+        {
+          "title": "Create, configure, and use an environment in Microsoft Fabric - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/create-and-use-environment"
+        }
+      ]
+    },
+    {
+      "id": "DP700-049",
+      "certification": "DP-700",
+      "domain": "Ingest and transform data",
+      "topic": "Delta Lake Schema Evolution with mergeSchema",
+      "topicIcon": "lakehouse",
+      "tags": [
+        "Delta Lake",
+        "Schema Evolution",
+        "mergeSchema",
+        "Spark"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "codeLanguage": "Python",
+      "codeSnippet": "(df_new_data.write\n    .format(\"delta\")\n    .mode(\"append\")\n    .option(\"mergeSchema\", \"true\")\n    .saveAsTable(\"Silver_Transactions\"))",
+      "stem": "En un pipeline de ingesta en Fabric Lakehouse, la tabla Delta 'Silver_Transactions' recibe un nuevo lote de datos que incluye dos columnas adicionales que no existían en las versiones previas de la tabla. Por defecto, Delta Lake aplica cumplimiento estricto de esquema (schema enforcement) y rechaza la escritura con un error 'AnalysisException: A schema mismatch detected'. En el código mostrado se utiliza la opción '.option(\"mergeSchema\", \"true\")'. ¿Cuál es el resultado de esta operación?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Evolución de esquema (Schema Evolution): las dos nuevas columnas se incorporan automáticamente a la tabla Delta existente; los registros históricos previos mostrarán valores NULL en estas nuevas columnas.",
+          "isCorrect": true,
+          "rationale": "La opción 'mergeSchema = true' habilita la evolución de esquema en Delta Lake. Añade las nuevas columnas al esquema de la tabla de forma compatible hacia atrás; las filas antiguas preexistentes no se reescriben y simplemente presentan NULL en los nuevos atributos."
+        },
+        {
+          "id": "opt_2",
+          "text": "Sobrescribe la tabla eliminando todos los datos anteriores y conservando únicamente el lote nuevo.",
+          "isCorrect": false,
+          "rationale": "El modo es .mode('append'), por lo que no sobrescribe datos previos."
+        },
+        {
+          "id": "opt_3",
+          "text": "Convierte los datos en un archivo JSON plano sin formato Delta.",
+          "isCorrect": false,
+          "rationale": "El formato sigue siendo .format('delta') respetando la estructura transaccional."
+        },
+        {
+          "id": "opt_4",
+          "text": "La operación falla porque Delta Lake no admite agregar nuevas columnas a tablas existentes.",
+          "isCorrect": false,
+          "rationale": "Delta Lake admite completamente evolución de esquema mediante mergeSchema tanto en escrituras por lotes como en streaming."
+        }
+      ],
+      "explanation": "Delta Lake protege la integridad de los datos mediante `schema enforcement` para evitar que datos erróneos corrompan una tabla. Cuando el cambio de esquema es deliberado (ej. nuevas métricas o atributos), se utiliza `mergeSchema` para aplicar evolución controlada.",
+      "theoryPill": {
+        "title": "Cumplimiento de Esquema (Enforcement) vs Evolución (mergeSchema) en Delta Lake",
+        "summary": "Gestión de cambios de esquema en arquitecturas de lago de datos.",
+        "keyPoints": [
+          "Schema Enforcement (predeterminado): Rechaza escrituras si las columnas o tipos de datos difieren del esquema registrado.",
+          "Schema Evolution (.option('mergeSchema', 'true')): Incorpora automáticamente nuevas columnas sin romper compatibilidad.",
+          "Filas antiguas: Se leen automáticamente con valores NULL para las nuevas columnas añadidas.",
+          "También configurable a nivel de sesión con: spark.conf.set('spark.databricks.delta.schema.autoMerge.enabled', 'true')."
+        ],
+        "examTrap": "mergeSchema permite agregar nuevas columnas o relajar tipos compatibles (ej. Byte a Integer), pero NO permite cambiar tipos de datos incompatibles (ej. cambiar String a Double sobreescribiendo datos existentes).",
+        "searchQuery": "Delta Lake schema enforcement and schema evolution mergeSchema Fabric"
+      },
+      "references": [
+        {
+          "title": "Delta Lake schema enforcement and evolution - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/databricks/delta/update-schema"
+        }
+      ]
+    },
+    {
+      "id": "DP700-050",
+      "certification": "DP-700",
+      "domain": "Implement and manage an analytics solution",
+      "topic": "OneLake External Shortcuts to Amazon S3",
+      "topicIcon": "onelake",
+      "tags": [
+        "OneLake",
+        "Shortcuts",
+        "Amazon S3",
+        "Multi-Cloud"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Una empresa almacena datos en un bucket de Amazon Web Services (AWS) S3. Deseas crear un acceso directo externo de OneLake (External Shortcut) en un Fabric Lakehouse para que los ingenieros puedan consultar las tablas Delta de S3 utilizando Spark y el SQL Analytics Endpoint sin mover los datos a Azure. ¿Qué dos métodos de autenticación admite oficialmente Microsoft Fabric para conectarse a Amazon S3 en la creación de shortcuts?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Claves de acceso de IAM de AWS (Access Key ID y Secret Access Key) o un Rol de IAM de AWS con relación de confianza de OpenID Connect / ID del inquilino (Role ARN).",
+          "isCorrect": true,
+          "rationale": "Fabric admite autenticación contra Amazon S3 mediante claves de acceso de usuario de IAM o mediante delegación de roles de IAM de AWS (Role ARN) utilizando identidades federadas compatibles con Microsoft Entra ID para mayor seguridad empresarial sin credenciales permanentes."
+        },
+        {
+          "id": "opt_2",
+          "text": "Únicamente contraseñas de Microsoft 365 de los analistas de datos.",
+          "isCorrect": false,
+          "rationale": "AWS S3 es un servicio externo de Amazon Web Services que no valida directamente contraseñas interactivas de M365."
+        },
+        {
+          "id": "opt_3",
+          "text": "Certificados autofirmados X.509 instalados en el navegador local.",
+          "isCorrect": false,
+          "rationale": "La conexión se efectúa entre los clústeres de nube de Fabric y el servicio AWS S3; no depende de certificados en navegadores de usuarios."
+        },
+        {
+          "id": "opt_4",
+          "text": "Los accesos directos a AWS S3 están prohibidos por el protocolo OneLake.",
+          "isCorrect": false,
+          "rationale": "OneLake admite accesos directos nativos de primer nivel hacia Amazon S3, Google Cloud Storage (GCS) y Azure Data Lake Storage Gen2."
+        }
+      ],
+      "explanation": "Los accesos directos externos de OneLake hacia Amazon S3 permiten construir una arquitectura de datos multinube sin duplicación. Los datos permanecen en AWS S3 mientras que los metadatos y la computación analítica se ejecutan en Microsoft Fabric.",
+      "theoryPill": {
+        "title": "Accesos Directos a Amazon S3 en OneLake",
+        "summary": "Arquitectura multinube unificada con virtualización de OneLake.",
+        "keyPoints": [
+          "Soporta lectura directa de buckets estándar de Amazon S3.",
+          "Autenticación: Claves de acceso de IAM (Access Key / Secret Key) o Asunción de Rol de IAM (Role ARN) recomendado.",
+          "Si los datos en S3 están en formato Delta Lake, Fabric los reconoce automáticamente como tablas gestionadas.",
+          "La egress de datos (tráfico de salida) se factura en la cuenta de AWS del cliente."
+        ],
+        "examTrap": "Para crear un shortcut en la sección 'Tables' del Lakehouse hacia un bucket S3, la ruta de S3 debe contener una tabla válida en formato Delta (con su carpeta _delta_log); de lo contrario debe crearse bajo la carpeta 'Files'.",
+        "searchQuery": "Create an Amazon S3 shortcut OneLake Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "Create an Amazon S3 shortcut - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/onelake/create-s3-shortcut"
+        }
+      ]
+    },
+    {
+      "id": "DP700-036",
+      "certification": "DP-700",
+      "domain": "Ingest and transform data",
+      "topic": "Eventstream Windowing Functions",
+      "topicIcon": "kql",
+      "tags": [
+        "Eventstreams",
+        "Windowing",
+        "Tumbling",
+        "Streaming"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un flujo de telemetría IoT de sensores industriales emite lecturas cada 2 segundos a un Fabric Eventstream. Necesitas calcular la temperatura promedio registrada por cada máquina en ventanas de tiempo contiguas, discretas y que no se superpongan entre sí (por ejemplo, de 10:00 a 10:05, luego de 10:05 a 10:10). ¿Qué tipo de ventana de transmisión debes configurar en el editor sin código de Eventstream?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Ventana de Salto Fijo (Tumbling Window).",
+          "isCorrect": true,
+          "rationale": "Las ventanas fijas o de caída (Tumbling Windows) tienen una duración fija predefinida, son continuas y no se superponen en el tiempo; cada evento pertenece a una única ventana."
+        },
+        {
+          "id": "opt_2",
+          "text": "Ventana Deslizante (Sliding Window).",
+          "isCorrect": false,
+          "rationale": "Las ventanas deslizantes se generan con cada evento que entra o sale de la ventana, superponiéndose continuamente."
+        },
+        {
+          "id": "opt_3",
+          "text": "Ventana de Salto Periódico (Hopping Window).",
+          "isCorrect": false,
+          "rationale": "Las ventanas de salto (Hopping Windows) avanzan por un intervalo menor a su duración total, por lo que sí se superponen."
+        },
+        {
+          "id": "opt_4",
+          "text": "Ventana de Sesión (Session Window).",
+          "isCorrect": false,
+          "rationale": "Las ventanas de sesión agrupan eventos por períodos de inactividad, no por duración temporal fija."
+        }
+      ],
+      "explanation": "En Fabric Eventstreams, la transformación 'Group by' permite elegir tipos de ventanas temporales: Tumbling (longitud fija sin solapamiento), Hopping (longitud fija con salto periódico y solapamiento) y Sliding (evaluación con cada cambio). Para intervalos discretos sin solapamiento se utiliza Tumbling.",
+      "theoryPill": {
+        "title": "Tipos de Ventanas Temporales en Fabric Eventstreams",
+        "summary": "Agregaciones en tiempo real para flujos continuos de datos.",
+        "keyPoints": [
+          "Tumbling Window: Tamaño fijo, consecutivas, sin huecos ni solapamientos (ej. cada 5 min exactos).",
+          "Hopping Window: Tamaño fijo que avanza a saltos regulares (ej. ventana de 5 min que avanza cada 1 min, generando solapamientos).",
+          "Sliding Window: Evalúa condiciones solo cuando un evento entra o expira de la ventana.",
+          "Se configuran visualmente en el operador Aggregate/Group By del lienzo de Eventstream."
+        ],
+        "examTrap": "Cuidado con confundir Tumbling con Hopping: si el enunciado especifica que las ventanas 'no se superponen', la respuesta es obligatoriamente Tumbling Window.",
+        "searchQuery": "Eventstream windowing functions tumbling hopping sliding Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "Process events with streaming functions - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/real-time-intelligence/event-streams/transform-events"
+        }
+      ]
+    },
+    {
+      "id": "DP700-037",
+      "certification": "DP-700",
+      "domain": "Ingest and transform data",
+      "topic": "KQL Database Ingestion Batching Policy",
+      "topicIcon": "kql",
+      "tags": [
+        "Eventhouse",
+        "KQL",
+        "Ingestion Batching Policy",
+        "Latency"
+      ],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "codeLanguage": "KQL",
+      "codeSnippet": ".alter table Telemetry policy ingestionbatching @'{\"MaximumBatchingTimeSpan\":\"00:00:10\", \"MaximumNumberOfItems\": 1000, \"MaximumRawDataSizeMB\": 250}'",
+      "stem": "En un Eventhouse de Fabric, se ingieren millones de eventos por segundo hacia la tabla 'Telemetry'. Por defecto, los eventos tardan hasta 5 minutos en optimizarse y consolidarse antes de estar disponibles para consulta. Para reducir la latencia de disponibilidad a un máximo de 10 segundos a expensas de un mayor número de pequeñas transacciones de almacenamiento, ejecutas el comando KQL mostrado. ¿Qué directiva del motor Kusto estás modificando?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "La directiva de procesamiento por lotes de ingesta (Ingestion Batching Policy).",
+          "isCorrect": true,
+          "rationale": "La directiva de procesamiento por lotes (Ingestion Batching Policy) controla cuándo se sella un lote de ingesta en función del tiempo máximo transcurrido (MaximumBatchingTimeSpan), número de elementos (MaximumNumberOfItems) o tamaño de datos brutos (MaximumRawDataSizeMB). Al reducir MaximumBatchingTimeSpan a 10 segundos, los datos se sellan y hacen consultables con mucha menor latencia."
+        },
+        {
+          "id": "opt_2",
+          "text": "La directiva de retención de datos en caché fría (Data Retention Policy).",
+          "isCorrect": false,
+          "rationale": "La directiva de retención define cuándo se eliminan los datos por antigüedad, no la latencia de ingesta."
+        },
+        {
+          "id": "opt_3",
+          "text": "La directiva de particionamiento relacional de Azure SQL.",
+          "isCorrect": false,
+          "rationale": "Eventhouse utiliza el motor Kusto y tablas de extensiones de datos (extents/shards), no tablas relacionales de Azure SQL."
+        },
+        {
+          "id": "opt_4",
+          "text": "El plan de ejecución de Spark Streaming.",
+          "isCorrect": false,
+          "rationale": "El comando '.alter table policy ingestionbatching' es nativo del motor KQL/Kusto, no de Apache Spark."
+        }
+      ],
+      "explanation": "El motor KQL Database en Fabric agrupa los datos entrantes en lotes para optimizar la compresión columnar y reducir fragmentación. La directiva `ingestionbatching` permite equilibrar latencia (datos disponibles más rápido) frente a rendimiento de compresión.",
+      "theoryPill": {
+        "title": "Directiva de Ingesta por Lotes (Ingestion Batching Policy) en KQL",
+        "summary": "Control de latencia frente a tamaño de fragmento en Eventhouse.",
+        "keyPoints": [
+          "Valores predeterminados típicos: 5 minutos, 500 elementos o 1 GB de datos brutos (lo que ocurra primero).",
+          "Para escenarios casi en tiempo real (NRT), se reduce el TimeSpan (ej. 10 a 30 segundos).",
+          "Alternativa de latencia cero: Ingesta en streaming (Streaming Ingestion), que evita por completo el sellado por lotes para casos de sub-segundo.",
+          "Se aplica a nivel de base de datos o sobre tablas individuales."
+        ],
+        "examTrap": "Reducir demasiado la ventana de tiempo de lote (ej. a 1 segundo) en cargas de datos masivas genera fragmentos muy pequeños (small extents) que degradan el rendimiento de consulta posterior a menos que el proceso de fusión interna los consolide.",
+        "searchQuery": "Kusto IngestionBatching policy Eventhouse Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "IngestionBatching policy - Azure Data Explorer & Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/kusto/management/ingestion-batching-policy"
+        }
+      ]
+    },
+    {
+      "id": "DP700-038",
+      "certification": "DP-700",
+      "domain": "Ingest and transform data",
+      "topic": "KQL Update Policy for In-Flight ETL",
+      "topicIcon": "kql",
+      "tags": [
+        "KQL",
+        "Update Policy",
+        "ETL",
+        "Eventhouse"
+      ],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "codeLanguage": "KQL",
+      "codeSnippet": ".alter table CuratedTelemetry policy update @'[{\n  \"IsEnabled\": true,\n  \"Source\": \"RawTelemetry\",\n  \"Query\": \"TransformTelemetry()\",\n  \"IsTransactional\": true\n}]'",
+      "stem": "En un Eventhouse de Fabric, los eventos brutos llegan en formato JSON a la tabla 'RawTelemetry'. Deseas que cada vez que se ingiera un lote de datos en 'RawTelemetry', se ejecute automáticamente una función KQL que extraiga propiedades, limpie valores nulos e inserte los datos depurados en la tabla de destino 'CuratedTelemetry' de forma inmediata y transaccional. ¿Qué mecanismo oficial de KQL Database implementa esta canalización interna?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "La directiva de actualización (Update Policy) asociada a la tabla de destino.",
+          "isCorrect": true,
+          "rationale": "Una directiva de actualización (Update Policy) en KQL funciona como un desencadenador ligero automatizado. Cada vez que entran datos en la tabla de origen, el motor ejecuta la función KQL definida y escribe los resultados procesados en la tabla de destino de forma atómica y continua."
+        },
+        {
+          "id": "opt_2",
+          "text": "Una canalización de Data Factory programada cada minuto con una actividad Lookup.",
+          "isCorrect": false,
+          "rationale": "Las canalizaciones programadas añaden latencia, consumen CUs adicionales de orquestación y no son en tiempo real."
+        },
+        {
+          "id": "opt_3",
+          "text": "Un trigger DDL de SQL Server.",
+          "isCorrect": false,
+          "rationale": "Eventhouse utiliza el motor KQL, no el motor relacional de SQL Server con triggers DDL."
+        },
+        {
+          "id": "opt_4",
+          "text": "Un cuaderno de PySpark con bucle infinito 'while True:'.",
+          "isCorrect": false,
+          "rationale": "Los bucles infinitos en cuadernos consumen sesiones de Spark costosas e inestables; la directiva de actualización es nativa y sin servidor."
+        }
+      ],
+      "explanation": "La directiva de actualización (Update Policy) es el patrón por excelencia de ETL en tiempo real dentro de KQL Databases. Permite recibir datos crudos en una tabla intermedia (con baja retención) y transformarlos automáticamente al vuelo hacia tablas curadas.",
+      "theoryPill": {
+        "title": "Directivas de Actualización (Update Policies) en KQL Database",
+        "summary": "ETL sin servidor en streaming dentro de Eventhouse.",
+        "keyPoints": [
+          "Se asocia a la tabla de destino y apunta a la tabla de origen.",
+          "Invoca una función KQL almacenada que recibe los datos recién ingresados.",
+          "Propiedad 'IsTransactional = true': Si la transformación falla, se rechaza la ingesta completa para garantizar consistencia.",
+          "Práctica recomendada: Asignar a la tabla de origen una retención de 0 días (SoftDeletePeriod = 0d) si solo sirve de receptor transitorio."
+        ],
+        "examTrap": "La directiva de actualización se configura en la tabla de DESTINO, no en la tabla de origen.",
+        "searchQuery": "Kusto update policy table ingestion Eventhouse Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "Kusto update policy - Azure Data Explorer & Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/kusto/management/update-policy"
+        }
+      ]
+    },
+    {
+      "id": "DP700-039",
+      "certification": "DP-700",
+      "domain": "Monitor and optimize an analytics solution",
+      "topic": "Delta Lake Liquid Clustering vs Partitioning",
+      "topicIcon": "lakehouse",
+      "tags": [
+        "Delta Lake",
+        "Liquid Clustering",
+        "CLUSTER BY",
+        "Spark"
+      ],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "codeLanguage": "SQL",
+      "codeSnippet": "-- Crear tabla Delta con Liquid Clustering en Fabric Spark\nCREATE TABLE Gold_Orders (\n    OrderID BIGINT,\n    CustomerID INT,\n    OrderDate DATE,\n    Region STRING,\n    TotalAmount DECIMAL(18,2)\n)\nUSING DELTA\nCLUSTER BY (OrderDate, CustomerID);",
+      "stem": "En Apache Spark en Microsoft Fabric, necesitas optimizar una tabla Delta de varios terabytes que se consulta frecuentemente por 'OrderDate' y por 'CustomerID'. Tradicionalmente se utilizaba 'PARTITIONED BY (OrderDate)', pero generaba problemas de sobreparticionamiento (small files) y sesgo de datos (skew). Decides utilizar Liquid Clustering con la sintaxis 'CLUSTER BY'. ¿Cuál es la principal ventaja arquitectónica de Liquid Clustering sobre el particionamiento físico tradicional?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Permite agrupar datos por múltiples columnas de alta cardinalidad sin crear jerarquías rígidas de subdirectorios físicos, adaptándose dinámicamente al tamaño de los datos y permitiendo redefinir las claves de agrupación sin reescribir toda la tabla.",
+          "isCorrect": true,
+          "rationale": "Liquid Clustering reemplaza el particionamiento de carpetas rígido y Z-ORDER. Almacena las claves de agrupación de manera flexible en los archivos Parquet, evita problemas de miles de carpetas pequeñas (small file problem) y permite alterar las columnas de CLUSTER BY con un simple ALTER TABLE sin reescribir datos históricos."
+        },
+        {
+          "id": "opt_2",
+          "text": "Convierte la tabla en una base de datos NoSQL basada en documentos JSON indexados por MongoDB.",
+          "isCorrect": false,
+          "rationale": "Liquid Clustering es una característica nativa del protocolo Delta Lake sobre archivos Parquet; no utiliza MongoDB."
+        },
+        {
+          "id": "opt_3",
+          "text": "Deshabilita el soporte para transacciones ACID para maximizar la velocidad de escritura sin comprobaciones.",
+          "isCorrect": false,
+          "rationale": "Delta Lake mantiene el 100% de cumplimiento ACID independientemente de si se usa Liquid Clustering o no."
+        },
+        {
+          "id": "opt_4",
+          "text": "Fuerza a que todos los datos se lean exclusivamente mediante el lenguaje KQL en Eventhouse.",
+          "isCorrect": false,
+          "rationale": "Liquid Clustering es compatible con todos los motores de Fabric: Apache Spark, SQL Analytics Endpoint y Direct Lake."
+        }
+      ],
+      "explanation": "Liquid Clustering (`CLUSTER BY`) es la evolución moderna del diseño físico de tablas Delta Lake. Elimina la limitación de elegir una sola columna de baja cardinalidad para particionar y previene la degradación por desequilibrio de particiones.",
+      "theoryPill": {
+        "title": "Agrupamiento Líquido (Liquid Clustering) en Delta Lake",
+        "summary": "Optimización física flexible sin sobreparticionamiento de directorios.",
+        "keyPoints": [
+          "Sintaxis: CLUSTER BY (col1, col2, col3, col4) - hasta 4 columnas recomendadas.",
+          "Ideal para columnas de alta cardinalidad (fechas, IDs de cliente, claves compuestas).",
+          "Mantenimiento simplificado: Se optimiza ejecutando periódicamente 'OPTIMIZE tabla'.",
+          "Claves cambiables: Se puede ejecutar ALTER TABLE para cambiar las columnas de cluster sin recargar datos antiguos."
+        ],
+        "examTrap": "No puedes usar PARTITIONED BY y CLUSTER BY simultáneamente en la misma tabla Delta; son mutuamente excluyentes.",
+        "searchQuery": "Delta Lake liquid clustering CLUSTER BY Microsoft Fabric Apache Spark"
+      },
+      "references": [
+        {
+          "title": "Use Liquid Clustering for Delta tables - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/liquid-clustering"
+        }
+      ]
+    },
+    {
+      "id": "DP700-040",
+      "certification": "DP-700",
+      "domain": "Ingest and transform data",
+      "topic": "Spark Structured Streaming Triggers & Checkpoints",
+      "topicIcon": "spark",
+      "tags": [
+        "Spark",
+        "Structured Streaming",
+        "Checkpoints",
+        "Trigger"
+      ],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "codeLanguage": "Python",
+      "codeSnippet": "query = (df_streaming.writeStream\n    .format(\"delta\")\n    .outputMode(\"append\")\n    .option(\"checkpointLocation\", \"Files/checkpoints/sales_stream\")\n    .trigger(availableNow=True)\n    .toTable(\"Bronze_Sales\"))",
+      "stem": "Analiza el fragmento de código PySpark ejecutado en un cuaderno de Microsoft Fabric. Se utiliza el modo de desencadenador '.trigger(availableNow=True)' junto con una ubicación de punto de comprobación (checkpointLocation). ¿Cuál es el comportamiento operativo de este trabajo de Structured Streaming y por qué es una alternativa económica a mantener una sesión de streaming continua 24/7?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Procesa todos los datos nuevos disponibles desde la última ejecución hasta agotarlos en micro-lotes eficientes y luego detiene la sesión de Spark automáticamente, permitiendo programar el cuaderno periódicamente sin consumir capacidad continua.",
+          "isCorrect": true,
+          "rationale": "El desencadenador 'availableNow=True' procesa de forma incremental todos los datos no leídos hasta el momento actual aprovechando el motor de streaming con checkpoints de compensación (offsets), y finaliza ordenadamente la sesión cuando no quedan eventos pendientes, evitando mantener clústeres Spark ociosos."
+        },
+        {
+          "id": "opt_2",
+          "text": "Mantiene el clúster de Spark activo permanentemente a la espera de nuevos eventos con latencia de milisegundos.",
+          "isCorrect": false,
+          "rationale": "Ese comportamiento corresponde a .trigger(processingTime='10 seconds') o continuo, no a availableNow=True que finaliza la ejecución."
+        },
+        {
+          "id": "opt_3",
+          "text": "Descarta todos los datos no procesados si la memoria RAM supera el 80%.",
+          "isCorrect": false,
+          "rationale": "Los checkpoints registran offsets garantizando procesamiento 'exactamente una vez' (exactly-once) sin pérdida de datos."
+        },
+        {
+          "id": "opt_4",
+          "text": "Ejecuta una consulta SQL solo si la tabla de destino está vacía.",
+          "isCorrect": false,
+          "rationale": "availableNow procesa datos incrementales en modo append continuo respetando el progreso previo guardado en el checkpoint."
+        }
+      ],
+      "explanation": "El desencadenador `availableNow=True` en Apache Spark Structured Streaming es el estándar de oro para ingesta incremental por lotes (micro-batching bajo demanda). Garantiza semántica 'exactly-once' sin el coste de computación de una capacidad consumiendo 24 horas al día.",
+      "theoryPill": {
+        "title": "Structured Streaming: trigger(availableNow=True) y Checkpoints",
+        "summary": "Procesamiento en streaming rentable con orquestación programada.",
+        "keyPoints": [
+          "checkpointLocation: Obligatorio para guardar los offsets de lectura y estado intermedio en OneLake.",
+          "availableNow=True: Supera a 'once=True' al procesar múltiples micro-lotes paralelizados en lugar de colapsar la memoria en una sola tanda masiva.",
+          "Ideal para invocar desde canalizaciones de Fabric (Fabric Data Pipelines) cada hora o cada noche.",
+          "Garantiza tolerancia a fallos y reanudación exacta tras caídas."
+        ],
+        "examTrap": "Si cambias la lógica de transformación de una consulta de streaming o la estructura de agregación de estado, debes limpiar o cambiar la ruta del checkpoint; de lo contrario Spark fallará por incompatibilidad de esquema de checkpoint.",
+        "searchQuery": "Structured Streaming trigger availableNow Spark Delta Lake Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "Apache Spark Structured Streaming in Fabric - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/spark-structured-streaming-overview"
+        }
+      ]
+    },
+    {
+      "id": "DP700-051",
+      "certification": "DP-700",
+      "domain": "Monitor and optimize an analytics solution",
+      "topic": "KQL Database Caching Policy (Hot vs Cold Cache)",
+      "topicIcon": "kql",
+      "tags": [
+        "KQL",
+        "Caching Policy",
+        "Hot Cache",
+        "Storage"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "codeLanguage": "KQL",
+      "codeSnippet": ".alter table ServerLogs policy caching hot = 14d",
+      "stem": "En un Eventhouse de Microsoft Fabric, la tabla 'ServerLogs' almacena 2 años de registros de auditoría y telemetría. El 95% de las consultas de los analistas se centran en los últimos 14 días, mientras que las consultas sobre datos más antiguos son esporádicas. Deseas optimizar el rendimiento y el consumo de recursos de cómputo en memoria SSD ultrarrápida. Para ello ejecutas el comando KQL mostrado. ¿Qué efecto tiene esta directiva de almacenamiento en caché?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Los datos de los últimos 14 días se conservan en la caché SSD local de alta velocidad (hot cache) para consultas instantáneas, mientras que los datos anteriores a 14 días y hasta 2 años se conservan en almacenamiento persistente estándar (cold storage) y se cargan bajo demanda si se consultan.",
+          "isCorrect": true,
+          "rationale": "La directiva de almacenamiento en caché (Caching Policy) de KQL define el período de retención en caliente (Hot Cache en memoria SSD/RAM). Los datos dentro de la ventana 'hot' se responden en milisegundos; los datos que superan este umbral se mantienen en almacenamiento frío (OneLake/Azure Blob) respetando la directiva de retención total (Retention Policy)."
+        },
+        {
+          "id": "opt_2",
+          "text": "Elimina permanentemente todos los datos anteriores a 14 días de la base de datos.",
+          "isCorrect": false,
+          "rationale": "La eliminación de datos la gestiona la directiva de retención (Retention Policy), no la directiva de caché (Caching Policy)."
+        },
+        {
+          "id": "opt_3",
+          "text": "Bloquea cualquier consulta que intente filtrar por fechas superiores a 14 días.",
+          "isCorrect": false,
+          "rationale": "Las consultas sobre datos en caché fría siguen funcionando con total normalidad, solo que con una pequeña latencia inicial de carga."
+        },
+        {
+          "id": "opt_4",
+          "text": "Convierte la tabla en un archivo comprimido ZIP enviado por correo al administrador.",
+          "isCorrect": false,
+          "rationale": "Eventhouse no envía tablas comprimidas por correo como política de caché."
+        }
+      ],
+      "explanation": "El motor KQL de Fabric separa la directiva de retención (tiempo total de vida de los datos antes de purgarse) de la directiva de caché caliente (`hot cache`). La caché caliente almacena los datos en discos SSD locales de alta velocidad para acelerar consultas analíticas interactivas.",
+      "theoryPill": {
+        "title": "Directivas de Almacenamiento en Caché (Caching Policy) en KQL",
+        "summary": "Equilibrio entre rendimiento de consulta en SSD y coste de almacenamiento en Eventhouse.",
+        "keyPoints": [
+          "Sintaxis: .alter table [NombreTabla] policy caching hot = [VentanaTemporal].",
+          "Hot Cache: Datos almacenados en SSD y memoria para consultas sub-segundo.",
+          "Cold Storage: Datos persistidos en almacenamiento masivo en OneLake que se consultan con menor frecuencia.",
+          "Diferencia fundamental con Retention Policy: La retención elimina datos; la caché solo decide dónde residen físicamente."
+        ],
+        "examTrap": "No confundas 'hot cache' con 'retention policy': modificar la directiva de caché a 7 días NO borra los datos del mes pasado; seguirán existiendo en almacenamiento frío hasta que expire la retención.",
+        "searchQuery": "Kusto caching policy hot cache Eventhouse Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "Caching policy (hot and cold cache) - Azure Data Explorer & Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/kusto/management/cache-policy"
+        }
+      ]
+    },
+    {
+      "id": "DP700-052",
+      "certification": "DP-700",
+      "domain": "Ingest and transform data",
+      "topic": "Notebook Parameterization in Fabric Pipelines",
+      "topicIcon": "spark",
+      "tags": [
+        "Notebooks",
+        "Pipelines",
+        "Parameters",
+        "Orchestration"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "codeLanguage": "Python",
+      "codeSnippet": "# Celda en un cuaderno de Fabric\nprocess_date = \"2026-01-01\"\nbatch_id = 100",
+      "stem": "Diseñas una canalización de datos (Fabric Data Pipeline) que orquesta la ejecución nocturna de un cuaderno de PySpark. Necesitas que la canalización pase dinámicamente la fecha del lote ('process_date') y el identificador ('batch_id') como parámetros al cuaderno en cada ejecución programada. ¿Qué configuración debes realizar en el cuaderno para que la actividad de cuaderno de la canalización pueda sobrescribir estos valores?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Asignar la etiqueta de celda de parámetros ('parameters' cell tag) a la celda que contiene las variables por defecto en el cuaderno de Fabric.",
+          "isCorrect": true,
+          "rationale": "Para parametrizar un cuaderno en Fabric y Synapse, se activa la opción 'Toggle parameter cell' (etiqueta 'parameters') en la celda donde se declaran las variables iniciales. Al invocar el cuaderno desde una canalización de datos, los parámetros pasados por la canalización se inyectan en una nueva celda generada inmediatamente a continuación, sobrescribiendo los valores predeterminados."
+        },
+        {
+          "id": "opt_2",
+          "text": "Escribir los valores en un archivo de texto en la unidad C:\\ de la máquina virtual.",
+          "isCorrect": false,
+          "rationale": "Las máquinas virtuales de Spark en la nube son efímeras y no comparten el disco local C:\\ con la canalización de datos."
+        },
+        {
+          "id": "opt_3",
+          "text": "Modificar el archivo requirements.txt del clúster de Spark.",
+          "isCorrect": false,
+          "rationale": "requirements.txt gestiona bibliotecas de software de Python, no parámetros dinámicos de ejecución."
+        },
+        {
+          "id": "opt_4",
+          "text": "Crear una función DAX en un modelo semántico de Power BI.",
+          "isCorrect": false,
+          "rationale": "DAX opera en modelos tabulares de Power BI, no en la orquestación de canalizaciones Spark de Data Factory."
+        }
+      ],
+      "explanation": "La parametrización de cuadernos en Fabric utiliza la convención estándar de Papermill: una celda etiquetada como `parameters`. Al programar el cuaderno en una canalización, la pestaña 'Settings' de la actividad 'Notebook' expone los parámetros base para asignar valores dinámicos o expresiones `@pipeline().parameters`.",
+      "theoryPill": {
+        "title": "Parametrización de Cuadernos en Fabric Data Pipelines",
+        "summary": "Paso dinámico de variables desde orquestadores hacia cuadernos Spark.",
+        "keyPoints": [
+          "Activación: Menú de tres puntos de la celda de código -> 'Toggle parameter cell' (etiqueta 'parameters').",
+          "Los valores de la celda actúan como valores predeterminados en ejecuciones interactivas manuales.",
+          "En la canalización: La actividad 'Notebook' permite mapear parámetros base con expresiones dinámicas (ej. @pipeline().TriggerTime).",
+          "Inyección: En tiempo de ejecución, se crea una celda inyectada tras la celda de parámetros que actualiza las variables."
+        ],
+        "examTrap": "Si no marcas la celda explícitamente con la etiqueta 'parameters', los parámetros configurados en la canalización serán ignorados y el cuaderno se ejecutará siempre con los valores fijos hardcodeados.",
+        "searchQuery": "Parameterize notebooks in Microsoft Fabric Data Factory pipelines"
+      },
+      "references": [
+        {
+          "title": "Develop, execute, and manage notebooks - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/how-to-use-notebook"
+        }
+      ]
+    },
+    {
+      "id": "DP700-053",
+      "certification": "DP-700",
+      "domain": "Ingest and transform data",
+      "topic": "Fabric Data Pipeline Webhook vs Web Activity",
+      "topicIcon": "pipeline",
+      "tags": [
+        "Pipeline",
+        "Webhook",
+        "Orchestration",
+        "Asynchronous"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "En una canalización de datos de Fabric, necesitas activar un trabajo externo de inferencia de aprendizaje automático en un servicio externo mediante una llamada REST POST. El trabajo externo puede tardar entre 45 minutos y 3 horas en completarse. La canalización debe esperar hasta que el trabajo termine exitosamente antes de continuar con la siguiente actividad. ¿Qué tipo de actividad debes utilizar?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "La actividad Webhook (Webhook Activity), que pasa un URI de llamada de retorno (callback URL) al servicio externo y suspende la ejecución de la canalización hasta recibir una notificación POST HTTP con el estado de finalización.",
+          "isCorrect": true,
+          "rationale": "La actividad Webhook está diseñada específicamente para procesos externos asincrónicos de larga duración. Envía un webhook con un identificador de llamada de retorno y espera indefinidamente (o hasta el timeout de hasta varios días) a que el sistema externo notifique a esa URL que el trabajo concluyó con éxito o error."
+        },
+        {
+          "id": "opt_2",
+          "text": "La actividad Web estándar con un bucle Until que consulte la API cada 100 milisegundos.",
+          "isCorrect": false,
+          "rationale": "Un sondeo continuo (polling) cada 100ms sobrecarga la red, consume CUs innecesarias y puede superar los límites de llamadas de la API externa."
+        },
+        {
+          "id": "opt_3",
+          "text": "La actividad Set Variable concatenando una cadena de texto vacía.",
+          "isCorrect": false,
+          "rationale": "Set Variable asigna valores en memoria dentro de la canalización; no realiza llamadas HTTP a servicios externos."
+        },
+        {
+          "id": "opt_4",
+          "text": "La actividad Delete borrando la base de datos de origen.",
+          "isCorrect": false,
+          "rationale": "Borrar la base de datos destruiría los datos y no tiene ninguna relación con esperar a un proceso externo."
+        }
+      ],
+      "explanation": "La actividad Webhook permite pausar una canalización de Fabric hasta que un servicio externo invoca la URL de callback generada. Es mucho más eficiente que la actividad Web sincrónica, la cual tiene un tiempo de espera máximo de 10 minutos para responder a peticiones HTTP.",
+      "theoryPill": {
+        "title": "Actividad Webhook vs Actividad Web en Fabric Pipelines",
+        "summary": "Patrones de integración síncronos frente a asíncronos en orquestación.",
+        "keyPoints": [
+          "Actividad Web (Sincrónica): Para llamadas cortas (timeout máximo de 10 minutos). La respuesta HTTP inmediata determina el éxito.",
+          "Actividad Webhook (Asincrónica): Para procesos de larga duración. Genera un callbackUri en el cuerpo de la solicitud.",
+          "El servicio externo debe enviar una petición POST al callbackUri con un JSON que contenga: { 'Output': {...} }.",
+          "Ahorra recursos: La canalización permanece en espera sin consumir CPU de cómputo activo mientras espera el callback."
+        ],
+        "examTrap": "La actividad Web tradicional falla con timeout tras 10 minutos; si el proceso externo tarda más de 10 minutos, es obligatorio utilizar la actividad Webhook.",
+        "searchQuery": "Webhook activity in Azure Data Factory and Microsoft Fabric pipelines"
+      },
+      "references": [
+        {
+          "title": "Webhook activity in Azure Data Factory and Fabric - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/data-factory/control-flow-webhook-activity"
+        }
+      ]
+    },
+    {
+      "id": "DP700-054",
+      "certification": "DP-700",
+      "domain": "Monitor and optimize an analytics solution",
+      "topic": "KQL Materialized Views for Real-Time Aggregations",
+      "topicIcon": "kql",
+      "tags": [
+        "KQL",
+        "Materialized Views",
+        "Eventhouse",
+        "Optimization"
+      ],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "codeLanguage": "KQL",
+      "codeSnippet": ".create materialized-view HourlyMetrics on table DeviceTelemetry\n{\n    DeviceTelemetry\n    | summarize AvgTemp = avg(Temperature), MaxTemp = max(Temperature), Count = count()\n      by DeviceID, bin(Timestamp, 1h)\n}",
+      "stem": "En un Eventhouse de Fabric, se consultan continuamente agregaciones horarias de telemetría sobre una tabla de 5.000 millones de filas. Ejecutar la agregación en tiempo real en cada consulta resulta costoso y ralentiza los paneles de control. Para acelerar las consultas a milisegundos, creas la vista materializada mostrada. ¿Cómo garantiza el motor KQL que los resultados de la vista materializada estén siempre 100% actualizados incluso con datos que se acaban de ingerir hace 1 segundo?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "En tiempo de consulta, el motor KQL combina automáticamente la parte pre-agregada y materializada en disco con los registros delta recién ingresados en la tabla de origen que aún no han sido procesados por el motor de materialización en segundo plano.",
+          "isCorrect": true,
+          "rationale": "Las vistas materializadas (Materialized Views) en KQL garantizan frescura de datos en tiempo real mediante un mecanismo híbrido inteligente: al consultar la vista, el motor combina los datos ya agregados en segundo plano con las filas recién ingeridas que aún no se han consolidado, devolviendo siempre el resultado completo y exacto sin latencia de desactualización."
+        },
+        {
+          "id": "opt_2",
+          "text": "Bloquea todas las inserciones en la tabla 'DeviceTelemetry' hasta que la vista materializada se recalcula cada 24 horas.",
+          "isCorrect": false,
+          "rationale": "Eventhouse nunca bloquea la ingesta de streaming para actualizar vistas materializadas."
+        },
+        {
+          "id": "opt_3",
+          "text": "Descarta los datos recién ingresados y solo muestra los datos de hace más de 24 horas.",
+          "isCorrect": false,
+          "rationale": "Las vistas materializadas no descartan datos recientes; proporcionan resultados actualizados al segundo."
+        },
+        {
+          "id": "opt_4",
+          "text": "Envía una copia de los datos a una hoja de cálculo compartida en SharePoint.",
+          "isCorrect": false,
+          "rationale": "SharePoint no interviene en el motor columnar distribuido de KQL Database."
+        }
+      ],
+      "explanation": "Las vistas materializadas en Kusto (`.create materialized-view`) son tablas precalculadas internamente que se actualizan de forma continua en segundo plano. A diferencia de las vistas estándar, no re-escanean millones de registros pasados en cada SELECT.",
+      "theoryPill": {
+        "title": "Vistas Materializadas en KQL Database (Eventhouse)",
+        "summary": "Pre-agregación continua de alto rendimiento con frescura en tiempo real.",
+        "keyPoints": [
+          "Sintaxis: .create materialized-view [Nombre] on table [Origen] { ConsultaDeAgregacion }.",
+          "Solo admiten funciones de agregación deterministas (ej. summarize avg, max, min, count, arg_max, take_any).",
+          "Auto-actualizables: El proceso de materialización en segundo plano consume poca CPU.",
+          "Consulta transparente: Consultar la vista materializada garantiza ver datos agregados hasta el último segundo sin re-escanear el histórico."
+        ],
+        "examTrap": "No puedes usar funciones de ventana complejas no agregadas o uniones arbitrarias entre múltiples tablas dentro de la definición de una vista materializada de KQL.",
+        "searchQuery": "Kusto materialized views overview Eventhouse Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "Materialized views - Azure Data Explorer & Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/kusto/management/materialized-views/materialized-view-overview"
+        }
+      ]
+    },
+    {
+      "id": "DP700-055",
+      "certification": "DP-700",
+      "domain": "Implement and manage an analytics solution",
+      "topic": "Fabric Lakehouse Multi-Schema Support",
+      "topicIcon": "lakehouse",
+      "tags": [
+        "Lakehouse",
+        "Schemas",
+        "Governance",
+        "Architecture"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "codeLanguage": "SQL",
+      "codeSnippet": "-- Habilitar compatibilidad multi-esquema en Lakehouse\nCREATE SCHEMA sales;\nCREATE SCHEMA inventory;\nCREATE TABLE sales.orders (id INT, amount DECIMAL) USING DELTA;",
+      "stem": "En un Fabric Lakehouse empresarial, deseas organizar más de 200 tablas en esquemas lógicos organizados (como 'sales', 'finance' e 'inventory') en lugar de que todas las tablas residan en el esquema único plano por defecto ('dbo'). ¿Qué capacidad de Fabric Lakehouse permite esta organización jerárquica de tablas Delta?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "La compatibilidad con múltiples esquemas en Lakehouse (Lakehouse Schemas), que permite crear esquemas personalizados mediante DDL de T-SQL o Spark y organizar las tablas Delta en carpetas de esquema correspondientes en OneLake.",
+          "isCorrect": true,
+          "rationale": "Microsoft Fabric Lakehouse admite soporte nativo para múltiples esquemas (Schemas in Lakehouse). Permite estructurar tablas en esquemas relacionales estándar (CREATE SCHEMA sales, CREATE SCHEMA finance) en lugar de limitar el Lakehouse a un único contenedor plano dbo, mejorando la gobernanza y la separación departamental."
+        },
+        {
+          "id": "opt_2",
+          "text": "Crear un archivo .INI en el directorio raíz de OneLake con los nombres de las carpetas.",
+          "isCorrect": false,
+          "rationale": "Los archivos .INI no son un mecanismo de gestión de esquemas en bases de datos analíticas ni en OneLake."
+        },
+        {
+          "id": "opt_3",
+          "text": "Crear 200 Lakehouses independientes dentro de la misma área de trabajo.",
+          "isCorrect": false,
+          "rationale": "Crear 200 Lakehouses genera una sobrecarga administrativa inmanejable de conexiones y metadatos."
+        },
+        {
+          "id": "opt_4",
+          "text": "Los Lakehouses de Fabric solo admiten el esquema 'dbo' y no pueden crear otros esquemas bajo ninguna circunstancia.",
+          "isCorrect": false,
+          "rationale": "Fabric Lakehouse admite compatibilidad completa con múltiples esquemas para alinear el lago con almacenes relacionales."
+        }
+      ],
+      "explanation": "El soporte para múltiples esquemas en Fabric Lakehouse permite agrupar tablas lógicamente dentro de un único Lakehouse, compartiendo la misma capacidad y simplificando el control de acceso y la navegación relacional.",
+      "theoryPill": {
+        "title": "Soporte Multi-Esquema en Fabric Lakehouse",
+        "summary": "Organización modular de tablas Delta más allá del esquema dbo.",
+        "keyPoints": [
+          "Permite sintaxis estándar: CREATE SCHEMA [NombreEsquema].",
+          "Organización física en OneLake: Se crean subcarpetas por esquema dentro de la sección Tables/.",
+          "Acceso uniforme: Compatible con Apache Spark (spark.read.table('schema.table')) y SQL Analytics Endpoint.",
+          "Facilita la migración de almacenes relacionales legados hacia arquitecturas de Lakehouse modernas."
+        ],
+        "examTrap": "Al habilitar la función de múltiples esquemas en un Lakehouse existente, se debe revisar la compatibilidad de código previo que asumía que todas las tablas estaban en dbo.",
+        "searchQuery": "Schemas in Microsoft Fabric Lakehouse multi-schema support"
+      },
+      "references": [
+        {
+          "title": "Lakehouse schemas (preview) - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-schemas"
+        }
+      ]
+    },
+    {
+      "id": "DP700-056",
+      "certification": "DP-700",
+      "domain": "Monitor and optimize an analytics solution",
+      "topic": "Spark Broadcast Join Optimization",
+      "topicIcon": "spark",
+      "tags": [
+        "Spark",
+        "Broadcast Join",
+        "Shuffle",
+        "Performance"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "codeLanguage": "Python",
+      "codeSnippet": "from pyspark.sql.functions import broadcast\n\n# Unir tabla de hechos masiva con dimensión pequeña de tiendas\ndf_result = df_large_sales.join(broadcast(df_small_stores), \"StoreID\")",
+      "stem": "Analiza el código PySpark mostrado. La tabla 'df_large_sales' contiene 120 millones de filas (15 GB) y 'df_small_stores' contiene 250 filas (50 KB). Al forzar la unión con la función 'broadcast()', ¿por qué se incrementa sustancialmente el rendimiento de la consulta y qué coste de red se elimina por completo?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Se envía una copia completa de la tabla pequeña a la memoria de cada ejecutor (Broadcast Hash Join), eliminando la necesidad de realizar un costoso intercambio aleatorio de datos por la red (Shuffle) de la tabla masiva de ventas.",
+          "isCorrect": true,
+          "rationale": "El Broadcast Hash Join envía (difunde) la tabla pequeña a todos los nodos ejecutores. Esto permite que cada ejecutor procese sus particiones locales de la tabla grande sin necesidad de redistribuir (shuffle) los 120 millones de registros a través de la red, reduciendo el I/O y el tiempo de ejecución drásticamente."
+        },
+        {
+          "id": "opt_2",
+          "text": "Guarda los resultados automáticamente en una unidad USB conectada al servidor físico.",
+          "isCorrect": false,
+          "rationale": "Spark en Fabric opera en clústeres elásticos en la nube de Azure; no utiliza dispositivos USB."
+        },
+        {
+          "id": "opt_3",
+          "text": "Convierte la tabla grande de ventas en una tabla temporal de Access 97.",
+          "isCorrect": false,
+          "rationale": "Access 97 no tiene ninguna relación con el motor de procesamiento distribuido de Apache Spark."
+        },
+        {
+          "id": "opt_4",
+          "text": "Obliga a que la consulta se ejecute en un único hilo de CPU para evitar paralelismo.",
+          "isCorrect": false,
+          "rationale": "Broadcast Join maximiza el paralelismo de los ejecutores eliminando el cuello de botella del shuffle."
+        }
+      ],
+      "explanation": "El `Broadcast Hash Join` es una de las técnicas de optimización más efectivas en Apache Spark. Cuando un lado de la unión es pequeño (por defecto menos de 10 MB configurado por `spark.sql.autoBroadcastJoinThreshold`), transmitirlo evita el shuffle de la tabla grande.",
+      "theoryPill": {
+        "title": "Optimización de Uniones con Broadcast en Spark",
+        "summary": "Eliminación del shuffle masivo de red en uniones dimensionales.",
+        "keyPoints": [
+          "Mecanismo: Copia la tabla pequeña a la memoria de todos los ejecutores.",
+          "Elimina el Sort-Merge Shuffle para la tabla de gran tamaño.",
+          "Umbral automático: spark.sql.autoBroadcastJoinThreshold (predeterminado: 10 MB; puede incrementarse si la memoria del ejecutor lo permite).",
+          "Función explícita: broadcast(df_pequena) en pyspark.sql.functions."
+        ],
+        "examTrap": "Nunca hagas broadcast de un DataFrame grande (ej. superior a varios cientos de MB); provocará un error de OutOfMemory (OOM) en el Driver o en los ejecutores al intentar serializar y transferir la tabla entera.",
+        "searchQuery": "Broadcast join optimization Apache Spark PySpark Fabric"
+      },
+      "references": [
+        {
+          "title": "Performance tuning in Apache Spark - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/spark-performance-tuning"
+        }
+      ]
+    },
+    {
+      "id": "DP700-057",
+      "certification": "DP-700",
+      "domain": "Ingest and transform data",
+      "topic": "Eventstream Schema Drift & Dead-Letter Queue",
+      "topicIcon": "kql",
+      "tags": [
+        "Eventstreams",
+        "Schema Drift",
+        "Dead-Letter",
+        "Data Quality"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Un Fabric Eventstream ingiere mensajes de telemetría de una flota de camiones de transporte. Ocasionalmente, algunos dispositivos envían mensajes con esquemas malformados o tipos de datos incompatibles (ejemplo: cadenas de texto en un campo numérico de velocidad). Quieres evitar que estos registros corruptos detengan el procesamiento de toda la transmisión, pero debes conservarlos en un almacenamiento secundario para su posterior depuración y auditoría forense. ¿Qué patrón de arquitectura de eventos debes implementar?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Configurar una cola de mensajes no enviados (Dead-Letter Queue / error handling destination) y validación de tipos en el flujo de Eventstream para desviar los mensajes erróneos a un almacenamiento independiente sin interrumpir el flujo principal.",
+          "isCorrect": true,
+          "rationale": "El patrón de cola de mensajes fallidos (Dead-Letter Queue - DLQ) desvía automáticamente los registros corruptos o que no cumplen las reglas de validación de esquema hacia un destino de almacenamiento secundario (como una tabla de errores o una carpeta en OneLake), garantizando que el flujo principal de eventos continúe operando sin interrupción."
+        },
+        {
+          "id": "opt_2",
+          "text": "Detener inmediatamente la capacidad de Fabric y enviar un SMS al fabricante del camión.",
+          "isCorrect": false,
+          "rationale": "Detener la capacidad paraliza todos los servicios de la empresa de forma innecesaria ante fallos menores de formato de mensajes."
+        },
+        {
+          "id": "opt_3",
+          "text": "Reemplazar el motor de Eventstream por un archivo de texto en Bloc de notas.",
+          "isCorrect": false,
+          "rationale": "Bloc de notas no es un componente de computación en streaming."
+        },
+        {
+          "id": "opt_4",
+          "text": "Permitir que los registros malformados sobrescriban aleatoriamente la base de datos de producción.",
+          "isCorrect": false,
+          "rationale": "Permitir datos corruptos vulnera la integridad y calidad del lago de datos."
+        }
+      ],
+      "explanation": "El patrón Dead-Letter Queue (DLQ) es una práctica recomendada en arquitecturas de transmisión de datos para aislar mensajes fallidos sin bloquear el flujo continuo ni perder datos erróneos que puedan requerir análisis forense.",
+      "theoryPill": {
+        "title": "Gestión de Mensajes Fallidos (Dead-Letter Pattern) en Streaming",
+        "summary": "Resiliencia y aislamiento de anomalías en Fabric Eventstreams.",
+        "keyPoints": [
+          "Aislamiento de mensajes no procesables: Evita que un mensaje erróneo genere un bucle de bloqueo permanente.",
+          "Desvío a almacenamiento secundario: Permite almacenar cargas malformadas para análisis posterior.",
+          "Alertas automáticas: Puede combinarse con Data Activator para notificar si la tasa de errores supera un umbral porcentual.",
+          "Garantiza alta disponibilidad del pipeline de datos analíticos."
+        ],
+        "examTrap": "Descartar silenciosamente los mensajes corruptos sin almacenarlos en una DLQ impide auditar errores de software en los emisores o recuperar transacciones perdidas.",
+        "searchQuery": "Eventstream error handling dead-letter queue Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "Eventstream error handling and destinations - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/real-time-intelligence/event-streams/overview"
+        }
+      ]
+    },
+    {
+      "id": "DP700-058",
+      "certification": "DP-700",
+      "domain": "Monitor and optimize an analytics solution",
+      "topic": "Fabric Capacity Metrics for Spark Compute",
+      "topicIcon": "fabric",
+      "tags": [
+        "Capacity Metrics",
+        "Spark",
+        "CU",
+        "Monitoring"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "En la aplicación Microsoft Fabric Capacity Metrics, estás auditando los costes de una capacidad F64. Observas que los cuadernos de Spark representan el 70% de todos los Capacity Unit Seconds (CUs) consumidos. Al analizar la utilización de Spark, ¿cómo se traduce el tamaño de los nodos ejecutores de Spark y el número de núcleos en el consumo de unidades de capacidad de Fabric?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "El consumo de capacidad de Spark se mide en función de los núcleos de cálculo asignados a los nodos ejecutores y al driver a lo largo del tiempo (Spark Core Seconds), convirtiéndose directamente a CU Seconds consumidos de la capacidad F SKU.",
+          "isCorrect": true,
+          "rationale": "En Microsoft Fabric, las cargas de trabajo de Apache Spark consumen capacidad en función del número de núcleos (cores) utilizados por los ejecutores y el driver y la duración de la sesión activa (Cores × Tiempo de ejecución), factor que se normaliza en CU Seconds de la capacidad compartida."
+        },
+        {
+          "id": "opt_2",
+          "text": "Spark no consume ninguna unidad de capacidad porque está financiado por la Fundación Apache.",
+          "isCorrect": false,
+          "rationale": "Apache Spark en Fabric es un servicio gestionado que consume recursos de cómputo de la capacidad F SKU contratada."
+        },
+        {
+          "id": "opt_3",
+          "text": "El consumo se factura únicamente por la cantidad de caracteres de texto escritos en el código del cuaderno.",
+          "isCorrect": false,
+          "rationale": "La longitud del código fuente no determina el consumo de CPU o memoria en ejecución."
+        },
+        {
+          "id": "opt_4",
+          "text": "Solo se cobra cuando el cuaderno produce un error en tiempo de ejecución.",
+          "isCorrect": false,
+          "rationale": "El cómputo se consume durante toda la vida de la sesión activa de Spark, finalice con éxito o no."
+        }
+      ],
+      "explanation": "Comprender la gobernanza de capacidad de Apache Spark en Fabric es vital para el examen DP-700. La asignación de nodos (Small, Medium, Large, X-Large) y el auto-escalado determinan el ratio de consumo de Capacity Units.",
+      "theoryPill": {
+        "title": "Métricas de Capacidad y Asignación de Spark en Fabric",
+        "summary": "Supervisión del consumo de CUs en cargas de ingeniería de datos.",
+        "keyPoints": [
+          "Unidad de medida: Spark Core Seconds consumidos por Driver y Executors.",
+          "Optimización de costes: Configurar el tiempo de espera de inactividad (session timeout) en 10-15 minutos para apagar clústeres ociosos.",
+          "Ajuste de tamaño de nodo: Elegir nodos Medium o Small para tareas ligeras en lugar de dejar el tamaño máximo por defecto.",
+          "Supervisión detallada: En la app Capacity Metrics bajo el tipo de elemento 'Notebook' o 'Spark Job Definition'."
+        ],
+        "examTrap": "Dejar sesiones interactivas de Spark abiertas sin timeout puede agotar los CUs de la capacidad durante la noche incluso si no se están ejecutando celdas activas.",
+        "searchQuery": "Spark compute consumption and capacity metrics Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "Spark compute for Fabric data engineering - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/spark-compute"
+        }
+      ]
+    },
+    {
+      "id": "DP700-059",
+      "certification": "DP-700",
+      "domain": "Monitor and optimize an analytics solution",
+      "topic": "PySpark Delta OPTIMIZE Target File Size",
+      "topicIcon": "lakehouse",
+      "tags": [
+        "Delta Lake",
+        "OPTIMIZE",
+        "File Size",
+        "Performance"
+      ],
+      "difficulty": "hardcore",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": true,
+      "codeLanguage": "Python",
+      "codeSnippet": "# Configuración en Spark para compactación de archivos\nspark.conf.set(\"spark.databricks.delta.optimize.maxFileSize\", 1073741824) # 1 GB\nspark.sql(\"OPTIMIZE Gold_Orders\")",
+      "stem": "En un Fabric Lakehouse, ejecutas periódicamente el comando OPTIMIZE para compactar miles de pequeños archivos Parquet generados por flujos de ingesta en streaming. Deseas que la compactación agrupe los datos en archivos de aproximadamente 1 GB en lugar del tamaño por defecto más pequeño, optimizando el rendimiento de escaneo para consultas analíticas masivas. ¿Qué propiedad de configuración de Delta en Spark controla el tamaño objetivo máximo de los archivos generados por OPTIMIZE?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "spark.databricks.delta.optimize.maxFileSize (o delta.targetFileSize a nivel de tabla).",
+          "isCorrect": true,
+          "rationale": "La propiedad 'spark.databricks.delta.optimize.maxFileSize' (o la propiedad de tabla 'delta.targetFileSize') especifica el tamaño objetivo en bytes al que OPTIMIZE intenta compactar los archivos Parquet (en este caso 1.073.741.824 bytes = 1 GB), reduciendo metadatos y optimizando escaneos de I/O en lecturas de consultas masivas."
+        },
+        {
+          "id": "opt_2",
+          "text": "spark.executor.instances.limit.",
+          "isCorrect": false,
+          "rationale": "Controla el número de nodos ejecutores, no el tamaño físico de los archivos Parquet en almacenamiento."
+        },
+        {
+          "id": "opt_3",
+          "text": "fs.azure.account.auth.type.",
+          "isCorrect": false,
+          "rationale": "Configura el protocolo de autenticación de almacenamiento en Azure, no el tamaño de archivo de Delta Lake."
+        },
+        {
+          "id": "opt_4",
+          "text": "spark.network.timeout.",
+          "isCorrect": false,
+          "rationale": "Define el tiempo de espera de conexiones de red entre nodos de Spark."
+        }
+      ],
+      "explanation": "El ajuste del tamaño objetivo de archivo en Delta Lake (`delta.targetFileSize`) es fundamental en ingeniería de datos para equilibrar la velocidad de compactación frente a la eficiencia de salto de datos (data skipping) en lecturas.",
+      "theoryPill": {
+        "title": "Tamaño Objetivo de Archivo en Delta OPTIMIZE",
+        "summary": "Compactación controlada para optimizar lecturas analíticas en OneLake.",
+        "keyPoints": [
+          "Problema de archivos pequeños (small files): Miles de archivos de pocos KB ralentizan el escaneo de metadatos.",
+          "OPTIMIZE: Agrupa archivos pequeños en archivos óptimos (~128 MB a 1 GB).",
+          "Propiedad de tabla: ALTER TABLE tabla SET TBLPROPERTIES (delta.targetFileSize = 1073741824).",
+          "Combinación con V-Order: Produce archivos Parquet estructurados para acelerar tanto Spark como Direct Lake."
+        ],
+        "examTrap": "Un tamaño de archivo excesivamente grande (ej. 10 GB) puede perjudicar el paralelismo de lectura; el estándar de oro en almacenes analíticos se sitúa entre 128 MB y 1 GB.",
+        "searchQuery": "Delta Lake OPTIMIZE target file size Microsoft Fabric Spark"
+      },
+      "references": [
+        {
+          "title": "Delta table optimization and compaction - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-table-maintenance"
+        }
+      ]
+    },
+    {
+      "id": "DP700-060",
+      "certification": "DP-700",
+      "domain": "Implement and manage an analytics solution",
+      "topic": "OneLake Data Access Roles (Table & Folder Granular RBAC)",
+      "topicIcon": "security",
+      "tags": [
+        "OneLake",
+        "Security",
+        "RBAC",
+        "Data Access Roles"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "En un Fabric Lakehouse corporativo con múltiples carpetas en 'Files/' y múltiples tablas Delta en 'Tables/', necesitas otorgar a un equipo de científicos de datos acceso exclusivo de lectura a la carpeta 'Files/raw_iot/' y a la tabla 'Tables/sensors', prohibiéndoles terminantemente el acceso a las carpetas financieras y de recursos humanos del mismo Lakehouse. ¿Qué característica nativa de seguridad granular de Fabric debes configurar?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Roles de acceso a datos de OneLake (OneLake Data Access Roles) en el Lakehouse, creando un rol con permisos específicos sobre las carpetas y tablas autorizadas y asignando al equipo de científicos a dicho rol.",
+          "isCorrect": true,
+          "rationale": "Los roles de acceso a datos de OneLake (OneLake Data Access Roles) permiten una gobernanza de seguridad basada en roles (RBAC) granular a nivel de elemento dentro de un Lakehouse. Permiten especificar permisos de lectura sobre carpetas individuales en 'Files' y tablas individuales en 'Tables' sin necesidad de conceder acceso a todo el Lakehouse o área de trabajo."
+        },
+        {
+          "id": "opt_2",
+          "text": "Asignar a los científicos el rol de Administrador (Admin) en el área de trabajo.",
+          "isCorrect": false,
+          "rationale": "El rol Admin otorga acceso total y destructivo a todos los artefactos y datos de toda el área de trabajo."
+        },
+        {
+          "id": "opt_3",
+          "text": "Descargar los datos a un pendrive y entregarlo en mano al científico principal.",
+          "isCorrect": false,
+          "rationale": "Vulnera todas las directivas de seguridad corporativa y no utiliza la gobernanza en la nube de OneLake."
+        },
+        {
+          "id": "opt_4",
+          "text": "Cifrar la carpeta con una contraseña comprimida en formato RAR.",
+          "isCorrect": false,
+          "rationale": "Los archivos RAR no forman parte de la arquitectura de acceso a datos de Microsoft OneLake."
+        }
+      ],
+      "explanation": "OneLake Data Access Roles permite a los administradores de datos definir políticas de acceso a nivel de carpeta y tabla dentro de Lakehouses, aplicando el principio de mínimo privilegio en OneLake.",
+      "theoryPill": {
+        "title": "Roles de Acceso a Datos de OneLake (Data Access Roles)",
+        "summary": "Seguridad granular sobre tablas y carpetas dentro de un Lakehouse.",
+        "keyPoints": [
+          "Permite restringir el acceso a tablas Delta específicas dentro de 'Tables/'.",
+          "Permite restringir el acceso a rutas y subcarpetas específicas dentro de 'Files/'.",
+          "Los usuarios reciben solo el acceso necesario sin ver datos restringidos del mismo lago.",
+          "Integrado con la autenticación nativa de Microsoft Entra ID."
+        ],
+        "examTrap": "Si un usuario tiene el rol 'Member' o 'Contributor' a nivel de área de trabajo, omitirá los Data Access Roles de OneLake; esta seguridad granular aplica a usuarios con acceso de nivel de elemento (Viewer / ReadData).",
+        "searchQuery": "OneLake data access roles security lakehouse Microsoft Fabric"
+      },
+      "references": [
+        {
+          "title": "Get started with OneLake data access roles - Microsoft Fabric | Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/fabric/onelake/security/get-started-data-access-roles"
         }
       ]
     }

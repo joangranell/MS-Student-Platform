@@ -4807,6 +4807,659 @@
           "url": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-types-for-reports-and-q-and-a"
         }
       ]
+    },
+    {
+      "id": "DP900-071",
+      "certification": "DP-900",
+      "domain": "Describe considerations for working with non-relational data on Azure",
+      "topic": "Azure Cosmos DB Consistency Levels",
+      "topicIcon": "cosmos",
+      "tags": [
+        "Cosmos DB",
+        "Consistency",
+        "Latency",
+        "NoSQL"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Azure Cosmos DB ofrece 5 niveles de coherencia bien definidos para equilibrar la coherencia de datos frente al rendimiento (RU/s) y la latencia. Una aplicación de comercio electrónico requiere que un usuario que agrega un artículo a su carrito de compras vea inmediatamente ese artículo reflejado en sus lecturas subsecuentes, sin necesidad de imponer un bloqueo global en todas las réplicas mundiales de lectura. ¿Cuál es el nivel de coherencia predeterminado y más ampliamente utilizado que garantiza este comportamiento?",
+      "codeSnippet": null,
+      "codeLanguage": null,
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Coherencia de sesión (Session Consistency).",
+          "isCorrect": true,
+          "rationale": "La coherencia de sesión (Session) es el nivel predeterminado de Azure Cosmos DB. Garantiza lecturas monótonas y la regla 'read-your-own-writes' dentro de la misma sesión del cliente usando un token de sesión, ofreciendo el mayor rendimiento con un coste estándar de 1 RU por lectura de 1 KB."
+        },
+        {
+          "id": "opt_2",
+          "text": "Coherencia fuerte (Strong Consistency).",
+          "isCorrect": false,
+          "rationale": "La coherencia fuerte garantiza coherencia lineal global inmediata pero duplica el coste de RUs por lectura, incrementa la latencia y no puede desplegarse en cuentas multirregión con escrituras en cualquier región."
+        },
+        {
+          "id": "opt_3",
+          "text": "Coherencia eventual (Eventual Consistency).",
+          "isCorrect": false,
+          "rationale": "La coherencia eventual es la más débil; no garantiza que el usuario vea sus propias escrituras inmediatamente."
+        },
+        {
+          "id": "opt_4",
+          "text": "Coherencia de prefijo coherente (Consistent Prefix).",
+          "isCorrect": false,
+          "rationale": "Consistent Prefix garantiza que las lecturas nunca vean actualizaciones fuera de orden, pero no garantiza lectura inmediata de la propia escritura en la misma sesión."
+        }
+      ],
+      "explanation": "Azure Cosmos DB ofrece 5 niveles de coherencia: Fuerte (Strong), Desfase limitado (Bounded Staleness), Sesión (Session - predeterminado), Prefijo coherente (Consistent Prefix) y Eventual. La coherencia de sesión garantiza que el usuario siempre lea lo que acaba de escribir.",
+      "theoryPill": {
+        "title": "Los 5 Niveles de Coherencia en Azure Cosmos DB",
+        "summary": "Compromiso entre coherencia, disponibilidad, latencia y rendimiento.",
+        "keyPoints": [
+          "Strong: Mayor coherencia, mayor latencia, coste doble de lectura, lecturas siempre actualizadas globalmente.",
+          "Bounded Staleness: Los datos leídos se retrasan un máximo de K versiones o T unidades de tiempo.",
+          "Session (Predeterminado): Garantiza 'read-your-own-writes' para la sesión del cliente; óptimo para comercio electrónico y perfiles.",
+          "Consistent Prefix: Garantiza que las actualizaciones no se lean en desorden.",
+          "Eventual: Menor coherencia, menor latencia, menor coste de RUs; sin garantía de orden."
+        ],
+        "examTrap": "Recuerda que Session es el nivel predeterminado en Cosmos DB y ofrece la mejor relación rendimiento/coherencia para aplicaciones web.",
+        "searchQuery": "Consistency levels in Azure Cosmos DB Microsoft Learn DP-900"
+      },
+      "references": [
+        {
+          "title": "Consistency levels in Azure Cosmos DB - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/consistency-levels"
+        }
+      ]
+    },
+    {
+      "id": "DP900-072",
+      "certification": "DP-900",
+      "domain": "Identify considerations for relational data on Azure",
+      "topic": "Azure SQL Database Serverless Compute Tier",
+      "topicIcon": "sql",
+      "tags": [
+        "Azure SQL",
+        "Serverless",
+        "Auto-pause",
+        "Cost"
+      ],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Una empresa tiene una base de datos relacional que solo se utiliza durante los días laborables de 09:00 a 18:00, permaneciendo inactiva las noches y los fines de semana. Se desea minimizar los costes de computación facturando únicamente por los segundos de CPU consumidos y permitiendo que la base de datos se pause automáticamente cuando no haya conexiones activas. ¿Qué nivel de proceso de Azure SQL Database cumple este requisito?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Nivel de proceso sin servidor (Serverless compute tier en el modelo vCore).",
+          "isCorrect": true,
+          "rationale": "El nivel de proceso Serverless de Azure SQL Database escala automáticamente los vCores según la demanda de la carga de trabajo y admite la pausa automática (auto-pause) durante períodos de inactividad, cobrando únicamente por el almacenamiento y los segundos de vCore computados mientras está activa."
+        },
+        {
+          "id": "opt_2",
+          "text": "Nivel de proceso aprovisionado (Provisioned compute tier) en Business Critical.",
+          "isCorrect": false,
+          "rationale": "El nivel aprovisionado factura una cantidad fija continua de vCores por hora independientemente de si la base de datos está inactiva o activa."
+        },
+        {
+          "id": "opt_3",
+          "text": "Modelo basado en DTU con el nivel Básico.",
+          "isCorrect": false,
+          "rationale": "El modelo DTU factura un coste fijo mensual continuo y no admite la pausa automática de computación."
+        },
+        {
+          "id": "opt_4",
+          "text": "Instalar SQL Server Express en una máquina virtual de Azure sin apagarla.",
+          "isCorrect": false,
+          "rationale": "Una máquina virtual encendida factura 24/7 en Azure y requiere gestión manual del sistema operativo."
+        }
+      ],
+      "explanation": "El nivel de computación Serverless en Azure SQL Database está optimizado para bases de datos individuales con patrones de uso intermitentes e impredecibles, pausándose automáticamente tras un período de inactividad configurable.",
+      "theoryPill": {
+        "title": "Nivel Serverless vs Aprovisionado en Azure SQL Database",
+        "summary": "Optimización de costes para cargas de trabajo relacionales intermitentes.",
+        "keyPoints": [
+          "Disponible exclusivamente en el modelo de compra vCore.",
+          "Facturación por segundo basada en el uso real de vCore y memoria RAM.",
+          "Auto-pausa configurable (por defecto 1 hora de inactividad).",
+          "Primera conexión tras la pausa: Experimenta una pequeña latencia de reanudación (auto-resume de unos segundos)."
+        ],
+        "examTrap": "Durante el período en que la base de datos Serverless está pausada, solo se factura el almacenamiento de datos, no el cómputo.",
+        "searchQuery": "Azure SQL Database serverless compute tier auto-pause DP-900"
+      },
+      "references": [
+        {
+          "title": "Azure SQL Database serverless - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/serverless-tier-overview"
+        }
+      ]
+    },
+    {
+      "id": "DP900-073",
+      "certification": "DP-900",
+      "domain": "Describe considerations for working with non-relational data on Azure",
+      "topic": "Azure Table Storage vs Azure Cosmos DB Table API",
+      "topicIcon": "cosmos",
+      "tags": [
+        "Table Storage",
+        "Cosmos DB",
+        "NoSQL",
+        "Key-Value"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Necesitas seleccionar una solución de almacenamiento no relacional de pares clave-valor en Azure. Una aplicación requiere rendimiento de lectura inferior a 10 milisegundos garantizado por SLA, distribución global multirregión con replicación activa y escalabilidad de rendimiento dedicado (RU/s). ¿Qué servicio debes elegir?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Azure Cosmos DB for Table.",
+          "isCorrect": true,
+          "rationale": "Azure Cosmos DB for Table ofrece latencias garantizadas de un solo dígito de milisegundo por SLA, distribución global multirregión y escalado de rendimiento dedicado por RU/s, a diferencia de Azure Table Storage que está limitado a una única región principal con almacenamiento estándar sin SLA de latencia."
+        },
+        {
+          "id": "opt_2",
+          "text": "Azure Table Storage en una cuenta de almacenamiento estándar.",
+          "isCorrect": false,
+          "rationale": "Azure Table Storage es muy económico pero no ofrece latencias garantizadas por SLA de milisegundos ni distribución global multirregión activa."
+        },
+        {
+          "id": "opt_3",
+          "text": "Azure Files con protocolo SMB.",
+          "isCorrect": false,
+          "rationale": "Azure Files es un servicio de recursos compartidos de archivos de red, no un almacén de clave-valor NoSQL."
+        },
+        {
+          "id": "opt_4",
+          "text": "Azure Data Lake Storage Gen1.",
+          "isCorrect": false,
+          "rationale": "ADLS Gen1 está en desuso y es un almacenamiento jerárquico de archivos analíticos, no un almacén de clave-valor."
+        }
+      ],
+      "explanation": "Azure Cosmos DB for Table es el nivel premium de almacenamiento de tablas en Azure: utiliza el mismo SDK y modelos que Azure Table Storage pero respaldado por el motor distribuido y los SLAs de disponibilidad y latencia de Cosmos DB.",
+      "theoryPill": {
+        "title": "Azure Table Storage frente a Azure Cosmos DB for Table",
+        "summary": "Comparativa de soluciones clave-valor NoSQL en Azure.",
+        "keyPoints": [
+          "Azure Table Storage: Muy bajo coste, ideal para grandes volúmenes de datos que no requieren latencia ultra-baja ni distribución global.",
+          "Cosmos DB for Table: Latencia <10ms garantizada por SLA, distribución global en múltiples regiones, rendimiento dedicado por RU/s.",
+          "Misma API: Las aplicaciones escritas para Table Storage pueden migrar a Cosmos DB Table API cambiando la cadena de conexión.",
+          "Estructura: Clave de partición (PartitionKey) + Clave de fila (RowKey) + Marca temporal + Propiedades flexibles."
+        ],
+        "examTrap": "Si el enunciado menciona 'menor coste posible sin requisitos de latencia estricta', elige Table Storage; si pide 'SLA de latencia de milisegundos y distribución global', elige Cosmos DB for Table.",
+        "searchQuery": "Compare Azure Table storage and Azure Cosmos DB for Table DP-900"
+      },
+      "references": [
+        {
+          "title": "Overview of Azure Cosmos DB for Table - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/table/introduction"
+        }
+      ]
+    },
+    {
+      "id": "DP900-074",
+      "certification": "DP-900",
+      "domain": "Identify considerations for relational data on Azure",
+      "topic": "Azure SQL Managed Instance Architecture",
+      "topicIcon": "sql",
+      "tags": [
+        "SQL Managed Instance",
+        "Azure SQL",
+        "Compatibility",
+        "PaaS"
+      ],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Una empresa desea migrar una aplicación empresarial crítica local que utiliza SQL Server 2019 hacia un servicio de base de datos como plataforma (PaaS) en Azure. La base de datos requiere obligatoriamente compatibilidad con SQL Server Agent para tareas programadas, consultas entre múltiples bases de datos con transacciones distribuidas y Common Language Runtime (CLR). ¿Cuál es la opción PaaS recomendada que ofrece casi el 100% de compatibilidad con SQL Server local sin necesidad de administrar el sistema operativo?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Azure SQL Managed Instance (Instancia administrada de Azure SQL).",
+          "isCorrect": true,
+          "rationale": "Azure SQL Managed Instance combina la máxima compatibilidad de características del motor de base de datos SQL Server local (como SQL Server Agent, consultas entre bases de datos, Service Broker y CLR) con todos los beneficios de una plataforma como servicio (PaaS) completamente administrada (parches automáticos, copias de seguridad y alta disponibilidad)."
+        },
+        {
+          "id": "opt_2",
+          "text": "Azure SQL Database (base de datos única).",
+          "isCorrect": false,
+          "rationale": "Azure SQL Database no admite SQL Server Agent nativo ni consultas cruzadas completas con transacciones entre bases de datos."
+        },
+        {
+          "id": "opt_3",
+          "text": "Azure Database for PostgreSQL Flexible Server.",
+          "isCorrect": false,
+          "rationale": "PostgreSQL es un motor de base de datos diferente y no ejecuta código T-SQL ni SQL Server Agent."
+        },
+        {
+          "id": "opt_4",
+          "text": "Azure Cosmos DB con API for Gremlin.",
+          "isCorrect": false,
+          "rationale": "Gremlin es una base de datos NoSQL de grafos, no un motor relacional de SQL Server."
+        }
+      ],
+      "explanation": "Para modernizaciones de aplicaciones locales (lift-and-shift) que dependen de características de nivel de instancia de SQL Server (como SQL Server Agent, Service Broker o consultas cross-database), Azure SQL Managed Instance es la opción PaaS predilecta.",
+      "theoryPill": {
+        "title": "Opciones de Implementación de Azure SQL: SQL DB vs SQL Managed Instance vs SQL en VM",
+        "summary": "Árbol de decisión relacional en Microsoft Azure.",
+        "keyPoints": [
+          "SQL Server on Azure VMs (IaaS): Control total del sistema operativo, acceso a nivel de host, para migraciones complejas.",
+          "Azure SQL Managed Instance (PaaS): Máxima compatibilidad con SQL Server local (SQL Agent, Cross-DB, CLR, VNet nativa), sin administrar SO.",
+          "Azure SQL Database (PaaS): Ideal para aplicaciones modernas nativas de la nube (cloud-native), escala elástica, altamente optimizado por base de datos.",
+          "Modelos de compra: vCore (permite Azure Hybrid Benefit) y DTU (empaquetado simplificado)."
+        ],
+        "examTrap": "Si el examen te pregunta por compatibilidad con 'SQL Server Agent' en un servicio PaaS, la respuesta siempre es Azure SQL Managed Instance.",
+        "searchQuery": "Azure SQL Managed Instance vs Azure SQL Database features DP-900"
+      },
+      "references": [
+        {
+          "title": "What is Azure SQL Managed Instance? - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-sql/managed-instance/sql-managed-instance-paas-overview"
+        }
+      ]
+    },
+    {
+      "id": "DP900-075",
+      "certification": "DP-900",
+      "domain": "Describe core data concepts",
+      "topic": "Batch vs Streaming Data Ingestion",
+      "topicIcon": "pipeline",
+      "tags": [
+        "Batch",
+        "Streaming",
+        "Data Concepts",
+        "Ingestion"
+      ],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "¿Cuál es la diferencia fundamental entre el procesamiento de datos por lotes (Batch processing) y el procesamiento de datos en streaming (Streaming data processing)?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "El procesamiento por lotes procesa grandes volúmenes de datos históricos acumulados en intervalos regulares de tiempo, mientras que el procesamiento en streaming procesa registros individuales o micro-lotes de forma continua a medida que los eventos se generan en tiempo real.",
+          "isCorrect": true,
+          "rationale": "El procesamiento por lotes (Batch) opera sobre conjuntos de datos estáticos y cerrados en ventanas periódicas (ej. cada noche, cada mes). El procesamiento en streaming opera sobre flujos de datos ilimitados y continuos en tiempo real con latencias de segundos o milisegundos."
+        },
+        {
+          "id": "opt_2",
+          "text": "El procesamiento por lotes solo funciona con bases de datos NoSQL y el streaming solo con bases de datos relacionales.",
+          "isCorrect": false,
+          "rationale": "Tanto el procesamiento por lotes como el streaming pueden operar con datos relacionales y no relacionales."
+        },
+        {
+          "id": "opt_3",
+          "text": "El procesamiento en streaming requiere obligatoriamente que todos los datos se almacenen en cintas magnéticas.",
+          "isCorrect": false,
+          "rationale": "El streaming utiliza almacenamiento en memoria y brokers de eventos de alta velocidad como Event Hubs o Kafka."
+        },
+        {
+          "id": "opt_4",
+          "text": "No existe ninguna diferencia técnica entre ambos conceptos.",
+          "isCorrect": false,
+          "rationale": "Son dos paradigmas de procesamiento de datos claramente diferenciados en ingeniería de datos."
+        }
+      ],
+      "explanation": "El procesamiento por lotes procesa todos los datos recopilados durante un período de tiempo predefinido, mientras que el procesamiento de datos en tiempo real (streaming) ingiere y analiza los datos continuamente según van llegando.",
+      "theoryPill": {
+        "title": "Procesamiento por Lotes (Batch) vs Streaming",
+        "summary": "Conceptos fundamentales de arquitectura de datos en DP-900.",
+        "keyPoints": [
+          "Batch (Lotes): Datos acumulados, alta latencia aceptable, cálculo masivo eficiente, ejemplos: cálculo de nóminas, informes de ventas mensuales.",
+          "Streaming: Datos continuos en movimiento, baja latencia requerida, ejemplos: detección de fraude en tarjetas, monitorización de constantes médicas, telemetría IoT.",
+          "Servicios de ingesta de streaming en Azure: Azure Event Hubs, Azure IoT Hub, Fabric Eventstreams.",
+          "Servicios de ingesta por lotes en Azure: Azure Data Factory, Fabric Data Pipelines."
+        ],
+        "examTrap": "Si una pregunta describe datos que se procesan 'a medida que llegan' o con 'baja latencia para alertas inmediatas', identifica siempre el patrón de Streaming.",
+        "searchQuery": "Batch processing vs stream processing Azure data fundamentals DP-900"
+      },
+      "references": [
+        {
+          "title": "Explore batch and streaming data - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/4-explore-batch-streaming-data"
+        }
+      ]
+    },
+    {
+      "id": "DP900-076",
+      "certification": "DP-900",
+      "domain": "Describe an analytics workload on Azure",
+      "topic": "Parquet Columnar Format in Data Lakes",
+      "topicIcon": "lakehouse",
+      "tags": [
+        "Parquet",
+        "Columnar",
+        "Data Lake",
+        "Analytics"
+      ],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "En un lago de datos analítico (Data Lake) en Azure, se recomienda almacenar los datos en formato Apache Parquet en lugar de formatos de texto basados en filas como CSV o JSON. ¿Cuál es la principal ventaja técnica del formato Parquet para cargas de trabajo analíticas (OLAP)?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Parquet es un formato de archivo columnar comprimido que permite a los motores analíticos leer únicamente las columnas necesarias para responder a la consulta (proyección de columnas) en lugar de escanear filas completas, reduciendo drásticamente el I/O de disco y acelerando las consultas.",
+          "isCorrect": true,
+          "rationale": "Apache Parquet organiza los datos por columnas en lugar de por filas. Para consultas analíticas que suelen agregar pocas columnas de millones de registros (ej. SUM(SalesAmount) GROUP BY Region), el motor solo lee las columnas referenciadas, aprovechando la alta compresión de datos del mismo tipo y metadatos de salto de datos (min/max)."
+        },
+        {
+          "id": "opt_2",
+          "text": "Parquet se puede abrir y editar directamente con el Bloc de notas de Windows.",
+          "isCorrect": false,
+          "rationale": "Parquet es un formato binario estructurado y comprimido; no es texto plano legible por Bloc de notas."
+        },
+        {
+          "id": "opt_3",
+          "text": "Parquet elimina la necesidad de contar con una suscripción activa de Azure.",
+          "isCorrect": false,
+          "rationale": "El formato de archivo no influye en los requisitos de suscripción de la nube."
+        },
+        {
+          "id": "opt_4",
+          "text": "Parquet convierte automáticamente todas las consultas en código C# ejecutable.",
+          "isCorrect": false,
+          "rationale": "Parquet es un formato de almacenamiento de datos en disco, no un compilador de código fuente."
+        }
+      ],
+      "explanation": "El almacenamiento columnar de Apache Parquet optimiza el rendimiento y minimiza el coste en lagos de datos modernos como Azure Data Lake Storage y Microsoft OneLake, reduciendo la transferencia de datos.",
+      "theoryPill": {
+        "title": "Almacenamiento Columnar: Apache Parquet vs CSV/JSON",
+        "summary": "Estándar de facto para analítica moderna en Azure y Fabric.",
+        "keyPoints": [
+          "Organización columnar: Agrupa valores de la misma columna de forma contigua en disco.",
+          "Alta compresión: Valores del mismo tipo y dominio se comprimen eficientemente (Snappy, GZIP, diccionarios).",
+          "Lectura selectiva (Column Pruning): Si una consulta solo pide 2 de 100 columnas, el motor solo lee el 2% del archivo.",
+          "Salto de datos (Data Skipping): Los archivos Parquet guardan metadatos de valores mínimos y máximos por bloque de filas (row group)."
+        ],
+        "examTrap": "CSV y JSON son formatos basados en filas orientados a intercambio de datos y transacciones (OLTP); Parquet es el formato de referencia para análisis masivo (OLAP).",
+        "searchQuery": "Parquet file format in Azure Data Lake columnar storage DP-900"
+      },
+      "references": [
+        {
+          "title": "Explore data formats - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/3-explore-data-formats"
+        }
+      ]
+    },
+    {
+      "id": "DP900-077",
+      "certification": "DP-900",
+      "domain": "Describe an analytics workload on Azure",
+      "topic": "Microsoft Purview Data Governance",
+      "topicIcon": "security",
+      "tags": [
+        "Purview",
+        "Governance",
+        "Data Catalog",
+        "Classification"
+      ],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Una organización tiene datos distribuidos en bases de datos Azure SQL, cuentas de Azure Blob Storage, almacenes locales y servicios en la nube de terceros. Necesitan un servicio centralizado de gobernanza de datos que descubra y clasifique automáticamente información confidencial (como números de tarjetas de crédito o pasaportes), rastree el linaje de datos de extremo a extremo y proporcione un catálogo de datos empresarial unificado. ¿Qué servicio de Microsoft deben utilizar?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Microsoft Purview.",
+          "isCorrect": true,
+          "rationale": "Microsoft Purview es la solución integral de gobernanza, riesgo y cumplimiento de datos de Microsoft. Proporciona escaneo y clasificación automatizada de datos confidenciales, linaje de datos (data lineage) visual y un catálogo de búsqueda empresarial para descubrir activos de datos en entornos híbridos y multinube."
+        },
+        {
+          "id": "opt_2",
+          "text": "Azure Bastion.",
+          "isCorrect": false,
+          "rationale": "Azure Bastion proporciona conectividad RDP/SSH segura a máquinas virtuales a través del navegador; no gobierna ni cataloga datos."
+        },
+        {
+          "id": "opt_3",
+          "text": "Azure Cost Management.",
+          "isCorrect": false,
+          "rationale": "Cost Management supervisa el gasto financiero de la suscripción, no clasifica información confidencial de datos."
+        },
+        {
+          "id": "opt_4",
+          "text": "Azure Traffic Manager.",
+          "isCorrect": false,
+          "rationale": "Traffic Manager es un equilibrador de carga de red basado en DNS, no un catálogo de datos."
+        }
+      ],
+      "explanation": "Microsoft Purview ayuda a mapear y gobernar todo el patrimonio de datos corporativo. Sus capacidades clave incluyen el Mapa de Datos (Data Map), el Catálogo de Datos (Data Catalog) y el Linaje de Datos (Data Lineage).",
+      "theoryPill": {
+        "title": "Gobernanza de Datos con Microsoft Purview",
+        "summary": "Catálogo empresarial, clasificación de datos y linaje unificado.",
+        "keyPoints": [
+          "Data Map: Descubre activos de datos mediante escaneos automatizados en Azure, on-premises y otras nubes.",
+          "Data Catalog: Permite a los usuarios de negocio buscar y encontrar datos fiables mediante un glosario de términos.",
+          "Clasificación automática: Detecta más de 200 tipos de información confidencial (DNI, tarjetas, emails).",
+          "Data Lineage: Muestra la procedencia y transformación de los datos desde el origen hasta el informe de Power BI."
+        ],
+        "examTrap": "Recuerda que Microsoft Purview no es un almacén de datos (no almacena filas de datos de negocio), sino una capa de gobernanza sobre los metadatos.",
+        "searchQuery": "What is Microsoft Purview data governance DP-900"
+      },
+      "references": [
+        {
+          "title": "What is Microsoft Purview? - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/purview/purview"
+        }
+      ]
+    },
+    {
+      "id": "DP900-078",
+      "certification": "DP-900",
+      "domain": "Describe considerations for working with non-relational data on Azure",
+      "topic": "Azure Cosmos DB Partition Keys",
+      "topicIcon": "cosmos",
+      "tags": [
+        "Cosmos DB",
+        "Partition Key",
+        "Scale",
+        "NoSQL"
+      ],
+      "difficulty": "intermediate",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "Estás diseñando un contenedor en Azure Cosmos DB para almacenar millones de transacciones de clientes. Para garantizar que el contenedor escale de forma horizontal sin límites y evitar la creación de particiones calientes ('hot partitions') que saturen el rendimiento de Unidades de Solicitud (RU/s), ¿cuál es el criterio fundamental para elegir una buena clave de partición (Partition Key)?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Elegir una propiedad con una cardinalidad amplia y variada que distribuya de manera uniforme tanto las solicitudes de lectura/escritura como el volumen de almacenamiento entre las diferentes particiones lógicas.",
+          "isCorrect": true,
+          "rationale": "Una buena clave de partición en Cosmos DB debe distribuir uniformemente el almacenamiento y el consumo de computación (RU/s) entre particiones lógicas. Tener un amplio rango de valores distintos (alta cardinalidad) evita cuellos de botella en una sola partición física."
+        },
+        {
+          "id": "opt_2",
+          "text": "Elegir una columna booleana con solo dos valores posibles (True/False).",
+          "isCorrect": false,
+          "rationale": "Una columna booleana solo tiene dos valores, lo que concentra todos los datos en solo dos particiones lógicas y genera hot partitions graves."
+        },
+        {
+          "id": "opt_3",
+          "text": "Elegir una propiedad que contenga valores NULL en el 99% de los registros.",
+          "isCorrect": false,
+          "rationale": "Concentraría el 99% de las transacciones en la misma partición lógica nula, saturándola por completo."
+        },
+        {
+          "id": "opt_4",
+          "text": "Cambiar la clave de partición manualmente cada vez que se ejecute una consulta SELECT.",
+          "isCorrect": false,
+          "rationale": "La clave de partición se define al crear el contenedor y no se puede alterar dinámicamente en consultas individuales."
+        }
+      ],
+      "explanation": "La elección de la clave de partición (Partition Key) es la decisión de diseño más crítica en Azure Cosmos DB. Una partición caliente (hot partition) ocurre cuando una partición recibe mucho más tráfico que las demás, agotando sus RUs asignadas y generando errores HTTP 429 (Too Many Requests).",
+      "theoryPill": {
+        "title": "Estrategia de Selección de Clave de Partición en Azure Cosmos DB",
+        "summary": "Escalabilidad horizontal ilimitada y prevención de particiones calientes.",
+        "keyPoints": [
+          "Alta cardinalidad: Debe tener miles o millones de valores posibles (ej. UserId, DeviceId, TenantId).",
+          "Distribución equitativa: El volumen de datos y las operaciones de lectura/escritura deben repartirse homogéneamente.",
+          "Consultas eficientes: Incluir la clave de partición en la cláusula WHERE permite al motor enrutar la consulta a una sola partición (Single-partition query).",
+          "Límite físico: Cada partición lógica puede almacenar un máximo de 20 GB de datos."
+        ],
+        "examTrap": "Nunca uses atributos con muy pocos valores (como 'Estado civil', 'Género' o 'Año') como clave de partición; provocarán hot partitions de inmediato.",
+        "searchQuery": "Partitioning and horizontal scaling in Azure Cosmos DB DP-900"
+      },
+      "references": [
+        {
+          "title": "Partitioning and horizontal scaling in Azure Cosmos DB - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/partitioning-overview"
+        }
+      ]
+    },
+    {
+      "id": "DP900-079",
+      "certification": "DP-900",
+      "domain": "Describe an analytics workload on Azure",
+      "topic": "Power BI Artifacts: Reports vs Dashboards",
+      "topicIcon": "powerbi",
+      "tags": [
+        "Power BI",
+        "Reports",
+        "Dashboards",
+        "Visuals"
+      ],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "En el servicio de Power BI, un director ejecutivo necesita una vista consolidada en una sola pantalla que combine los gráficos e indicadores clave de rendimiento (KPIs) más importantes procedentes de múltiples modelos semánticos e informes diferentes de la empresa. ¿Qué artefacto de Power BI está diseñado específicamente para esta necesidad?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Un panel de Power BI (Power BI Dashboard), que permite anclar iconos (tiles) visuales procedentes de múltiples informes y conjuntos de datos en una sola página.",
+          "isCorrect": true,
+          "rationale": "Un panel (Dashboard) de Power BI es un lienzo de una sola página en el servicio de Power BI que permite anclar iconos (tiles) interactivos de diferentes informes basados en múltiples modelos semánticos, ideal para supervisión ejecutiva de alto nivel."
+        },
+        {
+          "id": "opt_2",
+          "text": "Un informe de Power BI Desktop.",
+          "isCorrect": false,
+          "rationale": "Un informe de Power BI (Report) solo se conecta a un único modelo semántico a la vez y puede constar de múltiples páginas, pero no combina mosaicos de informes heterogéneos en un solo lienzo ejecutivo."
+        },
+        {
+          "id": "opt_3",
+          "text": "Una consulta de PowerShell en la consola del administrador.",
+          "isCorrect": false,
+          "rationale": "PowerShell es una herramienta de scripting de línea de comandos, no un componente visual de Power BI para directores."
+        },
+        {
+          "id": "opt_4",
+          "text": "Una regla de seguridad de red en Azure Firewall.",
+          "isCorrect": false,
+          "rationale": "Azure Firewall es un servicio de seguridad perimetral de red; no crea visualizaciones analíticas."
+        }
+      ],
+      "explanation": "En Power BI existe una distinción clara evaluada en el DP-900: los Informes (Reports) constan de una o más páginas y se basan en un único modelo semántico; los Paneles (Dashboards) son de una sola página y combinan mosaicos de múltiples informes y fuentes.",
+      "theoryPill": {
+        "title": "Paneles (Dashboards) frente a Informes (Reports) en Power BI",
+        "summary": "Diferencias funcionales clave en la plataforma de inteligencia de negocios.",
+        "keyPoints": [
+          "Informe (Report): Creado en Desktop o Service. Múltiples páginas. Basado en un único modelo semántico. Altamente interactivo (filtros cruzados, segmentaciones).",
+          "Panel (Dashboard): Exclusivo del servicio Power BI en la nube. Página única (Single-page canvas). Puede combinar elementos visuales de múltiples informes y modelos.",
+          "Alertas: Se pueden configurar alertas de datos en iconos de paneles.",
+          "Q&A: Los paneles incluyen un cuadro de preguntas en lenguaje natural (Preguntas y respuestas)."
+        ],
+        "examTrap": "No puedes crear Paneles (Dashboards) en Power BI Desktop; los Dashboards son una característica exclusiva del servicio en la nube (Power BI Service).",
+        "searchQuery": "Dashboards vs reports in Power BI difference DP-900"
+      },
+      "references": [
+        {
+          "title": "Dashboards in Power BI - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/power-bi/consumer/end-user-dashboards"
+        }
+      ]
+    },
+    {
+      "id": "DP900-080",
+      "certification": "DP-900",
+      "domain": "Describe an analytics workload on Azure",
+      "topic": "Data Factory Pipelines: Copy Activity vs Mapping Data Flows",
+      "topicIcon": "pipeline",
+      "tags": [
+        "Data Factory",
+        "Copy Activity",
+        "Data Flows",
+        "ETL"
+      ],
+      "difficulty": "basic",
+      "questionType": "single",
+      "requiredSelections": 1,
+      "hasCodeSnippet": false,
+      "caseStudy": null,
+      "caseStudyTabs": null,
+      "stem": "En Azure Data Factory (y Fabric Data Pipelines), necesitas mover datos sin transformar desde un servidor SFTP local hacia Azure Data Lake Storage Gen2 de la manera más rápida y con el menor coste de cómputo posible. ¿Qué actividad integrada de la canalización debes utilizar?",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "La actividad de copia (Copy Activity).",
+          "isCorrect": true,
+          "rationale": "La actividad de copia (Copy Activity) es la herramienta nativa más rápida y económica para transferencia de datos paso a paso (lift-and-shift / ELT). Lee de más de 100 orígenes admitidos y escribe en el destino sin necesidad de arrancar clústeres de Spark para transformaciones en memoria."
+        },
+        {
+          "id": "opt_2",
+          "text": "Un flujo de datos de asignación (Mapping Data Flow) con múltiples uniones y pivotes.",
+          "isCorrect": false,
+          "rationale": "Mapping Data Flows arranca un clúster de Apache Spark para realizar transformaciones complejas en memoria, lo que añade tiempo de inicio y costes innecesarios para una simple copia directa de archivos."
+        },
+        {
+          "id": "opt_3",
+          "text": "La actividad Web enviando un archivo adjunto por correo electrónico.",
+          "isCorrect": false,
+          "rationale": "La actividad Web no está diseñada para mover gigabytes de datos de SFTP a Data Lakes."
+        },
+        {
+          "id": "opt_4",
+          "text": "La actividad Wait pausando la ejecución durante 10 horas.",
+          "isCorrect": false,
+          "rationale": "La actividad Wait solo suspende la canalización sin transferir ningún dato."
+        }
+      ],
+      "explanation": "La actividad Copy es el núcleo del movimiento de datos en Azure Data Factory. Para cargas de extracción y carga directa (ELT) sin transformaciones en vuelo, Copy Activity proporciona el mejor rendimiento y menor coste.",
+      "theoryPill": {
+        "title": "Actividad de Copia (Copy Activity) vs Flujos de Datos (Data Flows)",
+        "summary": "Movimiento masivo de datos frente a transformación en Azure Data Factory.",
+        "keyPoints": [
+          "Copy Activity: Movimiento puro de datos (Ingesta / ELT). Muy rápida, bajo coste, sin código de transformación.",
+          "Mapping Data Flows: Transformación visual de datos (ETL) ejecutada sobre clústeres Spark administrados.",
+          "Integration Runtime: El motor de computación que ejecuta la actividad (Azure IR para nube a nube, Self-Hosted IR para orígenes locales).",
+          "Soporta compresión, descompresión y mapeo de tipos de datos al vuelo."
+        ],
+        "examTrap": "Si la pregunta describe simplemente 'mover datos de A a B' sin transformaciones complejas, la respuesta siempre es Copy Activity.",
+        "searchQuery": "Copy activity in Azure Data Factory data movement DP-900"
+      },
+      "references": [
+        {
+          "title": "Copy activity in Azure Data Factory - Microsoft Learn",
+          "url": "https://learn.microsoft.com/en-us/azure/data-factory/copy-activity-overview"
+        }
+      ]
     }
   ]
 }

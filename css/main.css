@@ -1183,11 +1183,15 @@ html.light .multi-select-banner {
     font-size: 0.64rem;
   }
 
-  .theme-toggle-btn span {
+  .theme-toggle-btn span,
+  .header-cheat-btn span,
+  .header-install-btn span {
     display: none;
   }
 
-  .theme-toggle-btn {
+  .theme-toggle-btn,
+  .header-cheat-btn,
+  .header-install-btn {
     padding: 0.4rem 0.55rem;
     font-size: 0.95rem;
   }
@@ -1216,6 +1220,10 @@ html.light .multi-select-banner {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 0.6rem;
+  }
+
+  .hero-kpis .kpi-box:nth-child(5) {
+    grid-column: span 2;
   }
 
   .kpi-box {
@@ -1328,11 +1336,58 @@ html.light .multi-select-banner {
   .cheatsheet-grid {
     grid-template-columns: 1fr;
   }
+
+  .cheatsheet-card-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+  }
+
+  .cheatsheet-ref-link {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .cheatsheet-learn-btn {
+    width: 100%;
+  }
+
+  .cheatsheet-cert-pills {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    gap: 0.4rem;
+  }
+
+  .cheatsheet-cert-pills button:first-child {
+    grid-column: span 2;
+  }
 }
 
 /* ==========================================================================
    Hoja de Trucos / Repaso Rápido 24h Express (Cheat Sheet)
    ========================================================================== */
+
+.header-install-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-md);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #107c41;
+  background: rgba(16, 124, 65, 0.12);
+  border: 1px solid rgba(16, 124, 65, 0.35);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.header-install-btn:hover {
+  background: rgba(16, 124, 65, 0.22);
+  border-color: #107c41;
+  transform: translateY(-1px);
+}
 
 .header-cheat-btn {
   display: inline-flex;
