@@ -31,6 +31,9 @@ export const AppState = {
     currentIndex: 0,
     activeCaseTab: 'overview',
     answers: {},
+    confidences: {},            // { [qId]: 'confident' | 'doubtful' | 'guessed' }
+    timeSpent: {},              // { [qId]: seconds }
+    questionStartMs: 0,         // Timestamp when current question became active
     strikethroughs: {},
     markedForReview: new Set(),
     revealedInStudy: new Set(),

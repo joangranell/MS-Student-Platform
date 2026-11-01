@@ -70,12 +70,13 @@ export const ExamEngine = {
   },
 
   /**
-   * Computes an Adaptive Priority Score for a question based on the user's profile:
-   * - Failed questions in Box 0 get highest weight (+110)
-   * - Consolidating questions in Box 1 get high weight (+65)
+   * Computes an Adaptive Priority Score for a question based on the user's profile and Leitner schedule:
+   * - Failed questions in Box 0 get highest weight (+120)
+   * - Overdue questions (nextReview <= now) get high weight (+90 + (4-box)*10)
+   * - Consolidating questions in Box 1 get (+40)
    * - Questions belonging to a weak topic (<70% hit rate) get (+45)
-   * - Unseen questions get (+30)
-   * - Mastered questions (Box 3) get (+5)
+   * - Unseen questions get (+35)
+   * - Mastered questions (Box 4) get (+5)
    */
   computeAdaptivePriority(q, activeProfile) {
     if (!activeProfile) return Math.random() * 20;
@@ -83,20 +84,26 @@ export const ExamEngine = {
     const masteryMap = activeProfile.questionMastery || {};
     const topicStats = activeProfile.topicStats || {};
     const failedIds = activeProfile.failedQuestionIds || [];
+    const nowIso = new Date().toISOString();
 
     let weight = 0;
     const m = masteryMap[q.id];
 
-    if (failedIds.includes(q.id) || (m && m.box === 0 && m.totalFails > 0)) {
-      weight += 110 + (m ? m.totalFails * 10 : 0);
-    } else if (m && m.box === 1) {
-      weight += 65;
+    if (failedIds.includes(q.id) || (m && m.box === 0 && (m.fails || m.totalFails || 0) > 0)) {
+      weight += 120 + (m ? (m.fails || m.totalFails || 0) * 10 : 0);
+    } else if (m && m.nextReview && m.nextReview <= nowIso) {
+      // Due for Leitner spaced repetition review!
+      weight += 90 + (4 - (m.box || 0)) * 10;
     } else if (!m) {
-      weight += 30; // Unseen question
+      weight += 35; // Unseen question
+    } else if (m.box === 1) {
+      weight += 40;
     } else if (m.box === 2) {
+      weight += 25;
+    } else if (m.box === 3) {
       weight += 15;
     } else {
-      weight += 5; // Box 3 mastered
+      weight += 5; // Box 4 (mastered)
     }
 
     // Topic weakness boost: if user struggles with this topicIcon, pull more questions from this topic!
@@ -104,14 +111,14 @@ export const ExamEngine = {
     if (tStat && tStat.total > 0) {
       const topicAccuracy = tStat.hit / tStat.total;
       if (topicAccuracy < 0.5) {
-        weight += 50;
+        weight += 45;
       } else if (topicAccuracy < 0.75) {
-        weight += 30;
+        weight += 25;
       }
     }
 
-    // Add random jitter (0..18) so order isn't deterministic
-    return weight + Math.random() * 18;
+    // Add random jitter (0..15) so order isn't completely deterministic
+    return weight + Math.random() * 15;
   },
 
   /**
@@ -198,6 +205,7 @@ export const ExamEngine = {
     let unansweredCount = 0;
 
     const domainBreakdown = {};
+    const rushQuestions = [];
 
     const questionDetails = session.questions.map((q, idx) => {
       const rawAns = session.answers[q.id];
@@ -212,6 +220,18 @@ export const ExamEngine = {
 
       const isAnswered = markedOptions.length > 0;
       const isCorrect = this.isQuestionCorrect(q, selectedIds);
+      const secondsSpent = Math.max(1, Math.round(session.timeSpent?.[q.id] || 0));
+      const confidence = session.confidences?.[q.id] || null;
+
+      // Rush check: answered in less than 15s and failed
+      const isRushAnswer = !isCorrect && isAnswered && secondsSpent < 15;
+      if (isRushAnswer) {
+        rushQuestions.push({
+          questionId: q.id,
+          stem: q.stem,
+          secondsSpent
+        });
+      }
 
       if (!isAnswered) {
         unansweredCount += 1;
@@ -226,10 +246,12 @@ export const ExamEngine = {
           domain: q.domain,
           certification: q.certification,
           hit: 0,
-          total: 0
+          total: 0,
+          totalSeconds: 0
         };
       }
       domainBreakdown[q.domain].total += 1;
+      domainBreakdown[q.domain].totalSeconds += secondsSpent;
       if (isCorrect) {
         domainBreakdown[q.domain].hit += 1;
       }
@@ -255,6 +277,9 @@ export const ExamEngine = {
         correctOptions,
         isAnswered,
         isCorrect,
+        secondsSpent,
+        confidence,
+        isRushAnswer,
         wasFlagged: session.markedForReview.has(q.id),
         explanation: q.explanation,
         theoryPill: q.theoryPill || null,
@@ -266,6 +291,24 @@ export const ExamEngine = {
     const scaledScore = this.calculateScaledScore(correctCount, totalQuestions);
     const passed = percentage >= 70;
     const durationSeconds = Math.max(1, Math.round((Date.now() - session.startTimeMs) / 1000));
+
+    // Calculate domain breakdown stats and find weakest domain
+    const domainsList = Object.values(domainBreakdown).map((d) => {
+      const pct = d.total > 0 ? Math.round((d.hit / d.total) * 100) : 0;
+      const avgSec = d.total > 0 ? Math.round(d.totalSeconds / d.total) : 0;
+      return {
+        ...d,
+        percentage: pct,
+        avgSeconds: avgSec
+      };
+    });
+
+    let weakestDomain = null;
+    const imperfectDomains = domainsList.filter((d) => d.percentage < 100);
+    if (imperfectDomains.length > 0) {
+      imperfectDomains.sort((a, b) => a.percentage - b.percentage);
+      weakestDomain = imperfectDomains[0];
+    }
 
     return {
       certification: session.certification,
@@ -279,7 +322,10 @@ export const ExamEngine = {
       scaledScore,
       passed,
       durationSeconds,
-      domainBreakdown: Object.values(domainBreakdown),
+      domainBreakdown: domainsList,
+      weakestDomain,
+      rushCount: rushQuestions.length,
+      rushQuestions,
       questionDetails
     };
   }

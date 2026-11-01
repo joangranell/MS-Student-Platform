@@ -3,6 +3,7 @@
  */
 
 import { CERT_BADGE_SVGS, TOPIC_ICON_METADATA, getTopicMeta } from './icons.js';
+import { getStudyStreak, getMasteredThisWeekCount, getDueReviewQuestions } from './storage.js';
 
 export function escapeHtml(str) {
   if (str === null || str === undefined) return '';
@@ -461,6 +462,65 @@ export const UI = {
     if (kpiFailedBank) kpiFailedBank.textContent = String(failedCount);
     if (kpiMasteredBank) kpiMasteredBank.textContent = String(masteredCount);
 
+    // 1.1. Render Repaso de Hoy (Leitner) Card
+    const dueQuestions = getDueReviewQuestions(activeProfile, state.allQuestions, targetCert);
+    const dueCount = dueQuestions.length;
+    const streakDays = getStudyStreak(activeProfile);
+    const masteredWeek = getMasteredThisWeekCount(activeProfile);
+
+    const dueCountEl = document.getElementById('today-due-count');
+    const btnDueCountEl = document.getElementById('btn-today-due-count');
+    const streakDaysEl = document.getElementById('today-streak-days');
+    const masteredWeekEl = document.getElementById('today-mastered-week');
+    const headlineEl = document.getElementById('today-review-headline');
+
+    if (dueCountEl) dueCountEl.textContent = String(dueCount);
+    if (btnDueCountEl) btnDueCountEl.textContent = String(dueCount);
+    if (streakDaysEl) streakDaysEl.textContent = `${streakDays} día${streakDays === 1 ? '' : 's'}`;
+    if (masteredWeekEl) masteredWeekEl.textContent = String(masteredWeek);
+    if (headlineEl) {
+      headlineEl.innerHTML = dueCount > 0
+        ? `Tienes <span style="color:var(--ms-blue-light); font-weight:700;">${dueCount}</span> preguntas pendientes de repaso para hoy`
+        : `¡Al día! No tienes preguntas pendientes para hoy`;
+    }
+
+    // Determine current study plan phase
+    const basicPool = targetCertQuestions.filter((q) => q.difficulty === 'basic');
+    const interPool = targetCertQuestions.filter((q) => q.difficulty === 'intermediate');
+    const hardPool = targetCertQuestions.filter((q) => q.difficulty === 'hardcore' || q.hasCodeSnippet);
+
+    const basicDone = basicPool.filter((q) => (activeProfile.questionMastery?.[q.id]?.hits || 0) > 0).length;
+    const interDone = interPool.filter((q) => (activeProfile.questionMastery?.[q.id]?.hits || 0) > 0).length;
+    const hardDone = hardPool.filter((q) => (activeProfile.questionMastery?.[q.id]?.hits || 0) > 0).length;
+
+    const basicPct = basicPool.length > 0 ? Math.round((basicDone / basicPool.length) * 100) : 100;
+    const interPct = interPool.length > 0 ? Math.round((interDone / interPool.length) * 100) : 100;
+    const hardPct = hardPool.length > 0 ? Math.round((hardDone / hardPool.length) * 100) : 100;
+
+    let nextPhaseName = 'Fase 1 (Cimientos)';
+    let nextPhaseKey = 'basic';
+    if (basicPct < 80) {
+      nextPhaseName = `Fase 1: Cimientos (${basicPct}%)`;
+      nextPhaseKey = 'basic';
+    } else if (interPct < 80) {
+      nextPhaseName = `Fase 2: Consolidación (${interPct}%)`;
+      nextPhaseKey = 'adaptive';
+    } else if (hardPct < 80) {
+      nextPhaseName = `Fase 3: Nivel Experto (${hardPct}%)`;
+      nextPhaseKey = 'hardcore';
+    } else {
+      nextPhaseName = 'Fase 4: Simulacro';
+      nextPhaseKey = 'exam';
+    }
+
+    const nextPhaseEl = document.getElementById('plan-next-phase-name');
+    if (nextPhaseEl) nextPhaseEl.textContent = nextPhaseName;
+
+    const btnQuickPlan = document.getElementById('btn-quick-continue-plan');
+    if (btnQuickPlan) {
+      btnQuickPlan.setAttribute('data-target-phase', nextPhaseKey);
+    }
+
     // 2. Certification Cards + Official Shield Logos + Metadata
     const certCounts = {
       'AZ-900': state.allQuestions.filter((q) => q.certification === 'AZ-900').length,
@@ -507,28 +567,24 @@ export const UI = {
       }
     });
 
-    // 3. Mode Switch (Exam vs Study)
+    // 3. Simplified Mode & Sub-mode Selection
     document.querySelectorAll('.mode-box').forEach((box) => {
-      const m = box.getAttribute('data-mode');
-      box.classList.toggle('selected', m === state.config.mode);
+      const mode = box.getAttribute('data-mode');
+      const submode = box.getAttribute('data-submode');
+      const isSelected = (mode === state.config.mode) && (!submode || submode === state.config.subMode);
+      box.classList.toggle('selected', isSelected);
     });
 
-    const submodesWrap = document.getElementById('study-submodes-wrap');
-    if (submodesWrap) {
-      submodesWrap.classList.toggle('hidden', state.config.mode !== 'study');
-    }
-
-    // 4. Study Sub-modes
     document.querySelectorAll('.submode-item').forEach((item) => {
       const sm = item.getAttribute('data-submode');
       item.classList.toggle('selected', sm === state.config.subMode);
     });
 
-    // 5. Domain Selector (when subMode === 'domain')
+    // 4. Domain Selector (when subMode === 'domain')
     const domainWrap = document.getElementById('domain-select-wrap');
     const domainSelect = document.getElementById('domain-select');
     if (domainWrap && domainSelect) {
-      const showDomain = state.config.mode === 'study' && state.config.subMode === 'domain';
+      const showDomain = state.config.subMode === 'domain';
       domainWrap.classList.toggle('hidden', !showDomain);
 
       if (showDomain) {
@@ -956,20 +1012,41 @@ export const UI = {
           )
           .join('');
 
+        const currentConf = session.confidences?.[q.id] || null;
+
         feedbackContainer.className = `study-feedback-panel ${isHit ? 'is-correct' : 'is-wrong'}`;
         feedbackContainer.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem; margin-bottom:0.65rem;">
             <div class="feedback-heading" style="margin-bottom:0;">
               ${
                 isHit
-                  ? '✅ ¡Respuesta Correcta! (+1 en consolidación de este tema)'
-                  : `❌ Respuesta Incorrecta — Opción correcta: ${escapeHtml(correctLetters)} (Añadida a repetición prioritaria)`
+                  ? '✅ ¡Respuesta Correcta!'
+                  : `❌ Respuesta Incorrecta — Opción correcta: ${escapeHtml(correctLetters)}`
               }
             </div>
             <button type="button" class="btn btn-primary btn-sm" data-open-theory="${escapeHtml(q.id)}">
-              📚 Saber más (Teoría y MS Learn en Vivo)
+              📚 Saber más
             </button>
           </div>
+
+          <div class="confidence-selector">
+            <span class="confidence-title">¿Con qué grado de seguridad respondiste? (Opcional):</span>
+            <div class="confidence-buttons">
+              <button type="button" class="btn-confidence ${currentConf === 'confident' ? 'selected' : ''}" data-confidence-choice="confident">
+                🟢 Seguro
+                <small>+1 Caja Leitner</small>
+              </button>
+              <button type="button" class="btn-confidence ${currentConf === 'doubtful' ? 'selected' : ''}" data-confidence-choice="doubtful">
+                🟡 Dudoso
+                <small>+1 Caja con cautela</small>
+              </button>
+              <button type="button" class="btn-confidence ${currentConf === 'guessed' ? 'selected' : ''}" data-confidence-choice="guessed">
+                ⚪ Adivinado
+                <small>No sube de caja</small>
+              </button>
+            </div>
+          </div>
+
           <div class="feedback-explanation">${escapeHtml(q.explanation)}</div>
           ${
             refsHtml
@@ -980,6 +1057,17 @@ export const UI = {
               : ''
           }
         `;
+
+        feedbackContainer.querySelectorAll('[data-confidence-choice]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const choice = btn.getAttribute('data-confidence-choice');
+            session.confidences[q.id] = choice;
+            feedbackContainer.querySelectorAll('[data-confidence-choice]').forEach((b) => {
+              b.classList.toggle('selected', b.getAttribute('data-confidence-choice') === choice);
+            });
+          });
+        });
+
         feedbackContainer.classList.remove('hidden');
       } else {
         feedbackContainer.classList.add('hidden');
@@ -1235,16 +1323,32 @@ export const UI = {
       repeatFailedBtn.textContent = `🔁 Repetir las ${failedInThisAttempt.length} preguntas falladas de este test`;
     }
 
+    const rushAlert = document.getElementById('results-rush-alert');
+    if (rushAlert) {
+      if (result.rushCount && result.rushCount > 0) {
+        rushAlert.innerHTML = `
+          <div class="rush-warning-box">
+            ⚡ <strong>Aviso de respuestas apresuradas:</strong> Has contestado <strong>${result.rushCount}</strong> pregunta(s) en menos de 15 segundos y las has fallado. Tómate el tiempo necesario para leer los enunciados detenidamente y descartar opciones distractores.
+          </div>
+        `;
+        rushAlert.classList.remove('hidden');
+      } else {
+        rushAlert.innerHTML = '';
+        rushAlert.classList.add('hidden');
+      }
+    }
+
     if (breakdownContainer) {
-      breakdownContainer.innerHTML = result.domainBreakdown
+      const barsHtml = result.domainBreakdown
         .map((dom) => {
-          const pct = dom.total > 0 ? Math.round((dom.hit / dom.total) * 100) : 0;
+          const pct = dom.percentage !== undefined ? dom.percentage : (dom.total > 0 ? Math.round((dom.hit / dom.total) * 100) : 0);
+          const avgSec = dom.avgSeconds || 0;
           const color = pct >= 70 ? 'var(--success)' : pct >= 50 ? 'var(--warning)' : 'var(--danger)';
           return `
             <div class="domain-progress-item">
               <div class="domain-progress-header">
                 <span>${escapeHtml(dom.domain)}</span>
-                <strong>${pct}% (${dom.hit}/${dom.total})</strong>
+                <strong>${pct}% (${dom.hit}/${dom.total}) • ⏱ ${avgSec}s/preg</strong>
               </div>
               <div class="progress-track">
                 <div class="progress-fill" style="width:${pct}%; background-color:${color};"></div>
@@ -1253,6 +1357,23 @@ export const UI = {
           `;
         })
         .join('');
+
+      let weakestHtml = '';
+      if (result.weakestDomain && result.weakestDomain.percentage < 70) {
+        weakestHtml = `
+          <div class="weakest-domain-box">
+            <div>
+              <span style="font-size:0.75rem; text-transform:uppercase; color:var(--warning); font-weight:700;">⚠️ Dominio con menor acierto:</span>
+              <div style="font-weight:600; font-size:0.88rem; margin-top:0.2rem;">${escapeHtml(result.weakestDomain.domain)} (${result.weakestDomain.percentage}%)</div>
+            </div>
+            <button type="button" class="btn btn-warning-solid btn-sm" id="btn-train-weakest-domain" data-domain="${escapeHtml(result.weakestDomain.domain)}">
+              🎯 Entrenar este dominio ahora
+            </button>
+          </div>
+        `;
+      }
+
+      breakdownContainer.innerHTML = barsHtml + weakestHtml;
     }
 
     const counts = {

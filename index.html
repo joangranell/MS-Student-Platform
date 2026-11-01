@@ -166,6 +166,27 @@
         </div>
       </div>
 
+      <!-- Card Principal: Repaso de Hoy (Leitner Espaciado) -->
+      <div class="today-review-card" id="today-review-card">
+        <div class="today-review-left">
+          <div class="today-review-badge">🧠 REPASO ESPACIADO DE HOY</div>
+          <h2 id="today-review-headline">Tienes <span id="today-due-count">0</span> preguntas pendientes de repaso</h2>
+          <p id="today-review-desc">El algoritmo espaciado de Leitner selecciona preguntas según tu curva de olvido y fallos recientes.</p>
+          <div class="today-kpis-row">
+            <span class="today-kpi-pill">🔥 Racha de estudio: <strong id="today-streak-days">0 días</strong></span>
+            <span class="today-kpi-pill">🏆 Dominadas esta semana: <strong id="today-mastered-week">0</strong></span>
+          </div>
+        </div>
+        <div class="today-review-actions">
+          <button type="button" class="btn btn-primary" id="btn-start-today-review" style="font-size:1rem; padding:0.85rem 1.4rem;">
+            ▶ Iniciar Repaso de Hoy (<span id="btn-today-due-count">0</span>)
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-quick-continue-plan">
+            🗺️ Continuar Plan de Estudio: <span id="plan-next-phase-name">Fase 1</span>
+          </button>
+        </div>
+      </div>
+
       <!-- Personalized 4-Phase Study Plan for Target Certification -->
       <div id="study-plan-container"></div>
 
@@ -272,65 +293,62 @@
               </div>
             </div>
 
-            <!-- Step 2: Primary Mode Selector -->
-            <span class="step-label">2. Elige la Modalidad de Ejecución</span>
+            <!-- Step 2: Primary Study & Exam Pathways (Simplified 3 options + collapsible) -->
+            <span class="step-label">2. Elige tu Enfoque de Sesión</span>
             <div class="mode-switch-grid">
-              <div class="mode-box selected" data-mode="exam">
-                <div class="mode-box-title">🏛️ Modo Examen (Estilo Pearson VUE)</div>
+              <div class="mode-box selected" data-session-choice="adaptive" data-mode="study" data-submode="adaptive">
+                <div class="mode-box-title">🧠 Repaso Inteligente (Leitner)</div>
                 <div class="mode-box-desc">
-                  Simulacro cronometrado: opción única (`○`) y múltiple (`☐`), casos de estudio con pestañas y estimación orientativa 100–1000 pts.
+                  Prioriza preguntas vencidas por repetición espaciada, fallos activos y refuerzo de temas débiles.
                 </div>
               </div>
 
-              <div class="mode-box" data-mode="study">
-                <div class="mode-box-title">🧠 Modo Estudio Adaptativo + "Saber Más"</div>
+              <div class="mode-box" data-session-choice="domain" data-mode="study" data-submode="domain">
+                <div class="mode-box-title">🎯 Por Dominio Temático</div>
                 <div class="mode-box-desc">
-                  Repetición inteligente de tus puntos débiles con corrección al instante, ficha teórica y consulta en vivo a <strong>Microsoft Learn</strong>.
+                  Entrena un bloque específico de la guía de habilidades (Skills Measured) a tu ritmo.
+                </div>
+              </div>
+
+              <div class="mode-box" data-session-choice="exam" data-mode="exam" data-submode="all_study">
+                <div class="mode-box-title">🏛️ Simulacro de Examen</div>
+                <div class="mode-box-desc">
+                  Simulacro cronometrado estilo Pearson VUE con estimación orientativa 100–1000 pts.
                 </div>
               </div>
             </div>
 
-            <!-- Step 2.2: Study Sub-Modes (Visible when Study Mode is active) -->
-            <div id="study-submodes-wrap" class="study-submodes-container hidden">
-              <span class="step-label" style="margin-top:0;">2.1. Clasificación del Modo Estudio</span>
-              <div class="submodes-grid">
-                <div class="submode-item selected" data-submode="adaptive">
-                  <span class="submode-name">🔄 Repetición Adaptativa Inteligente (Recomendado)</span>
-                  <span class="submode-hint">Prioriza automáticamente preguntas falladas y otras del mismo tema débil hasta acertarlas 3 veces.</span>
-                </div>
+            <!-- Dynamic Domain Dropdown (when domain is active) -->
+            <div id="domain-select-wrap" class="domain-select-wrap hidden" style="margin-top:0.85rem;">
+              <label class="form-label" for="domain-select">Selecciona el Dominio Temático a entrenar:</label>
+              <select id="domain-select" class="form-select"></select>
+            </div>
 
-                <div class="submode-item" data-submode="basic">
-                  <span class="submode-name">🟢 Lo Básico (Fundamentos y Conceptos)</span>
-                  <span class="submode-hint">Ideal para afianzar arquitectura y definiciones clave.</span>
-                </div>
-
-                <div class="submode-item" data-submode="hardcore">
-                  <span class="submode-name">🔴 Lo Más Difícil (Casos y Troubleshooting)</span>
-                  <span class="submode-hint">Preguntas complejas de arquitectura, código y límites técnicos.</span>
-                </div>
-
-                <div class="submode-item" data-submode="domain">
-                  <span class="submode-name">🎯 Por Dominio Temático (Skills Measured)</span>
-                  <span class="submode-hint">Entrena un bloque específico de la guía de habilidades.</span>
-                </div>
-
-                <div class="submode-item" data-submode="code">
+            <!-- More Specialized Options Collapsible -->
+            <details class="more-study-options" id="more-study-options">
+              <summary>⚙️ Más opciones de estudio especializado</summary>
+              <div class="submodes-grid" style="margin-top:0.65rem;">
+                <div class="submode-item" data-submode="code" data-mode="study">
                   <span class="submode-name">💻 Preguntas de código (SQL/DAX/KQL/PySpark)</span>
                   <span class="submode-hint">Exclusivo de preguntas con sintaxis y fragmentos de código.</span>
                 </div>
 
-                <div class="submode-item" data-submode="failed">
+                <div class="submode-item" data-submode="hardcore" data-mode="study">
+                  <span class="submode-name">🔴 Preguntas difíciles (Casos y Troubleshooting)</span>
+                  <span class="submode-hint">Preguntas complejas de arquitectura, límites técnicos y escenarios.</span>
+                </div>
+
+                <div class="submode-item" data-submode="basic" data-mode="study">
+                  <span class="submode-name">🟢 Fundamentos básicos (Conceptos y Arquitectura)</span>
+                  <span class="submode-hint">Ideal para afianzar arquitectura base y definiciones clave.</span>
+                </div>
+
+                <div class="submode-item" data-submode="failed" data-mode="study">
                   <span class="submode-name">🩺 Clínica de Fallos ("Redención")</span>
-                  <span class="submode-hint">Exclusivamente preguntas que tu perfil tiene pendientes de consolidar.</span>
+                  <span class="submode-hint">Exclusivamente preguntas que tu perfil tiene pendientes de consolidar en Caja 0.</span>
                 </div>
               </div>
-
-              <!-- Dynamic Domain Dropdown (when subMode === 'domain') -->
-              <div id="domain-select-wrap" class="domain-select-wrap hidden">
-                <label class="form-label" for="domain-select">Selecciona el Dominio Temático:</label>
-                <select id="domain-select" class="form-select"></select>
-              </div>
-            </div>
+            </details>
 
             <!-- Step 3: Number of Questions -->
             <span class="step-label">3. Cantidad de Preguntas del Test</span>
@@ -505,6 +523,8 @@
       <div class="results-disclaimer">
         ⚠️ <strong>Aviso sobre la puntuación:</strong> La puntuación mostrada es una <strong>estimación orientativa (100–1000 pts)</strong>. Los exámenes reales de Microsoft emplean puntuaciones escaladas psicométricas no lineales según la dificultad individual de cada ítem. El porcentaje de acierto por dominio es el indicador más fiable de tu preparación real.
       </div>
+
+      <div id="results-rush-alert" class="hidden"></div>
 
       <div class="results-banner" id="results-summary-banner">
         <div>

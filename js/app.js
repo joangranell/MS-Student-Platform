@@ -3,7 +3,7 @@
  */
 
 import { AppState } from './state.js';
-import { StorageManager } from './storage.js';
+import { StorageManager, getDueReviewQuestions } from './storage.js';
 import { ExamEngine } from './examEngine.js';
 import { UI, formatTimeMMSS, escapeHtml } from './ui.js';
 
@@ -124,6 +124,16 @@ function startSessionTimer() {
   }, 1000);
 }
 
+function recordCurrentQuestionTime() {
+  if (!AppState.session || !AppState.session.active) return;
+  const currentQ = AppState.session.questions[AppState.session.currentIndex];
+  if (currentQ && AppState.session.questionStartMs > 0) {
+    const elapsed = Math.max(1, Math.round((Date.now() - AppState.session.questionStartMs) / 1000));
+    AppState.session.timeSpent[currentQ.id] = (AppState.session.timeSpent[currentQ.id] || 0) + elapsed;
+  }
+  AppState.session.questionStartMs = Date.now();
+}
+
 function startSessionWithPool(pool, mode, subMode, certificationLabel) {
   if (!pool || pool.length === 0) {
     alert('No hay preguntas disponibles con los filtros seleccionados.');
@@ -151,6 +161,9 @@ function startSessionWithPool(pool, mode, subMode, certificationLabel) {
     currentIndex: 0,
     activeCaseTab: 'overview',
     answers: {},
+    confidences: {},
+    timeSpent: {},
+    questionStartMs: Date.now(),
     strikethroughs: {},
     markedForReview: new Set(),
     revealedInStudy: new Set(),
@@ -174,6 +187,7 @@ function startSessionWithPool(pool, mode, subMode, certificationLabel) {
 }
 
 function finalizeExamSession() {
+  recordCurrentQuestionTime();
   stopSessionTimer();
   AppState.session.active = false;
 
@@ -471,18 +485,64 @@ function bindEvents() {
     });
   });
 
+  // Today Leitner Review & Quick Phase Launch
+  document.getElementById('btn-start-today-review')?.addEventListener('click', () => {
+    const activeProfile = StorageManager.getActiveProfile();
+    const targetCert = activeProfile.targetCert || AppState.config.certification || 'AZ-900';
+    const dueQuestions = getDueReviewQuestions(activeProfile, AppState.allQuestions, targetCert);
+    if (dueQuestions.length === 0) {
+      alert(`¡Al día! No tienes preguntas vencidas para repasar hoy en ${targetCert}.`);
+      return;
+    }
+    AppState.config.questionCount = Math.min(dueQuestions.length, 25);
+    startSessionWithPool(
+      dueQuestions,
+      'study',
+      'adaptive',
+      `${targetCert} • REPASO DE HOY (${dueQuestions.length} PREGUNTAS)`
+    );
+  });
+
+  document.getElementById('btn-quick-continue-plan')?.addEventListener('click', (e) => {
+    const phase = e.currentTarget.getAttribute('data-target-phase') || 'basic';
+    const btnPhase = document.querySelector(`[data-launch-plan-phase="${phase}"]`);
+    if (btnPhase) {
+      btnPhase.click();
+    }
+  });
+
   document.querySelectorAll('.mode-box').forEach((box) => {
     box.addEventListener('click', () => {
-      AppState.config.mode = box.getAttribute('data-mode') || 'exam';
+      const mode = box.getAttribute('data-mode') || 'study';
+      const submode = box.getAttribute('data-submode') || 'adaptive';
+      AppState.config.mode = mode;
+      AppState.config.subMode = submode;
       refreshDashboard();
     });
   });
 
   document.querySelectorAll('.submode-item').forEach((item) => {
     item.addEventListener('click', () => {
-      AppState.config.subMode = item.getAttribute('data-submode') || 'adaptive';
+      const mode = item.getAttribute('data-mode') || 'study';
+      const submode = item.getAttribute('data-submode') || 'adaptive';
+      AppState.config.mode = mode;
+      AppState.config.subMode = submode;
       refreshDashboard();
     });
+  });
+
+  document.addEventListener('click', (e) => {
+    const trainWeakBtn = e.target.closest('#btn-train-weakest-domain');
+    if (trainWeakBtn) {
+      const domain = trainWeakBtn.getAttribute('data-domain');
+      if (domain) {
+        AppState.config.mode = 'study';
+        AppState.config.subMode = 'domain';
+        AppState.config.selectedDomain = domain;
+        UI.showView('dashboard');
+        refreshDashboard();
+      }
+    }
   });
 
   document.getElementById('domain-select')?.addEventListener('change', (e) => {
@@ -647,6 +707,7 @@ function bindEvents() {
 
   document.getElementById('vue-btn-prev')?.addEventListener('click', () => {
     if (AppState.session.currentIndex > 0) {
+      recordCurrentQuestionTime();
       AppState.session.currentIndex -= 1;
       AppState.session.activeCaseTab = 'overview';
       UI.renderExamQuestion(AppState.session, StorageManager.getActiveProfile());
@@ -656,15 +717,18 @@ function bindEvents() {
   document.getElementById('vue-btn-next')?.addEventListener('click', () => {
     const total = AppState.session.questions.length;
     if (AppState.session.currentIndex < total - 1) {
+      recordCurrentQuestionTime();
       AppState.session.currentIndex += 1;
       AppState.session.activeCaseTab = 'overview';
       UI.renderExamQuestion(AppState.session, StorageManager.getActiveProfile());
     } else {
+      recordCurrentQuestionTime();
       UI.renderReviewModal(AppState.session);
     }
   });
 
   document.getElementById('vue-btn-review-grid')?.addEventListener('click', () => {
+    recordCurrentQuestionTime();
     UI.renderReviewModal(AppState.session);
   });
 
@@ -676,6 +740,7 @@ function bindEvents() {
     const cell = e.target.closest('[data-jump-index]');
     if (!cell) return;
     const idx = Number(cell.getAttribute('data-jump-index'));
+    recordCurrentQuestionTime();
     AppState.session.currentIndex = idx;
     AppState.session.activeCaseTab = 'overview';
     document.getElementById('modal-review-grid')?.classList.add('hidden');
