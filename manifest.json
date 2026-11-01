@@ -1,7 +1,9 @@
 {
+  "id": "ms-student-platform-pwa",
   "name": "MS Student Platform — Simulador de Certificaciones Microsoft",
   "short_name": "MS Platform",
-  "description": "Simulador adaptativo de exámenes oficiales de Microsoft (AZ-900, DP-900, DP-600, DP-700) con fidelidad Pearson VUE.",
+  "lang": "es",
+  "description": "Simulador adaptativo y plataforma de estudio para certificaciones Microsoft (AZ-900, DP-900, DP-600, DP-700) con modo examen, repetición espaciada y hoja de trucos.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
@@ -14,13 +16,41 @@
       "src": "./icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "./icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Hoja de Trucos Express",
+      "short_name": "Trucos 24h",
+      "description": "Repasa las píldoras teóricas y trampas de examen",
+      "url": "./index.html#cheatsheet",
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Simulacro de Examen",
+      "short_name": "Modo Examen",
+      "description": "Inicia un simulacro cronometrado de certificación",
+      "url": "./index.html#exam",
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }

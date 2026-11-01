@@ -13,7 +13,7 @@ export const AppState = {
 
   // Dashboard Configurator State
   config: {
-    certification: 'ALL',       // 'ALL' | 'DP-900' | 'DP-600' | 'DP-700'
+    certification: 'AZ-900',    // 'AZ-900' | 'DP-900' | 'DP-600' | 'DP-700' (default matches profile.targetCert)
     mode: 'exam',               // 'exam' | 'study'
     subMode: 'adaptive',        // 'adaptive' | 'all_study' | 'basic' | 'hardcore' | 'domain' | 'code' | 'failed' | 'topic'
     selectedDomain: 'ALL',      // Specific domain name or 'ALL'
@@ -24,7 +24,7 @@ export const AppState = {
   // Active Test Session State
   session: {
     active: false,
-    certification: 'ALL',
+    certification: 'AZ-900',
     mode: 'exam',
     subMode: 'adaptive',
     questions: [],

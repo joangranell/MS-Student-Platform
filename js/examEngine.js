@@ -18,9 +18,13 @@ export const ExamEngine = {
    * Filters the master question pool according to Dashboard configuration & active profile
    */
   filterQuestions(allQuestions, config, activeProfile) {
+    const effectiveCert = (config.certification && config.certification !== 'ALL')
+      ? config.certification
+      : (activeProfile?.targetCert || 'AZ-900');
+
     return allQuestions.filter((q) => {
-      // 1. Certification filter
-      if (config.certification !== 'ALL' && q.certification !== config.certification) {
+      // 1. Strict certification isolation — never mix certifications
+      if (q.certification !== effectiveCert) {
         return false;
       }
 

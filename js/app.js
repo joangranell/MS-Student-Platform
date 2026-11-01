@@ -24,8 +24,13 @@ async function loadQuestionsRepository() {
       const res = await fetch(url, { cache: 'no-store' });
       if (!res.ok) continue;
       const data = await res.json();
-      if (data.meta && !metaLoaded) {
-        metaLoaded = data.meta;
+      if (!metaLoaded) metaLoaded = { certificationMetadata: {} };
+      if (data.certification && data.metadata) {
+        if (!metaLoaded.certificationMetadata) metaLoaded.certificationMetadata = {};
+        metaLoaded.certificationMetadata[data.certification] = data.metadata;
+      }
+      if (data.meta) {
+        metaLoaded = { ...metaLoaded, ...data.meta };
       }
       if (Array.isArray(data.questions)) {
         for (const q of data.questions) {
@@ -254,7 +259,7 @@ async function queryLiveMsLearnMcp(action, query) {
             <h4>📘 ${escapeHtml(item.title)}</h4>
             <div class="mcp-excerpt">${escapeHtml((item.content || '').slice(0, 900))}</div>
             <a href="${escapeHtml(item.contentUrl)}" target="_blank" rel="noopener noreferrer" class="ms-learn-link-item">
-              🔗 Abrir artículo oficial en Microsoft Learn ↗
+              🔗 Abrir artículo en Microsoft Learn ↗
             </a>
           </div>
         `
@@ -453,14 +458,14 @@ function bindEvents() {
         startSessionWithPool(pool, 'study', 'hardcore', `${targetCert} • FASE 3 (NIVEL EXPERTO)`);
       } else if (phase === 'exam') {
         AppState.config.questionCount = Math.min(certPool.length, 45);
-        startSessionWithPool(certPool, 'exam', 'all_study', `${targetCert} • SIMULACRO OFICIAL`);
+        startSessionWithPool(certPool, 'exam', 'all_study', `${targetCert} • SIMULACRO MODO EXAMEN`);
       }
     }
   });
 
   document.querySelectorAll('#view-dashboard .cert-card').forEach((card) => {
     card.addEventListener('click', () => {
-      AppState.config.certification = card.getAttribute('data-cert') || 'ALL';
+      AppState.config.certification = card.getAttribute('data-cert') || 'AZ-900';
       AppState.config.selectedDomain = 'ALL';
       refreshDashboard();
     });

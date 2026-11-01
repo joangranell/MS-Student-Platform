@@ -7,6 +7,11 @@
     "Describe Azure architecture and services",
     "Describe Azure management and governance"
   ],
+  "metadata": {
+    "lastReviewed": "2026-11-01",
+    "skillsOutlineVersion": "Study guide for Exam AZ-900 (Nov 2025/2026)",
+    "idioma": "es (Español)"
+  },
   "questions": [
     {
       "id": "AZ900-001",

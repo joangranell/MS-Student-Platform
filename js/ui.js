@@ -25,14 +25,39 @@ export function formatTimeMMSS(totalSeconds) {
   return `${String(mins).padStart(2, '0')}:${String(remSec).padStart(2, '0')}`;
 }
 
+export function getReportIssueUrl(qId, cert, domain = '') {
+  const repo = 'https://github.com/joangranell/MS-Student-Platform/issues/new';
+  const title = `[Reporte de error] Pregunta ${qId} (${cert})`;
+  const body = `### Pregunta ID: ${qId}
+### Certificación: ${cert}
+### Dominio: ${domain}
+### Versión del catálogo: 3.1.0
+
+**Descripción del error:**
+(Por favor, indica qué parte consideras incorrecta o confusa: enunciado, opciones, justificación técnica o enlace roto)`;
+  return `${repo}?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
+}
+
+export function getReportTheoryPillUrl(pillTitle, cert) {
+  const repo = 'https://github.com/joangranell/MS-Student-Platform/issues/new';
+  const title = `[Reporte de error] Ficha teórica: ${pillTitle} (${cert})`;
+  const body = `### Ficha Teórica: ${pillTitle}
+### Certificación: ${cert}
+### Versión del catálogo: 3.1.0
+
+**Descripción del error:**
+(Por favor, indica qué concepto, trampa de examen o resumen requiere corrección)`;
+  return `${repo}?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
+}
+
 const SUBMODE_LABELS = {
   adaptive: 'Repetición Adaptativa Inteligente (Prioriza Fallos y Temas Débiles)',
   all_study: 'Estudio General (Todos los niveles)',
   basic: 'Lo Básico (Fundamentos y Conceptos)',
   hardcore: 'Lo Más Difícil (Arquitectura, Código y Casos)',
-  domain: 'Por Dominio Oficial (Skills Measured)',
+  domain: 'Por Dominio Temático (Skills Measured)',
   topic: 'Por Tecnología / Tema de MS Learn',
-  code: 'Laboratorio de Código (SQL / DAX / KQL / PySpark)',
+  code: 'Preguntas de código (SQL / DAX / KQL / PySpark)',
   failed: 'Clínica de Fallos (Preguntas Falladas)'
 };
 
@@ -308,7 +333,7 @@ export const UI = {
                 </span>
               </div>
               <h2 style="font-size:1.18rem; margin-top:0.25rem; color:var(--text-primary);">
-                Ruta Oficial hacia ${escapeHtml(targetCert)}: ${escapeHtml(certInfo.title)}
+                Ruta de Estudio hacia ${escapeHtml(targetCert)}: ${escapeHtml(certInfo.title)}
               </h2>
             </div>
           </div>
@@ -380,7 +405,7 @@ export const UI = {
           <div class="study-phase-box ${bestExamScore >= 700 ? 'completed-phase' : ''}">
             <div>
               <span class="study-phase-num">Fase 4 • Validación Final</span>
-              <div class="study-phase-title">🏛️ Simulacro Oficial Pearson VUE</div>
+              <div class="study-phase-title">🏛️ Simulacro Modo Examen</div>
               <p class="study-phase-desc">
                 Examen cronometrado sin ayudas. Mejor marca actual: <strong>${bestExamScore > 0 ? `${bestExamScore}/1000 pts` : 'Sin intentos'}</strong> (Meta: 700).
               </p>
@@ -436,9 +461,8 @@ export const UI = {
     if (kpiFailedBank) kpiFailedBank.textContent = String(failedCount);
     if (kpiMasteredBank) kpiMasteredBank.textContent = String(masteredCount);
 
-    // 2. Certification Cards + Official Shield Logos
+    // 2. Certification Cards + Official Shield Logos + Metadata
     const certCounts = {
-      ALL: state.allQuestions.length,
       'AZ-900': state.allQuestions.filter((q) => q.certification === 'AZ-900').length,
       'DP-900': state.allQuestions.filter((q) => q.certification === 'DP-900').length,
       'DP-600': state.allQuestions.filter((q) => q.certification === 'DP-600').length,
@@ -460,6 +484,26 @@ export const UI = {
       const shieldSlot = card.querySelector('.cert-shield-wrap');
       if (shieldSlot && CERT_BADGE_SVGS[certCode] && !shieldSlot.innerHTML.trim()) {
         shieldSlot.innerHTML = CERT_BADGE_SVGS[certCode];
+      }
+
+      const meta = state.catalogMeta?.certificationMetadata?.[certCode] || {
+        idioma: 'es (Español)',
+        skillsOutlineVersion: 'Guía 2025/2026',
+        lastReviewed: '2026-11-01'
+      };
+
+      let metaBadges = card.querySelector('.cert-meta-badges');
+      if (!metaBadges) {
+        metaBadges = document.createElement('div');
+        metaBadges.className = 'cert-meta-badges';
+        card.querySelector('.cert-card-header-with-logo > div')?.appendChild(metaBadges);
+      }
+      if (metaBadges) {
+        metaBadges.innerHTML = `
+          <span class="cert-meta-tag">🌐 ${escapeHtml(meta.idioma || 'es')}</span>
+          <span class="cert-meta-tag">📅 ${escapeHtml(meta.skillsOutlineVersion || '2025/2026')}</span>
+          <span class="cert-meta-tag">✓ Rev: ${escapeHtml(meta.lastReviewed || '2026-11-01')}</span>
+        `;
       }
     });
 
@@ -488,10 +532,7 @@ export const UI = {
       domainWrap.classList.toggle('hidden', !showDomain);
 
       if (showDomain) {
-        const relevantQuestions =
-          state.config.certification === 'ALL'
-            ? state.allQuestions
-            : state.allQuestions.filter((q) => q.certification === state.config.certification);
+        const relevantQuestions = state.allQuestions.filter((q) => q.certification === state.config.certification);
 
         const uniqueDomains = [...new Set(relevantQuestions.map((q) => q.domain))];
         domainSelect.innerHTML = `<option value="ALL">Todos los dominios (${relevantQuestions.length} preg.)</option>`;
@@ -520,9 +561,9 @@ export const UI = {
       startBtn.disabled = eligibleQuestions.length === 0;
       startBtn.textContent =
         state.config.mode === 'exam'
-          ? '🚀 Iniciar Simulación Oficial (Pearson VUE)'
+          ? '🚀 Iniciar Modo Examen'
           : state.config.subMode === 'adaptive'
-          ? '🧠 Iniciar Estudio Adaptativo Inteligente'
+          ? '🧠 Iniciar Repaso Inteligente'
           : '📘 Iniciar Sesión en Modo Estudio';
     }
 
@@ -623,7 +664,7 @@ export const UI = {
     if (entries.length === 0) {
       container.innerHTML = `
         <p style="font-size: 0.84rem; color: var(--text-secondary);">
-          Completa tu primer test para visualizar tu porcentaje de dominio por cada bloque oficial (Skills Measured) de Microsoft.
+          Completa tu primer test para visualizar tu porcentaje de dominio por cada bloque temático (Skills Measured) de Microsoft.
         </p>
       `;
       return;
@@ -711,7 +752,7 @@ export const UI = {
     if (modeTagEl) {
       modeTagEl.textContent =
         session.mode === 'exam'
-          ? 'MODO EXAMEN OFICIAL (PEARSON VUE)'
+          ? 'MODO EXAMEN (SIMULACRO)'
           : `ESTUDIO: ${SUBMODE_LABELS[session.subMode] || 'GUIADO'}`;
     }
     if (counterEl) {
@@ -736,6 +777,13 @@ export const UI = {
     const saberMasTopBtn = document.getElementById('vue-btn-saber-mas-top');
     if (saberMasTopBtn) {
       saberMasTopBtn.classList.toggle('hidden', session.mode === 'exam');
+    }
+
+    const reportErrorTopBtn = document.getElementById('vue-btn-report-error-top');
+    if (reportErrorTopBtn) {
+      reportErrorTopBtn.onclick = () => {
+        window.open(getReportIssueUrl(q.id, q.certification, q.domain), '_blank');
+      };
     }
 
     const metaRow = document.getElementById('vue-question-meta');
@@ -926,7 +974,7 @@ export const UI = {
           ${
             refsHtml
               ? `<div class="ms-learn-links">
-                   <span class="ms-learn-links-title">Documentación Oficial en Microsoft Learn:</span>
+                   <span class="ms-learn-links-title">Documentación de Referencia en Microsoft Learn:</span>
                    ${refsHtml}
                  </div>`
               : ''
@@ -969,7 +1017,7 @@ export const UI = {
       title: `${q.topic || q.domain} (${q.certification})`,
       summary: q.explanation,
       keyPoints: [
-        `Dominio oficial: ${q.domain}`,
+        `Dominio: ${q.domain}`,
         `Revisa cómo interactúan las opciones de configuración y rendimiento en ${q.certification}.`
       ],
       examTrap: 'Presta especial atención a los requisitos del enunciado (latencia, coste, mínimo privilegio o cero duplicación de datos).',
@@ -990,56 +1038,16 @@ export const UI = {
       )
       .join('');
 
-    body.innerHTML = `
-      <div class="theory-pill-card">
-        <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.75rem;">
-          <span class="topic-icon-box">${topicMeta.svg}</span>
-          <div>
-            <span class="badge">${escapeHtml(q.certification)} • ${escapeHtml(q.domain)}</span>
-            <h3 style="font-size:1.12rem; margin-top:0.25rem;">${escapeHtml(pill.title)}</h3>
-          </div>
-        </div>
+    const isLocalServer = ['localhost', '127.0.0.1'].includes(window.location.hostname);
 
-        <p style="font-size:0.92rem; line-height:1.6;">
-          ${escapeHtml(pill.summary)}
-        </p>
-
-        ${
-          keyPointsHtml
-            ? `<div style="margin-top:0.9rem;">
-                 <div style="font-size:0.76rem; text-transform:uppercase; color:var(--ms-blue-light); font-weight:700;">
-                   Conceptos Clave para el Examen Oficial:
-                 </div>
-                 <ul class="theory-key-points">${keyPointsHtml}</ul>
-               </div>`
-            : ''
-        }
-
-        ${
-          pill.examTrap
-            ? `<div class="exam-trap-box">
-                 <strong>⚠️ Trampa Frecuente en Pearson VUE:</strong><br/>
-                 ${escapeHtml(pill.examTrap)}
-               </div>`
-            : ''
-        }
-
-        ${
-          refsHtml
-            ? `<div class="ms-learn-links" style="margin-top:1rem;">
-                 <span class="ms-learn-links-title">Enlaces Directos Verificados en MS Learn:</span>
-                 ${refsHtml}
-               </div>`
-            : ''
-        }
-      </div>
-
+    const mcpSectionHtml = isLocalServer
+      ? `
       <div class="mcp-live-box">
         <div style="font-weight:700; font-size:0.95rem; margin-bottom:0.35rem; display:flex; align-items:center; gap:0.5rem;">
-          <span>🌐 Consulta en Vivo a Microsoft Learn (MCP Server Oficial)</span>
+          <span>🌐 Consulta en Vivo a Microsoft Learn (MCP Server)</span>
         </div>
         <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.75rem;">
-          Conecta en tiempo real con <code>https://learn.microsoft.com/api/mcp</code> para ampliar la teoría oficial o buscar ejemplos de código sin salir del simulador:
+          Conecta en tiempo real con <code>https://learn.microsoft.com/api/mcp</code> para ampliar la teoría o buscar ejemplos de código sin salir del simulador:
         </p>
         <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.65rem;">
           <input
@@ -1053,11 +1061,84 @@ export const UI = {
             🔍 Buscar Teoría MS Learn
           </button>
           <button type="button" class="btn btn-secondary btn-sm" id="btn-mcp-live-code">
-            💻 Buscar Código Oficial
+            💻 Buscar Código en MS Learn
           </button>
         </div>
         <div id="mcp-live-results-container"></div>
       </div>
+      `
+      : `
+      <div class="mcp-offline-box">
+        <div style="font-weight:700; font-size:0.92rem; margin-bottom:0.35rem; display:flex; align-items:center; gap:0.5rem;">
+          <span>🌐 Consulta en Microsoft Learn</span>
+        </div>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.6rem;">
+          ℹ️ La consulta interactiva en vivo mediante el servidor MCP está disponible en ejecución local (iniciando <code>node server.js</code>).
+        </p>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.8rem;">
+          En este entorno estático, puedes consultar directamente la documentación y ejemplos con los siguientes enlaces directos:
+        </p>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <a href="https://learn.microsoft.com/es-es/search/?terms=${encodeURIComponent(q.certification + ' ' + (q.topic || q.domain))}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+            🔍 Buscar "${escapeHtml(q.topic || q.domain)}" en Microsoft Learn ↗
+          </a>
+          <a href="https://learn.microsoft.com/es-es/samples/browse/?expanded=azure&term=${encodeURIComponent(q.certification)}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+            💻 Explorar ejemplos de código ↗
+          </a>
+        </div>
+      </div>
+      `;
+
+    body.innerHTML = `
+      <div class="theory-pill-card">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.75rem; margin-bottom:0.75rem;">
+          <div style="display:flex; align-items:center; gap:0.75rem;">
+            <span class="topic-icon-box">${topicMeta.svg}</span>
+            <div>
+              <span class="badge">${escapeHtml(q.certification)} • ${escapeHtml(q.domain)}</span>
+              <h3 style="font-size:1.12rem; margin-top:0.25rem;">${escapeHtml(pill.title)}</h3>
+            </div>
+          </div>
+          <a href="${getReportTheoryPillUrl(pill.title, q.certification)}" target="_blank" rel="noopener noreferrer" class="btn-report-error" title="Reportar errata o sugerencia de mejora">
+            ⚠️ Reportar error
+          </a>
+        </div>
+
+        <p style="font-size:0.92rem; line-height:1.6;">
+          ${escapeHtml(pill.summary)}
+        </p>
+
+        ${
+          keyPointsHtml
+            ? `<div style="margin-top:0.9rem;">
+                 <div style="font-size:0.76rem; text-transform:uppercase; color:var(--ms-blue-light); font-weight:700;">
+                   Conceptos Clave para el Examen:
+                 </div>
+                 <ul class="theory-key-points">${keyPointsHtml}</ul>
+               </div>`
+            : ''
+        }
+
+        ${
+          pill.examTrap
+            ? `<div class="exam-trap-box">
+                 <strong>⚠️ Trampa Frecuente en Examen:</strong><br/>
+                 ${escapeHtml(pill.examTrap)}
+               </div>`
+            : ''
+        }
+
+        ${
+          refsHtml
+            ? `<div class="ms-learn-links" style="margin-top:1rem;">
+                 <span class="ms-learn-links-title">Enlaces Directos a Microsoft Learn:</span>
+                 ${refsHtml}
+               </div>`
+            : ''
+        }
+      </div>
+
+      ${mcpSectionHtml}
     `;
 
     drawer.classList.remove('hidden');
@@ -1136,6 +1217,16 @@ export const UI = {
     }
     if (subtitleEl) {
       subtitleEl.textContent = `Aciertos: ${result.correctCount} | Fallos: ${result.wrongCount} | En blanco: ${result.unansweredCount} | Tiempo: ${formatTimeMMSS(result.durationSeconds)}`;
+    }
+
+    const certMetaContainer = document.getElementById('results-cert-meta');
+    if (certMetaContainer) {
+      certMetaContainer.innerHTML = `
+        <span class="cert-meta-tag"><strong>Certificación:</strong> ${escapeHtml(result.certification)}</span>
+        <span class="cert-meta-tag">🌐 Idioma: Español (es)</span>
+        <span class="cert-meta-tag">📅 Guía de habilidades: 2025/2026</span>
+        <span class="cert-meta-tag">✓ Revisado: 2026-11-01</span>
+      `;
     }
 
     const failedInThisAttempt = result.questionDetails.filter((d) => !d.isCorrect);
@@ -1269,9 +1360,14 @@ export const UI = {
             <div class="review-item-body ${autoExpand ? '' : 'hidden'}" id="review-body-${escapeHtml(item.questionId)}">
               <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
                 <span class="q-meta-pill">Dominio: ${escapeHtml(item.domain)}</span>
-                <button type="button" class="btn btn-primary btn-sm" data-open-theory="${escapeHtml(item.questionId)}">
-                  📚 Saber más sobre este tema (Ficha Teórica + MS Learn en Vivo)
-                </button>
+                <div style="display:flex; gap:0.5rem; align-items:center;">
+                  <button type="button" class="btn btn-primary btn-sm" data-open-theory="${escapeHtml(item.questionId)}">
+                    📚 Saber más sobre este tema
+                  </button>
+                  <a href="${getReportIssueUrl(item.questionId, item.certification, item.domain)}" target="_blank" rel="noopener noreferrer" class="btn-report-error" title="Reportar errata en esta pregunta">
+                    ⚠️ Reportar error
+                  </a>
+                </div>
               </div>
 
               <div style="font-size:0.96rem; font-weight:500; line-height:1.55;">
@@ -1292,7 +1388,7 @@ export const UI = {
                   <div style="font-size:0.88rem;">${escapeHtml(userAnswerText)}</div>
                 </div>
                 <div class="comparison-box correct-box">
-                  <span class="comparison-label">Respuesta Oficial Correcta</span>
+                  <span class="comparison-label">Respuesta Correcta</span>
                   <div style="font-size:0.88rem;">${escapeHtml(correctAnswerText)}</div>
                 </div>
               </div>
@@ -1305,7 +1401,7 @@ export const UI = {
               </div>
 
               <div class="study-feedback-panel ${item.isCorrect ? 'is-correct' : 'is-wrong'}" style="margin-top:0;">
-                <div class="feedback-heading">📖 Explicación Teórica Oficial</div>
+                <div class="feedback-heading">📖 Explicación Teórica</div>
                 <div class="feedback-explanation">${escapeHtml(item.explanation)}</div>
                 ${
                   refsHtml
@@ -1487,7 +1583,7 @@ export const UI = {
             </div>
 
             <div class="cheatsheet-card-domain">
-              Dominio oficial: <strong>${escapeHtml(q.domain)}</strong>
+              Dominio: <strong>${escapeHtml(q.domain)}</strong>
             </div>
 
             <p class="cheatsheet-card-summary">
@@ -1511,7 +1607,7 @@ export const UI = {
               pill.examTrap
                 ? `
               <div class="cheatsheet-exam-trap">
-                <div class="exam-trap-header">⚠️ Trampa Frecuente en Pearson VUE:</div>
+                <div class="exam-trap-header">⚠️ Trampa Frecuente en Examen:</div>
                 <div class="exam-trap-body">${escapeHtml(pill.examTrap)}</div>
               </div>
             `
@@ -1528,13 +1624,18 @@ export const UI = {
               `
                   : '<span></span>'
               }
-              <button
-                type="button"
-                class="btn btn-primary btn-sm cheatsheet-learn-btn"
-                data-open-theory="${escapeHtml(q.id)}"
-              >
-                📚 Saber más &amp; MCP
-              </button>
+              <div style="display:flex; gap:0.4rem; align-items:center;">
+                <a href="${getReportTheoryPillUrl(pill.title || q.topic, q.certification)}" target="_blank" rel="noopener noreferrer" class="btn-report-error" title="Reportar errata">
+                  ⚠️ Reportar
+                </a>
+                <button
+                  type="button"
+                  class="btn btn-primary btn-sm cheatsheet-learn-btn"
+                  data-open-theory="${escapeHtml(q.id)}"
+                >
+                  📚 Saber más
+                </button>
+              </div>
             </div>
           </div>
         `;

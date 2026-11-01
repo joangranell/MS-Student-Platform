@@ -1,13 +1,35 @@
 {
   "meta": {
-    "catalogVersion": "3.0.0",
-    "lastUpdated": "2026-11-01T21:21:16.256Z",
+    "catalogVersion": "3.1.0",
+    "lastUpdated": "2026-11-01",
     "totalQuestions": 300,
     "certifications": {
       "AZ-900": 100,
       "DP-900": 80,
       "DP-600": 60,
       "DP-700": 60
+    },
+    "certificationMetadata": {
+      "AZ-900": {
+        "lastReviewed": "2026-11-01",
+        "skillsOutlineVersion": "Study guide for Exam AZ-900 (Nov 2025/2026)",
+        "idioma": "es (Español)"
+      },
+      "DP-900": {
+        "lastReviewed": "2026-11-01",
+        "skillsOutlineVersion": "Study guide for Exam DP-900 (Nov 2025/2026)",
+        "idioma": "es (Español)"
+      },
+      "DP-600": {
+        "lastReviewed": "2026-11-01",
+        "skillsOutlineVersion": "Study guide for Exam DP-600 (Nov 2025/2026)",
+        "idioma": "es (Español)"
+      },
+      "DP-700": {
+        "lastReviewed": "2026-11-01",
+        "skillsOutlineVersion": "Study guide for Exam DP-700 (Nov 2025/2026)",
+        "idioma": "es (Español)"
+      }
     }
   },
   "questions": [

@@ -73,9 +73,13 @@
          ====================================================================== -->
     <section id="view-login">
       <div class="login-screen-wrapper">
+        <div class="non-affiliation-callout">
+          ⚠️ <strong>Aviso Legal y de No Afiliación:</strong> <em>MS Student Platform</em> es un simulador educativo independiente de código abierto creado para autoestudio. No está afiliado, avalado ni respaldado por Microsoft Corporation ni por Pearson VUE. Las preguntas son ejercicios didácticos basados en la documentación pública de Microsoft Learn.
+        </div>
+
         <div class="login-hero-box">
           <div style="display:inline-flex; align-items:center; gap:0.5rem; margin-bottom:0.65rem;">
-            <span class="badge">Microsoft Learn • Pearson VUE Simulator</span>
+            <span class="badge">Simulador Independiente de Estudio • Estilo Pearson VUE</span>
           </div>
           <h1>¿Quién va a estudiar hoy?</h1>
           <p>
@@ -189,27 +193,13 @@
           <div class="panel-card">
             <div class="panel-header">
               <h2 class="panel-title">⚙️ Configurar Sesión Libre de Entrenamiento o Examen</h2>
-              <span style="font-size: 0.78rem; color: var(--text-secondary);">Corte oficial: 700 / 1000 (70%)</span>
+              <span style="font-size: 0.78rem; color: var(--text-secondary);">Corte de referencia: 700 / 1000 pts (70%)</span>
             </div>
 
             <!-- Step 1: Certification Filter with Official Shields -->
             <span class="step-label">1. Selecciona la Certificación de Microsoft</span>
             <div class="cert-cards-grid">
-              <div class="cert-card selected" data-cert="ALL">
-                <div class="cert-card-top">
-                  <span class="cert-code-badge all">GLOBAL MIX</span>
-                  <span class="cert-q-count">0 preguntas</span>
-                </div>
-                <div class="cert-card-header-with-logo">
-                  <div class="cert-shield-wrap"></div>
-                  <div>
-                    <div class="cert-title">Todas las Certificaciones</div>
-                    <div class="cert-desc">Banco completo modular (AZ-900 + DP-900 + DP-600 + DP-700).</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="cert-card" data-cert="AZ-900">
+              <div class="cert-card selected" data-cert="AZ-900">
                 <div class="cert-card-top">
                   <span class="cert-code-badge az900">AZ-900 • Fundamentals</span>
                   <span class="cert-q-count">0 preguntas</span>
@@ -219,6 +209,10 @@
                   <div>
                     <div class="cert-title">Microsoft Azure Fundamentals</div>
                     <div class="cert-desc">Conceptos Cloud, IaaS/PaaS/SaaS, Compute, Redes, Storage, Entra ID y Gobernanza.</div>
+                    <div class="cert-meta-badges">
+                      <span class="cert-meta-tag">🌐 es</span>
+                      <span class="cert-meta-tag">📅 Guía 2025/2026</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -233,6 +227,10 @@
                   <div>
                     <div class="cert-title">Azure Data Fundamentals</div>
                     <div class="cert-desc">Conceptos core, SQL en Azure, Cosmos DB y analítica moderna.</div>
+                    <div class="cert-meta-badges">
+                      <span class="cert-meta-tag">🌐 es</span>
+                      <span class="cert-meta-tag">📅 Guía 2025/2026</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -247,6 +245,10 @@
                   <div>
                     <div class="cert-title">Fabric Analytics Engineer</div>
                     <div class="cert-desc">Lakehouses, Warehouses, Direct Lake, DAX, XMLA y gobernanza.</div>
+                    <div class="cert-meta-badges">
+                      <span class="cert-meta-tag">🌐 es</span>
+                      <span class="cert-meta-tag">📅 Guía 2025/2026</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -261,6 +263,10 @@
                   <div>
                     <div class="cert-title">Fabric Data Engineer</div>
                     <div class="cert-desc">Eventstreams, KQL/Eventhouse, PySpark, Delta Lake y optimización.</div>
+                    <div class="cert-meta-badges">
+                      <span class="cert-meta-tag">🌐 es</span>
+                      <span class="cert-meta-tag">📅 Guía 2025/2026</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -270,9 +276,9 @@
             <span class="step-label">2. Elige la Modalidad de Ejecución</span>
             <div class="mode-switch-grid">
               <div class="mode-box selected" data-mode="exam">
-                <div class="mode-box-title">🏛️ Modo Examen Oficial (Pearson VUE)</div>
+                <div class="mode-box-title">🏛️ Modo Examen (Estilo Pearson VUE)</div>
                 <div class="mode-box-desc">
-                  Simulación real: cronómetro activo, opción única (`○`) y múltiple (`☐`), casos de estudio con pestañas y nota escalada 100–1000.
+                  Simulacro cronometrado: opción única (`○`) y múltiple (`☐`), casos de estudio con pestañas y estimación orientativa 100–1000 pts.
                 </div>
               </div>
 
@@ -304,12 +310,12 @@
                 </div>
 
                 <div class="submode-item" data-submode="domain">
-                  <span class="submode-name">🎯 Por Dominio Oficial (Skills Measured)</span>
-                  <span class="submode-hint">Entrena un bloque específico de la guía oficial.</span>
+                  <span class="submode-name">🎯 Por Dominio Temático (Skills Measured)</span>
+                  <span class="submode-hint">Entrena un bloque específico de la guía de habilidades.</span>
                 </div>
 
                 <div class="submode-item" data-submode="code">
-                  <span class="submode-name">💻 Laboratorio de Código (SQL/DAX/KQL/PySpark)</span>
+                  <span class="submode-name">💻 Preguntas de código (SQL/DAX/KQL/PySpark)</span>
                   <span class="submode-hint">Exclusivo de preguntas con sintaxis y fragmentos de código.</span>
                 </div>
 
@@ -321,7 +327,7 @@
 
               <!-- Dynamic Domain Dropdown (when subMode === 'domain') -->
               <div id="domain-select-wrap" class="domain-select-wrap hidden">
-                <label class="form-label" for="domain-select">Selecciona el Dominio Oficial de Microsoft:</label>
+                <label class="form-label" for="domain-select">Selecciona el Dominio Temático:</label>
                 <select id="domain-select" class="form-select"></select>
               </div>
             </div>
@@ -332,7 +338,7 @@
               <button type="button" class="count-pill" data-count="5">5 Preguntas (Sprint)</button>
               <button type="button" class="count-pill selected" data-count="10">10 Preguntas</button>
               <button type="button" class="count-pill" data-count="25">25 Preguntas</button>
-              <button type="button" class="count-pill" data-count="45">45 Preguntas (Examen Real)</button>
+              <button type="button" class="count-pill" data-count="45">45 Preguntas (Simulacro Completo)</button>
               <button type="button" class="count-pill" data-count="ALL">Todas las disponibles</button>
             </div>
 
@@ -342,7 +348,7 @@
                 Preguntas disponibles con este filtro: <strong id="eligible-questions-count">0</strong>
               </span>
               <button type="button" class="btn btn-primary" id="btn-start-session">
-                🚀 Iniciar Simulación Oficial (Pearson VUE)
+                🚀 Iniciar Modo Examen
               </button>
             </div>
           </div>
@@ -376,7 +382,7 @@
           <!-- Domain Mastery Breakdown -->
           <div class="panel-card">
             <div class="panel-header">
-              <h3 class="panel-title">📊 Rendimiento por Dominio Oficial</h3>
+              <h3 class="panel-title">📊 Rendimiento por Dominio Temático</h3>
             </div>
             <div class="domain-progress-list" id="domain-mastery-list"></div>
           </div>
@@ -405,7 +411,7 @@
         <div class="vue-header">
           <div class="vue-exam-title">
             <span id="vue-exam-title-text">DP-600 — Microsoft Certification Simulator</span>
-            <span class="vue-mode-tag" id="vue-mode-tag">MODO EXAMEN OFICIAL</span>
+            <span class="vue-mode-tag" id="vue-mode-tag">MODO EXAMEN (SIMULACRO)</span>
           </div>
           <div class="vue-header-right">
             <span class="vue-timer" id="vue-timer-display">⏱ Tiempo Restante: 00:15:00</span>
@@ -425,6 +431,9 @@
             </button>
             <button type="button" class="vue-bookmark-btn hidden" id="vue-btn-saber-mas-top" style="background:rgba(0,120,212,0.35); border-color:#58a6ff;">
               📚 Saber más (Teoría y MS Learn)
+            </button>
+            <button type="button" class="vue-bookmark-btn" id="vue-btn-report-error-top" title="Reportar un error o errata en esta pregunta">
+              ⚠️ Reportar error
             </button>
           </div>
           <div class="vue-subbar-right">
@@ -493,19 +502,24 @@
          VIEW 3: RESULTS & EXPANDABLE QUESTION REVIEW
          ====================================================================== -->
     <section id="view-results" class="hidden">
+      <div class="results-disclaimer">
+        ⚠️ <strong>Aviso sobre la puntuación:</strong> La puntuación mostrada es una <strong>estimación orientativa (100–1000 pts)</strong>. Los exámenes reales de Microsoft emplean puntuaciones escaladas psicométricas no lineales según la dificultad individual de cada ítem. El porcentaje de acierto por dominio es el indicador más fiable de tu preparación real.
+      </div>
+
       <div class="results-banner" id="results-summary-banner">
         <div>
-          <span class="step-label" style="margin-top:0;">Informe Oficial de Resultados Microsoft</span>
+          <span class="step-label" style="margin-top:0;">Informe de Resultados (Simulacro)</span>
           <div class="score-display-row">
             <div class="scaled-score-circle" id="results-score-circle">
               <span class="scaled-number" id="results-scaled-number">780</span>
-              <span class="scaled-sub">de 1000 pts</span>
+              <span class="scaled-sub">pts (orientativo)</span>
             </div>
             <div>
               <div style="margin-bottom: 0.6rem;">
                 <span class="score-pill pass" id="results-pass-status">APROBADO</span>
               </div>
               <p id="results-subtitle-meta" style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.9rem;"></p>
+              <div id="results-cert-meta" class="cert-meta-badges" style="margin-bottom: 0.9rem;"></div>
               <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
                 <button type="button" class="btn btn-primary btn-sm" id="btn-back-dashboard">
                   ← Volver al Dashboard
@@ -565,7 +579,7 @@
           <div class="cheatsheet-title-wrap">
             <h1>⚡ Hoja de Trucos &amp; Repaso Rápido 24h</h1>
             <p>
-              Píldoras teóricas condensadas, trampas de examen y enlaces oficiales a Microsoft Learn ordenados para repaso intensivo previo a la certificación.
+              Píldoras teóricas condensadas, trampas de examen y enlaces de referencia a Microsoft Learn ordenados para repaso intensivo previo a la certificación.
             </p>
           </div>
         </div>
@@ -604,8 +618,8 @@
           </div>
 
           <div class="cheatsheet-domain-box">
-            <select id="select-cheatsheet-domain" class="form-select" title="Filtrar por Dominio Oficial">
-              <option value="ALL">Todos los dominios oficiales</option>
+            <select id="select-cheatsheet-domain" class="form-select" title="Filtrar por Dominio Temático">
+              <option value="ALL">Todos los dominios</option>
             </select>
           </div>
         </div>
@@ -670,7 +684,7 @@
       </div>
 
       <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:1rem;">
-        ¿Qué certificación oficial de Microsoft quieres preparar como objetivo principal? Prepararemos tu ruta de estudio en <strong>4 Fases Progresivas</strong> (Cimientos, Dominios Adaptativos, Casos/Código y Simulacro Oficial Pearson VUE):
+        ¿Qué certificación de Microsoft quieres preparar como objetivo principal? Prepararemos tu ruta de estudio en <strong>4 Fases Progresivas</strong> (Cimientos, Dominios Adaptativos, Casos/Código y Simulacro Modo Examen):
       </p>
 
       <div style="display:flex; flex-direction:column; gap:0.85rem; margin-bottom:1.35rem;" id="onboarding-cert-cards"></div>
@@ -717,11 +731,16 @@
   <footer style="max-width:1320px; margin:0 auto; padding:1.25rem 1.75rem 2.5rem; border-top:1px solid var(--border-subtle); text-align:center; font-size:0.76rem; color:var(--text-muted); line-height:1.6;">
     <p>
       <strong>Aviso Legal y de No Afiliación:</strong> <em>MS Student Platform</em> es un proyecto educativo independiente de código abierto creado con fines de autoestudio.
-      Todas las preguntas son ejercicios prácticos originales elaborados a partir de la documentación pública de <a href="https://learn.microsoft.com/" target="_blank" rel="noopener noreferrer">Microsoft Learn</a> y no contienen material confidencial de exámenes reales.
+      Todas las preguntas son ejercicios didácticos originales contrastados con la documentación pública de <a href="https://learn.microsoft.com/" target="_blank" rel="noopener noreferrer">Microsoft Learn</a> y no contienen material confidencial de exámenes reales.
     </p>
-    <p style="margin-top:0.25rem;">
+    <p style="margin-top:0.35rem;">
       Este proyecto <strong>no está afiliado, patrocinado, autorizado ni respaldado oficialmente por Microsoft Corporation ni por Pearson VUE</strong>.
       <em>Microsoft, Azure, Microsoft Fabric, OneLake, Power BI y Entra</em> son marcas registradas de Microsoft Corporation. <em>Pearson VUE</em> es una marca registrada de Pearson Education, Inc.
+    </p>
+    <p style="margin-top:0.45rem; display:flex; justify-content:center; gap:1.25rem; font-weight:500;">
+      <a href="https://github.com/joangranell/MS-Student-Platform" target="_blank" rel="noopener noreferrer">📂 Repositorio en GitHub</a>
+      <span>•</span>
+      <a href="https://github.com/joangranell/MS-Student-Platform/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">⚖️ Licencia MIT</a>
     </p>
   </footer>
 

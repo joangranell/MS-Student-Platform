@@ -300,7 +300,7 @@
     <section id="vision">
       <h2>1. Visión General y Catálogo de Certificaciones (240 Preguntas)</h2>
       <p>
-        <strong>MS Student Platform</strong> es una plataforma educativa inteligente y simulador de exámenes oficiales de Microsoft. Dispone de alternancia entre <strong>Modo Oscuro y Modo Claro</strong> (Fluent UI) e integra **240 preguntas originales** distribuidas en archivos JSON modulares verificados contra la documentación oficial de Microsoft Learn:
+        <strong>MS Student Platform</strong> es una plataforma educativa inteligente y simulador de certificaciones Microsoft. Dispone de alternancia entre <strong>Modo Oscuro y Modo Claro</strong> (Fluent UI) e integra **300 preguntas originales** distribuidas en archivos JSON modulares contrastadas con la documentación de Microsoft Learn:
       </p>
       <div class="grid-4">
         <div class="card">
@@ -356,7 +356,7 @@
                 <li><strong>Fase 1 • Cimientos:</strong> Preguntas de nivel básico (<code>basic</code>).</li>
                 <li><strong>Fase 2 • Consolidación:</strong> Estudio adaptativo por dominios (<code>adaptive</code>).</li>
                 <li><strong>Fase 3 • Nivel Experto:</strong> Casos de estudio con pestañas y código (<code>hardcore</code> + <code>code</code>).</li>
-                <li><strong>Fase 4 • Validación Final:</strong> Simulacro Oficial Pearson VUE cronometrado (meta &ge; 700/1000 pts).</li>
+                <li><strong>Fase 4 • Validación Final:</strong> Simulacro de Examen cronometrado (meta &ge; 700/1000 pts).</li>
               </ol>
             </li>
           </ul>
@@ -381,7 +381,7 @@
           <ul class="feature-list">
             <li>Disponible en cada pregunta durante el Modo Estudio y en la pantalla final de Revisión.</li>
             <li>Muestra la <strong>Ficha Teórica Estructurada (<code>theoryPill</code>)</strong>: resumen arquitectónico, puntos clave de examen y la alerta <strong>"⚠️ Trampa frecuente en Pearson VUE"</strong>.</li>
-            <li>Integra un <strong>Buscador en Vivo conectado a <code>https://learn.microsoft.com/api/mcp</code></strong> (vía <code>/api/mslearn</code> en <code>server.js</code>) para buscar artículos oficiales y ejemplos de código en tiempo real sin salir del simulador.</li>
+            <li>Integra un <strong>Buscador en Vivo conectado a <code>https://learn.microsoft.com/api/mcp</code></strong> (vía <code>/api/mslearn</code> en <code>server.js</code>) para buscar documentación y ejemplos de código en tiempo real sin salir del simulador.</li>
           </ul>
         </div>
       </div>
@@ -394,7 +394,7 @@
         <thead>
           <tr>
             <th>Característica</th>
-            <th>Modo Examen Oficial (Pearson VUE)</th>
+            <th>Modo Examen (Estilo Pearson VUE)</th>
             <th>Modo Estudio Adaptativo</th>
           </tr>
         </thead>
@@ -433,10 +433,11 @@
 ├── iniciar-plataforma.bat      # Lanzador directo en 1 clic para Windows
 │
 ├── .agents/skills/ms-exam-generator/
-│   └── SKILL.md                # Skill oficial del proyecto para autoría y validación de preguntas con MS Learn MCP
+│   └── SKILL.md                # Skill del proyecto para autoría y validación de preguntas con MS Learn MCP
 │
 ├── scripts/
-│   └── mcp-mslearn.js          # Cliente JSON-RPC/SSE para el servidor MCP oficial de Microsoft Learn
+│   ├── build-catalog.js        # Generador y verificador de integridad del catálogo unificado
+│   └── mcp-mslearn.js          # Cliente JSON-RPC/SSE para el servidor MCP de Microsoft Learn
 │
 ├── css/
 │   ├── variables.css           # Tokens de color Modo Oscuro (Fluent Dark) y Modo Claro (Fluent Light)
@@ -495,7 +496,7 @@
     "title": "Título de la Ficha Teórica",
     "summary": "Resumen conceptual...",
     "keyPoints": ["Punto 1", "Punto 2", "Punto 3"],
-    "examTrap": "Trampa frecuente en el examen oficial...",
+    "examTrap": "Trampa frecuente en el examen de certificación...",
     "searchQuery": " consulta para el MCP de MS Learn"
   },
   "references": [

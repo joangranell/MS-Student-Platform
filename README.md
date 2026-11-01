@@ -2,11 +2,11 @@
 
 # 🎓 MS Student Platform
 ### Simulador Adaptativo de Certificaciones Microsoft Cloud, Data & Fabric
-**Entorno fiel a Pearson VUE • Repetición Espaciada Inteligente • Conectado en Vivo a Microsoft Learn MCP**
+**Estilo inspirado en exámenes Pearson VUE • Repetición Espaciada Inteligente • Conectado a Microsoft Learn**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![Vanilla JS](https://img.shields.io/badge/Frontend-HTML5%20%7C%20CSS3%20%7C%20Vanilla%20JS-0078D4)](./index.html)
-[![Questions](https://img.shields.io/badge/Banco%20de%20Preguntas-300%20Verificadas-107C41)](./data/questions.json)
+[![Questions](https://img.shields.io/badge/Banco%20de%20Preguntas-300%20Preguntas-107C41)](./data/questions.json)
 [![AZ-900](https://img.shields.io/badge/AZ--900-100%20Preguntas-2563EB)](./data/az900.json)
 [![DP-900](https://img.shields.io/badge/DP--900-80%20Preguntas-00A4EF)](./data/dp900.json)
 [![DP-600](https://img.shields.io/badge/DP--600-60%20Preguntas-107C41)](./data/dp600.json)
@@ -29,17 +29,17 @@
 > 👉 **[https://joangranell.github.io/MS-Student-Platform/](https://joangranell.github.io/MS-Student-Platform/)**  
 > *(Funciona en móvil, tablet y PC con guardado local de tu progreso).*
 
-**MS Student Platform** es una **Single Page Application (SPA)** estática sin dependencias externas pesadas, diseñada para preparar con rigor técnico las certificaciones oficiales de **Microsoft Azure y Microsoft Fabric**.
+**MS Student Platform** es una **Single Page Application (SPA)** estática sin dependencias externas pesadas, diseñada para preparar con rigor técnico las certificaciones de **Microsoft Azure y Microsoft Fabric**.
 
 Combina **dos mundos en una sola herramienta**:
-1. **🏛️ Modo Examen Oficial (Simulación Pearson VUE):** Reproduce la estética, presión de tiempo, reglas de navegación y tipologías de preguntas reales (opción única `○`, selección múltiple `☐` con bloqueo de límite, tachado de opciones descartadas con clic derecho, casos de estudio con pestañas laterales y nota escalada oficial de **100 a 1000 puntos**, corte **700 = 70%**).
-2. **🧠 Modo Estudio Adaptativo + Cajón "📚 Saber Más":** Un tutor inteligente basado en **Cajas de Repetición Espaciada (Leitner 0–3)** y **Detección de Debilidad por Tecnología**, que prioriza automáticamente los temas que más fallas e incluye fichas teóricas estructuradas y conexión en tiempo real al servidor **MCP de Microsoft Learn (`https://learn.microsoft.com/api/mcp`)**.
+1. **🏛️ Modo Examen (Simulacro inspirado en Pearson VUE):** Reproduce la estética, presión de tiempo, reglas de navegación y tipologías de preguntas (opción única `○`, selección múltiple `☐` con bloqueo de límite, tachado de opciones descartadas con clic derecho, casos de estudio con pestañas laterales y estimación orientativa de **100 a 1000 puntos**, corte **700 = 70%**).
+2. **🧠 Modo Estudio Adaptativo + Cajón "📚 Saber Más":** Un tutor inteligente basado en **Cajas de Repetición Espaciada (Leitner 0–4)** y **Detección de Debilidad por Tecnología**, que prioriza automáticamente los temas que más fallas e incluye fichas teóricas estructuradas y conexión al servidor **MCP de Microsoft Learn (`https://learn.microsoft.com/api/mcp`)** en ejecución local.
 
 ---
 
 ## 🏆 Certificaciones Incluidas (300 Preguntas Originales)
 
-| Código | Certificación Oficial | Nivel | Preguntas | Archivo Modular | Temáticas Clave |
+| Código | Certificación | Nivel | Preguntas | Archivo Modular | Temáticas Clave |
 | :--- | :--- | :---: | :---: | :--- | :--- |
 | **AZ-900** | **Microsoft Azure Fundamentals** | *Fundamentals* ★ | **100** | [`data/az900.json`](./data/az900.json) | Cloud Concepts, IaaS/PaaS/SaaS, VMs, Containers, VNets, VPN/ExpressRoute, Storage, Entra ID, RBAC, Cost Management, Policy, ARM/Bicep, Monitor. |
 | **DP-900** | **Microsoft Azure Data Fundamentals** | *Fundamentals* ★ | **80** | [`data/dp900.json`](./data/dp900.json) | ACID/OLTP vs OLAP, Parquet/Avro/ORC, Azure SQL (DTU/vCore/Serverless/Hyperscale), Cosmos DB (APIs, consistencia y particionado), Blob Storage, Data Factory, Synapse, Fabric, Power BI. |
@@ -60,28 +60,28 @@ Combina **dos mundos en una sola herramienta**:
   1. *Fase 1 • Cimientos (`🟢 Fundamentos y Conceptos`)*
   2. *Fase 2 • Consolidación (`🔄 Estudio Adaptativo por Dominios`)*
   3. *Fase 3 • Nivel Experto (`🔴 Casos de Estudio y Código`)*
-  4. *Fase 4 • Validación Final (`🏛️ Simulacro Oficial Pearson VUE`)*
+  4. *Fase 4 • Validación Final (`🏛️ Simulacro Modo Examen`)*
 
 ### ⚡ 2. Hoja de Trucos / Repaso Rápido 24h Express (Cheat Sheet)
 - **Buscador en Vivo y Filtros Inteligentes:** Localiza al instante conceptos, sintaxis o trampas de examen (ej. *SLA, Direct Lake, Entra ID, Cosmos DB, Liquid Clustering, Eventstreams...*).
-- **Filtro de Trampas de Examen:** Casilla `⚠️ Solo trampas de examen (Exam Traps)` para repasar las confusiones frecuentes de Pearson VUE el día previo al test.
-- **Acceso Directo a Fichas Teóricas:** Resúmenes condensados, conceptos clave y enlaces verificados a Microsoft Learn.
+- **Filtro de Trampas de Examen:** Casilla `⚠️ Solo trampas de examen (Exam Traps)` para repasar las confusiones frecuentes el día previo al test.
+- **Acceso Directo a Fichas Teóricas:** Resúmenes condensados, conceptos clave y enlaces directos a Microsoft Learn.
 
 ### 📱 3. Instalación PWA en 1 Clic y Experiencia Móvil Optimizada
 - **Instalación como App Nativa (`📲 Instalar App`):** Compatible con Android (Chrome/Edge) y escritorio con soporte para el evento `beforeinstallprompt`, además de instrucciones paso a paso para iOS Safari.
-- **Diseño Ergonómico Móvil (Touch First):** Botones con objetivos táctiles amplios (48px), selector de opciones optimizado para pantallas pequeñas (360px+), navegación horizontal por pestañas en casos de estudio y Service Worker v3 para estudio 100% offline sin conexión a internet.
+- **Diseño Ergonómico Móvil (Touch First):** Botones con objetivos táctiles amplios (48px), selector de opciones optimizado para pantallas pequeñas (360px+), navegación horizontal por pestañas en casos de estudio y Service Worker v4 para estudio 100% offline sin conexión a internet.
 
 ### 🧠 4. Motor de Repetición Adaptativa y Mapa de Calor Visual
-- **Sistema de Cajas 0 a 3:** Cuando fallas una pregunta, entra en la **Caja 0 (Prioridad Crítica)** y vuelve a aparecer en tus sesiones hasta que la aciertes de forma consistente.
+- **Sistema Leitner Cajas 0 a 4:** Cuando fallas una pregunta, entra en la **Caja 0 (Prioridad Inmediata)** y vuelve a aparecer en tus sesiones según intervalos espaciados (0d, 1d, 3d, 7d, 21d).
 - **Refuerzo por Tema Débil:** Si fallas una pregunta sobre *Direct Lake*, *KQL* o *Azure Networking*, el motor adaptativo incrementa la probabilidad de extraer **otras preguntas del mismo tema** para asegurar que dominas el concepto y no solo memorizas una letra.
 - **Mapa de Calor con Iconos Vectoriales:** Visualiza de un vistazo tu porcentaje de dominio en cada tecnología y lanza un entrenamiento focalizado en 1 clic.
 
-### 📚 5. Botón "Saber Más" + Consulta en Vivo a Microsoft Learn MCP
-- Cada pregunta cuenta con una **Ficha Teórica (`theoryPill`)** que resume la arquitectura del servicio, los puntos clave para el examen y la alerta **"⚠️ Trampa frecuente en Pearson VUE"**.
-- Desde el mismo cajón lateral puedes interrogar en vivo a `https://learn.microsoft.com/api/mcp` (al ejecutar en local con `server.js`) para buscar artículos oficiales (`microsoft_docs_search`) y fragmentos de código (`microsoft_code_sample_search`) sin abandonar el test.
+### 📚 5. Botón "Saber Más" + Consulta a Microsoft Learn
+- Cada pregunta cuenta con una **Ficha Teórica (`theoryPill`)** que resume la arquitectura del servicio, los puntos clave para el examen y la alerta **"⚠️ Trampa frecuente en examen"**.
+- En local, desde el mismo cajón lateral puedes interrogar en vivo a `https://learn.microsoft.com/api/mcp` (al ejecutar con `node server.js`) para buscar artículos (`microsoft_docs_search`) y fragmentos de código (`microsoft_code_sample_search`). En web (GitHub Pages), se proporcionan enlaces directos a la documentación pública de Microsoft Learn.
 
 ### 🌗 6. Modo Claro por Defecto y Modo Oscuro (Fluent UI)
-- Diseñado con la paleta oficial **Microsoft Fluent Light** por defecto y conmutador rápido a **Fluent Dark** en la cabecera.
+- Diseñado con la paleta **Microsoft Fluent Light** por defecto y conmutador rápido a **Fluent Dark** en la cabecera.
 
 ---
 
@@ -130,7 +130,7 @@ La plataforma está publicada y lista para usar directamente en GitHub Pages:
 ---
 
 ### 💻 Opción 2: Ejecución en Local (Con consulta en vivo al MCP de Microsoft Learn)
-Si quieres utilizar el buscador dinámico en vivo hacia el servidor MCP oficial de Microsoft Learn dentro del cajón lateral:
+Si quieres utilizar el buscador dinámico hacia el servidor MCP de Microsoft Learn dentro del cajón lateral:
 
 1. Clona el repositorio:
    ```bash
