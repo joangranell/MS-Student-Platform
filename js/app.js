@@ -1,0 +1,1290 @@
+/**
+ * app.js — Main Controller for MS Student Platform SPA (v3: Login Screen, Theme Toggle, Target Cert Onboarding & Study Plan)
+ */
+
+import { AppState } from './state.js';
+import { StorageManager, getDueReviewQuestions, extractCanonicalCert, getPhasePool } from './storage.js';
+import { ExamEngine } from './examEngine.js';
+import { UI, formatTimeMMSS, escapeHtml, SUBMODE_LABELS } from './ui.js';
+
+async function loadQuestionsRepository() {
+  const modularFiles = [
+    './data/az900.json',
+    './data/dp900.json',
+    './data/dp600.json',
+    './data/dp700.json',
+    './data/pl300.json',
+    './data/questions.json'
+  ];
+
+  const mergedMap = new Map();
+  let metaLoaded = null;
+
+  for (const url of modularFiles) {
+    try {
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) continue;
+      const data = await res.json();
+      if (!metaLoaded) metaLoaded = { certificationMetadata: {} };
+      if (data.certification && data.metadata) {
+        if (!metaLoaded.certificationMetadata) metaLoaded.certificationMetadata = {};
+        metaLoaded.certificationMetadata[data.certification] = data.metadata;
+      }
+      if (data.meta) {
+        metaLoaded = { ...metaLoaded, ...data.meta };
+      }
+      if (Array.isArray(data.questions)) {
+        for (const q of data.questions) {
+          if (q && q.id && !mergedMap.has(q.id)) {
+            mergedMap.set(q.id, q);
+          }
+        }
+      }
+    } catch (e) {
+      // Ignore individual missing module if another succeeded
+    }
+  }
+
+  AppState.catalogMeta = metaLoaded || {};
+  AppState.allQuestions = Array.from(mergedMap.values());
+
+  if (AppState.allQuestions.length === 0) {
+    throw new Error('No se pudieron cargar los archivos JSON de preguntas.');
+  }
+}
+
+function refreshLoginScreen() {
+  UI.renderLoginScreen(
+    StorageManager.getAllProfiles(),
+    AppState.manageProfilesMode
+  );
+}
+
+function refreshDashboard() {
+  const activeProfile = StorageManager.getActiveProfile();
+  const eligible = ExamEngine.filterQuestions(
+    AppState.allQuestions,
+    AppState.config,
+    activeProfile
+  );
+  UI.renderDashboard(AppState, activeProfile, eligible);
+}
+
+/**
+ * Logs into the platform with the chosen profile ID.
+ * If the profile hasn't confirmed its Target Certification Study Plan yet, opens the onboarding selector.
+ */
+function loginWithProfile(profileId, forceAskTargetCert = false) {
+  const profile = StorageManager.setActiveProfile(profileId);
+  AppState.isLoggedIn = true;
+  AppState.config.certification = profile.targetCert || 'AZ-900';
+  AppState.config.selectedDomain = 'ALL';
+
+  UI.showView('dashboard');
+  refreshDashboard();
+
+  if (forceAskTargetCert || !profile.targetCert) {
+    UI.openTargetCertModal(profile);
+  }
+}
+
+function stopSessionTimer() {
+  if (AppState.session.timerIntervalId) {
+    clearInterval(AppState.session.timerIntervalId);
+    AppState.session.timerIntervalId = null;
+  }
+}
+
+function startSessionTimer() {
+  stopSessionTimer();
+  const timerEl = document.getElementById('vue-timer-display');
+
+  AppState.session.timerIntervalId = setInterval(() => {
+    if (!AppState.session.active) {
+      stopSessionTimer();
+      return;
+    }
+
+    if (AppState.session.mode === 'exam') {
+      AppState.session.remainingSeconds -= 1;
+      if (timerEl) {
+        timerEl.textContent = `⏱ Tiempo Restante: ${formatTimeMMSS(AppState.session.remainingSeconds)}`;
+        timerEl.classList.toggle('warning', AppState.session.remainingSeconds <= 180);
+      }
+      if (AppState.session.remainingSeconds <= 0) {
+        stopSessionTimer();
+        finalizeExamSession();
+      }
+    } else {
+      const elapsed = Math.floor((Date.now() - AppState.session.startTimeMs) / 1000);
+      if (timerEl) {
+        timerEl.textContent = `⏱ Tiempo Estudio: ${formatTimeMMSS(elapsed)}`;
+        timerEl.classList.remove('warning');
+      }
+    }
+  }, 1000);
+}
+
+function recordCurrentQuestionTime() {
+  if (!AppState.session || !AppState.session.active) return;
+  const currentQ = AppState.session.questions[AppState.session.currentIndex];
+  if (currentQ && AppState.session.questionStartMs > 0) {
+    const elapsed = Math.max(1, Math.round((Date.now() - AppState.session.questionStartMs) / 1000));
+    AppState.session.timeSpent[currentQ.id] = (AppState.session.timeSpent[currentQ.id] || 0) + elapsed;
+  }
+  AppState.session.questionStartMs = Date.now();
+}
+
+function startSessionWithPool(pool, mode, subMode, certCode, sessionTitle, count) {
+  if (!pool || pool.length === 0) {
+    alert('No hay preguntas disponibles con los filtros seleccionados.');
+    return;
+  }
+
+  const activeProfile = StorageManager.getActiveProfile();
+  const isAdaptive = mode === 'study' && subMode === 'adaptive';
+
+  const sessionQuestions = ExamEngine.buildSessionQuestions(
+    pool,
+    count ?? AppState.config.questionCount,
+    isAdaptive,
+    activeProfile
+  );
+
+  const allocatedSeconds = sessionQuestions.length * 105;
+  const canonicalCert = extractCanonicalCert(certCode || sessionTitle || AppState.config.certification);
+  const displayTitle = sessionTitle || `${canonicalCert} • ${SUBMODE_LABELS[subMode] || mode}`;
+
+  AppState.session = {
+    active: true,
+    certification: canonicalCert,
+    sessionTitle: displayTitle,
+    mode,
+    subMode,
+    questions: sessionQuestions,
+    currentIndex: 0,
+    activeCaseTab: 'overview',
+    answers: {},
+    confidences: {},
+    timeSpent: {},
+    questionStartMs: Date.now(),
+    strikethroughs: {},
+    markedForReview: new Set(),
+    revealedInStudy: new Set(),
+    startTimeMs: Date.now(),
+    remainingSeconds: allocatedSeconds,
+    timerIntervalId: null
+  };
+
+  const timerEl = document.getElementById('vue-timer-display');
+  if (timerEl) {
+    timerEl.textContent =
+      mode === 'exam'
+        ? `⏱ Tiempo Restante: ${formatTimeMMSS(allocatedSeconds)}`
+        : '⏱ Tiempo Estudio: 00:00';
+    timerEl.classList.remove('warning');
+  }
+
+  UI.showView('exam');
+  UI.renderExamQuestion(AppState.session, activeProfile);
+  startSessionTimer();
+}
+
+function finalizeExamSession() {
+  recordCurrentQuestionTime();
+  stopSessionTimer();
+  AppState.session.active = false;
+
+  document.getElementById('modal-review-grid')?.classList.add('hidden');
+  document.getElementById('drawer-learn-more')?.classList.add('hidden');
+
+  const result = ExamEngine.evaluateSession(AppState.session);
+  AppState.lastResult = result;
+
+  AppState.reviewFilter = result.wrongCount + result.unansweredCount > 0 ? 'FAILED' : 'ALL';
+
+  StorageManager.recordAttemptResult(result);
+
+  // Track event in Google Analytics 4
+  if (typeof window.gtag === 'function') {
+    try {
+      window.gtag('event', 'test_completed', {
+        certification: result.certification,
+        mode: result.mode,
+        subMode: result.subMode,
+        scaled_score: result.scaledScore,
+        percentage: result.percentage,
+        passed: result.passed,
+        duration_seconds: result.durationSeconds
+      });
+    } catch (_) {}
+  }
+
+  UI.showView('results');
+  UI.renderResultsView(result, AppState.reviewFilter);
+}
+
+function toggleOptionStrikethrough(questionId, optionId) {
+  if (!AppState.session.strikethroughs[questionId]) {
+    AppState.session.strikethroughs[questionId] = new Set();
+  }
+  const set = AppState.session.strikethroughs[questionId];
+  if (set.has(optionId)) {
+    set.delete(optionId);
+  } else {
+    set.add(optionId);
+  }
+  UI.renderExamQuestion(AppState.session, StorageManager.getActiveProfile());
+}
+
+async function queryLiveMsLearnMcp(action, query) {
+  const container = document.getElementById('mcp-live-results-container');
+  if (!container) return;
+
+  container.innerHTML = `
+    <div style="padding:0.85rem; color:var(--ms-blue-light); font-size:0.85rem;">
+      ⏳ Consultando en tiempo real el servidor MCP de Microsoft Learn (<code>https://learn.microsoft.com/api/mcp</code>)...
+    </div>
+  `;
+
+  try {
+    const res = await fetch(
+      `/api/mslearn?action=${encodeURIComponent(action)}&q=${encodeURIComponent(query)}`
+    );
+    const payload = await res.json();
+    if (!payload.ok) {
+      throw new Error(payload.error || 'Error en la respuesta del MCP');
+    }
+
+    const results = payload.data?.results || [];
+    if (results.length === 0) {
+      container.innerHTML = `
+        <div class="mcp-result-card">
+          No se encontraron resultados directos para <strong>${escapeHtml(query)}</strong>. Prueba con otros términos en inglés o español.
+        </div>
+      `;
+      return;
+    }
+
+    if (action === 'code') {
+      container.innerHTML = results
+        .slice(0, 5)
+        .map(
+          (item) => `
+          <div class="mcp-result-card">
+            <h4>💻 [${escapeHtml(item.language || 'Code')}] ${escapeHtml(item.description)}</h4>
+            <div class="code-snippet-block" style="margin:0.45rem 0;">
+              <pre>${escapeHtml(item.codeSnippet || '')}</pre>
+            </div>
+            <a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer" class="ms-learn-link-item">
+              🔗 Ver ejemplo completo en Microsoft Learn ↗
+            </a>
+          </div>
+        `
+        )
+        .join('');
+    } else {
+      container.innerHTML = results
+        .slice(0, 5)
+        .map(
+          (item) => `
+          <div class="mcp-result-card">
+            <h4>📘 ${escapeHtml(item.title)}</h4>
+            <div class="mcp-excerpt">${escapeHtml((item.content || '').slice(0, 900))}</div>
+            <a href="${escapeHtml(item.contentUrl)}" target="_blank" rel="noopener noreferrer" class="ms-learn-link-item">
+              🔗 Abrir artículo en Microsoft Learn ↗
+            </a>
+          </div>
+        `
+        )
+        .join('');
+    }
+  } catch (err) {
+    container.innerHTML = `
+      <div class="mcp-result-card" style="border-color:var(--danger);">
+        <strong>Aviso:</strong> Para usar la consulta en vivo al MCP asegúrate de haber iniciado la app mediante <code>node server.js</code> o <code>iniciar-plataforma.bat</code> (${escapeHtml(err.message)}).
+      </div>
+    `;
+  }
+}
+
+function bindEvents() {
+  // 0. Dark / Light Theme Toggle
+  document.getElementById('btn-theme-toggle')?.addEventListener('click', () => {
+    const current = StorageManager.getTheme();
+    const next = current === 'dark' ? 'light' : 'dark';
+    StorageManager.setTheme(next);
+    UI.applyTheme(next);
+  });
+
+  // 1. Header Navigation & Switching Back to Login Screen
+  document.getElementById('brand-home-link')?.addEventListener('click', () => {
+    if (AppState.session.active) {
+      if (!confirm('¿Salir de la sesión actual? Se perderá el intento en curso.')) {
+        return;
+      }
+      stopSessionTimer();
+      AppState.session.active = false;
+    }
+    if (AppState.isLoggedIn) {
+      UI.showView('dashboard');
+      refreshDashboard();
+    } else {
+      UI.showView('login');
+      refreshLoginScreen();
+    }
+  });
+
+  document.getElementById('btn-open-profiles')?.addEventListener('click', () => {
+    if (AppState.session.active) {
+      if (!confirm('¿Cambiar de perfil? Se cerrará el test en curso.')) return;
+      stopSessionTimer();
+      AppState.session.active = false;
+    }
+    AppState.isLoggedIn = false;
+    AppState.manageProfilesMode = false;
+    UI.showView('login');
+    refreshLoginScreen();
+  });
+
+  // 1.1 Login / Start Screen Events (#view-login)
+  document.getElementById('btn-toggle-manage-profiles')?.addEventListener('click', () => {
+    AppState.manageProfilesMode = !AppState.manageProfilesMode;
+    refreshLoginScreen();
+  });
+
+  document.getElementById('login-profiles-list')?.addEventListener('click', (e) => {
+    // Save renamed profile
+    const saveBtn = e.target.closest('[data-save-profile]');
+    if (saveBtn) {
+      e.stopPropagation();
+      const profId = saveBtn.getAttribute('data-save-profile');
+      const nameInput = document.querySelector(`[data-rename-input="${profId}"]`);
+      const certSelect = document.querySelector(`[data-cert-input="${profId}"]`);
+      StorageManager.updateProfile(profId, {
+        name: nameInput?.value || 'Estudiante',
+        targetCert: certSelect?.value || 'DP-600'
+      });
+      refreshLoginScreen();
+      return;
+    }
+
+    // Delete profile from login manager
+    const delBtn = e.target.closest('[data-login-delete-profile]');
+    if (delBtn) {
+      e.stopPropagation();
+      const profId = delBtn.getAttribute('data-login-delete-profile');
+      if (confirm('¿Seguro que deseas eliminar este perfil y todo su progreso?')) {
+        try {
+          StorageManager.deleteProfile(profId);
+          refreshLoginScreen();
+        } catch (err) {
+          alert(err.message);
+        }
+      }
+      return;
+    }
+
+    // Normal click: Log in as selected profile
+    const loginCard = e.target.closest('[data-login-profile]');
+    if (loginCard && !AppState.manageProfilesMode) {
+      const profId = loginCard.getAttribute('data-login-profile');
+      loginWithProfile(profId, false);
+    }
+  });
+
+  // Create new profile from Login Screen
+  document.getElementById('form-login-create-profile')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nameInput = document.getElementById('input-login-new-name');
+    const name = nameInput?.value.trim();
+    if (!name) return;
+
+    const created = StorageManager.createProfile(name, 'AZ-900');
+    if (nameInput) nameInput.value = '';
+    // Log in immediately and open the Target Certification & Study Plan onboarding!
+    loginWithProfile(created.id, true);
+  });
+
+  // Backup Export / Import on Login Screen & Dashboard
+  function triggerExportJSON() {
+    try {
+      const jsonStr = StorageManager.exportStoreJSON();
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ms-student-progress-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      alert('Error al exportar datos: ' + err.message);
+    }
+  }
+
+  function handleImportFile(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        if (!confirm('¿Deseas restaurar este archivo de progreso? Se sobrescribirán los perfiles actuales con la copia de seguridad.')) {
+          return;
+        }
+        StorageManager.importStoreJSON(String(reader.result));
+        if (AppState.isLoggedIn) {
+          refreshDashboard();
+        } else {
+          refreshLoginScreen();
+        }
+        alert('Progreso e historial importados correctamente.');
+      } catch (err) {
+        alert('Error al importar JSON: ' + err.message);
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  document.getElementById('btn-export-profiles')?.addEventListener('click', triggerExportJSON);
+  document.getElementById('btn-export-progress')?.addEventListener('click', triggerExportJSON);
+
+  document.getElementById('btn-import-progress-trigger')?.addEventListener('click', () => {
+    document.getElementById('input-import-progress-file')?.click();
+  });
+
+  document.getElementById('input-import-profiles')?.addEventListener('change', (e) => {
+    handleImportFile(e.target.files?.[0]);
+    e.target.value = '';
+  });
+
+  document.getElementById('input-import-progress-file')?.addEventListener('change', (e) => {
+    handleImportFile(e.target.files?.[0]);
+    e.target.value = '';
+  });
+
+  // 1.2 Target Certification & Study Plan Onboarding Modal Events (#modal-target-cert)
+  document.getElementById('onboarding-cert-cards')?.addEventListener('click', (e) => {
+    const card = e.target.closest('[data-select-onboarding-cert]');
+    if (!card) return;
+    const code = card.getAttribute('data-select-onboarding-cert');
+    const modal = document.getElementById('modal-target-cert');
+    if (modal) modal.setAttribute('data-selected-cert', code);
+
+    document.querySelectorAll('#onboarding-cert-cards .cert-card').forEach((c) => {
+      c.classList.toggle('selected', c.getAttribute('data-select-onboarding-cert') === code);
+    });
+  });
+
+  document.getElementById('btn-confirm-target-cert')?.addEventListener('click', () => {
+    const modal = document.getElementById('modal-target-cert');
+    const chosenCert = modal?.getAttribute('data-selected-cert') || 'DP-600';
+    const active = StorageManager.getActiveProfile();
+
+    StorageManager.updateProfile(active.id, {
+      targetCert: chosenCert,
+      hasConfiguredPlan: true
+    });
+
+    AppState.config.certification = chosenCert;
+    AppState.config.selectedDomain = 'ALL';
+    modal?.classList.add('hidden');
+    refreshDashboard();
+  });
+
+  document.getElementById('btn-close-target-cert-modal')?.addEventListener('click', () => {
+    document.getElementById('modal-target-cert')?.classList.add('hidden');
+  });
+
+  // 2. Dashboard Study Plan & Configurator Events
+  document.getElementById('study-plan-container')?.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-change-target-cert')) {
+      UI.openTargetCertModal(StorageManager.getActiveProfile());
+      return;
+    }
+
+    const phaseBtn = e.target.closest('[data-launch-plan-phase]');
+    if (phaseBtn) {
+      const phase = phaseBtn.getAttribute('data-launch-plan-phase');
+      const activeProfile = StorageManager.getActiveProfile();
+      const targetCert = activeProfile.targetCert || 'AZ-900';
+      const certPool = AppState.allQuestions.filter((q) => q.certification === targetCert);
+
+      if (phase === 'basic') {
+        const pool = getPhasePool(AppState.allQuestions, targetCert, 'basic');
+        startSessionWithPool(pool, 'study', 'basic', targetCert, `${targetCert} • FASE 1 (CIMIENTOS)`);
+      } else if (phase === 'adaptive') {
+        const pool = getPhasePool(AppState.allQuestions, targetCert, 'adaptive');
+        startSessionWithPool(pool, 'study', 'adaptive', targetCert, `${targetCert} • FASE 2 (CONSOLIDACIÓN)`);
+      } else if (phase === 'hardcore') {
+        const pool = getPhasePool(AppState.allQuestions, targetCert, 'hardcore');
+        startSessionWithPool(pool, 'study', 'hardcore', targetCert, `${targetCert} • FASE 3 (NIVEL EXPERTO)`);
+      } else if (phase === 'exam') {
+        startSessionWithPool(
+          certPool,
+          'exam',
+          'all_study',
+          targetCert,
+          `${targetCert} • SIMULACRO MODO EXAMEN`,
+          Math.min(certPool.length, 45)
+        );
+      }
+    }
+  });
+
+  document.getElementById('btn-configurator-change-cert')?.addEventListener('click', () => {
+    UI.openTargetCertModal(StorageManager.getActiveProfile());
+  });
+
+  // Today Leitner Review & Quick Phase Launch
+  document.getElementById('btn-start-today-review')?.addEventListener('click', () => {
+    const activeProfile = StorageManager.getActiveProfile();
+    const targetCert = activeProfile.targetCert || AppState.config.certification || 'AZ-900';
+    const dueQuestions = getDueReviewQuestions(activeProfile, AppState.allQuestions, targetCert);
+    if (dueQuestions.length === 0) {
+      alert(`¡Al día! No tienes preguntas vencidas para repasar hoy en ${targetCert}.`);
+      return;
+    }
+    startSessionWithPool(
+      dueQuestions,
+      'study',
+      'adaptive',
+      targetCert,
+      `${targetCert} • REPASO DE HOY (${dueQuestions.length} PREGUNTAS)`,
+      Math.min(dueQuestions.length, 25)
+    );
+  });
+
+  document.getElementById('btn-quick-continue-plan')?.addEventListener('click', (e) => {
+    const phase = e.currentTarget.getAttribute('data-target-phase') || 'basic';
+    const btnPhase = document.querySelector(`[data-launch-plan-phase="${phase}"]`);
+    if (btnPhase) {
+      btnPhase.click();
+    }
+  });
+
+  document.querySelectorAll('.mode-box').forEach((box) => {
+    box.addEventListener('click', () => {
+      const mode = box.getAttribute('data-mode') || 'study';
+      const submode = box.getAttribute('data-submode') || 'adaptive';
+      AppState.config.mode = mode;
+      AppState.config.subMode = submode;
+      refreshDashboard();
+    });
+  });
+
+  document.querySelectorAll('.submode-item').forEach((item) => {
+    item.addEventListener('click', () => {
+      const mode = item.getAttribute('data-mode') || 'study';
+      const submode = item.getAttribute('data-submode') || 'adaptive';
+      AppState.config.mode = mode;
+      AppState.config.subMode = submode;
+      refreshDashboard();
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    const trainWeakBtn = e.target.closest('#btn-train-weakest-domain');
+    if (trainWeakBtn) {
+      const domain = trainWeakBtn.getAttribute('data-domain');
+      if (domain) {
+        AppState.config.mode = 'study';
+        AppState.config.subMode = 'domain';
+        AppState.config.selectedDomain = domain;
+        UI.showView('dashboard');
+        refreshDashboard();
+      }
+    }
+  });
+
+  document.getElementById('domain-select')?.addEventListener('change', (e) => {
+    AppState.config.selectedDomain = e.target.value;
+    refreshDashboard();
+  });
+
+  document.querySelectorAll('.count-pill').forEach((pill) => {
+    pill.addEventListener('click', () => {
+      const val = pill.getAttribute('data-count');
+      AppState.config.questionCount = val === 'ALL' ? 'ALL' : Number(val);
+      refreshDashboard();
+    });
+  });
+
+  document.getElementById('btn-start-session')?.addEventListener('click', () => {
+    const activeProfile = StorageManager.getActiveProfile();
+    const eligible = ExamEngine.filterQuestions(
+      AppState.allQuestions,
+      AppState.config,
+      activeProfile
+    );
+    startSessionWithPool(
+      eligible,
+      AppState.config.mode,
+      AppState.config.subMode,
+      AppState.config.certification,
+      `${AppState.config.certification} • CONFIGURACIÓN PERSONALIZADA`
+    );
+  });
+
+  document.getElementById('btn-launch-failed-test')?.addEventListener('click', () => {
+    const activeProfile = StorageManager.getActiveProfile();
+    const targetCert = activeProfile.targetCert || AppState.config.certification || 'DP-600';
+    const failedIds = activeProfile.failedQuestionIds || [];
+    const failedPool = AppState.allQuestions.filter((q) => {
+      const matchCert = targetCert === 'ALL' || q.certification === targetCert;
+      return matchCert && failedIds.includes(q.id);
+    });
+    startSessionWithPool(failedPool, 'study', 'failed', targetCert, `${targetCert} • CLÍNICA DE FALLOS`);
+  });
+
+  document.getElementById('knowledge-heatmap-grid')?.addEventListener('click', (e) => {
+    const drillBtn = e.target.closest('[data-drill-topic]');
+    if (!drillBtn) return;
+    const topicIcon = drillBtn.getAttribute('data-drill-topic');
+    const pool = AppState.allQuestions.filter((q) => {
+      const certMatch =
+        AppState.config.certification === 'ALL' ||
+        q.certification === AppState.config.certification;
+      return certMatch && (q.topicIcon || 'fabric') === topicIcon;
+    });
+    startSessionWithPool(
+      pool,
+      'study',
+      'adaptive',
+      AppState.config.certification,
+      `${AppState.config.certification} • ${topicIcon.toUpperCase()}`
+    );
+  });
+
+  document.getElementById('btn-clear-history')?.addEventListener('click', () => {
+    if (confirm('¿Seguro que deseas borrar el historial y estadísticas de este perfil?')) {
+      StorageManager.clearActiveProfileHistory();
+      refreshDashboard();
+    }
+  });
+
+  document.getElementById('history-cert-filters')?.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-history-filter]');
+    if (!btn) return;
+    const filter = btn.getAttribute('data-history-filter');
+    AppState.historyFilterCert = filter;
+    UI.renderHistoryList(StorageManager.getActiveProfile(), AppState.historyFilterCert);
+  });
+
+  // 3. Pearson VUE Exam / Study View Events
+  document.getElementById('vue-case-tabs-bar')?.addEventListener('click', (e) => {
+    const tabBtn = e.target.closest('[data-case-tab]');
+    if (!tabBtn) return;
+    AppState.session.activeCaseTab = tabBtn.getAttribute('data-case-tab') || 'overview';
+    UI.renderExamQuestion(AppState.session, StorageManager.getActiveProfile());
+  });
+
+  const optionsContainer = document.getElementById('vue-options-container');
+  optionsContainer?.addEventListener('click', (e) => {
+    const currentQ = AppState.session.questions[AppState.session.currentIndex];
+    if (!currentQ) return;
+
+    const strikeBtn = e.target.closest('[data-strike-option]');
+    if (strikeBtn) {
+      e.stopPropagation();
+      const optId = strikeBtn.getAttribute('data-strike-option');
+      toggleOptionStrikethrough(currentQ.id, optId);
+      return;
+    }
+
+    if (
+      AppState.session.mode === 'study' &&
+      AppState.session.revealedInStudy.has(currentQ.id)
+    ) {
+      return;
+    }
+
+    const row = e.target.closest('[data-option-id]');
+    if (!row) return;
+
+    const optId = row.getAttribute('data-option-id');
+    const isMulti =
+      currentQ.questionType === 'multi' ||
+      (currentQ.requiredSelections && currentQ.requiredSelections > 1);
+    const maxRequired = currentQ.requiredSelections || 1;
+
+    if (isMulti) {
+      const currentArr = Array.isArray(AppState.session.answers[currentQ.id])
+        ? [...AppState.session.answers[currentQ.id]]
+        : [];
+
+      const existingIdx = currentArr.indexOf(optId);
+      if (existingIdx !== -1) {
+        currentArr.splice(existingIdx, 1);
+      } else {
+        if (currentArr.length >= maxRequired) {
+          alert(
+            `Aviso Pearson VUE: En esta pregunta debes seleccionar exactamente ${maxRequired} opciones. Desmarca una opción antes de elegir otra.`
+          );
+          return;
+        }
+        currentArr.push(optId);
+      }
+      AppState.session.answers[currentQ.id] = currentArr;
+    } else {
+      AppState.session.answers[currentQ.id] = [optId];
+    }
+
+    UI.renderExamQuestion(AppState.session, StorageManager.getActiveProfile());
+  });
+
+  optionsContainer?.addEventListener('contextmenu', (e) => {
+    const row = e.target.closest('[data-option-id]');
+    if (!row) return;
+    e.preventDefault();
+    const currentQ = AppState.session.questions[AppState.session.currentIndex];
+    if (!currentQ) return;
+    const optId = row.getAttribute('data-option-id');
+    toggleOptionStrikethrough(currentQ.id, optId);
+  });
+
+  // Mobile long-press to strike out option (alternativa a clic derecho / botón)
+  let longPressTimer = null;
+  let touchMoved = false;
+  optionsContainer?.addEventListener('touchstart', (e) => {
+    touchMoved = false;
+    const row = e.target.closest('[data-option-id]');
+    if (!row) return;
+    const optId = row.getAttribute('data-option-id');
+    const currentQ = AppState.session?.questions?.[AppState.session.currentIndex];
+    if (!currentQ) return;
+
+    longPressTimer = setTimeout(() => {
+      if (!touchMoved) {
+        toggleOptionStrikethrough(currentQ.id, optId);
+        if (navigator.vibrate) {
+          try { navigator.vibrate(40); } catch (_) {}
+        }
+      }
+    }, 550);
+  }, { passive: true });
+
+  optionsContainer?.addEventListener('touchmove', () => {
+    touchMoved = true;
+    if (longPressTimer) clearTimeout(longPressTimer);
+  }, { passive: true });
+
+  optionsContainer?.addEventListener('touchend', () => {
+    if (longPressTimer) clearTimeout(longPressTimer);
+  });
+  optionsContainer?.addEventListener('touchcancel', () => {
+    if (longPressTimer) clearTimeout(longPressTimer);
+  });
+
+  document.getElementById('vue-mark-review-checkbox')?.addEventListener('change', (e) => {
+    const currentQ = AppState.session.questions[AppState.session.currentIndex];
+    if (!currentQ) return;
+    if (e.target.checked) {
+      AppState.session.markedForReview.add(currentQ.id);
+    } else {
+      AppState.session.markedForReview.delete(currentQ.id);
+    }
+  });
+
+  document.getElementById('vue-bookmark-btn')?.addEventListener('click', () => {
+    const currentQ = AppState.session.questions[AppState.session.currentIndex];
+    if (!currentQ) return;
+    StorageManager.toggleBookmark(currentQ.id);
+    UI.renderExamQuestion(AppState.session, StorageManager.getActiveProfile());
+  });
+
+  document.getElementById('vue-btn-saber-mas-top')?.addEventListener('click', () => {
+    const currentQ = AppState.session.questions[AppState.session.currentIndex];
+    if (currentQ) UI.openTheoryDrawer(currentQ);
+  });
+
+  document.getElementById('vue-btn-check-study')?.addEventListener('click', () => {
+    const currentQ = AppState.session.questions[AppState.session.currentIndex];
+    if (!currentQ) return;
+    AppState.session.revealedInStudy.add(currentQ.id);
+    UI.renderExamQuestion(AppState.session, StorageManager.getActiveProfile());
+  });
+
+  document.getElementById('vue-btn-prev')?.addEventListener('click', () => {
+    if (AppState.session.currentIndex > 0) {
+      recordCurrentQuestionTime();
+      AppState.session.currentIndex -= 1;
+      AppState.session.activeCaseTab = 'overview';
+      UI.renderExamQuestion(AppState.session, StorageManager.getActiveProfile());
+    }
+  });
+
+  document.getElementById('vue-btn-next')?.addEventListener('click', () => {
+    const total = AppState.session.questions.length;
+    if (AppState.session.currentIndex < total - 1) {
+      recordCurrentQuestionTime();
+      AppState.session.currentIndex += 1;
+      AppState.session.activeCaseTab = 'overview';
+      UI.renderExamQuestion(AppState.session, StorageManager.getActiveProfile());
+    } else {
+      recordCurrentQuestionTime();
+      if (AppState.session.mode === 'study') {
+        finalizeExamSession();
+      } else {
+        UI.renderReviewModal(AppState.session);
+      }
+    }
+  });
+
+  document.getElementById('vue-btn-review-grid')?.addEventListener('click', () => {
+    recordCurrentQuestionTime();
+    UI.renderReviewModal(AppState.session);
+  });
+
+  document.getElementById('btn-close-review-modal')?.addEventListener('click', () => {
+    document.getElementById('modal-review-grid')?.classList.add('hidden');
+  });
+
+  document.getElementById('review-grid-cells')?.addEventListener('click', (e) => {
+    const cell = e.target.closest('[data-jump-index]');
+    if (!cell) return;
+    const idx = Number(cell.getAttribute('data-jump-index'));
+    recordCurrentQuestionTime();
+    AppState.session.currentIndex = idx;
+    AppState.session.activeCaseTab = 'overview';
+    document.getElementById('modal-review-grid')?.classList.add('hidden');
+    UI.renderExamQuestion(AppState.session, StorageManager.getActiveProfile());
+  });
+
+  document.getElementById('vue-btn-finish-now')?.addEventListener('click', () => {
+    if (AppState.session.mode === 'study') {
+      const answeredCount = Object.keys(AppState.session.answers || {}).filter((k) => {
+        const a = AppState.session.answers[k];
+        return Array.isArray(a) ? a.length > 0 : Boolean(a);
+      }).length;
+      const total = AppState.session.questions.length;
+      if (confirm(`¿Deseas finalizar la sesión de estudio (${answeredCount}/${total} preguntas respondidas) y ver tu informe de resultados?`)) {
+        finalizeExamSession();
+      }
+    } else {
+      UI.renderReviewModal(AppState.session);
+    }
+  });
+
+  document.getElementById('btn-confirm-finish-exam')?.addEventListener('click', () => {
+    finalizeExamSession();
+  });
+
+  document.getElementById('vue-btn-abort')?.addEventListener('click', () => {
+    const answeredCount = Object.keys(AppState.session.answers || {}).filter((k) => {
+      const a = AppState.session.answers[k];
+      return Array.isArray(a) ? a.length > 0 : Boolean(a);
+    }).length;
+
+    if (answeredCount > 0) {
+      const finishAndSave = confirm(
+        `Has respondido ${answeredCount} preguntas.\n\n` +
+        '¿Deseas finalizar y guardar tu progreso en el histórico?\n\n' +
+        '• Pulsa "Aceptar" para GUARDAR Y FINALIZAR este test.\n' +
+        '• Pulsa "Cancelar" para descartar sin guardar o continuar en el test.'
+      );
+      if (finishAndSave) {
+        finalizeExamSession();
+        return;
+      }
+      if (!confirm('¿Seguro que deseas descartar este test sin guardarlo en el histórico?')) {
+        return;
+      }
+    } else {
+      if (!confirm('¿Deseas salir al Dashboard?')) {
+        return;
+      }
+    }
+
+    stopSessionTimer();
+    AppState.session.active = false;
+    UI.showView('dashboard');
+    refreshDashboard();
+  });
+
+  // 4. "📚 Saber más" Theory & Live MS Learn Drawer Events
+  document.body.addEventListener('click', (e) => {
+    const openTheoryBtn = e.target.closest('[data-open-theory]');
+    if (openTheoryBtn) {
+      e.stopPropagation();
+      const qId = openTheoryBtn.getAttribute('data-open-theory');
+      const q =
+        AppState.allQuestions.find((item) => item.id === qId) ||
+        AppState.session.questions.find((item) => item.id === qId);
+      if (q) {
+        UI.openTheoryDrawer(q);
+      }
+      return;
+    }
+
+    if (e.target.id === 'btn-close-theory-drawer' || e.target.id === 'drawer-learn-more') {
+      document.getElementById('drawer-learn-more')?.classList.add('hidden');
+      return;
+    }
+
+    if (e.target.id === 'btn-mcp-live-docs') {
+      const qVal = document.getElementById('mcp-live-query-input')?.value.trim();
+      if (qVal) queryLiveMsLearnMcp('search', qVal);
+      return;
+    }
+
+    if (e.target.id === 'btn-mcp-live-code') {
+      const qVal = document.getElementById('mcp-live-query-input')?.value.trim();
+      if (qVal) queryLiveMsLearnMcp('code', qVal);
+      return;
+    }
+  });
+
+  // 5. Results & Review Screen Events
+  document.querySelectorAll('.review-tab').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      AppState.reviewFilter = tab.getAttribute('data-review-filter') || 'ALL';
+      if (AppState.lastResult) {
+        UI.renderResultsView(AppState.lastResult, AppState.reviewFilter);
+      }
+    });
+  });
+
+  document.getElementById('results-review-accordion')?.addEventListener('click', (e) => {
+    if (e.target.closest('[data-open-theory]')) return;
+    const header = e.target.closest('[data-toggle-review]');
+    if (!header) return;
+    const qId = header.getAttribute('data-toggle-review');
+    const body = document.getElementById(`review-body-${qId}`);
+    if (body) {
+      body.classList.toggle('hidden');
+    }
+  });
+
+  document.getElementById('btn-expand-all-review')?.addEventListener('click', () => {
+    document.querySelectorAll('#results-review-accordion .review-item-body').forEach((el) => {
+      el.classList.remove('hidden');
+    });
+  });
+
+  document.getElementById('btn-repeat-attempt-failed')?.addEventListener('click', () => {
+    if (!AppState.lastResult) return;
+    const failedIds = AppState.lastResult.questionDetails
+      .filter((d) => !d.isCorrect)
+      .map((d) => d.questionId);
+    const pool = AppState.allQuestions.filter((q) => failedIds.includes(q.id));
+    const certCode = extractCanonicalCert(AppState.lastResult.certification);
+    startSessionWithPool(pool, 'study', 'failed', certCode, `${certCode} • REPETICIÓN DE FALLOS`);
+  });
+
+  document.getElementById('btn-results-open-cheatsheet')?.addEventListener('click', () => {
+    if (AppState.lastResult && AppState.lastResult.certification) {
+      AppState.cheatsheet.certification = extractCanonicalCert(AppState.lastResult.certification);
+      AppState.cheatsheet.selectedDomain = 'ALL';
+    }
+    openCheatSheet();
+  });
+
+  document.getElementById('btn-back-dashboard')?.addEventListener('click', () => {
+    UI.showView('dashboard');
+    refreshDashboard();
+  });
+
+  // 6. "⚡ Hoja de Trucos & Repaso 24h" (Cheat Sheet) Events
+  function openCheatSheet() {
+    UI.showView('cheatsheet');
+    UI.renderCheatSheet(
+      AppState.allQuestions,
+      AppState.cheatsheet,
+      StorageManager.getActiveProfile()
+    );
+  }
+
+  document.getElementById('btn-header-cheatsheet')?.addEventListener('click', () => {
+    openCheatSheet();
+  });
+
+  document.getElementById('btn-dashboard-cheatsheet')?.addEventListener('click', () => {
+    const activeProfile = StorageManager.getActiveProfile();
+    if (activeProfile && activeProfile.targetCert && AppState.cheatsheet.certification === 'ALL') {
+      AppState.cheatsheet.certification = activeProfile.targetCert;
+      AppState.cheatsheet.selectedDomain = 'ALL';
+    }
+    openCheatSheet();
+  });
+
+  document.getElementById('btn-cheatsheet-back')?.addEventListener('click', () => {
+    UI.showView('dashboard');
+    refreshDashboard();
+  });
+
+  document.querySelectorAll('#cheatsheet-cert-pills [data-cs-cert]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      AppState.cheatsheet.certification = btn.getAttribute('data-cs-cert') || 'ALL';
+      AppState.cheatsheet.selectedDomain = 'ALL';
+      UI.renderCheatSheet(
+        AppState.allQuestions,
+        AppState.cheatsheet,
+        StorageManager.getActiveProfile()
+      );
+    });
+  });
+
+  let cheatSearchTimer = null;
+  document.getElementById('input-cheatsheet-search')?.addEventListener('input', (e) => {
+    clearTimeout(cheatSearchTimer);
+    cheatSearchTimer = setTimeout(() => {
+      AppState.cheatsheet.searchQuery = e.target.value;
+      UI.renderCheatSheet(
+        AppState.allQuestions,
+        AppState.cheatsheet,
+        StorageManager.getActiveProfile()
+      );
+    }, 120);
+  });
+
+  document.getElementById('btn-cheatsheet-clear-search')?.addEventListener('click', () => {
+    AppState.cheatsheet.searchQuery = '';
+    const input = document.getElementById('input-cheatsheet-search');
+    if (input) input.value = '';
+    UI.renderCheatSheet(
+      AppState.allQuestions,
+      AppState.cheatsheet,
+      StorageManager.getActiveProfile()
+    );
+  });
+
+  document.getElementById('select-cheatsheet-domain')?.addEventListener('change', (e) => {
+    AppState.cheatsheet.selectedDomain = e.target.value;
+    UI.renderCheatSheet(
+      AppState.allQuestions,
+      AppState.cheatsheet,
+      StorageManager.getActiveProfile()
+    );
+  });
+
+  document.getElementById('check-cheatsheet-only-traps')?.addEventListener('change', (e) => {
+    AppState.cheatsheet.onlyTraps = e.target.checked;
+    UI.renderCheatSheet(
+      AppState.allQuestions,
+      AppState.cheatsheet,
+      StorageManager.getActiveProfile()
+    );
+  });
+
+  document.getElementById('check-cheatsheet-only-favs')?.addEventListener('change', (e) => {
+    AppState.cheatsheet.onlyFavs = e.target.checked;
+    UI.renderCheatSheet(
+      AppState.allQuestions,
+      AppState.cheatsheet,
+      StorageManager.getActiveProfile()
+    );
+  });
+
+  document.getElementById('btn-cheatsheet-reset-filters')?.addEventListener('click', () => {
+    AppState.cheatsheet.certification = 'ALL';
+    AppState.cheatsheet.searchQuery = '';
+    AppState.cheatsheet.selectedDomain = 'ALL';
+    AppState.cheatsheet.onlyTraps = false;
+    AppState.cheatsheet.onlyFavs = false;
+    UI.renderCheatSheet(
+      AppState.allQuestions,
+      AppState.cheatsheet,
+      StorageManager.getActiveProfile()
+    );
+  });
+
+  document.getElementById('btn-cheatsheet-toggle-all')?.addEventListener('click', () => {
+    AppState.cheatsheet.expandedAll = !AppState.cheatsheet.expandedAll;
+    document.querySelectorAll('.cheatsheet-card').forEach((card) => {
+      card.classList.toggle('collapsed', !AppState.cheatsheet.expandedAll);
+    });
+  });
+
+  document.getElementById('cheatsheet-cards-grid')?.addEventListener('click', (e) => {
+    const bookmarkBtn = e.target.closest('[data-cs-bookmark]');
+    if (!bookmarkBtn) return;
+    const qId = bookmarkBtn.getAttribute('data-cs-bookmark');
+    const isNowBookmarked = StorageManager.toggleBookmark(qId);
+    bookmarkBtn.classList.toggle('active', isNowBookmarked);
+    bookmarkBtn.textContent = isNowBookmarked ? '⭐' : '☆';
+    bookmarkBtn.title = isNowBookmarked
+      ? 'Quitar de preguntas favoritas'
+      : 'Marcar como favorita';
+  });
+
+  // 7. Keyboard Navigation for Exam & Study Modes
+  window.addEventListener('keydown', (e) => {
+    // If inside text fields, allow normal typing
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) {
+      if (e.key === 'Escape') {
+        document.activeElement.blur();
+      }
+      return;
+    }
+
+    // Modal closing on Escape
+    if (e.key === 'Escape') {
+      const modalReview = document.getElementById('modal-review-grid');
+      const drawer = document.getElementById('drawer-learn-more');
+      const modalTarget = document.getElementById('modal-target-cert');
+      if (modalReview && !modalReview.classList.contains('hidden')) {
+        modalReview.classList.add('hidden');
+        return;
+      }
+      if (drawer && !drawer.classList.contains('hidden')) {
+        drawer.classList.add('hidden');
+        return;
+      }
+      if (modalTarget && !modalTarget.classList.contains('hidden')) {
+        modalTarget.classList.add('hidden');
+        return;
+      }
+    }
+
+    if (!AppState.session || !AppState.session.active || AppState.currentView !== 'exam') {
+      return;
+    }
+
+    const modalReview = document.getElementById('modal-review-grid');
+    if (modalReview && !modalReview.classList.contains('hidden')) return;
+
+    // Alt+N or ArrowRight -> Next Question
+    if ((e.altKey && (e.key === 'n' || e.key === 'N')) || (e.key === 'ArrowRight' && !e.ctrlKey)) {
+      e.preventDefault();
+      document.getElementById('vue-btn-next')?.click();
+      return;
+    }
+    // Alt+P or ArrowLeft -> Previous Question
+    if ((e.altKey && (e.key === 'p' || e.key === 'P')) || (e.key === 'ArrowLeft' && !e.ctrlKey)) {
+      e.preventDefault();
+      document.getElementById('vue-btn-prev')?.click();
+      return;
+    }
+    // Alt+M or 'm' / 'M' -> Toggle Mark for Review
+    if (e.altKey && (e.key === 'm' || e.key === 'M')) {
+      e.preventDefault();
+      const chk = document.getElementById('vue-mark-review-checkbox');
+      if (chk) {
+        chk.checked = !chk.checked;
+        chk.dispatchEvent(new Event('change'));
+      }
+      return;
+    }
+
+    // Numbers 1-5 or letters A-E -> Select Options
+    const key = e.key.toUpperCase();
+    const optMap = { '1': 0, '2': 1, '3': 2, '4': 3, '5': 4, 'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4 };
+    if (key in optMap && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      const optIdx = optMap[key];
+      const optRows = document.querySelectorAll('#vue-options-container [data-option-id]');
+      if (optRows[optIdx]) {
+        e.preventDefault();
+        optRows[optIdx].click();
+      }
+    }
+  });
+
+  // 8. Retry Loading Catalog Button
+  document.getElementById('btn-retry-catalog-load')?.addEventListener('click', async () => {
+    const errorBanner = document.getElementById('app-load-error-banner');
+    try {
+      await loadQuestionsRepository();
+      if (errorBanner) errorBanner.classList.add('hidden');
+      if (AppState.isLoggedIn) {
+        refreshDashboard();
+      } else {
+        refreshLoginScreen();
+      }
+    } catch (e) {
+      alert('Sigue sin ser posible cargar los datos de preguntas. Comprueba tu conexión o ejecuta con el servidor local.');
+    }
+  });
+}
+
+async function initApp() {
+  // 1. Apply persisted Dark/Light theme
+  UI.applyTheme(StorageManager.getTheme());
+
+  // 2. Bind all UI events
+  bindEvents();
+
+  // 3. Show Initial Login / Profile Selection Screen
+  UI.showView('login');
+  refreshLoginScreen();
+
+  // 4. Load modular repository
+  const errorBanner = document.getElementById('app-load-error-banner');
+  try {
+    await loadQuestionsRepository();
+    if (errorBanner) errorBanner.classList.add('hidden');
+  } catch (err) {
+    console.error('Error inicializando el repositorio de preguntas:', err);
+    if (errorBanner) errorBanner.classList.remove('hidden');
+  }
+
+  // 5. Register PWA Service Worker with Update Detection & Cache Refresh
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').then((reg) => {
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        if (!newWorker) return;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            const toast = document.getElementById('pwa-update-toast');
+            if (toast) toast.classList.remove('hidden');
+          }
+        });
+      });
+    }).catch((err) => {
+      console.warn('Service Worker registration skipped:', err);
+    });
+
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!refreshing) {
+        refreshing = true;
+        window.location.reload();
+      }
+    });
+
+    document.getElementById('btn-pwa-reload')?.addEventListener('click', () => {
+      navigator.serviceWorker.getRegistration().then((reg) => {
+        if (reg && reg.waiting) {
+          reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+        } else {
+          window.location.reload();
+        }
+      });
+    });
+  }
+
+  // 6. Handle Native PWA Installation Prompt
+  let deferredInstallPrompt = null;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    const installBtn = document.getElementById('btn-pwa-install');
+    if (installBtn) installBtn.classList.remove('hidden');
+  });
+
+  document.getElementById('btn-pwa-install')?.addEventListener('click', async () => {
+    if (deferredInstallPrompt) {
+      deferredInstallPrompt.prompt();
+      const choice = await deferredInstallPrompt.userChoice;
+      if (choice && choice.outcome === 'accepted') {
+        document.getElementById('btn-pwa-install')?.classList.add('hidden');
+      }
+      deferredInstallPrompt = null;
+    } else {
+      alert(
+        'Para instalar MS Student Platform como app en tu teléfono:\n\n' +
+        '• En Android (Chrome/Edge): Pulsa los tres puntos del navegador (⋮) y selecciona "Instalar aplicación" o "Añadir a pantalla principal".\n\n' +
+        '• En iPhone/iPad (Safari): Pulsa el botón Compartir (el icono ⬆) y selecciona "Añadir a pantalla de inicio".\n\n' +
+        'Una vez instalada, funcionará sin conexión a internet como una app nativa.'
+      );
+    }
+  });
+
+  window.addEventListener('appinstalled', () => {
+    document.getElementById('btn-pwa-install')?.classList.add('hidden');
+    deferredInstallPrompt = null;
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initApp);
